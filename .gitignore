@@ -16,7 +16,7 @@
 /build
 
 # ignore firebase functions
-.firebase/
+/.firebase/
 
 # misc
 .DS_Store
