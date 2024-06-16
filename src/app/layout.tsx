@@ -16,6 +16,7 @@ import { NotificationsContextWrapper } from "./context/notifications";
 import { ProductsContextWrapper } from "./context/products";
 import { UserContextWrapper } from "./context/user";
 import "./globals.css";
+import { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,12 +34,6 @@ const inter = Inter({ subsets: ["latin"] });
 //         alt: "Geo Market Image",
 //       },
 //     ],
-//   },
-//   twitter: {
-//     card: "summary_large_image",
-//     title: "Geo Market",
-//     description: "Hand made products",
-//     images: "/favicon-32x32.png", // Replace with the actual path to your image
 //   },
 // };
 

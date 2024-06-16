@@ -37,7 +37,7 @@ export default function Sellers() {
       className={`flex-1 flex items-start justify-between w-full ${
         isMobile ? "pr-0" : "pr-4"
       }`}
-      style={{ opacity: loading ? "0" : "1", transition: "ease-in 200ms" }}
+      style={{ transition: "ease-in 200ms" }}
     >
       <div className={`w-full h-full ml-0`}>
         <div

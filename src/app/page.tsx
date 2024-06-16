@@ -9,7 +9,7 @@ import { useApp } from "./context/app";
 
 export default function Index() {
   // app context
-  const { loading, isMobile } = useApp();
+  const { isMobile } = useApp();
   // products context
   const { search, setSearch, productsRef, setScrollY } = useProductsContext();
 
@@ -23,8 +23,9 @@ export default function Index() {
       className={`flex-1 flex items-start justify-between w-full ${
         isMobile ? "pr-0" : "pr-4"
       }`}
-      style={{ opacity: loading ? "0" : "1", transition: "ease-in 200ms" }}
+      style={{ transition: "ease-in 200ms" }}
     >
+      hii
       {!isMobile && (
         <div
           className={`w-80 bg-white rounded-xl h-full shadow-sm fixed h-[calc(100%-8.5rem)]`}
