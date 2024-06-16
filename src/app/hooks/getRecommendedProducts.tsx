@@ -1,0 +1,20 @@
+import axios from "axios";
+
+const fetchRecommendedProducts = async ({
+  apiUrl,
+  searchParams,
+  productId,
+}: any) => {
+  try {
+    const response = await axios.get(
+      apiUrl +
+        `/api/v1/products?search=&category=${searchParams}&page=1&limit=6&recommended=true&productId=${productId}`
+    );
+    return response.data;
+  } catch (error: any) {
+    console.error("Error fetching products:", error);
+    return [];
+  }
+};
+
+export default fetchRecommendedProducts;

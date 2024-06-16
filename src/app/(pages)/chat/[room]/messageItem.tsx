@@ -1,0 +1,207 @@
+import Image from "@/app/components/image";
+import { useApp } from "@/app/context/app";
+import { useAuth } from "@/app/context/auth";
+import { useChat } from "@/app/context/chat";
+import { storage } from "@/app/firebase";
+import axios from "axios";
+import { deleteObject, listAll, ref } from "firebase/storage";
+import { setConfig } from "next/config";
+import React, { useEffect, useState } from "react";
+import { MdClose, MdDone, MdDoneAll, MdRemove } from "react-icons/md";
+
+const MessagemItem = ({ item }: any) => {
+  // messageData
+  const [msg, setMsg] = useState({
+    sender: { id: "" },
+    text: "",
+    status: "",
+    messageId: "",
+    roomId: "",
+    file: { url: "" },
+  });
+
+  useEffect(() => {
+    setMsg(item);
+  }, [item]);
+  // app context
+  const { apiUrl } = useApp();
+
+  // chat context
+  const { setChats, setMessages } = useChat();
+
+  // current user
+  const { currentUser, socket } = useAuth();
+
+  // seen message
+  const SeenMessage = async () => {
+    try {
+      if (msg?.sender.id !== currentUser?.userId && msg.status === "unread") {
+        console.log("seen");
+
+        await axios.patch(apiUrl + "/api/v1/messages/" + msg.messageId, {
+          status: "seen",
+        });
+        // send socket request to user
+        if (socket) {
+          socket.emit("seenMessage", msg.sender.id);
+        }
+      }
+    } catch (error: any) {
+      console.log(error.response.data.message);
+    }
+  };
+
+  useEffect(() => {
+    if (msg.messageId) {
+      SeenMessage();
+    }
+  }, [msg.messageId]);
+
+  // seen message in live
+  // add message from socket
+  useEffect(() => {
+    if (socket) {
+      // Use socket.on to listen for messages from the server
+      socket.on("messageSeen", (newMsg: any) => {
+        setMessages((prev: any) =>
+          prev.map((i: any) => {
+            if (i.messageId === msg.messageId && i.status === "unread") {
+              return { ...i, status: "seen" };
+            } else {
+              return i;
+            }
+          })
+        );
+        setChats((prev: any) =>
+          prev.map((i: any) => {
+            if (i.roomId === msg.roomId) {
+              return {
+                ...i,
+                lastMessage: { ...i.lastMessage, status: "read" },
+              };
+            } else {
+              return i;
+            }
+          })
+        );
+        // Handle the received message as needed
+      });
+    }
+
+    // Clean up the socket listener when component unmounts
+    return () => {
+      if (socket) {
+        socket.off("messageSeen");
+      }
+    };
+  }, [socket, msg]);
+
+  /**
+   * Delete message
+   */
+  const DeleteMessage = async (msgId: any, roomId: any) => {
+    try {
+      setMsg({
+        sender: { id: "" },
+        text: "",
+        status: "",
+        messageId: "",
+        roomId: "",
+        file: { url: "" },
+      });
+      const response = await axios.delete(
+        apiUrl +
+          "/api/v1/messages/" +
+          msgId +
+          "?currentUser=" +
+          currentUser?.userId
+      );
+    } catch (error: any) {
+      console.log(error.response);
+    }
+  };
+
+  // confirm popup
+  const [openConfrim, setOpenConfirm] = useState(false);
+
+  return (
+    <>
+      {msg?.messageId?.length > 0 && (
+        <div
+          className="rounded-full w-full flex flex-col msgs-center p-2 py-1 gap-1"
+          style={{
+            alignItems:
+              msg.sender.id === currentUser?.userId ? "flex-end" : "flex-start",
+          }}
+        >
+          {openConfrim ? (
+            <div className="flex items-center justify-evenly p-1 px-3 gap-2 bg-gray-50 shadow-md rounded-full">
+              <div
+                onClick={() => setOpenConfirm(false)}
+                className="cursor-pointer hover:brightness-95"
+              >
+                <MdClose size={24} color="red" />
+              </div>
+              <div
+                onClick={() => DeleteMessage(msg?.messageId, msg?.roomId)}
+                className="cursor-pointer hover:brightness-95"
+              >
+                <MdDone size={24} color="green" />
+              </div>
+            </div>
+          ) : (
+            <>
+              <div
+                className="shadow-sm rounded-xl overflow-hidden flex flex-col items-end cursor-pointer hover:brightness-95"
+                style={{
+                  maxWidth: "50%",
+                  background:
+                    msg.sender.id === currentUser?.userId ? "#f9f9f9" : "red",
+                  color:
+                    msg.sender.id === currentUser?.userId ? "black" : "white",
+                }}
+              >
+                {msg?.file?.url?.length > 0 && (
+                  <div className="w-48 relative aspect-square shadow-md">
+                    <Image
+                      onClick={() => setOpenConfirm(true)}
+                      alt={currentUser?.name}
+                      src={msg?.file?.url}
+                      style={{
+                        aspectRatio: 1,
+                        zIndex: 0,
+                        width: "100%",
+                      }}
+                    />
+                    {msg.sender.id === currentUser?.userId &&
+                      (msg?.file || msg?.file?.url?.length > 0) &&
+                      msg?.text.length < 1 && (
+                        <MdDoneAll
+                          size={16}
+                          className="absolute z-10 bottom-2 right-2"
+                          color={msg.status === "unread" ? "gray" : "red"}
+                        />
+                      )}
+                  </div>
+                )}
+                {msg.text?.length > 0 && (
+                  <div className="flex items-center gap-2 p-1 px-3">
+                    <p onClick={() => setOpenConfirm(true)}>{msg.text}</p>
+                    {msg.sender.id === currentUser?.userId && (
+                      <MdDoneAll
+                        size={16}
+                        color={msg.status === "unread" ? "gray" : "red"}
+                      />
+                    )}
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+        </div>
+      )}
+    </>
+  );
+};
+
+export default MessagemItem;

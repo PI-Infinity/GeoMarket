@@ -1,0 +1,343 @@
+"use client";
+import { useApp } from "@/app/context/app";
+import { useAuth } from "@/app/context/auth";
+import { useProductsContext } from "@/app/context/products";
+import { useProfileContext } from "@/app/context/profile";
+import { FormControlLabel, Switch } from "@mui/material";
+import Image from "@/app/components/image";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect, useRef, useState } from "react";
+import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
+import { MdBlock, MdDateRange, MdDelete, MdInfo, MdStar } from "react-icons/md";
+import { RiEjectFill, RiEjectLine } from "react-icons/ri";
+import axios from "axios";
+import nProgress from "nprogress";
+
+interface PropTypes {
+  item: any;
+  setConfirmPopup: any;
+  DeleteProduct: any;
+}
+
+const ProductItem: React.FC<PropTypes> = ({
+  item,
+  setConfirmPopup,
+  DeleteProduct,
+}) => {
+  // router
+  const router = useRouter();
+
+  // auth state
+  const { currentUser } = useAuth();
+
+  // app context
+  const { setSectionLoading, activeLanguage, apiUrl } = useApp();
+
+  // categories
+  const { categories } = useProductsContext();
+
+  // user total of products
+  const { totalProducts } = useProfileContext();
+
+  /**
+   * product
+   */
+  const [product, setProduct] = useState(item);
+
+  // Function to format the rating
+  const formatRating = (rating: any) => {
+    if (rating < 1000) return rating;
+    if (rating < 10000) return `${(rating / 1000).toFixed(0)}k`;
+    if (rating < 1000000) return `${Math.floor(rating / 1000)}k`;
+    return `${(rating / 1000000).toFixed(1)}m`;
+  };
+
+  // get cover
+  const cover = product.gallery?.findIndex((i: any) => i.cover);
+
+  // active image
+  const [active, setActive] = useState(cover);
+
+  /**
+   * define user subscription config
+   * if use can to add more product than he can with his sunscription
+   */
+  const DefineAccess = () => {
+    let access;
+
+    if (totalProducts < currentUser?.subscription?.options?.products) {
+      access = true;
+    } else {
+      access = false;
+    }
+
+    return access;
+  };
+
+  /**
+   * change item status
+   */
+  const ChangeStatus = async (status: any) => {
+    try {
+      const response = await axios.patch(
+        apiUrl + "/api/v1/products/" + item?.productId,
+        {
+          status: status,
+        }
+      );
+      if (response.data.status === "success") {
+        setProduct((prev: any) => ({ ...prev, status: status }));
+      }
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
+  // active img
+  const [activeImg, setActiveImg] = useState(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (scrollContainerRef.current) {
+        const container = scrollContainerRef.current;
+        const scrollLeft = container.scrollLeft;
+        const scrollWidth = container.scrollWidth;
+
+        const totalImages = product?.gallery?.length || 0;
+        const imageWidth = scrollWidth / totalImages;
+        const newIndex = Math.floor(scrollLeft / imageWidth);
+
+        if (scrollLeft < imageWidth / 2) {
+          setActiveImg(0);
+        } else if (
+          scrollLeft > imageWidth / 2 &&
+          scrollLeft < imageWidth * 1.5
+        ) {
+          setActiveImg(1);
+        } else if (
+          scrollLeft > imageWidth * 1.5 &&
+          scrollLeft < imageWidth * 2.5
+        ) {
+          setActiveImg(2);
+        } else if (
+          scrollLeft > imageWidth * 2.5 &&
+          scrollLeft < imageWidth * 3.5
+        ) {
+          setActiveImg(3);
+        } else if (
+          scrollLeft > imageWidth * 2.5 &&
+          scrollLeft < imageWidth * 3.5
+        ) {
+          setActiveImg(4);
+        }
+      }
+    };
+
+    if (scrollContainerRef.current) {
+      const container = scrollContainerRef.current;
+      container.addEventListener("scroll", handleScroll);
+
+      return () => {
+        container.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, [product]);
+
+  // Filter items with .cover true
+  const coverItems = product?.gallery.filter((item: any) => item?.cover);
+
+  // Filter items with .cover false or undefined
+  const nonCoverItems = product?.gallery.filter((item: any) => !item?.cover);
+
+  // Concatenate coverItems first and then nonCoverItems
+  const reorderedGallery = [...coverItems, ...nonCoverItems];
+
+  return (
+    <div
+      style={{
+        filter:
+          product.status === "public" ? "brightness(1)" : "brightness(0.95)",
+      }}
+      className="box-border rounded-xl bg-gray-50 p-4 flex flex-col justify-center cursor-pointer shadow-md"
+    >
+      <div className="flex mb-4 gap-4 w-full items-center justify-between">
+        <div className="flex items-center gap-1 text-md">
+          <MdStar color="orange" size={20} />
+          {formatRating(product.rating)}
+        </div>
+        <div
+          onClick={() =>
+            setConfirmPopup({
+              active: true,
+              text: activeLanguage.askDeleteProduct,
+              close: () =>
+                setConfirmPopup({
+                  active: false,
+                  close: null,
+                  agree: null,
+                  text: "",
+                }),
+              agree: () =>
+                DeleteProduct(item?.productId, item?.gallery[0]?.folderId),
+            })
+          }
+          className="hover:brightness-90 cursor-pointer"
+        >
+          <MdDelete color="red" size={24} />
+        </div>
+      </div>
+      <div className="flex-1 relative">
+        <div
+          className="w-full flex overflow-x-scroll aspect-square relative"
+          style={{
+            scrollSnapType: "x mandatory",
+            WebkitOverflowScrolling: "touch", // Enables momentum scrolling on iOS Safari
+          }}
+          ref={scrollContainerRef}
+        >
+          {reorderedGallery?.map((file: any, index: number) => (
+            <div
+              key={index}
+              className="relative min-w-full aspect-square bg-gray-300 hover:brightness-95 transition-all overflow-hidden"
+              style={{ scrollSnapAlign: "center" }}
+            >
+              <Image
+                alt={item?.seller?.name}
+                onClick={() => {
+                  router.push(
+                    `/profile/products/editProduct?id=${item?.productId}`
+                  );
+                  setSectionLoading(true);
+                }}
+                src={file?.url}
+                style={{
+                  aspectRatio: 1,
+                  cursor: "pointer",
+                  width: "100%",
+                  objectFit: "cover",
+                }}
+              />
+            </div>
+          ))}
+        </div>
+        <div>
+          {reorderedGallery?.length > 1 && (
+            <div
+              style={{
+                WebkitBackdropFilter: "blur(10px)",
+                backdropFilter: "blur(10px)",
+                background: "rgba(255,255,255,0.1)",
+              }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-14 rounded-md p-1 shadow-md absolute bottom-2 left-2 z-10 flex flex-col gap-1"
+            >
+              {reorderedGallery?.map((i: any, index: number) => {
+                return (
+                  <div
+                    key={index}
+                    className="relative aspect-square rounded-md w-full hover:brightness-95 transition-all overflow-hidden"
+                    style={{
+                      scrollSnapAlign: "center",
+                      filter:
+                        index === activeImg
+                          ? "brightness(1.1)"
+                          : "brightness(0.5)",
+                      border:
+                        index === activeImg
+                          ? "1.5px solid rgba(255,255,255,0.5)"
+                          : "1.5px solid rgba(255,255,255,0)",
+                    }}
+                  >
+                    <Image
+                      alt={item?.seller?.name}
+                      onClick={() => {
+                        if (scrollContainerRef?.current) {
+                          const scrollWidth =
+                            scrollContainerRef?.current?.scrollWidth;
+                          const totalImages = product?.gallery?.length || 0;
+                          const imageWidth = scrollWidth / totalImages;
+                          scrollContainerRef.current.scrollTo({
+                            left: imageWidth * index,
+                            behavior: "smooth",
+                          });
+                        }
+                        setActiveImg(index);
+                      }}
+                      src={i?.url}
+                      style={{
+                        aspectRatio: 1,
+                        cursor: "pointer",
+                        width: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="mt-4 flex items-center justify-between">
+        <div className="flex flex-col gap-1">
+          <h3 className="text-xl font-bold">{item?.title?.ka}</h3>
+          <p className="text-gray-600">
+            {categories?.find((i: any) => i.value === item?.category).label}
+          </p>
+          <div className="flex items-center gap-2 text-green-500 font-semibold">
+            {product.price?.byOrder && activeLanguage.byOrder}
+            {!product.price?.byOrder &&
+              parseFloat(product.price?.value).toFixed(2)}
+            {product.price?.byOrder ? "" : "₾"}
+          </div>
+        </div>
+        {product.status === "inReview" ? (
+          <div className="text-orange-500 text-center flex items-center gap-2">
+            <MdInfo size={24} />
+            {activeLanguage.inReview}...
+          </div>
+        ) : product.status === "rejected" ? (
+          <div className="text-red-500 text-center flex flex-col items-end gap-2">
+            <div className="flex items-center gap-1">
+              <MdBlock size={24} /> <h4>{activeLanguage.rejected}...</h4>
+            </div>
+            <span className="text-sm">{activeLanguage.rejectedText}</span>
+            <Link
+              href="/terms"
+              className="text-red font-semibold"
+              style={{ textDecoration: "underline" }}
+            >
+              {activeLanguage.termsAndRules}
+            </Link>
+          </div>
+        ) : (
+          <div className="ml-auto">
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={product.status === "public"}
+                  onChange={
+                    DefineAccess()
+                      ? () =>
+                          ChangeStatus(
+                            product.status === "public" ? "draft" : "public"
+                          )
+                      : () =>
+                          alert(
+                            `You have reached your maximum ${currentUser?.subscription?.options?.products} product publishing. If you want to publish more products, you need to change your subscription.`
+                          )
+                  }
+                />
+              }
+              label={activeLanguage[product.status]}
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default ProductItem;

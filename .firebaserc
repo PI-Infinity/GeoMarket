@@ -1,0 +1,9 @@
+{
+  "projects": {
+    "default": "geo-market-b9ed3",
+    " ": "geo-market-a6726"
+  },
+  "targets": {},
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
+}
