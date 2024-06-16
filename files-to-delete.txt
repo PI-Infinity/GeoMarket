@@ -1,0 +1,4 @@
+.firebase/geo-market-a6726/functions/.next/cache/webpack/server-production/0.pack
+.firebase/geo-market-a6726/functions/.next/cache/webpack/client-production/0.pack
+.firebase/geo-market-a6726/functions/.next/cache/webpack/client-production/27.pack
+.firebase/geo-market-a6726/functions/node_modules/@next/swc-darwin-arm64/next-swc.darwin-arm64.node

@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# Ignore Firebase functions directory
+.firebase/
+
 # next.js
 /.next/
 /out/
