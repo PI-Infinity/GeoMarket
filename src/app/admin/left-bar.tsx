@@ -8,9 +8,6 @@ const LeftBar = () => {
   // admin context
   const { menuList } = useAdminContext();
 
-  // app context
-  const { sectionLoading, setSectionLoading } = useApp();
-
   // get section title
   const pathname = usePathname();
   const section = pathname.split("/")[2] || "";
@@ -25,14 +22,6 @@ const LeftBar = () => {
             <Link
               key={index}
               href={`/admin/${item.path}`}
-              onClick={
-                !sectionLoading
-                  ? () => {
-                      setSectionLoading(true);
-                      nProgress.start();
-                    }
-                  : undefined
-              }
               className="hover:brightness-95 flex items-center w-full bg-gray-50 text-black font-semibold cursor-pointer shadow-sm rounded-xl"
             >
               <div

@@ -11,6 +11,7 @@ import React, {
 import { io } from "socket.io-client";
 import { useApp } from "./app";
 import getAuthUser from "../hooks/getAuthUser";
+import { getCookie, removeCookie, setCookie } from "../utils/cookies";
 
 // Create an authenticated user context state
 const Auth = createContext<any>(null);
@@ -55,11 +56,10 @@ export const AuthContextWrapper: React.FC<contextProps> = ({ children }) => {
   // Function to get the authenticated user
   const GetUser = async (userStorage: any) => {
     try {
-      localStorage.removeItem("GeoMarket:currentUser");
       const response = await getAuthUser({ apiUrl, userStorage });
       if (response.data.user) {
         setCurrentUser(response.data.user);
-        localStorage.setItem(
+        setCookie(
           "GeoMarket:currentUser",
           JSON.stringify({
             userId: response.data.user.userId,
@@ -67,12 +67,12 @@ export const AuthContextWrapper: React.FC<contextProps> = ({ children }) => {
           })
         );
       } else {
-        localStorage.removeItem("GeoMarket:currentUser");
+        removeCookie("GeoMarket:currentUser");
         setCurrentUser(null);
       }
     } catch (error: any) {
       if (error?.response?.data?.message === "User not found with this id") {
-        localStorage.removeItem("GeoMarket:currentUser");
+        removeCookie("GeoMarket:currentUser");
         setCurrentUser(null);
       }
     } finally {
@@ -106,7 +106,7 @@ export const AuthContextWrapper: React.FC<contextProps> = ({ children }) => {
 
   // Initialize the user from localStorage and schedule user fetching
   useEffect(() => {
-    const localUser: any = localStorage.getItem("GeoMarket:currentUser");
+    const localUser = getCookie("GeoMarket:currentUser");
 
     if (localUser) {
       GetUser(localUser);

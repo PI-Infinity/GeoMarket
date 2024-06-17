@@ -37,7 +37,7 @@ const ProductItem: React.FC<PropTypes> = ({
   const { currentUser } = useAuth();
 
   // app context
-  const { setSectionLoading, activeLanguage } = useApp();
+  const { activeLanguage } = useApp();
 
   // categories
   const { categories } = useProductsContext();
@@ -115,7 +115,6 @@ const ProductItem: React.FC<PropTypes> = ({
           className="flex items-center gap-2"
           onClick={() => {
             router.push(`/user/${item?.seller?.userId}/products`);
-            setSectionLoading(true);
           }}
         >
           <div className="w-10 h-10 rounded-full bg-gray-100 overflow-hidden">
@@ -141,7 +140,6 @@ const ProductItem: React.FC<PropTypes> = ({
             router.push(
               `/user/product/${item?.productId}?category=${item?.category}`
             );
-            setSectionLoading(true);
           }}
           src={item?.gallery[active]?.url}
           style={{ aspectRatio: 1, cursor: "pointer", objectFit: "cover" }}

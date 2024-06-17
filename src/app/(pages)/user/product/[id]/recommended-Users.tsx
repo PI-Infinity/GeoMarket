@@ -7,11 +7,11 @@ import nProgress from "nprogress";
 import React, { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { MdDiamond, MdStar } from "react-icons/md";
-import fetchRecommendedUsers from "@/app/hooks/getRecommendedUsers";
+import fetchRecommendedUsers from "@/app/hooks/getUsers";
 
 const RecommendedUsers = () => {
   // app context
-  const { apiUrl, setLoading } = useApp();
+  const { apiUrl } = useApp();
 
   // router
   const router = useRouter();
@@ -52,9 +52,7 @@ const RecommendedUsers = () => {
           return (
             <div
               onClick={() => {
-                setLoading(true);
                 router.push(`/user/${item.userId}/products`);
-                nProgress.start();
                 setUser(item);
               }}
               key={index}

@@ -1,9 +1,6 @@
 "use client";
-import { useAuth } from "@/app/context/auth";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { redirect, useRouter } from "next/navigation";
-import React, { useEffect, useLayoutEffect } from "react";
-import { withAuth } from "./withAuth";
+import React from "react";
 import { withoutAuth } from "./withoutAuth";
 
 interface propsTypes {

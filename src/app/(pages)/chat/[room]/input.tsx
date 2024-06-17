@@ -116,7 +116,6 @@ const Input = ({ setMessages }: any) => {
           members: activeRoom?.members?.map((i: any) => {
             return { id: i.id, status: i.status };
           }),
-          targetProduct: activeRoom?.targetProduct?.productId || null,
         },
       });
 
@@ -150,7 +149,7 @@ const Input = ({ setMessages }: any) => {
   };
 
   return (
-    <div className="h-full w-full bg-gray-100 flex items-center">
+    <div className="h-full w-full bg-gray-50 flex items-center">
       <input
         value={input}
         onChange={(e) => setInput(e.target.value)}

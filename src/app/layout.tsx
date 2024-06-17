@@ -1,8 +1,6 @@
-"use client";
 import { AdminContextWrapper } from "@/app/context/admin";
 import { AppContextWrapper } from "@/app/context/app";
 import { AuthContextWrapper } from "@/app/context/auth";
-import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { Inter } from "next/font/google";
 import Head from "next/head";
 import SimpleBackdrop from "./components/backdrop";
@@ -20,24 +18,11 @@ import { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
 
-// export const metadata: Metadata = {
-//   title: "Geo Market",
-//   description: "ქართული ხელოვნების ბაზარი",
-//   openGraph: {
-//     title: "Geo Market",
-//     description: "ქართული ხელოვნების ბაზარი",
-//     images: [
-//       {
-//         url: "/favicon-32x32.png", // Replace with the actual path to your image
-//         width: 1200,
-//         height: 630,
-//         alt: "Geo Market Image",
-//       },
-//     ],
-//   },
-// };
-
-// Ensure this file is client-side
+export const metadata: Metadata = {
+  title: "Geo Market - ქართული ხელოვნების ბაზარი",
+  description:
+    "Discover and purchase unique Georgian art and crafts on Geo Market.",
+};
 
 export default function RootLayout({ children }: any) {
   return (
@@ -57,10 +42,12 @@ export default function RootLayout({ children }: any) {
           href="/favicon-16x16.png"
         />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#ff0000" />{" "}
         {/* Change to desired color */}
         <meta name="msapplication-navbutton-color" content="#ff0000" />{" "}
         {/* Change to desired color */}
+        <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta
           name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"
@@ -74,12 +61,6 @@ export default function RootLayout({ children }: any) {
                 <ProductsContextWrapper>
                   <UserContextWrapper>
                     <AdminContextWrapper>
-                      <ProgressBar
-                        height="4px"
-                        color="#ff0000"
-                        options={{ showSpinner: false }}
-                        shallowRouting
-                      />
                       <div className="pb-10" style={{ minHeight: "90vh" }}>
                         <Header />
                         <Menu />

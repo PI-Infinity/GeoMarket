@@ -4,7 +4,7 @@ import ProductList from "@/app/components/product-list";
 import Search from "@/app/components/search";
 import { useApp } from "@/app/context/app";
 import { useProductsContext } from "@/app/context/products";
-import fetchRecommendedUsers from "@/app/hooks/getRecommendedUsers";
+import fetchRecommendedUsers from "@/app/hooks/getUsers";
 import { useEffect, useRef, useState } from "react";
 import SellersList from "./sellers-list";
 

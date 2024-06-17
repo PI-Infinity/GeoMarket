@@ -5,13 +5,14 @@ import { usePathname } from "next/navigation";
 import nProgress from "nprogress";
 import HeadRoom from "react-headroom";
 import { MdPeople } from "react-icons/md";
+import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 
 export default function Header() {
   // define path name
   const pathname = usePathname();
 
   // app context
-  const { openMenu, setOpenMenu, setLoading, isMobile } = useApp();
+  const { openMenu, setOpenMenu, isMobile } = useApp();
 
   return (
     <HeadRoom
@@ -21,6 +22,12 @@ export default function Header() {
       className={`static laptop:fixed top-0 left-0 p-0 h-16 
       z-50 w-full `}
     >
+      <ProgressBar
+        height="4px"
+        color="#ff0000"
+        options={{ showSpinner: false }}
+        shallowRouting
+      />
       <div
         style={{
           boxSizing: "border-box",
@@ -34,14 +41,6 @@ export default function Header() {
           <Link
             href="/"
             className="flex items-center w-96 p-4 gap-4 cursor-default"
-            onClick={
-              pathname !== "/"
-                ? () => {
-                    setLoading(true);
-                    nProgress.start();
-                  }
-                : undefined
-            }
           >
             <h1 className="cursor-pointer text-4xl">
               {pathname.startsWith("/admin") ? "Admin" : "Geo Market"}
@@ -50,7 +49,6 @@ export default function Header() {
         }
         {pathname !== "/sellers" && (
           <Link
-            onClick={() => setLoading(true)}
             href="/sellers"
             className="hidden laptop:flex items-center gap-2 ml-auto shadow-md rounded-full bg-gray-50 px-4 py-1 cursor-pointer hover:brightness-95"
           >

@@ -25,7 +25,6 @@ export default function Index() {
       }`}
       style={{ transition: "ease-in 200ms" }}
     >
-      hii
       {!isMobile && (
         <div
           className={`w-80 bg-white rounded-xl h-full shadow-sm fixed h-[calc(100%-8.5rem)]`}

@@ -27,7 +27,6 @@ const Chat: React.FC<propsTypes> = ({ children }) => {
     // Scroll to the top of the window
     window.scrollTo(0, 0);
   }, [children]);
-  const { sectionLoading } = useApp();
 
   // chat context
   const { openChatList } = useChat();
@@ -41,32 +40,15 @@ const Chat: React.FC<propsTypes> = ({ children }) => {
           openChatList ? "top-20 laptop:top-0" : "top-0"
         } flex flex-col laptop:flex-row gap-4 items-center w-full  h-full h-full laptop:py-12 laptop:w-3/4 laptop:mr-14 laptop:relative`}
       >
-        {/* <div
-          className="laptop:hidden flex items-center h-24"
-          onClick={() => setOpenchatList((prev: any) => !prev)}
-        >
-          <div className="w-12 h-12 rounded-full overflow-hidden">
-            <IoMdArrowDropleft size={24} color="red" />
-          </div>
-        </div> */}
         <div
-          className={`h-full w-full bg-white absolute  ${
+          className={`h-full w-full absolute  ${
             openChatList ? "top-0 left-0" : "-left-full"
           } laptop:left-0  laptop:w-80 w-full laptop:relative flex z-20 gap-2 laptop:gap-0 laptop:rounded-xl`}
           // style={{ left: pathname === "/chat" ? "0" : "-80%" }}
         >
           <Rooms />
         </div>
-        <div className="relative flex-1 w-full h-full text-black bg-white laptop:rounded-xl">
-          {sectionLoading && (
-            <div
-              className="h-full w-full z-10 absolute rounded-xl"
-              style={{
-                backdropFilter: "blur(10px)",
-                WebkitBackdropFilter: "blur(10px)",
-              }}
-            />
-          )}
+        <div className="relative flex-1 w-full h-full text-black laptop:rounded-xl">
           {children}
         </div>
       </div>

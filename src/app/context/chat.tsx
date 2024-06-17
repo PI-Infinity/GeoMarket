@@ -278,7 +278,6 @@ export const ChatContextWrapper: React.FC<contextProps> = ({ children }) => {
       const response = await getUnreadChats({ apiUrl, currentUser });
       if (response.status === "success") {
         setUnreadChats(response.data);
-        console.log(response.data);
       }
     } catch (error: any) {
       console.log(error.response);

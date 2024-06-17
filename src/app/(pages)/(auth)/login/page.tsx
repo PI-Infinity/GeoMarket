@@ -13,6 +13,7 @@ import nProgress from "nprogress";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
+import { setCookie } from "@/app/utils/cookies";
 
 const Login = () => {
   // current user
@@ -39,7 +40,7 @@ const Login = () => {
   const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
   // backend url
-  const { apiUrl, setLoading: pageLoading, activeLanguage } = useApp();
+  const { apiUrl, activeLanguage } = useApp();
 
   // sending loading state
   const [sendingLoading, setSendingLoading] = useState(false);
@@ -72,9 +73,12 @@ const Login = () => {
         })
         .then(async (data) => {
           setCurrentUser(data.data.user);
-          localStorage.setItem(
+          setCookie(
             "GeoMarket:currentUser",
-            JSON.stringify(data.data.user)
+            JSON.stringify({
+              userId: data.data.user.userId,
+              admin: data.data.user.admin,
+            })
           );
           router.push("/");
         });
@@ -147,10 +151,14 @@ const Login = () => {
 
       if (response.data && response.data.user) {
         setCurrentUser(response.data.user);
-        localStorage.setItem(
+        setCookie(
           "GeoMarket:currentUser",
-          JSON.stringify(response.data.user)
+          JSON.stringify({
+            userId: response.data.user.userId,
+            admin: response.data.user.admin,
+          })
         );
+
         router.push("/");
       }
     } catch (error) {
@@ -257,14 +265,7 @@ const Login = () => {
           }}
         />
 
-        <Link
-          href={"/signup"}
-          className="text-red-500"
-          onClick={() => {
-            pageLoading(true);
-            nProgress.start();
-          }}
-        >
+        <Link href={"/signup"} className="text-red-500">
           {activeLanguage.createAccount}
         </Link>
       </div>

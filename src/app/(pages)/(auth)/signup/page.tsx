@@ -12,6 +12,7 @@ import Verify from "./emailCodeVerify";
 import nProgress from "nprogress";
 import { CheckBox } from "@mui/icons-material";
 import { Checkbox, FormControl, FormControlLabel } from "@mui/material";
+import { setCookie } from "@/app/utils/cookies";
 
 const Register = () => {
   useEffect(() => {
@@ -21,10 +22,10 @@ const Register = () => {
   // app router
   const router = useRouter();
   // current user
-  const { setCurrentUser, currentUser } = useAuth();
+  const { setCurrentUser } = useAuth();
 
   // app context
-  const { activeLanguage, setLoading } = useApp();
+  const { activeLanguage } = useApp();
 
   // identify states
   const [name, setName] = useState("");
@@ -158,9 +159,12 @@ const Register = () => {
         acceptTerms: true,
       });
       setCurrentUser(response.data.user);
-      localStorage.setItem(
+      setCookie(
         "GeoMarket:currentUser",
-        JSON.stringify(response.data.user)
+        JSON.stringify({
+          userId: response.data.user.userId,
+          admin: response.data.user.admin,
+        })
       );
       router.push("/");
       setTimeout(() => {
@@ -295,10 +299,6 @@ const Register = () => {
         <Link
           className="button"
           href={"/login"}
-          onClick={() => {
-            setLoading(true);
-            nProgress.start();
-          }}
           style={{
             letterSpacing: "0.5px",
             color: "gray",

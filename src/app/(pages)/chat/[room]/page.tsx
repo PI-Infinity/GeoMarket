@@ -5,8 +5,8 @@ import { useAuth } from "@/app/context/auth";
 import { useChat } from "@/app/context/chat";
 import axios from "axios";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { MdClose } from "react-icons/md";
+import { act, useEffect, useState } from "react";
+import { MdAdd, MdCall, MdClose } from "react-icons/md";
 import { MoonLoader } from "react-spinners";
 import Input from "./input";
 import MessageItem from "./messageItem";
@@ -14,13 +14,12 @@ import { OnlineBadge } from "@/app/components/onlineBadge";
 import { usePathname } from "next/navigation";
 
 const ChatRoom = () => {
-  // use app context
-  const { setLoading, apiUrl } = useApp();
+  // app context
+  const { apiUrl } = useApp();
+
   // chat context
   const {
     activeRoom,
-    setChats,
-    totalChats,
     loadingMessages,
     messagesRef,
     totalMessages,
@@ -29,6 +28,10 @@ const ChatRoom = () => {
     setMessages,
     GetMessages,
     GetRoom,
+    setOpenChatList,
+    setChats,
+    setUnreadChats,
+    setActiveRoom,
   } = useChat();
 
   // current user
@@ -40,9 +43,53 @@ const ChatRoom = () => {
     activeRoom.roomId?.length > 0 &&
     activeRoom?.members?.find((i: any) => i.id !== currentUser?.userId);
 
+  // read chat
+  const OpenChatAndRead = async (item: any) => {
+    setOpenChatList(false);
+    if (
+      item?.lastMessage?.status === "unread" &&
+      item?.lastMessage?.sender !== currentUser?.userId
+    ) {
+      // Update the last message in the chats array
+      setChats((prev: any) => {
+        return prev.map((chat: any) => {
+          if (chat.roomId === item?.roomId) {
+            return {
+              ...chat,
+              lastMessage: {
+                ...chat.lastMessage,
+                status: "read",
+                online: activeRoom?.online,
+              },
+            };
+          } else {
+            return chat;
+          }
+        });
+      });
+
+      setUnreadChats((prev: any) =>
+        prev.filter((i: any) => i.roomId !== item.roomId)
+      );
+
+      try {
+        await axios.patch(apiUrl + "/api/v1/chats/" + item.roomId, {
+          lastMessage: {
+            status: "read",
+            sender: item?.lastMessage?.sender,
+            text: item?.lastMessage?.text,
+          },
+        });
+      } catch (error) {
+        console.error("Error updating chat status:", error);
+      }
+    }
+  };
+
   // getting messages
   useEffect(() => {
     if (activeRoom?.roomId?.length > 0) {
+      OpenChatAndRead(activeRoom);
       GetMessages();
     }
   }, [activeRoom?.roomId]);
@@ -58,7 +105,7 @@ const ChatRoom = () => {
   }, [roomId, currentUser]);
 
   return (
-    <div className="w-full h-full rounded-xl shadow-md flex flex-col overflow-hidden">
+    <div className="relative w-full h-full rounded-xl shadow-md flex flex-col overflow-hidden">
       <div className="h-16 shadow-md w-full bg-gray-50 flex items-center z-10 gap-2 pl-4 p-2">
         <OnlineBadge
           overlap="circular"
@@ -67,7 +114,6 @@ const ChatRoom = () => {
           isonline={activeRoom.online ? "online" : "offline"}
         >
           <Link
-            onClick={() => setLoading(true)}
             href={`/user/${targetUser?.userId}/products`}
             className={`cursor-pointer hover:brightness-95 relative shadow-md w-10 h-10 aspect-square overflow-hidden bg-gray-300 rounded-full overflow-hidden flex items-center justify-center`}
           >
@@ -83,53 +129,33 @@ const ChatRoom = () => {
           </Link>
         </OnlineBadge>
 
-        <Link
-          onClick={() => setLoading(true)}
-          href={`/user/${targetUser?.userId}/products`}
-        >
+        <Link href={`/user/${targetUser?.userId}/products`}>
           <h4 className="cursor-pointer hover:brightness-95 ml-2">
             {targetUser?.name}
           </h4>
         </Link>
-        <Link href="/chat" className="flex laptop:hidden ml-auto">
-          <MdClose color="red" size={24} />
-        </Link>
-        {activeRoom?.targetProduct && (
-          <Link
-            onClick={() => setLoading(true)}
-            href={`/user/product/${activeRoom?.targetProduct?.productId}`}
-            className={`hidden h-full w-1/3 ml-auto mr-2 cursor-pointer hover:brightness-95 relative shadow-md aspect-square overflow-hidden bg-gray-50 rounded-md overflow-hidden laptop:flex items-center gap-2 pl-2`}
-          >
-            <div
-              className={`relative shadow-md w-8 h-8 aspect-square overflow-hidden rounded-md overflow-hidden`}
+        <div className="ml-auto flex items-center gap-8">
+          {!targetUser?.phone?.number && (
+            <a
+              href={`tel:${targetUser?.phone?.number}`}
+              className="no-underline"
             >
-              <Image
-                alt={activeRoom?.targetProduct.title.ka}
-                src={
-                  activeRoom?.targetProduct?.gallery?.find(
-                    (it: any) => it.cover
-                  ).url
-                }
-                style={{
-                  aspectRatio: 1,
-                  zIndex: 0,
-                  width: "100%",
-                }}
-              />
-            </div>
-            <h4 className="cursor-pointer hover:brightness-95">
-              {activeRoom?.targetProduct?.title?.ka}
-            </h4>
-            <div className="ml-auto pr-2">
-              <MdClose
-                size={24}
-                color="red"
-                className="hover:brightness-95 cursor-pointer"
-                onClick={() => alert("remove item from chat")}
-              />
-            </div>
+              <div className="cursor-pointer hover:brightness-95 flex items-center gap-2">
+                <MdCall size={24} className="text-gray-500" />
+                599484604
+                {targetUser?.phone?.number}
+              </div>
+            </a>
+          )}
+
+          <Link href="/chat" className="pr-2">
+            <MdClose
+              size={24}
+              color="red"
+              className="hover:brightness-95 cursor-pointer"
+            />
           </Link>
-        )}
+        </div>
       </div>
       <div
         className="flex-1 overflow-y-auto p-2"

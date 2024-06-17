@@ -52,7 +52,7 @@ const Rooms = () => {
 
   return (
     <>
-      <div className="w-full rounded-xl shadow-md  h-full  laptop:p-2 flex flex-col gap-2 overflow-y-auto overflow-x-hidden p-2 laptop:p-0">
+      <div className="w-full rounded-xl shadow-md laptop:bg-white h-full laptop:p-2 flex flex-col gap-2 overflow-y-auto overflow-x-hidden p-2 pt-0">
         {loadingChats ? (
           <div className="h-full w-full flex items-center justify-center">
             <MoonLoader size={30} />

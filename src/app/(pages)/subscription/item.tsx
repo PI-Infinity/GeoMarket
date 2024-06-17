@@ -21,7 +21,8 @@ const Item = ({ item, period }: any) => {
     try {
       setLoading(true);
       const response = await axios.post(apiUrl + "/api/v1/subscriptions", {
-        subscription,
+        subscription: subscription,
+        user: currentUser.userId,
       });
       if (response.data.status === "success") {
         setCurrentUser((prev: any) => ({ ...prev, subscription }));

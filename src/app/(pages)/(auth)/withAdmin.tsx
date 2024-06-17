@@ -1,12 +1,13 @@
+import { getCookie } from "@/app/utils/cookies";
 import { redirect } from "next/navigation";
 
 export function withAdmin(Component: any) {
   return function WithAdmin(props: any) {
-    const isAuthenticated = localStorage.getItem("GeoMarket:currentUser");
-    const admin = isAuthenticated && JSON.parse(isAuthenticated)?.admin.active;
-    if (isAuthenticated && !admin) {
+    const auth = getCookie("GeoMarket:currentUser");
+    const admin = auth && JSON.parse(auth)?.admin.active;
+    if (auth && !admin) {
       redirect("/");
-    } else if (!isAuthenticated) {
+    } else if (!auth) {
       redirect("/login");
     }
 

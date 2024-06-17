@@ -19,9 +19,6 @@ const Favourites = () => {
     text: "",
   });
 
-  // app context
-  const { setSectionLoading } = useApp();
-
   // profile context
   const { alert, setAlert } = useProfileContext();
 

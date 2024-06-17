@@ -1,10 +1,11 @@
+import { getCookie } from "@/app/utils/cookies";
 import { redirect } from "next/navigation";
 
 export function withAuth(Component: any) {
   return function WithAuth(props: any) {
-    const isAuthenticated = localStorage.getItem("GeoMarket:currentUser");
+    const auth = getCookie("GeoMarket:currentUser");
 
-    if (!isAuthenticated) {
+    if (!auth) {
       redirect("/login");
       return null;
     }

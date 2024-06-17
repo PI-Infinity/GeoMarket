@@ -11,7 +11,7 @@ import fetchRecommendedProducts from "@/app/hooks/getRecommendedProducts";
 
 const RecommendedProducts = () => {
   // app context
-  const { apiUrl, setLoading, activeLanguage } = useApp();
+  const { apiUrl, activeLanguage } = useApp();
 
   // router
   const router = useRouter();
@@ -65,12 +65,10 @@ const RecommendedProducts = () => {
             <div
               key={index}
               onClick={() => {
-                setLoading(true);
                 setProduct(item);
                 router.push(
                   `/user/product/${item.productId}?category=${item.category}`
                 );
-                nProgress.start();
               }}
               className="cursor-pointer text-black flex flex-col gap-2 w-full h-1/6 hover:brightness-90 transition-all"
             >

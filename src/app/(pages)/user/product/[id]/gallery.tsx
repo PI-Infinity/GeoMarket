@@ -30,7 +30,7 @@ const Gallery: React.FC<propsTypes> = ({ list, rating }) => {
   return (
     <div className="laptop:p-2 flex-1 flex flex-col laptop:flex-row gap-0 laptop:gap-2 w-full h-full rounded-xl bg-gray-100 shadow-sm text-black overflow-y-auto">
       <div
-        className="laptop:w-40 w-96 h-full flex laptop:flex-col gap-2 laptop:gap-0"
+        className="laptop:w-36 w-96 h-full flex laptop:flex-col gap-2 laptop:gap-0"
         style={{ maxHeight: "35.5rem", overflowY: "auto" }}
       >
         {list?.map((itm: any, index: number) => {
@@ -40,7 +40,7 @@ const Gallery: React.FC<propsTypes> = ({ list, rating }) => {
               onClick={() => setActive(index)}
               className={`relative shadow-md border-[3px] border-${
                 active === index ? "red" : "white"
-              }-500 mb-2 w-24 h-24 laptop:h-32 laptop:w-32 overflow-hidden bg-gray-300 rounded-xl overflow-hidden`}
+              }-500 mb-2 w-20 h-20 laptop:h-28 laptop:w-28 overflow-hidden bg-gray-300 rounded-xl overflow-hidden`}
             >
               <Image
                 alt={itm?.fileId}

@@ -25,7 +25,7 @@ const Info: React.FC<propsTypes> = () => {
   const { user } = useUserContext();
 
   // app context
-  const { apiUrl, activeLanguage, setLoading } = useApp();
+  const { apiUrl, activeLanguage } = useApp();
 
   // auth context
   const { currentUser } = useAuth();
@@ -114,11 +114,11 @@ const Info: React.FC<propsTypes> = () => {
           status: "active",
           cover: user?.cover,
           name: user?.name,
+          phone: user?.phone?.number,
         },
       ],
       lastMessage: "",
       status: "read",
-      targetProduct: null,
     };
     router.push(`/chat/${room.roomId}`);
     setActiveRoom(room);

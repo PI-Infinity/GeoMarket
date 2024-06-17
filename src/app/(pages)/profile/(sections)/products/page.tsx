@@ -21,9 +21,6 @@ const Products: React.FC<propsTypes> = () => {
     text: "",
   });
 
-  // app context
-  const { setSectionLoading } = useApp();
-
   // profile context
   const { alert, setAlert } = useProfileContext();
 
@@ -49,11 +46,7 @@ const Products: React.FC<propsTypes> = () => {
               href={"/profile/products/addProduct"}
               className="w-11 h-11 bg-green-500 rounded-xl flex items-center justify-center cursor-pointer hover:brightness-95"
             >
-              <MdAdd
-                onClick={() => setSectionLoading(true)}
-                size={32}
-                color="white"
-              />
+              <MdAdd size={32} color="white" />
             </Link>
           </div>
         </div>

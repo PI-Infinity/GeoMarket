@@ -1,29 +1,20 @@
-import { storage } from "@/app/firebase";
+import Image from "@/app/components/image";
+import ShareComponent from "@/app/components/shareComponent";
 import { useApp } from "@/app/context/app";
 import { useAuth } from "@/app/context/auth";
-import { Skeleton } from "@nextui-org/react";
+import { storage } from "@/app/firebase";
 import axios from "axios";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { MdDiamond, MdImage, MdShare, MdStar } from "react-icons/md";
-import { resizeImage } from "./(sections)/products/fileInput";
+import { usePathname } from "next/navigation";
 import nProgress from "nprogress";
-import Image from "@/app/components/image";
 import { useState } from "react";
-import ShareComponent from "@/app/components/shareComponent";
+import { MdDiamond, MdShare, MdStar } from "react-icons/md";
+import { resizeImage } from "./(sections)/products/fileInput";
 
 const LeftBar = () => {
   // app context
-  const {
-    setOpenBackDrop,
-    apiUrl,
-    setSectionLoading,
-    sectionLoading,
-    activeLanguage,
-    setLoading,
-    language,
-  } = useApp();
+  const { setOpenBackDrop, apiUrl, activeLanguage, language } = useApp();
   // filter filter
   const filterItems = [
     {
@@ -50,9 +41,6 @@ const LeftBar = () => {
   // get section title
   const pathname = usePathname();
   const section = pathname.split("/")[2];
-
-  // router
-  const router = useRouter();
 
   // auth context
   const { currentUser, setCurrentUser } = useAuth();
@@ -151,11 +139,8 @@ const LeftBar = () => {
       className={`static laptop:h-[calc(100%-5.5rem)] h-full pb-8 laptop:pb-0 laptop:fixed  w-full laptop:w-80 bg-white rounded-xl shadow-sm flex flex-col items-center text-black`}
     >
       <div className="flex gap-1 w-full items-center justify-between p-4">
-        <div
-          onClick={() => {
-            router.push("/subscription");
-            setLoading(true);
-          }}
+        <Link
+          href="/subscription"
           className="flex items-center gap-2 cursor-pointer"
         >
           <MdDiamond
@@ -168,7 +153,7 @@ const LeftBar = () => {
           />
 
           <p className="font-semibold">{currentUser?.subscription?.type}</p>
-        </div>
+        </Link>
         <MdShare
           size={24}
           className="text-gray-300 cursor-pointer hover:brightness-95 ml-auto"
@@ -231,14 +216,6 @@ const LeftBar = () => {
             <Link
               key={index}
               href={`/profile/${item.value}`}
-              onClick={
-                !sectionLoading
-                  ? () => {
-                      setSectionLoading(true);
-                      nProgress.start();
-                    }
-                  : undefined
-              }
               className="hover:brightness-95 flex items-center w-full bg-gray-50 text-black font-semibold cursor-pointer shadow-sm rounded-xl"
             >
               <div

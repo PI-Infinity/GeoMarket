@@ -13,6 +13,7 @@ import { MdBlock, MdDateRange, MdDelete, MdInfo, MdStar } from "react-icons/md";
 import { RiEjectFill, RiEjectLine } from "react-icons/ri";
 import axios from "axios";
 import nProgress from "nprogress";
+import { FaImages } from "react-icons/fa";
 
 interface PropTypes {
   item: any;
@@ -32,7 +33,7 @@ const ProductItem: React.FC<PropTypes> = ({
   const { currentUser } = useAuth();
 
   // app context
-  const { setSectionLoading, activeLanguage, apiUrl } = useApp();
+  const { activeLanguage, apiUrl } = useApp();
 
   // categories
   const { categories } = useProductsContext();
@@ -55,9 +56,6 @@ const ProductItem: React.FC<PropTypes> = ({
 
   // get cover
   const cover = product.gallery?.findIndex((i: any) => i.cover);
-
-  // active image
-  const [active, setActive] = useState(cover);
 
   /**
    * define user subscription config
@@ -93,57 +91,6 @@ const ProductItem: React.FC<PropTypes> = ({
       console.log(error);
     }
   };
-
-  // active img
-  const [activeImg, setActiveImg] = useState(0);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (scrollContainerRef.current) {
-        const container = scrollContainerRef.current;
-        const scrollLeft = container.scrollLeft;
-        const scrollWidth = container.scrollWidth;
-
-        const totalImages = product?.gallery?.length || 0;
-        const imageWidth = scrollWidth / totalImages;
-        const newIndex = Math.floor(scrollLeft / imageWidth);
-
-        if (scrollLeft < imageWidth / 2) {
-          setActiveImg(0);
-        } else if (
-          scrollLeft > imageWidth / 2 &&
-          scrollLeft < imageWidth * 1.5
-        ) {
-          setActiveImg(1);
-        } else if (
-          scrollLeft > imageWidth * 1.5 &&
-          scrollLeft < imageWidth * 2.5
-        ) {
-          setActiveImg(2);
-        } else if (
-          scrollLeft > imageWidth * 2.5 &&
-          scrollLeft < imageWidth * 3.5
-        ) {
-          setActiveImg(3);
-        } else if (
-          scrollLeft > imageWidth * 2.5 &&
-          scrollLeft < imageWidth * 3.5
-        ) {
-          setActiveImg(4);
-        }
-      }
-    };
-
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-      container.addEventListener("scroll", handleScroll);
-
-      return () => {
-        container.removeEventListener("scroll", handleScroll);
-      };
-    }
-  }, [product]);
 
   // Filter items with .cover true
   const coverItems = product?.gallery.filter((item: any) => item?.cover);
@@ -195,7 +142,6 @@ const ProductItem: React.FC<PropTypes> = ({
             scrollSnapType: "x mandatory",
             WebkitOverflowScrolling: "touch", // Enables momentum scrolling on iOS Safari
           }}
-          ref={scrollContainerRef}
         >
           {reorderedGallery?.map((file: any, index: number) => (
             <div
@@ -209,7 +155,6 @@ const ProductItem: React.FC<PropTypes> = ({
                   router.push(
                     `/profile/products/editProduct?id=${item?.productId}`
                   );
-                  setSectionLoading(true);
                 }}
                 src={file?.url}
                 style={{
@@ -222,61 +167,14 @@ const ProductItem: React.FC<PropTypes> = ({
             </div>
           ))}
         </div>
+
         <div>
           {reorderedGallery?.length > 1 && (
-            <div
-              style={{
-                WebkitBackdropFilter: "blur(10px)",
-                backdropFilter: "blur(10px)",
-                background: "rgba(255,255,255,0.1)",
-              }}
-              onClick={(e) => e.stopPropagation()}
-              className="w-14 rounded-md p-1 shadow-md absolute bottom-2 left-2 z-10 flex flex-col gap-1"
-            >
-              {reorderedGallery?.map((i: any, index: number) => {
-                return (
-                  <div
-                    key={index}
-                    className="relative aspect-square rounded-md w-full hover:brightness-95 transition-all overflow-hidden"
-                    style={{
-                      scrollSnapAlign: "center",
-                      filter:
-                        index === activeImg
-                          ? "brightness(1.1)"
-                          : "brightness(0.5)",
-                      border:
-                        index === activeImg
-                          ? "1.5px solid rgba(255,255,255,0.5)"
-                          : "1.5px solid rgba(255,255,255,0)",
-                    }}
-                  >
-                    <Image
-                      alt={item?.seller?.name}
-                      onClick={() => {
-                        if (scrollContainerRef?.current) {
-                          const scrollWidth =
-                            scrollContainerRef?.current?.scrollWidth;
-                          const totalImages = product?.gallery?.length || 0;
-                          const imageWidth = scrollWidth / totalImages;
-                          scrollContainerRef.current.scrollTo({
-                            left: imageWidth * index,
-                            behavior: "smooth",
-                          });
-                        }
-                        setActiveImg(index);
-                      }}
-                      src={i?.url}
-                      style={{
-                        aspectRatio: 1,
-                        cursor: "pointer",
-                        width: "100%",
-                        objectFit: "cover",
-                      }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
+            <FaImages
+              size={16}
+              className="shadow-xl absolute z-10 bottom-2 right-2"
+              color="white"
+            />
           )}
         </div>
       </div>

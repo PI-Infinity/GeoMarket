@@ -13,7 +13,7 @@ import { MdDiamond, MdDoneAll, MdImage, MdRemove } from "react-icons/md";
 
 const RoomItem = ({ item }: any) => {
   // app context
-  const { apiUrl, setLoading, isMobile } = useApp();
+  const { apiUrl, isMobile } = useApp();
 
   // router
   const router = useRouter();
@@ -102,69 +102,20 @@ const RoomItem = ({ item }: any) => {
     return () => clearInterval(intervalId);
   }, [targetUser]);
 
-  // read chat
-  const OpenChatAndRead = async (item: any) => {
-    setActiveRoom({ ...item, online });
-    router.push(`/chat/${item.roomId}`);
-    setOpenChatList(false);
-    if (isMobile) {
-      setLoading(true);
-    }
-    if (
-      item?.lastMessage?.status === "unread" &&
-      item?.lastMessage?.sender !== currentUser?.userId
-    ) {
-      console.log("run");
-      // Update the last message in the chats array
-      setChats((prev: any) => {
-        return prev.map((chat: any) => {
-          if (chat.roomId === item?.roomId) {
-            return {
-              ...chat,
-              lastMessage: {
-                ...chat.lastMessage,
-                status: "read",
-                online: online,
-              },
-            };
-          } else {
-            return chat;
-          }
-        });
-      });
-
-      setUnreadChats((prev: any) =>
-        prev.filter((i: any) => i.roomId !== item.roomId)
-      );
-
-      try {
-        await axios.patch(apiUrl + "/api/v1/chats/" + item.roomId, {
-          lastMessage: {
-            status: "read",
-            sender: item?.lastMessage?.sender,
-            text: item?.lastMessage?.text,
-          },
-        });
-      } catch (error) {
-        console.error("Error updating chat status:", error);
-      }
-    }
-  };
-
   return (
     <>
       {confirm.room === item.roomId ? (
         <div className="flex items-center rounded-xl w-full shadow-md p-2 cursor-pointer hover:brightness-95">
           <div className="flex items-center justify-evenly font-semibold w-full h-full">
             <div
-              className="text-red-500 w-1/4 aspect-square flex items-center justify-center hover:brightness-90"
+              className="text-red-500 h-14 aspect-square flex items-center justify-center hover:brightness-90"
               onClick={() => setConfirm({ room: "" })}
             >
               No
             </div>{" "}
             <div
               onClick={DeleteChat}
-              className="text-green-500 w-1/4 aspect-square flex items-center justify-center hover:brightness-90"
+              className="text-green-500 h-8 aspect-square flex items-center justify-center hover:brightness-90"
             >
               Yes
             </div>
@@ -172,7 +123,10 @@ const RoomItem = ({ item }: any) => {
         </div>
       ) : (
         <div
-          onClick={() => OpenChatAndRead(item)}
+          onClick={() => {
+            setActiveRoom({ ...item, online });
+            router.push(`/chat/${item.roomId}`);
+          }}
           style={{
             background:
               activeRoom?.roomId === item.roomId && pathname !== "/chat"
@@ -181,23 +135,6 @@ const RoomItem = ({ item }: any) => {
           }}
           className="flex relative items-center rounded-xl shadow-md p-2 cursor-pointer hover:brightness-95"
         >
-          {item?.targetProduct && (
-            <Link
-              style={{ border: "2px solid red" }}
-              href={`/user/product/${item?.targetProduct?.productId}`}
-              className="w-8 h-8 top-2 aspect-square absolute z-10 left-1 1top-1 shadow-xl bg-red-500 rounded-full overflow-hidden hover:brightness-90"
-            >
-              <Image
-                alt={item?.targetProduct?.title.ka}
-                src={item?.targetProduct?.gallery.find((i: any) => i.cover).url}
-                style={{
-                  aspectRatio: 1,
-                  zIndex: 0,
-                  width: "100%",
-                }}
-              />
-            </Link>
-          )}
           <OnlineBadge
             overlap="circular"
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -236,7 +173,7 @@ const RoomItem = ({ item }: any) => {
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-1">
                 <MdDiamond
-                  size={24}
+                  size={18}
                   color={
                     targetUser?.subscription?.type === "free"
                       ? "gray"
@@ -252,7 +189,7 @@ const RoomItem = ({ item }: any) => {
               )}
               <p className="flex items-center gap-1 overflow-hidden">
                 {item?.lastMessage?.text}
-                {item?.lastMessage?.sender === currentUser?.userID && (
+                {item?.lastMessage?.sender === currentUser?.userId && (
                   <MdDoneAll
                     size={16}
                     color={
@@ -263,7 +200,10 @@ const RoomItem = ({ item }: any) => {
               </p>
             </div>
           </div>
-          <div className="ml-auto text-red-300 h-full flex flex-col justify-evenly p-2 cursor-pointer hover:text-red-500 ">
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="ml-auto text-red-300 h-full flex flex-col justify-evenly p-2 cursor-pointer hover:text-red-500 "
+          >
             <MdRemove
               size={16}
               onClick={() => setConfirm({ room: item.roomId })}

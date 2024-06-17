@@ -20,6 +20,7 @@ import { useProductsContext } from "../context/products";
 import { Badge } from "@mui/material";
 import { useNotifications } from "../context/notifications";
 import { useChat } from "../context/chat";
+import { removeCookie } from "../utils/cookies";
 
 const Navigator: React.FC = () => {
   // define path name
@@ -35,8 +36,7 @@ const Navigator: React.FC = () => {
   const { totalUnreads } = useNotifications();
 
   // app context
-  const { setOpenBackDrop, setLoading, language, setLanguage, isMobile } =
-    useApp();
+  const { setOpenBackDrop, sMobile } = useApp();
 
   // chat context
   const { unreadChats } = useChat();
@@ -48,8 +48,7 @@ const Navigator: React.FC = () => {
     try {
       setOpenBackDrop(true);
 
-      // Clear local storage and reset currentUser state
-      localStorage.removeItem("GeoMarket:currentUser");
+      removeCookie("GeoMarket:currentUser");
 
       setCurrentUser(null);
       // googleLogout();
@@ -100,7 +99,7 @@ const Navigator: React.FC = () => {
       style={{
         backdropFilter: "blur(30px)",
         WebkitBackdropFilter: "blur(30px)",
-        background: isMobile ? "rgba(255,255,255,0.5)" : "white",
+        background: "white",
       }}
     >
       <div
@@ -117,14 +116,6 @@ const Navigator: React.FC = () => {
         {!pathname.includes("/profile") && (
           <Link
             href={currentUser ? "/profile/products" : "/login"}
-            onClick={
-              !pathname.includes("profile")
-                ? () => {
-                    nProgress.start();
-                    setLoading(true);
-                  }
-                : undefined
-            }
             className={`w-8 laptop:w-3/5 bg-gray-200 aspect-square flex items-center justify-center hover:brightness-90 transition-all rounded-full`}
           >
             <div className="shadow-ms rounded-full overflow-hidden h-full w-full">
@@ -141,14 +132,7 @@ const Navigator: React.FC = () => {
           </Link>
         )}
         {currentUser && (
-          <Link
-            href={`/notifications`}
-            onClick={
-              !pathname.includes("notifications")
-                ? () => setLoading(true)
-                : undefined
-            }
-          >
+          <Link href={`/notifications`}>
             <Badge
               badgeContent={totalUnreads}
               sx={{
@@ -165,10 +149,7 @@ const Navigator: React.FC = () => {
             </Badge>
           </Link>
         )}
-        <Link
-          href={currentUser ? `/chat` : "/login"}
-          onClick={() => setLoading(true)}
-        >
+        <Link href={currentUser ? `/chat` : "/login"}>
           <Badge
             badgeContent={unreadChats?.length}
             sx={{

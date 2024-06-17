@@ -32,14 +32,7 @@ const EditProduct: React.FC<propsTypes> = () => {
   /**
    * app states
    */
-  const {
-    apiUrl,
-    openBackDrop,
-    setOpenBackDrop,
-    setSectionLoading,
-    setLoading,
-    activeLanguage,
-  } = useApp();
+  const { apiUrl, openBackDrop, setOpenBackDrop, activeLanguage } = useApp();
 
   /**
    * products context
@@ -264,12 +257,6 @@ const EditProduct: React.FC<propsTypes> = () => {
               {activeLanguage.editProduct}
             </div>
             <div className="flex items-center gap-2 h-11">
-              {/* <Link
-                href={`/user/product/${product?.productId}`}
-                onClick={() => setLoading(true)}
-              >
-                <IoMdEye size={40} />
-              </Link> */}
               <div className="w-40 h-full">
                 <Button
                   title={activeLanguage.save}
@@ -289,11 +276,7 @@ const EditProduct: React.FC<propsTypes> = () => {
                 href="/profile/products"
                 className="hover:brightness-105 w-11 h-11 bg-red-500 rounded-xl flex items-center justify-center cursor-pointer"
               >
-                <MdClose
-                  onClick={() => setSectionLoading(true)}
-                  size={32}
-                  color="white"
-                />
+                <MdClose size={32} color="white" />
               </Link>
             </div>
           </div>

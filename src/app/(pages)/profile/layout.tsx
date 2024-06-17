@@ -12,13 +12,10 @@ interface propsTypes {
 }
 
 const User: React.FC<propsTypes> = ({ children }) => {
-  const { currentUser } = useAuth();
-  const router = useRouter();
   useEffect(() => {
     // Scroll to the top of the window
     window.scrollTo(0, 0);
   }, [children]);
-  const { sectionLoading } = useApp();
 
   return (
     <ProfileContextWrapper>
@@ -28,15 +25,6 @@ const User: React.FC<propsTypes> = ({ children }) => {
         <LeftBar />
         <div className="flex flex-col gap-4 items-center w-full h-full laptop:ml-80 laptop:mr-14 laptop:pl-2 laptop:pr-4">
           <div className="relative flex-1 w-full h-full rounded-xl text-black">
-            {sectionLoading && (
-              <div
-                className="h-full w-full z-10 absolute rounded-xl"
-                style={{
-                  backdropFilter: "blur(10px)",
-                  WebkitBackdropFilter: "blur(10px)",
-                }}
-              />
-            )}
             {children}
           </div>
         </div>

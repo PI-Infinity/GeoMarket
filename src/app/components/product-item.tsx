@@ -30,7 +30,7 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
   const { currentUser } = useAuth();
 
   // app context
-  const { setLoading, apiUrl, activeLanguage, isMobile } = useApp();
+  const { apiUrl, activeLanguage, isMobile } = useApp();
 
   // categories
   const { categories } = useProductsContext();
@@ -133,56 +133,6 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
     }
   };
 
-  // active img
-  const [activeImg, setActiveImg] = useState(0);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (scrollContainerRef.current) {
-        const container = scrollContainerRef.current;
-        const scrollLeft = container.scrollLeft;
-        const scrollWidth = container.scrollWidth;
-
-        const totalImages = product?.gallery?.length || 0;
-        const imageWidth = scrollWidth / totalImages;
-
-        if (scrollLeft < imageWidth / 2) {
-          setActiveImg(0);
-        } else if (
-          scrollLeft > imageWidth / 2 &&
-          scrollLeft < imageWidth * 1.5
-        ) {
-          setActiveImg(1);
-        } else if (
-          scrollLeft > imageWidth * 1.5 &&
-          scrollLeft < imageWidth * 2.5
-        ) {
-          setActiveImg(2);
-        } else if (
-          scrollLeft > imageWidth * 2.5 &&
-          scrollLeft < imageWidth * 3.5
-        ) {
-          setActiveImg(3);
-        } else if (
-          scrollLeft > imageWidth * 2.5 &&
-          scrollLeft < imageWidth * 3.5
-        ) {
-          setActiveImg(4);
-        }
-      }
-    };
-
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-      container.addEventListener("scroll", handleScroll);
-
-      return () => {
-        container.removeEventListener("scroll", handleScroll);
-      };
-    }
-  }, [product]);
-
   // Filter items with .cover true
   const coverItems = product?.gallery.filter((item: any) => item?.cover);
 
@@ -214,7 +164,6 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
             scrollSnapType: "x mandatory",
             WebkitOverflowScrolling: "touch", // Enables momentum scrolling on iOS Safari
           }}
-          ref={scrollContainerRef}
         >
           {reorderedGallery?.map((file: any, index: number) => (
             <div
@@ -225,12 +174,10 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
               <Image
                 alt={item?.seller?.name}
                 onClick={() => {
-                  setLoading(true);
                   router.push(
                     `/user/product/${product?.productId}?category=${product?.category}`
                   );
                   setProductState(product);
-                  nProgress.start();
                 }}
                 src={file?.url}
                 style={{
@@ -245,59 +192,11 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
         </div>
         <div>
           {reorderedGallery?.length > 1 && (
-            <div
-              style={{
-                WebkitBackdropFilter: "blur(10px)",
-                backdropFilter: "blur(10px)",
-                background: "rgba(255,255,255,0.1)",
-              }}
-              onClick={(e) => e.stopPropagation()}
-              className="w-14 rounded-md p-1 shadow-md absolute bottom-2 left-2 z-10 flex flex-col gap-1"
-            >
-              {reorderedGallery?.map((i: any, index: number) => {
-                return (
-                  <div
-                    onClick={() => {
-                      if (scrollContainerRef?.current) {
-                        const scrollWidth =
-                          scrollContainerRef?.current?.scrollWidth;
-                        const totalImages = product?.gallery?.length || 0;
-                        const imageWidth = scrollWidth / totalImages;
-                        scrollContainerRef.current.scrollTo({
-                          left: imageWidth * index,
-                          behavior: "smooth",
-                        });
-                      }
-                      setActiveImg(index);
-                    }}
-                    key={index}
-                    className="relative aspect-square rounded-md w-full hover:brightness-95 transition-all overflow-hidden"
-                    style={{
-                      scrollSnapAlign: "center",
-                      filter:
-                        index === activeImg
-                          ? "brightness(1.1)"
-                          : "brightness(0.5)",
-                      border:
-                        index === activeImg
-                          ? "1.5px solid rgba(255,255,255,0.5)"
-                          : "1.5px solid rgba(255,255,255,0)",
-                    }}
-                  >
-                    <Image
-                      alt={item?.seller?.name}
-                      src={i?.url}
-                      style={{
-                        aspectRatio: 1,
-                        cursor: "pointer",
-                        width: "100%",
-                        objectFit: "cover",
-                      }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
+            <FaImages
+              size={16}
+              className="shadow-xl absolute z-10 bottom-2 right-2"
+              color="white"
+            />
           )}
         </div>
       </div>
@@ -316,13 +215,6 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
               from !== "user"
                 ? () => {
                     setUser(product?.seller);
-                    if (
-                      !pathname.includes("/user") &&
-                      !pathname.includes("/profile" && "/products")
-                    ) {
-                      setLoading(true);
-                      nProgress.start();
-                    }
                   }
                 : undefined
             }
@@ -380,14 +272,7 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
                   : "text-orange-200"
               }
               onClick={
-                currentUser && !actions.rating
-                  ? () => SetRating()
-                  : currentUser && actions.rating
-                  ? undefined
-                  : () => {
-                      router.push("/login");
-                      setLoading(true);
-                    }
+                currentUser && !actions.rating ? () => SetRating() : undefined
               }
             >
               <MdStar size={32} />
@@ -400,7 +285,6 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
                   ? () => SaveProduct(actions.saved ? "remove" : "save")
                   : () => {
                       router.push("/login");
-                      setLoading(true);
                     }
               }
             >

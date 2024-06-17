@@ -26,13 +26,7 @@ const AddProduct: React.FC<propsTypes> = () => {
   /**
    * app states
    */
-  const {
-    apiUrl,
-    openBackDrop,
-    setOpenBackDrop,
-    setSectionLoading,
-    activeLanguage,
-  } = useApp();
+  const { apiUrl, openBackDrop, setOpenBackDrop, activeLanguage } = useApp();
 
   /**
    * products context
@@ -237,11 +231,7 @@ const AddProduct: React.FC<propsTypes> = () => {
             href="/profile/products"
             className="hover:brightness-105 w-11 h-11 bg-red-500 rounded-xl flex items-center justify-center cursor-pointer"
           >
-            <MdClose
-              size={32}
-              color="white"
-              onClick={() => setSectionLoading(true)}
-            />
+            <MdClose size={32} color="white" />
           </Link>
         </div>
       </div>

@@ -21,13 +21,7 @@ const LeftBar = () => {
   const { user } = useUserContext();
 
   // app context
-  const {
-    apiUrl,
-    setSectionLoading,
-    sectionLoading,
-    activeLanguage,
-    language,
-  } = useApp();
+  const { apiUrl, activeLanguage, language } = useApp();
 
   // filter filter
   const filterItems = [
@@ -69,7 +63,7 @@ const LeftBar = () => {
         console.log(error);
       }
     };
-    if (user) {
+    if (user?.userId?.length > 0) {
       GetUserStatus();
     }
 
@@ -153,14 +147,6 @@ const LeftBar = () => {
             <Link
               key={index}
               href={`${item.value}`}
-              onClick={
-                !sectionLoading
-                  ? () => {
-                      setSectionLoading(true);
-                      nProgress.start();
-                    }
-                  : undefined
-              }
               className="hover:brightness-95 flex items-center w-full bg-gray-50 text-black font-semibold cursor-pointer shadow-sm rounded-xl"
             >
               <div

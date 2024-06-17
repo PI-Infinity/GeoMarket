@@ -39,6 +39,7 @@ const Menu: React.FC = () => {
         <div>{activeLanguage?.termsAndRules}</div>
 
         <div
+          onClick={(e) => e.stopPropagation()}
           className={`flex w-24 mt-8 flex-row items-center rounded-md bg-gray-50 overflow-hidden shadow-sm`}
         >
           <div

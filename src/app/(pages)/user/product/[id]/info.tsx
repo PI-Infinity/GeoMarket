@@ -28,7 +28,7 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
   const router = useRouter();
 
   // app context
-  const { setLoading, apiUrl, activeLanguage, language } = useApp();
+  const { apiUrl, activeLanguage, language } = useApp();
 
   // auth context
   const { currentUser } = useAuth();
@@ -147,11 +147,11 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
           status: "active",
           cover: data.seller?.cover,
           name: data?.seller?.name,
+          phone: data?.seller?.phone?.number,
         },
       ],
       lastMessage: "",
       status: "read",
-      targetProduct: data,
     };
     router.push(`/chat/${room.roomId}`);
     setActiveRoom(room);
@@ -186,7 +186,6 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
         <div className="flex items-center gap-4 m-4">
           <Link
             href={`/user/${data?.seller?.userId}/products`}
-            onClick={() => setLoading(true)}
             className={`shadow-sm w-10 h-10 bg-gray-300 rounded-full overflow-hidden flex items-center justify-center`}
           >
             <div
@@ -217,7 +216,6 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
 
           <Link
             href={`/user/${data?.seller?.userId}/products`}
-            onClick={() => setLoading(true)}
             className="flex gap-4 items-center"
           >
             <h4 className="font-semibold text-md">{data?.seller?.name}</h4>{" "}
@@ -265,7 +263,6 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
               background="green"
               color="white"
               onClick={() => {
-                setLoading(true);
                 SetChat();
               }}
             />
@@ -286,7 +283,6 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
                       }
                     : () => {
                         router.push("/login");
-                        setLoading(true);
                       }
                 }
               >
@@ -303,7 +299,6 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
                     ? () => SaveProduct(actions.saved ? "remove" : "save")
                     : () => {
                         router.push("/login");
-                        setLoading(true);
                       }
                 }
               >

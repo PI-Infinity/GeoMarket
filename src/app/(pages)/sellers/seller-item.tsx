@@ -1,16 +1,8 @@
 "use client";
 import Image from "@/app/components/image";
-import { useApp } from "@/app/context/app";
-import { useAuth } from "@/app/context/auth";
 import { useUserContext } from "@/app/context/user";
-import { useUser } from "@nextui-org/react";
-import axios from "axios";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import nProgress from "nprogress";
-import React, { useEffect, useState } from "react";
-import { FaHeart } from "react-icons/fa";
-import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
+import { useRouter } from "next/navigation";
+import React from "react";
 import { MdDiamond, MdStar } from "react-icons/md";
 
 interface PropTypes {
@@ -18,17 +10,8 @@ interface PropTypes {
 }
 
 const SellerItem: React.FC<PropTypes> = ({ item }) => {
-  // current path name
-  const pathname = usePathname();
-
   // router
   const router = useRouter();
-
-  // auth user
-  const { currentUser } = useAuth();
-
-  // app context
-  const { setLoading, apiUrl, activeLanguage } = useApp();
 
   // user state
   const { setUser } = useUserContext();
@@ -71,10 +54,8 @@ const SellerItem: React.FC<PropTypes> = ({ item }) => {
         <Image
           alt={item?.name}
           onClick={() => {
-            setLoading(true);
             router.push(`/user/${item?.userId}`);
             setUser(item);
-            nProgress.start();
           }}
           src={item?.cover?.url}
           style={{

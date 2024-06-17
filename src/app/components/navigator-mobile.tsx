@@ -17,6 +17,7 @@ import {
 } from "react-icons/md";
 import { useChat } from "../context/chat";
 import { useNotifications } from "../context/notifications";
+import { removeCookie } from "../utils/cookies";
 
 const NavigatorMobile: React.FC = () => {
   // define path name
@@ -32,7 +33,7 @@ const NavigatorMobile: React.FC = () => {
   const { totalUnreads } = useNotifications();
 
   // app context
-  const { setOpenBackDrop, setLoading } = useApp();
+  const { setOpenBackDrop } = useApp();
 
   // chat context
   const { unreadChats } = useChat();
@@ -44,8 +45,7 @@ const NavigatorMobile: React.FC = () => {
     try {
       setOpenBackDrop(true);
 
-      // Clear local storage and reset currentUser state
-      localStorage.removeItem("GeoMarket:currentUser");
+      removeCookie("GeoMarket:currentUser");
 
       setCurrentUser(null);
       // googleLogout();
@@ -83,8 +83,6 @@ const NavigatorMobile: React.FC = () => {
       router.push("/");
     }
   };
-
-  console.log(currentUser);
 
   return (
     <div
@@ -138,10 +136,7 @@ const NavigatorMobile: React.FC = () => {
             } cursor-pointer hover:brightness-95`}
           />
         </Link>
-        <Link
-          href={currentUser ? `/chat` : "/login"}
-          // onClick={() => setLoading(true)}
-        >
+        <Link href={currentUser ? `/chat` : "/login"}>
           <Badge
             badgeContent={unreadChats?.length}
             sx={{
@@ -160,14 +155,7 @@ const NavigatorMobile: React.FC = () => {
           </Badge>
         </Link>
         {currentUser && (
-          <Link
-            href={`/notifications`}
-            // onClick={
-            //   !pathname.includes("notifications")
-            //     ? () => setLoading(true)
-            //     : undefined
-            // }
-          >
+          <Link href={`/notifications`}>
             <Badge
               badgeContent={totalUnreads}
               sx={{
@@ -191,14 +179,6 @@ const NavigatorMobile: React.FC = () => {
         {!pathname.includes("/profile") ? (
           <Link
             href={currentUser ? "/profile/products" : "/login"}
-            // onClick={
-            //   !pathname.includes("profile")
-            //     ? () => {
-            //         nProgress.start();
-            //         setLoading(true);
-            //       }
-            //     : undefined
-            // }
             className={`w-8 laptop:w-3/5 bg-gray-200 aspect-square flex items-center justify-center hover:brightness-90 transition-all rounded-full`}
           >
             <div className="shadow-ms rounded-full overflow-hidden h-full w-full">

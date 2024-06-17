@@ -59,12 +59,6 @@ export const AppContextWrapper: React.FC<contextProps> = ({ children }) => {
   const [openBackDrop, setOpenBackDrop] = useState(false);
 
   /**
-   * page loader
-   */
-  const [loading, setLoading] = useState(true);
-  const [sectionLoading, setSectionLoading] = useState(false);
-
-  /**
    * Generate unique identificator for user and save in cookie
    */
 
@@ -161,10 +155,6 @@ export const AppContextWrapper: React.FC<contextProps> = ({ children }) => {
         setOpenMenu,
         openBackDrop,
         setOpenBackDrop,
-        loading,
-        setLoading,
-        sectionLoading,
-        setSectionLoading,
         language,
         setLanguage,
         activeLanguage,

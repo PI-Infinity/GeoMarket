@@ -1,12 +1,13 @@
-import { redirect } from "next/navigation";
+import { useEffect, useState } from "react";
+import { redirect, useRouter } from "next/navigation";
+import { getCookie } from "@/app/utils/cookies";
 
 export function withoutAuth(Component: any) {
-  return function WithAuth(props: any) {
-    const isAuthenticated = localStorage.getItem("GeoMarket:currentUser");
+  return function WithoutAuth(props: any) {
+    const auth = getCookie("GeoMarket:currentUser");
 
-    if (isAuthenticated) {
+    if (auth) {
       redirect("/");
-      return null;
     }
 
     return <Component {...props} />;
