@@ -46,7 +46,7 @@ const RecommendedUsers = () => {
   const { setUser } = useUserContext();
 
   return (
-    <div className="w-full h-full flex flex-col laptop:flex-row items-center gap-2 p-2 laptop:max-w-2/3">
+    <div className="w-full flex laptop:h-32 flex-col laptop:flex-row items-center gap-2 p-2 overflow-x-auto">
       {users?.length > 0 &&
         users?.map((item: any, index: number) => {
           return (
@@ -56,7 +56,7 @@ const RecommendedUsers = () => {
                 setUser(item);
               }}
               key={index}
-              className="relative hover:brightness-90 cursor-pointer transition-all text-black flex flex-col gap-2 w-full laptop:w-1/6 h-full bg-white rounded-xl p-4"
+              className="relative hover:brightness-90 cursor-pointer transition-all text-black flex flex-col gap-2 w-full laptop:max-w-48 overflow-hidden  h-full bg-white rounded-xl p-4"
             >
               <MdDiamond
                 size={16}
@@ -87,7 +87,9 @@ const RecommendedUsers = () => {
                 </div>
               </div>
 
-              <h3 className="text-black font-semibold">{item.name}</h3>
+              <h3 className="text-black font-semibold whitespace-nowrap">
+                {item.name}
+              </h3>
             </div>
           );
         })}

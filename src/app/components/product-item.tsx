@@ -148,9 +148,19 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
     >
       <div className="flex mb-4 gap-4 w-full items-center p-4 laptop:p-0 pb-0">
         <div className="flex items-center gap-2 w-full justify-between">
-          <h3 className="text-xl font-bold" style={{ whiteSpace: "nowrap" }}>
-            {product?.title?.ka}
-          </h3>
+          <Link
+            href={`/user/product/${product?.productId}?category=${product?.category}`}
+          >
+            <h3
+              onClick={() => {
+                setProductState(product);
+              }}
+              className="text-xl font-bold hover:text-gray"
+              style={{ whiteSpace: "nowrap" }}
+            >
+              {product?.title?.ka}
+            </h3>
+          </Link>
           <div className={`flex items-center gap-1 text-md`}>
             <MdStar color="orange" size={20} />
             {formatRating(product?.rating || 0)}
@@ -166,7 +176,8 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
           }}
         >
           {reorderedGallery?.map((file: any, index: number) => (
-            <div
+            <Link
+              href={`/user/product/${product?.productId}?category=${product?.category}`}
               key={index}
               className="relative min-w-full aspect-square bg-gray-300 hover:brightness-95 transition-all overflow-hidden"
               style={{ scrollSnapAlign: "center" }}
@@ -174,9 +185,6 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
               <Image
                 alt={item?.seller?.name}
                 onClick={() => {
-                  router.push(
-                    `/user/product/${product?.productId}?category=${product?.category}`
-                  );
                   setProductState(product);
                 }}
                 src={file?.url}
@@ -187,7 +195,7 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
                   objectFit: "cover",
                 }}
               />
-            </div>
+            </Link>
           ))}
         </div>
         <div>

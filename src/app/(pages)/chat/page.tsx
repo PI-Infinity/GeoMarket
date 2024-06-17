@@ -7,10 +7,7 @@ import { useChat } from "@/app/context/chat";
 
 const Chats = () => {
   // app state
-  const { openChatList } = useChat();
-
-  // app context
-  const { isMobile } = useApp();
+  const { createChatMobile, setCreateChatMobile } = useChat();
 
   // active state
   const [activeState, setActiveState] = useState("start");
@@ -30,6 +27,23 @@ const Chats = () => {
             <Search />
           </div>
         )}
+      </div>
+      <div
+        onClick={() => {
+          setCreateChatMobile(false);
+        }}
+        className="w-2/3 absolute -top-2 z-20 w-full h-screen pt-24 px-8"
+        style={{
+          backdropFilter: "blur(30px)",
+          WebkitBackdropFilter: "blur(30px)",
+          transform: createChatMobile ? "scale(1)" : "scale(0)",
+          opacity: createChatMobile ? "1" : "0",
+          transition: "ease-in 200ms",
+        }}
+      >
+        <div className="flex-1" onClick={(e) => e.stopPropagation()}>
+          <Search />
+        </div>
       </div>
     </>
   );

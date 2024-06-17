@@ -18,6 +18,7 @@ interface PropsType {
   password?: boolean;
   ref?: any;
   autoFocus?: any;
+  padding?: any;
 }
 
 export const Input: React.FC<PropsType> = ({
@@ -33,6 +34,7 @@ export const Input: React.FC<PropsType> = ({
   onKeyDown,
   ref,
   autoFocus,
+  padding,
 }) => {
   return (
     <div className="rounded-xl w-full h-full shadow-md flex items-center bg-white">
@@ -44,7 +46,9 @@ export const Input: React.FC<PropsType> = ({
         onChange={onChange}
         type={type}
         maxLength={maxLength || 50}
-        className="p-4 w-full rounded-xl text-black bg-white"
+        className={`${
+          padding ? padding : "p-4"
+        } w-full rounded-xl text-black bg-white`}
         onKeyDown={onKeyDown}
       />
       {password && (

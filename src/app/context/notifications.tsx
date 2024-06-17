@@ -141,6 +141,7 @@ export const NotificationsContextWrapper: React.FC<contextProps> = ({
         totalUnreads,
         totalNotifications,
         setTotalUnreads,
+        setNotifications,
       }}
     >
       {children}

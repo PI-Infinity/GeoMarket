@@ -1,11 +1,7 @@
 "use client";
-import Image from "@/app/components/image";
 import { useApp } from "@/app/context/app";
 import { useAuth } from "@/app/context/auth";
 import { useNotifications } from "@/app/context/notifications";
-import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
-import { MdDiamond } from "react-icons/md";
 import Item from "./item";
 
 // Define the subscription interface
@@ -48,7 +44,7 @@ const Notifications = () => {
 
   return (
     <div className="w-full flex justify-center">
-      <div className="bg-white h-full w-full laptop:w-2/3 rounded-xl shadow-sm flex flex-col items-center">
+      <div className="bg-white h-full w-full laptop:w-3/5 rounded-xl shadow-sm flex flex-col items-center">
         <h3 className="p-4 pb-0 text-gray-400">
           {activeLanguage.notifications}
         </h3>

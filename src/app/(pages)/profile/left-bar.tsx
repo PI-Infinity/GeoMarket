@@ -4,12 +4,17 @@ import { useApp } from "@/app/context/app";
 import { useAuth } from "@/app/context/auth";
 import { storage } from "@/app/firebase";
 import axios from "axios";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import nProgress from "nprogress";
 import { useState } from "react";
-import { MdDiamond, MdShare, MdStar } from "react-icons/md";
+import { MdClose, MdDiamond, MdShare, MdStar } from "react-icons/md";
 import { resizeImage } from "./(sections)/products/fileInput";
 
 const LeftBar = () => {
@@ -121,6 +126,29 @@ const LeftBar = () => {
     }
   }
 
+  /**
+   * delete cover
+   */
+  const DeleteCover = async () => {
+    try {
+      const response = await axios.patch(
+        apiUrl + "/api/v1/users/" + currentUser?.userId,
+        {
+          cover: null,
+        }
+      );
+      if (response.data.status === "success") {
+        let fileRef = ref(storage, "/users/" + currentUser?.userId + "/cover");
+        deleteObject(fileRef).then(() => {
+          console.log("item deleted");
+        });
+        setCurrentUser((prev: any) => ({ ...prev, cover: null }));
+      }
+    } catch (error: any) {
+      console.log(error.response.data.message);
+    }
+  };
+
   // Function to format the rating
   const formatRating = (rating: any) => {
     if (rating < 1000) return rating;
@@ -168,31 +196,50 @@ const LeftBar = () => {
           />
         </div>
       )}
-      <div
-        style={{ width: "150px", height: "150px" }}
-        className="rounded-full overflow-hidden flex items-center justify-center relative"
-      >
-        <input
-          type="file"
-          id="fileInputLogo"
-          style={{ display: "none" }}
-          multiple={false}
-          accept="image/*"
-          onChange={coverInput}
-        />
-        <label htmlFor="fileInputLogo">
-          <Image
-            alt={currentUser?.name}
-            src={currentUser?.cover?.url}
+      <div className="relative">
+        {currentUser?.cover && (
+          <div
+            className="h-6 w-6 rounded-full flex items-center justify-center absolute top-2 right-2 z-10 cursor-pointer hover:brightness-95"
+            onClick={(e) => e.stopPropagation()}
             style={{
-              zIndex: 0,
-              cursor: "pointer",
-              objectFit: "cover",
-              width: 150,
-              height: 150,
+              WebkitBackdropFilter: "blur(30px)",
+              backdropFilter: "blur(30px)",
             }}
+          >
+            <MdClose
+              size={20}
+              color="red"
+              className="shadow-xl"
+              onClick={DeleteCover}
+            />
+          </div>
+        )}
+        <div
+          style={{ width: "150px", height: "150px" }}
+          className="rounded-full overflow-hidden flex items-center justify-center relative"
+        >
+          <input
+            type="file"
+            id="fileInputLogo"
+            style={{ display: "none" }}
+            multiple={false}
+            accept="image/*"
+            onChange={coverInput}
           />
-        </label>
+          <label htmlFor="fileInputLogo">
+            <Image
+              alt={currentUser?.name}
+              src={currentUser?.cover?.url}
+              style={{
+                zIndex: 0,
+                cursor: "pointer",
+                objectFit: "cover",
+                width: 150,
+                height: 150,
+              }}
+            />
+          </label>
+        </div>
       </div>
 
       <div className="mt-4 text-lg font-semibold">{currentUser?.name}</div>

@@ -76,3 +76,12 @@ div {
   font-size: medium;
   font-weight: 500;
 }
+
+.no-outline {
+  outline: none;
+}
+
+.no-outline:focus {
+  outline: none;
+  border: none;
+}

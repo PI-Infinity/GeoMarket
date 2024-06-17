@@ -2,15 +2,18 @@ import Image from "@/app/components/image";
 import { useApp } from "@/app/context/app";
 import { useAuth } from "@/app/context/auth";
 import { useNotifications } from "@/app/context/notifications";
+import GetTimesAgo from "@/app/utils/getTimesAgo";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { MdClose, MdDone, MdRemove } from "react-icons/md";
+import { MoonLoader } from "react-spinners";
 
 const Item = (item: any, index: any) => {
   const [notification, setNotification] = useState(item.item);
 
-  const { setTotalUnreads } = useNotifications();
+  const { setTotalUnreads, setNotifications } = useNotifications();
 
   const { apiUrl } = useApp();
 
@@ -37,6 +40,40 @@ const Item = (item: any, index: any) => {
       console.log(error.response);
     }
   };
+
+  // delete confirm
+  const [confirm, setConfirm] = useState("");
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
+  const Delete = async () => {
+    try {
+      setDeleteLoading(true);
+
+      const response = await axios.delete(
+        apiUrl +
+          "/api/v1/users/" +
+          currentUser?.userId +
+          "/notifications/" +
+          notification.notificationId
+      );
+      console.log(response.data);
+      if (response.data.status === "success") {
+        console.log("success");
+        setNotifications((prev: any) =>
+          prev.filter(
+            (i: any) => i?.notificationId !== notification?.notificationId
+          )
+        );
+        setDeleteLoading(false);
+        setConfirm("");
+      }
+    } catch (error: any) {
+      setDeleteLoading(false);
+      setConfirm("");
+      console.log(error.response);
+    }
+  };
+
   return (
     <div
       onClick={
@@ -44,7 +81,7 @@ const Item = (item: any, index: any) => {
           ? () => ReadNotification(notification?.notificationId)
           : undefined
       }
-      className={`p-4 border-[1px] border-gray-200 rounded-xl shadow-md flex gap-2 relative ${
+      className={`p-2 border-[1px] border-gray-200 rounded-xl shadow-md flex gap-4 relative ${
         notification?.status === "unread"
           ? "bg-red-500 text-white cursor-pointer hover:brightness-95"
           : "text-gray-400"
@@ -72,7 +109,7 @@ const Item = (item: any, index: any) => {
           />
         </div>
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-1">
         <h4
           style={{
             cursor:
@@ -89,6 +126,37 @@ const Item = (item: any, index: any) => {
         </h4>
         <p className="text-sm">{notification?.text}</p>
       </div>
+      {confirm ? (
+        <div className="ml-auto flex items-center justify-evenly p-1 px-3 gap-2 bg-gray-50 shadow-md rounded-full">
+          <div
+            onClick={() => setConfirm("")}
+            className="cursor-pointer hover:brightness-95"
+          >
+            <MdClose size={24} color="red" />
+          </div>
+          <span className="text-sm font-semibold">Delete</span>
+          <div onClick={Delete} className="cursor-pointer hover:brightness-95">
+            {deleteLoading ? (
+              <MoonLoader size={16} color="red" />
+            ) : (
+              <MdDone size={24} color="green" />
+            )}
+          </div>
+        </div>
+      ) : (
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="ml-auto text-red-300 h-full flex flex-col items-end justify-evenly gap-2  cursor-pointer hover:text-red-500 pr-2"
+        >
+          <span className="text-gray-500" style={{ fontSize: "12px" }}>
+            {GetTimesAgo(notification?.createdAt)}
+          </span>
+          <MdRemove
+            size={12}
+            onClick={() => setConfirm(notification?.notificationId)}
+          />
+        </div>
+      )}
     </div>
   );
 };

@@ -45,7 +45,7 @@ const UserProductsPage: React.FC = () => {
     if (productId && product?.productId?.length < 1) {
       GetProduct();
     }
-  }, [productId]);
+  }, [productId, product?.productId]);
 
   /**
    * confirm popup state
@@ -74,12 +74,26 @@ const UserProductsPage: React.FC = () => {
             setAlert={setAlert}
           />
         </div>
-        <div className="w-full h-30 shadow-sm rounded-xl bg-gray-100">
+        <div>
+          <div className="m-2">
+            <h3>Reviews:</h3>
+            <div className="rounded-xl shadow-md h-24 w-full"></div>
+          </div>
+        </div>
+        <div className="m-2">
+          <h3>Recommended Sellers:</h3>
+        </div>
+        <div className="w-full laptop:max-w-2/3 h-30 shadow-sm rounded-xl bg-gray-100">
           <RecommendedUsers />
         </div>
       </div>
-      <div className="w-96 bg-white rounded-xl h-full shadow-sm">
-        <RecommendedProducts />
+      <div className="w-full laptop:w-96 laptop:mr-16">
+        <div className="m-2">
+          <h3>Recommended Products:</h3>
+        </div>
+        <div className="w-full  bg-white rounded-xl h-full shadow-sm">
+          <RecommendedProducts />
+        </div>
       </div>
       <ConfirmPopup confirmPopup={confirmPopup} />
       <SimpleSnackbar alert={alert} setAlert={setAlert} />

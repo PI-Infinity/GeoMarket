@@ -5,6 +5,7 @@ import { useApp } from "@/app/context/app";
 import { useAuth } from "@/app/context/auth";
 import { useChat } from "@/app/context/chat";
 import { useUserContext } from "@/app/context/user";
+import GetTimesAgo from "@/app/utils/getTimesAgo";
 import axios from "axios";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -112,10 +113,11 @@ const RoomItem = ({ item }: any) => {
               onClick={() => setConfirm({ room: "" })}
             >
               No
-            </div>{" "}
+            </div>
+            <span className="text-sm font-semibold text-gray-400">Delete?</span>
             <div
               onClick={DeleteChat}
-              className="text-green-500 h-8 aspect-square flex items-center justify-center hover:brightness-90"
+              className="text-green-500 h-14 aspect-square flex items-center justify-center hover:brightness-90"
             >
               Yes
             </div>
@@ -202,8 +204,11 @@ const RoomItem = ({ item }: any) => {
           </div>
           <div
             onClick={(e) => e.stopPropagation()}
-            className="ml-auto text-red-300 h-full flex flex-col justify-evenly p-2 cursor-pointer hover:text-red-500 "
+            className="ml-auto text-red-300 h-full flex flex-col items-end justify-evenly gap-2 p-2 cursor-pointer hover:text-red-500 "
           >
+            <span className="text-gray-500" style={{ fontSize: "12px" }}>
+              {GetTimesAgo(item?.createdAt)}
+            </span>
             <MdRemove
               size={16}
               onClick={() => setConfirm({ room: item.roomId })}

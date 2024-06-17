@@ -290,6 +290,11 @@ export const ChatContextWrapper: React.FC<contextProps> = ({ children }) => {
     }
   }, [currentUser]);
 
+  /**
+   * open create new chat for mobile
+   */
+  const [createChatMobile, setCreateChatMobile] = useState(false);
+
   return (
     <Chat.Provider
       value={{
@@ -316,6 +321,8 @@ export const ChatContextWrapper: React.FC<contextProps> = ({ children }) => {
         setOpenChatList,
         unreadChats,
         setUnreadChats,
+        createChatMobile,
+        setCreateChatMobile,
       }}
     >
       {children}

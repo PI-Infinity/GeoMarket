@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { MdClose, MdSearch } from "react-icons/md";
 import { useApp } from "../context/app";
+import "../globals.css";
 
 interface propsTypes {
   search: string;
@@ -38,7 +39,7 @@ const Search: React.FC<propsTypes> = ({ search, setSearch, userId }: any) => {
   return (
     <div className="w-full">
       <div className="w-full h-11 rounded-xl flex items-center overflow-hidden shadow-sm">
-        <div className="w-14 flex items-center justify-center bg-gray-300 h-full">
+        <div className="min-w-14 flex items-center justify-center bg-gray-300 h-full">
           <MdSearch size={30} color="white" />
         </div>
         <input
@@ -52,12 +53,12 @@ const Search: React.FC<propsTypes> = ({ search, setSearch, userId }: any) => {
               ? activeLanguage.search
               : "Search..."
           }
-          className="h-full w-full p-4 text-black"
+          className="no-outline h-full w-full p-4 text-black"
         />
         {search?.length > 0 && (
           <div
             onClick={() => setSearch("")}
-            className="bg-white h-full cursor-pointer hover:brightness-95 px-2 flex items-center justify-center"
+            className="max-w-14 bg-white h-full cursor-pointer hover:brightness-95 px-2 flex items-center justify-center"
           >
             <MdClose size={24} color="red" />
           </div>

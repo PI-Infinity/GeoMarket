@@ -28,7 +28,7 @@ const User: React.FC<propsTypes> = ({ children }) => {
           pathname.includes("user/product") ? 0 : 80
         } laptop:mr-16 laptop:pl-${pathname.includes("user/product") ? 0 : 2}`}
       >
-        <div className="flex-1 w-full laptop:p-2 h-full overflow-hidden laptop:bg-white rounded-xl laptop:shadow-sm text-black">
+        <div className="flex-1 w-full h-full overflow-hidden rounded-xl laptop:shadow-sm text-black">
           {children}
         </div>
       </div>

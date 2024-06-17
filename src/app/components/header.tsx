@@ -4,8 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import nProgress from "nprogress";
 import HeadRoom from "react-headroom";
-import { MdPeople } from "react-icons/md";
+import { MdAdd, MdPeople } from "react-icons/md";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
+import { useChat } from "../context/chat";
 
 export default function Header() {
   // define path name
@@ -13,6 +14,9 @@ export default function Header() {
 
   // app context
   const { openMenu, setOpenMenu, isMobile } = useApp();
+
+  // chat context
+  const { setCreateChatMobile, createChatMobile } = useChat();
 
   return (
     <HeadRoom
@@ -33,7 +37,7 @@ export default function Header() {
           boxSizing: "border-box",
           backdropFilter: "blur(30px)",
           WebkitBackdropFilter: "blur(30px)",
-          background: isMobile ? "rgba(255,255,255,0.5)" : "white",
+          // background: isMobile ? "rgba(255,255,255,0.5)" : "white",
         }}
         className="h-full w-full laptop:p-4 laptop:h-20 flex items-center justify-between shadow-md  laptop:shadow-sm laptop:bg-white text-red-600 whitespace-nowrap"
       >
@@ -56,7 +60,16 @@ export default function Header() {
             Sellers
           </Link>
         )}
-        <div className="flex w-24 items-center justify-end p-4 pr-3">
+        <div className="flex min-w-24 items-center justify-end p-4 pr-3">
+          {pathname === "/chat" && !createChatMobile && (
+            <div
+              onClick={() => setCreateChatMobile(true)}
+              className="flex laptop:hidden items-center gap-1 mr-6 rounded-full shadow-md px-3 py-1 cursor-pointer hover:brightness-95 bg-white"
+            >
+              <MdAdd size={24} color="#a9a9a9" />
+              New
+            </div>
+          )}
           <div
             className="flex flex-col gap-1 cursor-pointer"
             onClick={() => setOpenMenu((prev: boolean) => !prev)}

@@ -22,13 +22,13 @@ const Filter: React.FC = () => {
     setPrice([minPrice > 0 ? minPrice : 0, maxPrice > 0 ? maxPrice : 100000]);
   };
   return (
-    <div className="laptop:p-4 flex flex-col gap-8 w-full laptop:w-80">
-      <ul className="flex flex-col gap-2">
+    <div className="laptop:p-4 flex flex-col gap-2 laptop:gap-8 w-full laptop:w-80">
+      <ul className="flex laptop:flex-col gap-2 overflow-x-auto max-w-screen py-2 laptop:py-0">
         {categories.map((item: any, index: number) => (
           <FilterItem key={index} item={item} />
         ))}
       </ul>
-      <ul className="hidden laptop:flex flex-col gap-2 w-full">
+      <ul className="flex flex-col gap-2 w-full pl-2 laptop:pl-0">
         <div style={{ boxSizing: "border-box", padding: "4px", width: "100%" }}>
           <div
             style={{
@@ -68,6 +68,7 @@ const Filter: React.FC = () => {
               label="Min"
               value={minPrice}
               type="text"
+              padding="py-2 p-3"
               onChange={(e: any) => setMinPrice(e.target.value)}
             />
 
@@ -75,6 +76,7 @@ const Filter: React.FC = () => {
               label="Max"
               value={maxPrice}
               type="text"
+              padding="py-2 px-3"
               onChange={(e: any) => setMaxPrice(e.target.value)}
             />
             <div
@@ -84,7 +86,7 @@ const Filter: React.FC = () => {
               }}
               className="h-11 aspect-square flex items-center justify-center"
             >
-              <MdDone size={24} color={minPrice > 0 ? "green" : "gray"} />
+              <MdDone size={24} color={minPrice > 0 ? "green" : "#d5d5d5"} />
             </div>
           </div>
         </div>

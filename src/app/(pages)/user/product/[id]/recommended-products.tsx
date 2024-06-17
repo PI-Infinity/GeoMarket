@@ -57,7 +57,7 @@ const RecommendedProducts = () => {
     return `${(rating / 1000000).toFixed(1)}m`;
   };
   return (
-    <div className="w-full flex flex-col bg-gray-100 p-2 h-full rounded-xl items-center gap-2 max-w-2/3">
+    <div className="w-full flex flex-col bg-gray-100 p-2 h-full rounded-xl items-center gap-2 laptop:max-w-2/3">
       {products?.length > 0 &&
         products?.map((item: any, index: number) => {
           let cover = item.gallery.find((i: any) => i.cover);
@@ -70,7 +70,7 @@ const RecommendedProducts = () => {
                   `/user/product/${item.productId}?category=${item.category}`
                 );
               }}
-              className="cursor-pointer text-black flex flex-col gap-2 w-full h-1/6 hover:brightness-90 transition-all"
+              className="cursor-pointer text-black flex flex-col gap-2 w-full laptop:h-1/6 hover:brightness-90 transition-all"
             >
               <div
                 className="flex h-full rounded-xl p-2  pl-4 bg-white relative"
@@ -78,7 +78,7 @@ const RecommendedProducts = () => {
                   boxSizing: "border-box",
                 }}
               >
-                <div className="flex items-center gap-4 w-1/3">
+                <div className="flex items-center gap-4 w-1/4 laptop:w-1/3">
                   <div
                     className={`relative w-full shadow-md aspect-square overflow-hidden bg-gray-300 rounded-xl flex items-center justify-center`}
                   >

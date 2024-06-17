@@ -92,7 +92,7 @@ const NavigatorMobile: React.FC = () => {
           pathname.includes("/chat/") ||
           pathname.startsWith("/admin")) &&
         "hidden"
-      } h-12 bg-white-50 laptop:bg-white laptop:h-[calc(100%-8.5rem)] w-[calc(100%-1rem)] z-20 flex laptop:hidden laptop:flex-col items-center justify-between`}
+      } h-12 laptop:bg-white laptop:h-[calc(100%-8.5rem)] w-[calc(100%-1rem)] z-20 flex laptop:hidden laptop:flex-col items-center justify-between`}
       style={{
         backdropFilter: "blur(30px)",
         WebkitBackdropFilter: "blur(30px)",

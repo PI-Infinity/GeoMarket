@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import { useProductsContext } from "./context/products";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useApp } from "./context/app";
+import Link from "next/link";
+import Image from "./components/image";
 
 export default function Index() {
   // app context
@@ -18,13 +20,80 @@ export default function Index() {
     setScrollY(false);
   }, []);
 
+  const files = [
+    {
+      fileId: "",
+      path: "/chat",
+      url: "/artist.jpg",
+      title: "file 1",
+    },
+    {
+      fileId: "",
+      path: "/chat",
+      url: "/market2.jpg",
+      title: "file 2",
+    },
+    {
+      fileId: "",
+      path: "/chat",
+      url: "/handmade.jpg",
+      title: "file 2",
+    },
+    {
+      fileId: "",
+      path: "/chat",
+      url: "/items.jpg",
+      title: "file 3",
+    },
+    {
+      fileId: "",
+      path: "/chat",
+      url: "/market.jpg",
+      title: "file 3",
+    },
+  ];
+
   return (
     <div
-      className={`flex-1 flex items-start justify-between w-full ${
+      className={`flex-1 flex items-start flex-col laptop:flex-row justify-between w-full ${
         isMobile ? "pr-0" : "pr-4"
       }`}
       style={{ transition: "ease-in 200ms" }}
     >
+      {/* <div
+        className="w-full mb-4 laptop:hidden flex overflow-x-scroll relative"
+        style={{
+          minHeight: "500px",
+          overflowY: "hidden",
+          scrollSnapType: "x mandatory",
+          WebkitOverflowScrolling: "touch", // Enables momentum scrolling on iOS Safari
+        }}
+      >
+        {files?.map((file: any, index: number) => (
+          <div
+            // href={`/${file.path}`}
+            style={{
+              height: "100%",
+              minWidth: "100%",
+              scrollSnapAlign: "center",
+              overflow: "hidden",
+            }}
+            key={index}
+            className="relative bg-gray-300 hover:brightness-95 transition-all overflow-hidden flex items-center"
+          >
+            <Image
+              alt={file?.title}
+              src={file?.url}
+              style={{
+                cursor: "pointer",
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+          </div>
+        ))}
+      </div> */}
       {!isMobile && (
         <div
           className={`w-80 bg-white rounded-xl h-full shadow-sm fixed h-[calc(100%-8.5rem)]`}
@@ -40,13 +109,13 @@ export default function Index() {
           <div className="w-full laptop:hidden">
             <Filter />
           </div>
-          <div className="w-full flex">
+          <div className="w-full flex mt-2 laptop:mt-0">
             <Search search={search} setSearch={setSearch} />
           </div>
           <div
             ref={productsRef}
             className={`flex-1 w-full rounded-md laptop:shadow-sm
-            text-black`}
+            text-black mt-2 laptop:mt-0`}
           >
             <ProductList />
           </div>

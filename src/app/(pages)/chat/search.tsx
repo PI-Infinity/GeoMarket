@@ -15,7 +15,7 @@ const Search = () => {
 
   const { currentUser } = useAuth();
 
-  const { setActiveRoom } = useChat();
+  const { setActiveRoom, setCreateChatMobile } = useChat();
 
   const [search, setSearch] = useState("");
 
@@ -70,7 +70,7 @@ const Search = () => {
     <div className="w-full flex flex-col items-center text-gray-400">
       <h3 className="mb-8">Find User</h3>
       <div className="w-full h-11 rounded-xl flex items-center overflow-hidden shadow-sm">
-        <div className="w-14 flex items-center justify-center bg-gray-300 h-full">
+        <div className="min-w-14 flex items-center justify-center bg-gray-300 h-full">
           <MdSearch size={30} color="white" />
         </div>
         <input
@@ -82,7 +82,7 @@ const Search = () => {
           placeholder={
             activeLanguage && typeof activeLanguage.search === "string"
               ? activeLanguage.search
-              : "Search..."
+              : "Search user by name..."
           }
           className="h-full w-full p-4 text-black"
         />
@@ -113,6 +113,9 @@ const Search = () => {
                   SetChat(item);
                   setSuggesions([]);
                   setHide(false);
+                  setTimeout(() => {
+                    setCreateChatMobile(false);
+                  }, 1000);
                 }}
               >
                 <Link

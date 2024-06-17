@@ -23,12 +23,12 @@ const Menu: React.FC = () => {
         WebkitBackdropFilter: "blur(10px)",
         backdropFilter: "blur(10px)",
       }}
-      className={`h-full w-full top-0 fixed ${
+      className={`h-full w-full top-18 fixed ${
         openMenu ? "flex" : "hidden"
-      } z-40 laptop:p-0`}
+      } z-40 laptop:p-0 items-center flex-col`}
     >
       <div
-        className={`rounded-xl shadow-md fixed top-16 laptop:top-20 mt-2 laptop:right-2 bg-white h-96 w-full laptop:w-80 scale-${
+        className={`rounded-xl shadow-md fixed top-24 laptop:top-20 mt-2 laptop:right-2 bg-white h-96 w-10/12 laptop:w-80 scale-${
           transition ? 1 : 0
         } p-4 transition-all duration-200 ease text-black font-semibold flex flex-col gap-2`}
       >

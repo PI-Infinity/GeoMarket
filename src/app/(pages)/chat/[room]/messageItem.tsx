@@ -7,7 +7,8 @@ import axios from "axios";
 import { deleteObject, listAll, ref } from "firebase/storage";
 import { setConfig } from "next/config";
 import React, { useEffect, useState } from "react";
-import { MdClose, MdDone, MdDoneAll, MdRemove } from "react-icons/md";
+import { MdClose, MdDelete, MdDone, MdDoneAll, MdRemove } from "react-icons/md";
+import GetTimesAgo from "@/app/utils/getTimesAgo";
 
 const MessagemItem = ({ item }: any) => {
   // messageData
@@ -18,6 +19,7 @@ const MessagemItem = ({ item }: any) => {
     messageId: "",
     roomId: "",
     file: { url: "" },
+    createdAt: "",
   });
 
   useEffect(() => {
@@ -108,6 +110,7 @@ const MessagemItem = ({ item }: any) => {
         messageId: "",
         roomId: "",
         file: { url: "" },
+        createdAt: "",
       });
       const response = await axios.delete(
         apiUrl +
@@ -120,7 +123,8 @@ const MessagemItem = ({ item }: any) => {
       console.log(error.response);
     }
   };
-
+  // open config
+  const [openConfig, setOpenConfig] = useState("");
   // confirm popup
   const [openConfrim, setOpenConfirm] = useState(false);
 
@@ -142,6 +146,7 @@ const MessagemItem = ({ item }: any) => {
               >
                 <MdClose size={24} color="red" />
               </div>
+              <span className="text-sm font-semibold">Delete</span>
               <div
                 onClick={() => DeleteMessage(msg?.messageId, msg?.roomId)}
                 className="cursor-pointer hover:brightness-95"
@@ -150,11 +155,29 @@ const MessagemItem = ({ item }: any) => {
               </div>
             </div>
           ) : (
-            <>
+            <div
+              className="flex items-center gap-2"
+              style={{ maxWidth: "50%" }}
+            >
+              {msg.sender.id !== currentUser?.userId &&
+                openConfig === msg?.messageId && (
+                  <div className="flex items-center gap-2">
+                    <MdDelete
+                      onClick={() => setOpenConfirm(true)}
+                      color="red"
+                      size={16}
+                    />
+                    <span
+                      className="text-gray-400"
+                      style={{ fontSize: "12px" }}
+                    >
+                      {GetTimesAgo(msg?.createdAt)}
+                    </span>
+                  </div>
+                )}
               <div
                 className="shadow-sm rounded-xl overflow-hidden flex flex-col items-end cursor-pointer hover:brightness-95"
                 style={{
-                  maxWidth: "50%",
                   background:
                     msg.sender.id === currentUser?.userId ? "#f9f9f9" : "red",
                   color:
@@ -164,7 +187,7 @@ const MessagemItem = ({ item }: any) => {
                 {msg?.file?.url?.length > 0 && (
                   <div className="w-48 relative aspect-square shadow-md">
                     <Image
-                      onClick={() => setOpenConfirm(true)}
+                      onClick={() => setOpenConfig(msg?.messageId)}
                       alt={currentUser?.name}
                       src={msg?.file?.url}
                       style={{
@@ -186,7 +209,17 @@ const MessagemItem = ({ item }: any) => {
                 )}
                 {msg.text?.length > 0 && (
                   <div className="flex items-center gap-2 p-1 px-3">
-                    <p onClick={() => setOpenConfirm(true)}>{msg.text}</p>
+                    <p
+                      onClick={
+                        openConfig === msg?.messageId
+                          ? () => setOpenConfig("")
+                          : () => setOpenConfig(msg?.messageId)
+                      }
+                      className="whitespace-nowrap"
+                    >
+                      {msg.text}
+                    </p>
+
                     {msg.sender.id === currentUser?.userId && (
                       <MdDoneAll
                         size={16}
@@ -196,7 +229,23 @@ const MessagemItem = ({ item }: any) => {
                   </div>
                 )}
               </div>
-            </>
+              {msg.sender.id === currentUser?.userId &&
+                openConfig === msg?.messageId && (
+                  <div className="flex items-center gap-1">
+                    <span
+                      className="text-gray-400"
+                      style={{ fontSize: "12px" }}
+                    >
+                      {GetTimesAgo(msg?.createdAt)}
+                    </span>
+                    <MdDelete
+                      onClick={() => setOpenConfirm(true)}
+                      color="red"
+                      size={16}
+                    />
+                  </div>
+                )}
+            </div>
           )}
         </div>
       )}

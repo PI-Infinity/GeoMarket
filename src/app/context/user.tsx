@@ -78,6 +78,7 @@ export const UserContextWrapper: React.FC<contextProps> = ({ children }) => {
 
   const prevUrlRef = useRef("");
 
+  // when navigation from product to product or from user to user with back btn dont replace old items
   useEffect(() => {
     const handlePopState = () => {
       const { pathname } = window.location;

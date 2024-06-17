@@ -1,20 +1,20 @@
 import Button from "@/app/components/button";
+import Image from "@/app/components/image";
 import { useApp } from "@/app/context/app";
 import { useAuth } from "@/app/context/auth";
-import { Breadcrumbs, Typography } from "@mui/material";
+import { useChat } from "@/app/context/chat";
+import { useProductsContext } from "@/app/context/products";
+import { Breadcrumbs } from "@mui/material";
 import axios from "axios";
-import Image from "@/app/components/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { FaHeart, FaUser } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import { IoMdEye } from "react-icons/io";
-import { MdDiamond, MdSaveAlt, MdShare, MdStar } from "react-icons/md";
-import { useProductsContext } from "@/app/context/products";
-import ShareComponent from "../../../../components/shareComponent";
-import Cookies from "js-cookie";
+import { MdDiamond, MdShare, MdStar } from "react-icons/md";
 import { v4 } from "uuid";
-import { useChat } from "@/app/context/chat";
+import ShareComponent from "../../../../components/shareComponent";
+import { format } from "date-fns";
 
 interface propsTypes {
   data: any;
@@ -62,6 +62,7 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
 
   // check current user actions in product
   useEffect(() => {
+    console.log(data.productId);
     const CheckProduct = async () => {
       try {
         const response = await axios.get(
@@ -73,11 +74,14 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
         );
         setActions({ ...response.data.data, fetched: true });
       } catch (error: any) {
+        console.log(error.response);
         console.log("product check error: " + error);
       }
     };
     if (currentUser && data?.seller?.userId !== currentUser?.userId) {
-      CheckProduct();
+      if (data?.productId) {
+        CheckProduct();
+      }
     }
   }, [currentUser, data?.productId]);
 
@@ -160,6 +164,12 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
   return (
     <div className="relative p-0 laptop:p-2 flex-1 flex gap-4 w-full laptop:w-1/3 max-h-full rounded-xl bg-gray-100 shadow-sm text-black overflow-y-auto">
       <div className="text-black rounded-xl w-full p-4 flex flex-col bg-white">
+        <div className="text-sm text-gray-400 mb-2">
+          Added:{" "}
+          {data?.createdAt
+            ? format(new Date(data.createdAt), "yyyy-MM-dd HH:mm")
+            : ""}
+        </div>
         <div className="flex items-center w-full">
           <Breadcrumbs aria-label="breadcrumb">
             <Link color="inherit" href="/">
@@ -259,7 +269,7 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
         <div className="h-12 mt-4 flex items-center gap-4">
           {currentUser?.userId !== data?.seller?.userId && (
             <Button
-              title={activeLanguage.buy}
+              title="Starting to Buy"
               background="green"
               color="white"
               onClick={() => {

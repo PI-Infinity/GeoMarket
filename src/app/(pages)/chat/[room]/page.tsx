@@ -31,7 +31,6 @@ const ChatRoom = () => {
     setOpenChatList,
     setChats,
     setUnreadChats,
-    setActiveRoom,
   } = useChat();
 
   // current user
@@ -135,14 +134,14 @@ const ChatRoom = () => {
           </h4>
         </Link>
         <div className="ml-auto flex items-center gap-8">
-          {!targetUser?.phone?.number && (
+          {targetUser?.phone?.number && (
             <a
               href={`tel:${targetUser?.phone?.number}`}
               className="no-underline"
             >
               <div className="cursor-pointer hover:brightness-95 flex items-center gap-2">
                 <MdCall size={24} className="text-gray-500" />
-                599484604
+
                 {targetUser?.phone?.number}
               </div>
             </a>
@@ -169,11 +168,14 @@ const ChatRoom = () => {
           <div className="h-full w-full flex items-center justify-center">
             <MoonLoader size={30} />
           </div>
-        ) : (
-          messages?.length > 0 &&
+        ) : messages?.length > 0 ? (
           messages?.map((item: any, index: number) => {
             return <MessageItem key={index} item={item} />;
           })
+        ) : (
+          <div className="absolute top-1/2 flex justify-center w-full text-gray-400">
+            First message target user will recieve on his Email!
+          </div>
         )}
         {messages?.length > 29 &&
           totalMessages &&

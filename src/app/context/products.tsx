@@ -46,7 +46,7 @@ export const ProductsContextWrapper = ({
 
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
-  const [price, setPrice] = useState([0, 10000]);
+  const [price, setPrice] = useState([0, 100000]);
   const [rerenderProducts, setRerenderProducts] = useState(false);
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [page, setPage] = useState(1);

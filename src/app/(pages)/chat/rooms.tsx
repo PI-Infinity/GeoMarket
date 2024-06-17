@@ -62,6 +62,13 @@ const Rooms = () => {
             return <RoomItem key={index} item={item} confirm={confirm} />;
           })
         )}
+
+        {totalChats !== null && totalChats === 0 && (
+          <div className="text-gray-400 flex w-full items-center justify-center text-red-500 mt-24">
+            Not Found
+          </div>
+        )}
+
         {chats?.length > 7 && totalChats && totalChats > chats?.length && (
           <div className="w-full flex justify-center">
             <div
