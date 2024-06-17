@@ -114,7 +114,7 @@ export default function Index() {
           </div>
           <div
             ref={productsRef}
-            className={`flex-1 w-full rounded-md laptop:shadow-sm
+            className={`flex-1 w-full rounded-md 
             text-black mt-2 laptop:mt-0`}
           >
             <ProductList />

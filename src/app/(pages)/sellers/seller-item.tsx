@@ -1,8 +1,11 @@
 "use client";
 import Image from "@/app/components/image";
+import { useProductsContext } from "@/app/context/products";
 import { useUserContext } from "@/app/context/user";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { CgProductHunt } from "react-icons/cg";
+import { FaUsers } from "react-icons/fa";
 import { MdDiamond, MdStar } from "react-icons/md";
 
 interface PropTypes {
@@ -15,6 +18,9 @@ const SellerItem: React.FC<PropTypes> = ({ item }) => {
 
   // user state
   const { setUser } = useUserContext();
+
+  // products context
+  const { categories } = useProductsContext();
 
   // Function to format the rating
   const formatRating = (rating: any) => {
@@ -39,6 +45,9 @@ const SellerItem: React.FC<PropTypes> = ({ item }) => {
       className={`box-border rounded-xl bg-white laptop:p-4 flex flex-col justify-center shadow-md`}
     >
       <div className="flex mb-4 gap-4 w-full items-center p-4 laptop:p-0 pb-0">
+        <h3 className="text-xl font-bold" style={{ whiteSpace: "nowrap" }}>
+          {item.name}
+        </h3>
         <div className="flex items-center gap-2 ml-auto">
           <MdDiamond
             size={24}
@@ -68,15 +77,25 @@ const SellerItem: React.FC<PropTypes> = ({ item }) => {
         <img />
       </div>
       <div className="laptop:mt-4 flex items-center p-4 laptop:p-0">
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2">
-            <h3 className="text-xl font-bold" style={{ whiteSpace: "nowrap" }}>
-              {item.name}
-            </h3>
+            <h4 className="text-black font-semibold">
+              {categories?.find((i: any) => i.value === item?.category)?.label}
+            </h4>
           </div>
-          <div className={`flex items-center gap-1 text-md`}>
-            <MdStar color="orange" size={20} />
-            {formatRating(item.rating || 0)}
+          <div className="flex items-center gap-3 shadow-md rounded-full py-1 px-3">
+            <div className={`flex items-center gap-1 text-md`}>
+              <MdStar color="orange" size={23} />
+              {formatRating(item.rating || 0)}
+            </div>
+            <div className={`flex items-center text-md gap-1`}>
+              <CgProductHunt size={23} />
+              {item?.productsLength}
+            </div>
+            <div className={`flex items-center text-md gap-1`}>
+              <FaUsers size={22} />
+              {item?.productsLength}
+            </div>
           </div>
         </div>
       </div>

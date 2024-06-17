@@ -355,7 +355,7 @@ const AddProduct: React.FC<propsTypes> = () => {
             {!product.price.byOrder && (
               <div className="w-96">
                 <Input
-                  label={activeLanguage.price + " ₾"}
+                  label={activeLanguage.price + "* ₾"}
                   id="price"
                   value={product.price.value}
                   onChange={(e: any) =>

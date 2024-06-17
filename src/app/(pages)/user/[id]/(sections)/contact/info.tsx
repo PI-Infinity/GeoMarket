@@ -95,35 +95,6 @@ const Info: React.FC<propsTypes> = () => {
   //   }
   // };
 
-  /**
-   * starting chat with seller or continue old
-   */
-  const { setActiveRoom, chats, setChats } = useChat();
-
-  const SetChat = async () => {
-    const roomId = v4();
-    const room = {
-      roomId: roomId,
-      members: [
-        {
-          id: currentUser?.userId,
-          status: "active",
-        },
-        {
-          id: user?.userId,
-          status: "active",
-          cover: user?.cover,
-          name: user?.name,
-          phone: user?.phone?.number,
-        },
-      ],
-      lastMessage: "",
-      status: "read",
-    };
-    router.push(`/chat/${room.roomId}`);
-    setActiveRoom(room);
-  };
-
   return (
     <div className="p-4 flex flex-col laptop:flex-row gap-8 w-full h-full pb-16 laptop:pb-4">
       <div className="flex-1 flex flex-col gap-4 w-full h-full">
@@ -138,44 +109,67 @@ const Info: React.FC<propsTypes> = () => {
           <div className="flex flex-col gap-1">
             <h4 className="text-sm">{activeLanguage.email}: </h4>
             <div className="font-normal">
-              <h3>{user?.email}</h3>
+              <h3>
+                <a
+                  href={`mailto:${user?.email}`}
+                  className="text-blue-500 underline"
+                >
+                  {user?.email}
+                </a>
+              </h3>
             </div>
           </div>
           {user?.phone && user?.phone?.number.length > 0 && (
             <div className="flex flex-col gap-1">
               <h5 className="text-sm">{activeLanguage.phone}: </h5>
               <div className="font-normal">
-                <h3>{user?.phone.number}</h3>
+                <h3>
+                  <a
+                    href={`tel:${user?.phone.number}`}
+                    className="text-blue-500 underline"
+                  >
+                    {user?.phone.number}
+                  </a>
+                </h3>
               </div>
             </div>
           )}
           {user?.phone?.number?.length > 0 && (
             <div className="w-full flex items-center gap-2">
               {user?.phone?.whatsapp && (
-                <div className="flex items-center justify-center bg-gray-50 shadow-md rounded-md p-1">
+                <a
+                  href={`https://wa.me/${user.phone.number}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center bg-gray-50 shadow-md rounded-md p-1"
+                >
                   <FaWhatsapp size={24} />
-                </div>
+                </a>
               )}
               {user?.phone?.viber && (
-                <div className="flex items-center justify-center bg-gray-50 shadow-md rounded-md p-1">
+                <a
+                  href={`viber://chat?number=${user.phone.number}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center bg-gray-50 shadow-md rounded-md p-1"
+                >
                   <FaViber size={24} />
-                </div>
+                </a>
               )}
               {user?.phone?.telegram && (
-                <div className="flex items-center justify-center bg-gray-50 shadow-md rounded-md p-1">
+                <a
+                  href={`https://t.me/${user.phone.number}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center bg-gray-50 shadow-md rounded-md p-1"
+                >
                   <FaTelegram size={24} />
-                </div>
+                </a>
               )}
             </div>
           )}
         </div>
-        {currentUser?.userId !== user?.userId && (
-          <MdChat
-            className="text-red-300 hover:text-red-500 cursor-pointer"
-            size={30}
-            onClick={SetChat}
-          />
-        )}
+
         {/* {user?.userId !== currentUser?.userId && (
           <div className="h-full w-full rounded-md shadow-md p-4 flex flex-col gap-2 relative right-4">
             <h3 className="m-2 font-semibold">

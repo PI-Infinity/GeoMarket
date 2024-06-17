@@ -20,7 +20,11 @@ const FilterItem: React.FC<propsTypes> = ({ item }) => {
           item.value === category ? "red" : "inherit"
         }-500`}
       /> */}
-      <div className={` p-2 pl-4 h-10`}>{item.label}</div>
+      <div
+        className={` p-2  h-10 w-full text-center laptop:text-start laptop:pl-8`}
+      >
+        {item.label}
+      </div>
     </li>
   );
 };

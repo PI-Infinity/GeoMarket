@@ -1,8 +1,10 @@
 import axios from "axios";
 
-const getUsers = async ({ apiUrl, search }: any) => {
+const getUsers = async ({ apiUrl, search, page, onlySellers }: any) => {
   try {
-    const response = await axios.get(apiUrl + `/api/v1/users?search=${search}`);
+    const response = await axios.get(
+      apiUrl + `/api/v1/users?search=${search}&page=${page}&onlySellers=true`
+    );
     return response.data;
   } catch (error: any) {
     console.error("Error fetching products:", error);

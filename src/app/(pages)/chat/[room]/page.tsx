@@ -133,7 +133,7 @@ const ChatRoom = () => {
             {targetUser?.name}
           </h4>
         </Link>
-        <div className="ml-auto flex items-center gap-8">
+        <div className="ml-auto flex items-center gap-4">
           {targetUser?.phone?.number && (
             <a
               href={`tel:${targetUser?.phone?.number}`}

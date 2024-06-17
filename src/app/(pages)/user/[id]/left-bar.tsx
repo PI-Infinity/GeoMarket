@@ -1,21 +1,28 @@
+import Image from "@/app/components/image";
+import { OnlineBadge } from "@/app/components/onlineBadge";
+import ShareComponent from "@/app/components/shareComponent";
 import { useApp } from "@/app/context/app";
 import { useAuth } from "@/app/context/auth";
+import { useChat } from "@/app/context/chat";
 import { useUserContext } from "@/app/context/user";
-import Image from "@/app/components/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import nProgress from "nprogress";
-import { FaUser } from "react-icons/fa";
-import { MdDiamond, MdImage, MdShare, MdStar } from "react-icons/md";
-import { useEffect, useState } from "react";
-import ShareComponent from "@/app/components/shareComponent";
 import axios from "axios";
-import { OnlineBadge } from "@/app/components/onlineBadge";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { HiChat } from "react-icons/hi";
+import { MdDiamond, MdShare, MdStar } from "react-icons/md";
+import { v4 } from "uuid";
 
 const LeftBar = () => {
   // get section title
   const pathname = usePathname();
   const section = pathname.split("/")[3];
+
+  // router
+  const router = useRouter();
+
+  // auth context
+  const { currentUser } = useAuth();
 
   // user context
   const { user } = useUserContext();
@@ -74,6 +81,34 @@ const LeftBar = () => {
     // Clean up the interval on component unmount or when targetUser changes
     return () => clearInterval(intervalId);
   }, [user]);
+
+  /**
+   * starting chat with seller or continue old
+   */
+  const { setActiveRoom, chats, setChats } = useChat();
+  const SetChat = async () => {
+    const roomId = v4();
+    const room = {
+      roomId: roomId,
+      members: [
+        {
+          id: currentUser?.userId,
+          status: "active",
+        },
+        {
+          id: user?.userId,
+          status: "active",
+          cover: user?.cover,
+          name: user?.name,
+          phone: user?.phone?.number,
+        },
+      ],
+      lastMessage: "",
+      status: "read",
+    };
+    router.push(`/chat/${room.roomId}`);
+    setActiveRoom(room);
+  };
 
   return (
     <div
@@ -141,20 +176,25 @@ const LeftBar = () => {
         </div>
       ) : null}
 
-      <ul className="mt-8 flex flex-col gap-2 w-80 laptop:w-64">
+      {currentUser?.userId !== user?.userId && (
+        <HiChat
+          className="text-gray-400 hover:text-red-500 cursor-pointer mt-4"
+          size={38}
+          onClick={SetChat}
+        />
+      )}
+
+      <ul className="mt-8 flex laptop:flex-col gap-2 w-full px-4 laptop:px-0 laptop:w-64">
         {filterItems.map((item: any, index: number) => {
           return (
             <Link
               key={index}
               href={`${item.value}`}
-              className="hover:brightness-95 flex items-center w-full bg-gray-50 text-black font-semibold cursor-pointer shadow-sm rounded-xl"
+              className={`${
+                item.value === section ? "bg-red-500 text-white" : "bg-gray-50"
+              } hover:brightness-95 flex items-center w-full  text-black font-semibold cursor-pointer shadow-sm rounded-xl`}
             >
-              <div
-                className={`w-4 h-4 rounded-full ml-4 bg-${
-                  item.value === section ? "red" : "gray"
-                }-500`}
-              ></div>
-              <div className="p-2 pl-4">{item.label}</div>
+              <div className={`p-2 pl-4 text-center w-full`}>{item.label}</div>
             </Link>
           );
         })}

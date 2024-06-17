@@ -84,9 +84,7 @@ const Login = () => {
         });
       setTimeout(() => {
         setSendingLoading(false);
-        setEmail("");
-        setPassword("");
-      }, 1000);
+      }, 3000);
     } catch (err: any) {
       console.log(err.response.data.message);
       setSendingLoading(false);
@@ -190,6 +188,7 @@ const Login = () => {
           onChange={(e) => setEmail(e.target.value)}
           type="text"
           warning={false}
+          returnKeyType="next"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               const nextField = document.getElementById(
@@ -211,6 +210,7 @@ const Login = () => {
           handleClickShowPassword={handleClickShowPassword}
           handleMouseDownPassword={handleMouseDownPassword}
           password={true}
+          returnKeyType="done"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               login();
@@ -251,6 +251,17 @@ const Login = () => {
             />
           </div>
         </div>
+        <div className="flex w-full items-center gap-3">
+          <div
+            style={{ height: "1.5px" }}
+            className="rounded-full w-full bg-gray-300"
+          />
+          <span className="text-gray-400">Or</span>
+          <div
+            style={{ height: "1.5px" }}
+            className="rounded-full w-full bg-gray-300"
+          />
+        </div>
         <GoogleLogin
           onSuccess={(credentialResponse: any) => {
             const decoded = jwtDecode<DecodedJwtPayload>(
@@ -265,8 +276,14 @@ const Login = () => {
           }}
         />
 
-        <Link href={"/signup"} className="text-red-500">
-          {activeLanguage.createAccount}
+        <Link href={"/signup"} className="h-12 w-full">
+          <Button
+            background={"red"}
+            color={"green"}
+            onClick={() => undefined}
+            loading={sendingLoading}
+            title={activeLanguage.createAccount}
+          />
         </Link>
       </div>
       <SimpleSnackbar alert={alert} setAlert={setAlert} />

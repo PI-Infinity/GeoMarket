@@ -1,10 +1,7 @@
 "use client";
-import Filter from "@/app/components/filter";
-import ProductList from "@/app/components/product-list";
 import Search from "@/app/components/search";
 import { useApp } from "@/app/context/app";
-import { useProductsContext } from "@/app/context/products";
-import fetchRecommendedUsers from "@/app/hooks/getUsers";
+import getUsers from "@/app/hooks/getUsers";
 import { useEffect, useRef, useState } from "react";
 import SellersList from "./sellers-list";
 
@@ -21,8 +18,15 @@ export default function Sellers() {
 
   const GetUsers = async () => {
     try {
-      const response = await fetchRecommendedUsers({ apiUrl });
+      const response = await getUsers({
+        apiUrl,
+        search,
+        page,
+        onlySellers: "true",
+      });
       setSellers(response.data.users);
+      setTotalSellers(response.totalUsers);
+      setPage(1);
     } catch (error: any) {
       console.log(error.response.data);
     }
@@ -30,26 +34,26 @@ export default function Sellers() {
 
   useEffect(() => {
     GetUsers();
-  }, [apiUrl]);
+  }, [apiUrl, search]);
 
   return (
     <div
       className={`flex-1 flex items-start justify-between w-full ${
-        isMobile ? "pr-0" : "pr-4"
+        isMobile ? "pr-0" : "pr-16"
       }`}
       style={{ transition: "ease-in 200ms" }}
     >
       <div className={`w-full h-full ml-0`}>
         <div
-          className={`ml-0 mr-0 laptop:ml-2 laptop:mr-14
-          h-full flex flex-col gap-2 items-center`}
+          className={`ml-0 mr-0 laptop:ml-0 laptop:pr-2
+          h-full flex flex-col gap-2 items-center w-full`}
         >
           <div className="w-full flex">
             <Search search={search} setSearch={setSearch} />
           </div>
           <div
             ref={sellersRef}
-            className={`flex-1 w-full rounded-md laptop:shadow-sm
+            className={`flex-1 w-full rounded-md 
             text-black`}
           >
             <SellersList sellers={sellers} totalSellers={totalSellers} />

@@ -2,7 +2,7 @@
 import { useApp } from "@/app/context/app";
 import { Typography } from "@mui/material";
 import React, { useState } from "react";
-import { MdDone } from "react-icons/md";
+import { MdClose, MdDone } from "react-icons/md";
 import { useProductsContext } from "../context/products";
 import FilterItem from "./filter-item";
 import { Input } from "./input";
@@ -12,9 +12,10 @@ const Filter: React.FC = () => {
   const { activeLanguage } = useApp();
 
   // products context
-  const { categories, setPrice } = useProductsContext();
+  const { categories, setPrice, price } = useProductsContext();
 
   // price range
+  const defaultPrices = [0, 100000];
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(100000);
 
@@ -70,6 +71,7 @@ const Filter: React.FC = () => {
               type="text"
               padding="py-2 p-3"
               onChange={(e: any) => setMinPrice(e.target.value)}
+              disabled={JSON.stringify(defaultPrices) !== JSON.stringify(price)}
             />
 
             <Input
@@ -78,16 +80,42 @@ const Filter: React.FC = () => {
               type="text"
               padding="py-2 px-3"
               onChange={(e: any) => setMaxPrice(e.target.value)}
+              disabled={JSON.stringify(defaultPrices) !== JSON.stringify(price)}
             />
-            <div
-              onClick={AcceptRange}
-              style={{
-                cursor: minPrice > 0 ? "pointer" : "default",
-              }}
-              className="h-11 aspect-square flex items-center justify-center"
-            >
-              <MdDone size={24} color={minPrice > 0 ? "green" : "#d5d5d5"} />
-            </div>
+            {JSON.stringify(defaultPrices) !== JSON.stringify(price) ? (
+              <div
+                onClick={() => {
+                  setPrice([0, 100000]);
+                  setMinPrice(0);
+                  setMaxPrice(100000);
+                }}
+                style={{
+                  cursor:
+                    minPrice > 0 || maxPrice < 100000 ? "pointer" : "default",
+                }}
+                className={`hover:brightness-95 bg-white h-10 aspect-square flex items-center justify-center shadow-md rounded-xl`}
+              >
+                <MdClose size={24} color="red" />
+              </div>
+            ) : (
+              <div
+                onClick={AcceptRange}
+                style={{
+                  cursor:
+                    minPrice > 0 || maxPrice < 100000 ? "pointer" : "default",
+                }}
+                className={`${
+                  minPrice > 0 && "hover:brightness-95"
+                } bg-white h-10 aspect-square flex items-center justify-center shadow-md rounded-xl`}
+              >
+                <MdDone
+                  size={24}
+                  color={
+                    minPrice > 0 || maxPrice < 100000 ? "green" : "#e5e5e5"
+                  }
+                />
+              </div>
+            )}
           </div>
         </div>
       </ul>

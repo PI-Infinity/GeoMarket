@@ -199,6 +199,7 @@ const Register = () => {
           onChange={(e) => setName(e.target.value)}
           type="text"
           warning={false}
+          returnKeyType="next"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               const nextField = document.getElementById(
@@ -217,6 +218,7 @@ const Register = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           type="text"
+          returnKeyType="next"
           warning={false}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
@@ -238,6 +240,7 @@ const Register = () => {
           showPassword={showPassword}
           handleClickShowPassword={handleClickShowPassword}
           handleMouseDownPassword={handleMouseDownPassword}
+          returnKeyType="next"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               const nextField = document.getElementById(
@@ -301,7 +304,7 @@ const Register = () => {
           href={"/login"}
           style={{
             letterSpacing: "0.5px",
-            color: "gray",
+            color: "red",
             fontWeight: 600,
             textDecoration: "none",
             fontSize: "14px",

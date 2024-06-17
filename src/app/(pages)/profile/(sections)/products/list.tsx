@@ -81,7 +81,7 @@ const List: React.FC<propsTypes> = ({ setConfirmPopup }) => {
           Not Found
         </div>
       )}
-      <div className="grid laptop:grid-cols-3 gap-2 laptop:gap-4 ">
+      <div className="grid laptop:grid-cols-3 gap-2 laptop:gap-4 pb-4 laptop:pb-0">
         {products &&
           products?.map((item: any) => (
             <ProductItem

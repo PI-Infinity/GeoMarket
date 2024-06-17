@@ -19,6 +19,9 @@ interface PropsType {
   ref?: any;
   autoFocus?: any;
   padding?: any;
+  returnKeyType?: any;
+  inputMode?: string;
+  disabled?: boolean;
 }
 
 export const Input: React.FC<PropsType> = ({
@@ -35,21 +38,27 @@ export const Input: React.FC<PropsType> = ({
   ref,
   autoFocus,
   padding,
+  id,
+  returnKeyType,
+  disabled,
 }) => {
   return (
     <div className="rounded-xl w-full h-full shadow-md flex items-center bg-white">
       <input
+        id={id}
         ref={ref}
         autoFocus={autoFocus}
         placeholder={label}
         value={value}
         onChange={onChange}
         type={type}
+        enterKeyHint={returnKeyType}
         maxLength={maxLength || 50}
-        className={`${
-          padding ? padding : "p-4"
-        } w-full rounded-xl text-black bg-white`}
+        className={`${padding ? padding : "p-4"} w-full rounded-xl ${
+          disabled ? "text-gray-400" : "text-black"
+        } bg-white`}
         onKeyDown={onKeyDown}
+        disabled={disabled}
       />
       {password && (
         <InputAdornment position="end" className="pr-2 bg-white">

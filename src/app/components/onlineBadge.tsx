@@ -10,6 +10,8 @@ export const OnlineBadge = styled(Badge)<OnlineBadgeProps>(({ isonline }) => ({
     backgroundColor: isonline === "online" ? "#44b700" : "#d3d3d3", // green if online, gray if offline
     color: isonline === "online" ? "#44b700" : "#d3d3d3",
     boxShadow: `0 0 0 2px rgba(255,255,255,0.8)`,
+    zIndex: 0,
+
     "&::after":
       isonline === "online"
         ? {
