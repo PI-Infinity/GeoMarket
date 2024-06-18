@@ -8,20 +8,19 @@ import { MdAdd, MdPeople } from "react-icons/md";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { useChat } from "../context/chat";
 import { useEffect, useState } from "react";
-import { useLoading } from "../context/loadingcontext";
 
 export default function Header() {
   // define path name
   const pathname = usePathname();
 
   // app context
-  const { openMenu, setOpenMenu, isMobile } = useApp();
+  const { openMenu, setOpenMenu, isMobile, setIsLoading } = useApp();
 
   // chat context
   const { setCreateChatMobile, createChatMobile } = useChat();
 
   // loading context
-  const { setIsLoading } = useLoading();
+
   useEffect(() => {
     setTimeout(() => {
       setIsLoading();

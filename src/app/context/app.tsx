@@ -23,6 +23,8 @@ interface contextProps {
 }
 
 export const AppContextWrapper: React.FC<contextProps> = ({ children }) => {
+  // app loading
+  const [isLoading, setIsLoading] = useState(true);
   /**
    * backend API url
    */
@@ -160,6 +162,8 @@ export const AppContextWrapper: React.FC<contextProps> = ({ children }) => {
         setLanguage,
         activeLanguage,
         isMobile,
+        isLoading,
+        setIsLoading,
       }}
     >
       {children}

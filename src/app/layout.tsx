@@ -15,7 +15,6 @@ import { ProductsContextWrapper } from "./context/products";
 import { UserContextWrapper } from "./context/user";
 import "./globals.css";
 import { Metadata } from "next";
-import { LoadingProvider } from "./context/loadingcontext";
 import Loading from "./components/loading";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -55,38 +54,36 @@ export default function RootLayout({ children }: any) {
         <meta name="apple-mobile-web-app-status-bar-color" content="#ff0000" />
       </Head>
       <body className={inter.className}>
-        <LoadingProvider>
+        <AppContextWrapper>
           <Loading />
-          <AppContextWrapper>
-            <AuthContextWrapper>
-              <NotificationsContextWrapper>
-                <ChatContextWrapper>
-                  <ProductsContextWrapper>
-                    <UserContextWrapper>
-                      <AdminContextWrapper>
-                        <div className="pb-10" style={{ minHeight: "90vh" }}>
-                          <Header />
-                          <Menu />
-                          <SimpleBackdrop />
-                          <main
-                            className={
-                              "flex-1 flex p-2 laptop:mt-20 h-full relative"
-                            }
-                          >
-                            {children}
-                            <Navigator />
-                            <NavigatorMobile />
-                          </main>
-                          <Footer />
-                        </div>
-                      </AdminContextWrapper>
-                    </UserContextWrapper>
-                  </ProductsContextWrapper>
-                </ChatContextWrapper>
-              </NotificationsContextWrapper>
-            </AuthContextWrapper>
-          </AppContextWrapper>
-        </LoadingProvider>
+          <AuthContextWrapper>
+            <NotificationsContextWrapper>
+              <ChatContextWrapper>
+                <ProductsContextWrapper>
+                  <UserContextWrapper>
+                    <AdminContextWrapper>
+                      <div className="pb-10" style={{ minHeight: "90vh" }}>
+                        <Header />
+                        <Menu />
+                        <SimpleBackdrop />
+                        <main
+                          className={
+                            "flex-1 flex p-2 laptop:mt-20 h-full relative"
+                          }
+                        >
+                          {children}
+                          <Navigator />
+                          <NavigatorMobile />
+                        </main>
+                        <Footer />
+                      </div>
+                    </AdminContextWrapper>
+                  </UserContextWrapper>
+                </ProductsContextWrapper>
+              </ChatContextWrapper>
+            </NotificationsContextWrapper>
+          </AuthContextWrapper>
+        </AppContextWrapper>
       </body>
     </html>
   );

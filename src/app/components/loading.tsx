@@ -2,11 +2,11 @@
 "use client";
 import Image from "next/image";
 import georgiaGif from "public/Georgia-xl.gif";
-import { useLoading } from "../context/loadingcontext";
+import { useApp } from "../context/app";
 
 const Loading = () => {
   // loading
-  const { isLoading } = useLoading();
+  const { isLoading } = useApp();
 
   return (
     <div
