@@ -63,7 +63,7 @@ const SellerItem: React.FC<PropTypes> = ({ item }) => {
         <Image
           alt={item?.name}
           onClick={() => {
-            router.push(`/user/${item?.userId}`);
+            router.push(`/user/${item?.userId}/products`);
             setUser(item);
           }}
           src={item?.cover?.url}

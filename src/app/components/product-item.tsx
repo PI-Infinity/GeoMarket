@@ -27,10 +27,10 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
   const router = useRouter();
 
   // auth user
-  const { currentUser } = useAuth();
+  const { currentUser, setDestination } = useAuth();
 
   // app context
-  const { apiUrl, activeLanguage, isMobile } = useApp();
+  const { apiUrl, activeLanguage } = useApp();
 
   // categories
   const { categories } = useProductsContext();
@@ -280,7 +280,24 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
                   : "text-orange-200"
               }
               onClick={
-                currentUser && !actions.rating ? () => SetRating() : undefined
+                currentUser && !actions.rating
+                  ? () => SetRating()
+                  : () => {
+                      if (pathname?.includes("user")) {
+                        setDestination({
+                          productId: product?.productId,
+                          userId: product?.seller?.userId,
+                          page: "user",
+                        });
+                      } else {
+                        setDestination({
+                          productId: null,
+                          userId: null,
+                          page: null,
+                        });
+                      }
+                      router.push("/login");
+                    }
               }
             >
               <MdStar size={32} />
@@ -292,6 +309,19 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
                 currentUser
                   ? () => SaveProduct(actions.saved ? "remove" : "save")
                   : () => {
+                      if (pathname?.includes("user")) {
+                        setDestination({
+                          productId: product?.productId,
+                          userId: product?.seller?.userId,
+                          page: "product",
+                        });
+                      } else {
+                        setDestination({
+                          productId: null,
+                          userId: null,
+                          page: null,
+                        });
+                      }
                       router.push("/login");
                     }
               }

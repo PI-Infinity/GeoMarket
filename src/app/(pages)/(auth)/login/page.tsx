@@ -6,7 +6,7 @@ import { useApp } from "@/app/context/app";
 import { useAuth } from "@/app/context/auth";
 import axios from "axios";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ResetPassword from "./resetPassword";
 import nProgress from "nprogress";
@@ -17,7 +17,7 @@ import { setCookie } from "@/app/utils/cookies";
 
 const Login = () => {
   // current user
-  const { setCurrentUser } = useAuth();
+  const { setCurrentUser, destination } = useAuth();
 
   // app router
   const router = useRouter();
@@ -80,7 +80,13 @@ const Login = () => {
               admin: data.data.user.admin,
             })
           );
-          router.push("/");
+          if (destination?.page === "product") {
+            router.push("/user/product/" + destination?.productId);
+          } else if (destination?.page === "user") {
+            router.push("/user/" + destination?.userId + "/products");
+          } else {
+            router.push("/");
+          }
         });
       setTimeout(() => {
         setSendingLoading(false);
@@ -156,8 +162,13 @@ const Login = () => {
             admin: response.data.user.admin,
           })
         );
-
-        router.push("/");
+        if (destination?.page === "product") {
+          router.push("/user/product/" + destination?.productId);
+        } else if (destination?.page === "user") {
+          router.push("/user/" + destination?.userId + "/products");
+        } else {
+          router.push("/");
+        }
       }
     } catch (error) {
       console.error("Google Sign-In error:", error);

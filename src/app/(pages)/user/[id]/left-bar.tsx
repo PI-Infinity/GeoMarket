@@ -22,7 +22,7 @@ const LeftBar = () => {
   const router = useRouter();
 
   // auth context
-  const { currentUser } = useAuth();
+  const { currentUser, setDestination } = useAuth();
 
   // user context
   const { user } = useUserContext();
@@ -180,7 +180,17 @@ const LeftBar = () => {
         <HiChat
           className="text-gray-400 hover:text-red-500 cursor-pointer mt-4"
           size={38}
-          onClick={SetChat}
+          onClick={
+            currentUser
+              ? SetChat
+              : () => {
+                  setDestination({
+                    userId: user?.userId,
+                    page: "user",
+                  });
+                  router.push("/login");
+                }
+          }
         />
       )}
 

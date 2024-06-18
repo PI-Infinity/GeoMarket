@@ -13,6 +13,7 @@ import nProgress from "nprogress";
 import { CheckBox } from "@mui/icons-material";
 import { Checkbox, FormControl, FormControlLabel } from "@mui/material";
 import { setCookie } from "@/app/utils/cookies";
+import { useChat } from "@/app/context/chat";
 
 const Register = () => {
   useEffect(() => {
@@ -46,6 +47,9 @@ const Register = () => {
 
   // app context
   const { apiUrl, isMobile } = useApp();
+
+  // chat context
+  const { destination } = useChat();
 
   // alert message
   const [alert, setAlert] = useState({ active: false, type: "", text: "" });
@@ -166,7 +170,13 @@ const Register = () => {
           admin: response.data.user.admin,
         })
       );
-      router.push("/");
+      if (destination?.page === "product") {
+        router.push("/user/product/" + destination?.productId);
+      } else if (destination?.page === "user") {
+        router.push("/user/" + destination?.userId + "/products");
+      } else {
+        router.push("/");
+      }
       setTimeout(() => {
         setVerify(false);
         setRegisterLoading(false);

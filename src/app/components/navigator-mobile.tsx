@@ -27,7 +27,7 @@ const NavigatorMobile: React.FC = () => {
   const router = useRouter();
 
   // current user context
-  const { currentUser, setCurrentUser } = useAuth();
+  const { currentUser, setCurrentUser, setDestination } = useAuth();
 
   // notification context
   const { totalUnreads } = useNotifications();
@@ -49,7 +49,13 @@ const NavigatorMobile: React.FC = () => {
 
       setCurrentUser(null);
       // googleLogout();
-      router.push("/");
+      router.push("/login");
+
+      setDestination({
+        productId: null,
+        userId: null,
+        page: null,
+      });
       setTimeout(() => {
         setOpenBackDrop(false);
       }, 700);
@@ -179,6 +185,17 @@ const NavigatorMobile: React.FC = () => {
         {!pathname.includes("/profile") ? (
           <Link
             href={currentUser ? "/profile/products" : "/login"}
+            onClick={
+              currentUser
+                ? undefined
+                : () => {
+                    setDestination({
+                      productId: null,
+                      userId: null,
+                      page: null,
+                    });
+                  }
+            }
             className={`w-8 laptop:w-3/5 bg-gray-200 aspect-square flex items-center justify-center hover:brightness-90 transition-all rounded-full`}
           >
             <div className="shadow-ms rounded-full overflow-hidden h-full w-full">
@@ -199,7 +216,18 @@ const NavigatorMobile: React.FC = () => {
           >
             <div
               className="cursor-pointer hover:brightness-105"
-              onClick={currentUser ? Logout : () => router.push("/login")}
+              onClick={
+                currentUser
+                  ? Logout
+                  : () => {
+                      router.push("/login");
+                      setDestination({
+                        productId: null,
+                        userId: null,
+                        page: null,
+                      });
+                    }
+              }
             >
               <MdLogout
                 className={`text-red-500 cursor-pointer hover:brightness-95`}

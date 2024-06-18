@@ -31,7 +31,7 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
   const { apiUrl, activeLanguage, language } = useApp();
 
   // auth context
-  const { currentUser } = useAuth();
+  const { currentUser, setDestination } = useAuth();
 
   // products context
   const { setCategory } = useProductsContext();
@@ -51,13 +51,11 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
   interface ActionsProps {
     saved: Boolean;
     rating: Boolean;
-    fetched: Boolean;
   }
   // user actions
   const [actions, setActions] = useState<ActionsProps>({
     saved: false,
     rating: false,
-    fetched: false,
   });
 
   // check current user actions in product
@@ -144,7 +142,7 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
   /**
    * starting chat with seller or continue old
    */
-  const { setActiveRoom, setChats, chats } = useChat();
+  const { setActiveRoom } = useChat();
 
   const SetChat = async () => {
     const roomId = v4();
@@ -282,53 +280,65 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
               background="green"
               color="white"
               onClick={() => {
-                SetChat();
+                if (currentUser) {
+                  SetChat();
+                } else {
+                  router.push("/login");
+                  setDestination({
+                    productId: data?.productId,
+                    page: "product",
+                  });
+                }
               }}
             />
           )}
-          {data &&
-            currentUser?.userId !== data?.seller?.userId &&
-            actions.fetched && (
-              <div
-                className={
-                  !actions.rating
-                    ? "hover:brightness-95 transition-all cursor-pointer text-gray-300"
-                    : "text-orange-200"
-                }
-                onClick={
-                  currentUser
-                    ? () => {
-                        !actions?.rating ? SetRating() : undefined;
-                      }
-                    : () => {
-                        router.push("/login");
-                      }
-                }
-              >
-                <MdStar size={32} />
-              </div>
-            )}
-          {data &&
-            currentUser?.userId !== data?.seller?.userId &&
-            actions.fetched && (
-              <div
-                className=" hover:brightness-95 transition-all cursor-pointer"
-                onClick={
-                  currentUser
-                    ? () => SaveProduct(actions.saved ? "remove" : "save")
-                    : () => {
-                        router.push("/login");
-                      }
-                }
-              >
-                <FaHeart
-                  size={24}
-                  className={`cursor-pointer ${
-                    actions?.saved ? "text-red-500" : "text-gray-300"
-                  }`}
-                />
-              </div>
-            )}
+          {data && currentUser?.userId !== data?.seller?.userId && (
+            <div
+              className={
+                !actions.rating
+                  ? "hover:brightness-95 transition-all cursor-pointer text-gray-300"
+                  : "text-orange-200"
+              }
+              onClick={
+                currentUser
+                  ? () => {
+                      !actions?.rating ? SetRating() : undefined;
+                    }
+                  : () => {
+                      router.push("/login");
+                      setDestination({
+                        productId: data?.productId,
+                        page: "product",
+                      });
+                    }
+              }
+            >
+              <MdStar size={32} />
+            </div>
+          )}
+          {data && currentUser?.userId !== data?.seller?.userId && (
+            <div
+              className=" hover:brightness-95 transition-all cursor-pointer"
+              onClick={
+                currentUser
+                  ? () => SaveProduct(actions.saved ? "remove" : "save")
+                  : () => {
+                      router.push("/login");
+                      setDestination({
+                        productId: data?.productId,
+                        page: "product",
+                      });
+                    }
+              }
+            >
+              <FaHeart
+                size={24}
+                className={`cursor-pointer ${
+                  actions?.saved ? "text-red-500" : "text-gray-300"
+                }`}
+              />
+            </div>
+          )}
           <MdShare
             size={32}
             className="text-gray-300 cursor-pointer hover:brightness-95"

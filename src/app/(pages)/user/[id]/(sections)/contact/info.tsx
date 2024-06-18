@@ -1,19 +1,14 @@
 "use client";
-import Button from "@/app/components/button";
 import GoogleMap from "@/app/components/googleMap";
-import { Input } from "@/app/components/input";
 import SimpleSnackbar from "@/app/components/snackBar";
 import { useApp } from "@/app/context/app";
 import { useAuth } from "@/app/context/auth";
-import { useChat } from "@/app/context/chat";
 import { useUserContext } from "@/app/context/user";
-import { ContactEmergency, Person } from "@mui/icons-material";
-import axios from "axios";
+import { ContactEmergency } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FaTelegram, FaViber, FaWhatsapp } from "react-icons/fa";
-import { MdChat, MdLocationPin } from "react-icons/md";
-import { v4 } from "uuid";
+import { MdLocationPin } from "react-icons/md";
 
 interface propsTypes {}
 
@@ -42,65 +37,11 @@ const Info: React.FC<propsTypes> = () => {
   // alert state
   const [alert, setAlert] = useState({ active: false, text: "", type: "" });
 
-  /**
-   * sending letter to email
-   */
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [phone, setPhone] = useState("");
-  // const [letter, setLetter] = useState("");
-
-  // letter send
-  // const Send = async () => {
-  //   try {
-  //     if (name?.length < 1 || email?.length < 1 || letter?.length < 1) {
-  //       return setAlert({
-  //         active: true,
-  //         type: "error",
-  //         text: activeLanguage.pleaseInputNecessaryFields,
-  //       });
-  //     }
-  //     if (!email.includes("@")) {
-  //       return setAlert({
-  //         active: true,
-  //         type: "error",
-  //         text: activeLanguage.incorrectEmail,
-  //       });
-  //     }
-  //     setLoading(true);
-  //     const formattedMessage = letter.replace(/\n/g, "<br>");
-  //     const response = await axios.post(apiUrl + "/api/v1/sendemails", {
-  //       email: user?.email,
-  //       title: "Geo Market - ახალი შეტყობინება",
-  //       message: formattedMessage,
-  //     });
-  //     if (response.data.status === "success") {
-  //       setLoading(false);
-  //       setAlert({
-  //         active: true,
-  //         text: activeLanguage.messageSentSuccessfully,
-  //         type: "success",
-  //       });
-  //       setLetter("");
-  //     }
-  //   } catch (error: any) {
-  //     setAlert({
-  //       active: true,
-  //       text: error.response.data.message,
-  //       type: "error",
-  //     });
-  //     console.log(error.response.data.message);
-  //     console.log("Send emails error");
-  //     setLoading(false);
-  //   }
-  // };
-
   return (
     <div className="p-4 flex flex-col laptop:flex-row gap-8 w-full h-full pb-16 laptop:pb-4">
       <div className="flex-1 flex flex-col gap-4 w-full h-full">
         <div className="flex items-center gap-2">
           <ContactEmergency sx={{ fontSize: 24 }} />
-          {/* <span>{activeLanguage.security}:</span> */}
           <span className="text-md font-semibold">
             {activeLanguage.contact}:
           </span>
@@ -169,57 +110,6 @@ const Info: React.FC<propsTypes> = () => {
             </div>
           )}
         </div>
-
-        {/* {user?.userId !== currentUser?.userId && (
-          <div className="h-full w-full rounded-md shadow-md p-4 flex flex-col gap-2 relative right-4">
-            <h3 className="m-2 font-semibold">
-              {activeLanguage.sendLetterText}
-            </h3>
-            <div>
-              <Input
-                label={activeLanguage.name + "*"}
-                value={name}
-                type="text"
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-            <div>
-              <Input
-                label={activeLanguage.email + " *"}
-                value={email}
-                type="text"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div>
-              <Input
-                label={activeLanguage.phone + " " + activeLanguage.optional}
-                value={phone}
-                type="text"
-                onChange={(e) => setPhone(e.target.value)}
-              />
-            </div>
-            <div>
-              <textarea
-                id="about"
-                placeholder={`${activeLanguage.text}*`}
-                maxLength={250}
-                className="w-full h-24 rounded-md p-2 shadow-md bg-white"
-                value={letter}
-                onChange={(e) => setLetter(e.target.value)}
-              />
-            </div>
-            <div className="h-11">
-              <Button
-                title={activeLanguage.send}
-                background="green"
-                color="white"
-                onClick={Send}
-                loading={loading}
-              />
-            </div>
-          </div>
-        )} */}
       </div>
       <div className="flex-1 flex flex-col gap-4 w-full h-full">
         {user?.addresses?.length > 0 && (

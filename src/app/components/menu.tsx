@@ -32,6 +32,7 @@ const Menu: React.FC = () => {
           transition ? 1 : 0
         } p-4 transition-all duration-200 ease text-black font-semibold flex flex-col gap-2`}
       >
+        <div>{activeLanguage?.prices}</div>
         <div>{activeLanguage?.support}</div>
         <div>{activeLanguage?.privacyPolicy}</div>
         <div>{activeLanguage?.about}</div>

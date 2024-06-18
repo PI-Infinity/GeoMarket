@@ -12,6 +12,7 @@ import { io } from "socket.io-client";
 import { useApp } from "./app";
 import getAuthUser from "../hooks/getAuthUser";
 import { getCookie, removeCookie, setCookie } from "../utils/cookies";
+import { useSearchParams } from "next/navigation";
 
 // Create an authenticated user context state
 const Auth = createContext<any>(null);
@@ -116,14 +117,23 @@ export const AuthContextWrapper: React.FC<contextProps> = ({ children }) => {
     }
   }, []);
 
-  // Conditional rendering to show a loading state until the currentUser is loaded
-  if (loading) {
-    return <div>Loading...</div>;
+  // destination page after login or register
+  interface Destination {
+    productId: string | null;
+    page: string | null;
+    userId: string | null;
   }
+  const [destination, setDestination] = useState<Destination | null>(null);
 
   return (
     <Auth.Provider
-      value={{ currentUser, setCurrentUser, socket: socket.current }}
+      value={{
+        currentUser,
+        setCurrentUser,
+        socket: socket.current,
+        destination,
+        setDestination,
+      }}
     >
       {children}
     </Auth.Provider>

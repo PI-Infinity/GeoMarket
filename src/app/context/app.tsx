@@ -29,6 +29,7 @@ export const AppContextWrapper: React.FC<contextProps> = ({ children }) => {
    * backend API url
    */
   // const apiUrl = "http://192.168.1.6:5000";
+
   const apiUrl = process.env.API_URL;
 
   // define device type

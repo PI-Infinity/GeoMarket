@@ -2,25 +2,20 @@
 import Image from "@/app/components/image";
 import { useApp } from "@/app/context/app";
 import { useAuth } from "@/app/context/auth";
+import { Badge } from "@mui/material";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import nProgress from "nprogress";
 import React, { useEffect, useState } from "react";
-import ReactCountryFlag from "react-country-flag";
-import { FaUser } from "react-icons/fa";
-import { GrHomeOption } from "react-icons/gr";
 import {
   MdArrowDropUp,
   MdChat,
   MdLogout,
   MdNotifications,
-  MdSettings,
 } from "react-icons/md";
-import { useProductsContext } from "../context/products";
-import { Badge } from "@mui/material";
-import { useNotifications } from "../context/notifications";
 import { useChat } from "../context/chat";
+import { useNotifications } from "../context/notifications";
 import { removeCookie } from "../utils/cookies";
+import { BsChatHeartFill } from "react-icons/bs";
 
 const Navigator: React.FC = () => {
   // define path name
@@ -30,7 +25,7 @@ const Navigator: React.FC = () => {
   const router = useRouter();
 
   // current user context
-  const { currentUser, setCurrentUser } = useAuth();
+  const { currentUser, setCurrentUser, setDestination } = useAuth();
 
   // notification context
   const { totalUnreads } = useNotifications();
@@ -52,7 +47,14 @@ const Navigator: React.FC = () => {
 
       setCurrentUser(null);
       // googleLogout();
-      router.push("/");
+      router.push("/login");
+
+      setDestination({
+        productId: null,
+        userId: null,
+        page: null,
+      });
+
       setTimeout(() => {
         setOpenBackDrop(false);
       }, 700);
@@ -116,6 +118,17 @@ const Navigator: React.FC = () => {
         {!pathname.includes("/profile") && (
           <Link
             href={currentUser ? "/profile/products" : "/login"}
+            onClick={
+              currentUser
+                ? undefined
+                : () => {
+                    setDestination({
+                      productId: null,
+                      userId: null,
+                      page: null,
+                    });
+                  }
+            }
             className={`w-8 laptop:w-3/5 bg-gray-200 aspect-square flex items-center justify-center hover:brightness-90 transition-all rounded-full`}
           >
             <div className="shadow-ms rounded-full overflow-hidden h-full w-full">
@@ -149,7 +162,20 @@ const Navigator: React.FC = () => {
             </Badge>
           </Link>
         )}
-        <Link href={currentUser ? `/chat` : "/login"}>
+        <Link
+          href={currentUser ? `/chat` : "/login"}
+          onClick={
+            currentUser
+              ? undefined
+              : () => {
+                  setDestination({
+                    productId: null,
+                    userId: null,
+                    page: null,
+                  });
+                }
+          }
+        >
           <Badge
             badgeContent={unreadChats?.length}
             sx={{
@@ -159,7 +185,7 @@ const Navigator: React.FC = () => {
               },
             }}
           >
-            <MdChat
+            <BsChatHeartFill
               size={30}
               className="text-gray-300 cursor-pointer hover:brightness-95"
             />
@@ -178,7 +204,7 @@ const Navigator: React.FC = () => {
           >
             <div
               className="cursor-pointer hover:brightness-105"
-              onClick={currentUser ? Logout : () => router.push("/login")}
+              onClick={Logout}
             >
               <MdLogout color="black" size={24} />
             </div>
