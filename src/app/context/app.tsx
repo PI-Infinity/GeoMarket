@@ -135,6 +135,7 @@ export const AppContextWrapper: React.FC<contextProps> = ({ children }) => {
     }, [timeout]);
   };
 
+  // auto reload
   useAutoReload();
 
   const pathname = usePathname();
