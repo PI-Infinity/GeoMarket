@@ -7,7 +7,7 @@ import nProgress from "nprogress";
 import React, { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { MdDiamond, MdStar } from "react-icons/md";
-import fetchRecommendedUsers from "@/app/hooks/getUsers";
+import getUsers from "@/app/hooks/getUsers";
 
 const RecommendedUsers = () => {
   // app context
@@ -23,7 +23,12 @@ const RecommendedUsers = () => {
 
   const GetUsers = async () => {
     try {
-      const response = await fetchRecommendedUsers({ apiUrl });
+      const response = await getUsers({
+        apiUrl,
+        page: 1,
+        limit: 6,
+        search: "",
+      });
       setUsers(response.data.users);
     } catch (error: any) {
       console.log(error.response.data);

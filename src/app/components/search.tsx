@@ -9,9 +9,15 @@ interface propsTypes {
   search: string;
   setSearch: any;
   userId?: string;
+  disableSuggestions?: boolean;
 }
 
-const Search: React.FC<propsTypes> = ({ search, setSearch, userId }: any) => {
+const Search: React.FC<propsTypes> = ({
+  search,
+  setSearch,
+  userId,
+  disableSuggestions,
+}) => {
   const { apiUrl, activeLanguage } = useApp();
 
   const [suggestions, setSuggesions] = useState([]);
@@ -64,29 +70,31 @@ const Search: React.FC<propsTypes> = ({ search, setSearch, userId }: any) => {
           </div>
         )}
       </div>
-      <div
-        className={`bg-white w-full mt-${
-          suggestions?.length > 0 ? 2 : 0
-        } rounded-xl shadow-sm flex flex-col gap-1 p-${
-          suggestions?.length > 0 ? 4 : 0
-        } mt-${suggestions?.length > 0 ? 1 : 0}`}
-      >
-        {suggestions?.map((item: any, index: number) => {
-          return (
-            <span
-              className="text-black text-sm font-semibold pl-12 cursor-pointer hover:brightness-110"
-              key={index}
-              onClick={() => {
-                setSearch(item);
-                setSuggesions([]);
-                setHide(false);
-              }}
-            >
-              {item}
-            </span>
-          );
-        })}
-      </div>
+      {!disableSuggestions && (
+        <div
+          className={`bg-white w-full mt-${
+            suggestions?.length > 0 ? 2 : 0
+          } rounded-xl shadow-sm flex flex-col gap-1 p-${
+            suggestions?.length > 0 ? 4 : 0
+          } mt-${suggestions?.length > 0 ? 1 : 0}`}
+        >
+          {suggestions?.map((item: any, index: number) => {
+            return (
+              <span
+                className="text-black text-sm font-semibold pl-12 cursor-pointer hover:brightness-110"
+                key={index}
+                onClick={() => {
+                  setSearch(item);
+                  setSuggesions([]);
+                  setHide(false);
+                }}
+              >
+                {item}
+              </span>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

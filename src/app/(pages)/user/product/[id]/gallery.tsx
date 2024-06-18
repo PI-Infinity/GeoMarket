@@ -1,15 +1,20 @@
 import Image from "@/app/components/image";
 import React, { useEffect, useState } from "react";
-import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
+import {
+  FaArrowAltCircleLeft,
+  FaArrowAltCircleRight,
+  FaHeart,
+} from "react-icons/fa";
 import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
 import { MdStar } from "react-icons/md";
 
 interface propsTypes {
   list: any;
   rating: number;
+  saves: number;
 }
 
-const Gallery: React.FC<propsTypes> = ({ list, rating }) => {
+const Gallery: React.FC<propsTypes> = ({ list, rating, saves }) => {
   // get cover
   const cover = list?.findIndex((i: any) => i.cover);
 
@@ -66,8 +71,10 @@ const Gallery: React.FC<propsTypes> = ({ list, rating }) => {
           }}
           className="flex items-center gap-1 tex-sm absolute top-4 left-4 pt-1 pb-1 pl-2 pr-2 rounded-full z-10"
         >
-          <MdStar size={32} color="orange" />
+          <MdStar size={30} color="orange" />
           <h3>{rating && formatRating(rating)}</h3>
+          <FaHeart size={22} color="red" className="ml-2" />
+          <h3>{rating && formatRating(saves)}</h3>
         </div>
 
         <Image

@@ -22,6 +22,7 @@ export default function Sellers() {
         apiUrl,
         search,
         page,
+        limit: 8,
         onlySellers: "true",
       });
       setSellers(response.data.users);
@@ -38,7 +39,7 @@ export default function Sellers() {
 
   return (
     <div
-      className={`flex-1 flex items-start justify-between w-full ${
+      className={`flex items-start justify-between w-full laptop:w-3/4 ${
         isMobile ? "pr-0" : "pr-16"
       }`}
       style={{ transition: "ease-in 200ms" }}
@@ -49,7 +50,11 @@ export default function Sellers() {
           h-full flex flex-col gap-2 items-center w-full`}
         >
           <div className="w-full flex">
-            <Search search={search} setSearch={setSearch} />
+            <Search
+              search={search}
+              setSearch={setSearch}
+              disableSuggestions={true}
+            />
           </div>
           <div
             ref={sellersRef}

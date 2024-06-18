@@ -11,7 +11,7 @@ export default function Footer() {
           pathname.startsWith("/login") ||
           pathname.startsWith("/signup")) &&
         "hidden"
-      } bg-white shadow-sm fixed bottom-0 z-20 w-full border-[1px] h-10 hidden desktop:visible`}
+      } bg-white shadow-sm fixed bottom-0 z-20 w-full border-[1px] h-10 hidden desktop:flex`}
     >
       <div className="text-black">&copy; Copyright</div>
     </div>

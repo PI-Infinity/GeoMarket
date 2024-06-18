@@ -10,8 +10,8 @@ const Loading = () => {
 
   return (
     <div
-      style={{ display: isLoading ? "flex" : "none", background: "#fff" }}
-      className="fixed inset-0 flex items-center justify-center gap-1 bg-red-500 z-50"
+      style={{ display: isLoading ? "flex" : "none" }}
+      className="fixed inset-0 flex items-center justify-center gap-1 bg-gray-100 z-50"
     >
       <div className="h-8 w-8">
         <Image

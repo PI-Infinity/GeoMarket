@@ -65,7 +65,11 @@ const UserProductsPage: React.FC = () => {
       <div className="flex flex-col w-full h-full gap-2">
         <div className="flex flex flex-col laptop:flex-row gap-2 w-full h-full">
           <div className="flex flex-col gap-4 w-full laptop:w-3/5">
-            <Gallery list={product?.gallery} rating={product?.rating} />
+            <Gallery
+              list={product?.gallery}
+              rating={product?.rating}
+              saves={product?.saves}
+            />
           </div>
           <Info
             data={product}

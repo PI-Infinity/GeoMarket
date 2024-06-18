@@ -56,7 +56,6 @@ const Item = (item: any, index: any) => {
           "/notifications/" +
           notification.notificationId
       );
-      console.log(response.data);
       if (response.data.status === "success") {
         console.log("success");
         setNotifications((prev: any) =>

@@ -114,7 +114,7 @@ const NavigatorMobile: React.FC = () => {
           />
 
           <GrHomeOption
-            size={30}
+            size={32}
             className={`${
               pathname === "/" ? "text-red-500" : "text-gray-300"
             } cursor-pointer hover:brightness-95 absolute`}

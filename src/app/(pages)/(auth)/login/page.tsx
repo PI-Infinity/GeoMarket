@@ -281,7 +281,6 @@ const Login = () => {
             background={"red"}
             color={"green"}
             onClick={() => undefined}
-            loading={sendingLoading}
             title={activeLanguage.createAccount}
           />
         </Link>

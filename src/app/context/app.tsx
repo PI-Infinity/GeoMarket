@@ -143,7 +143,7 @@ export const AppContextWrapper: React.FC<contextProps> = ({ children }) => {
   const pathname = usePathname();
   // when menu open disable scrolling
   useEffect(() => {
-    if (openMenu || pathname.includes("/chat")) {
+    if (openMenu || pathname.includes("/chat/")) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";

@@ -32,8 +32,8 @@ export default function Header() {
       downTolerance={10}
       upTolerance={10}
       disable={isMobile ? false : true}
-      className={`static laptop:fixed top-0 left-0 p-0 h-16 
-      z-50 w-full `}
+      className={`fixed top-0 left-0 p-0 h-16 
+      z-20 w-full `}
     >
       <ProgressBar
         height="4px"
@@ -64,9 +64,9 @@ export default function Header() {
         {pathname !== "/sellers" && (
           <Link
             href="/sellers"
-            className="hidden laptop:flex items-center gap-2 ml-auto shadow-md rounded-full bg-gray-50 px-4 py-1 cursor-pointer hover:brightness-95"
+            className="hidden laptop:flex items-center gap-2 ml-auto shadow-md text-gray-500 rounded-full bg-gray-50 px-4 py-1 cursor-pointer hover:brightness-95"
           >
-            <MdPeople size={20} />
+            <MdPeople size={20} color="red" />
             Sellers
           </Link>
         )}

@@ -78,7 +78,7 @@ const Item = ({ item, period }: any) => {
     <div
       className={`relative w-full laptop:w-72 h-80 bg-gray-50 text-black shadow-md rounded-xl p-4 flex flex-col`}
     >
-      {currentUser?.subscription?.type === item.value && (
+      {currentUser?.subscription?.price === item.price && (
         <div className="absolute top-2 left-2 h-3 w-3 rounded-full shadow-md bg-red-500" />
       )}
       <div className="flex flex-col items-center gap-8 w-full rounded-md mt-4">

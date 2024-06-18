@@ -23,7 +23,7 @@ const Menu: React.FC = () => {
         WebkitBackdropFilter: "blur(10px)",
         backdropFilter: "blur(10px)",
       }}
-      className={`h-full w-full top-18 fixed ${
+      className={`h-full w-full top-16 fixed ${
         openMenu ? "flex" : "hidden"
       } z-40 laptop:p-0 items-center flex-col`}
     >

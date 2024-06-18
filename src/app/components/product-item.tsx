@@ -247,7 +247,7 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
               {pathname === "/" && (
                 <div className="flex items-center gap-2 ml-auto">
                   <MdDiamond
-                    size={24}
+                    size={20}
                     className={`${
                       product?.seller?.subscription?.type !== "Free"
                         ? "text-orange-500"

@@ -15,7 +15,7 @@ const SellersList: React.FC<PropsTypes> = ({ sellers, totalSellers }) => {
           Not Found
         </div>
       )}
-      <div className="grid grid-cols-2 p-0 laptop:grid-cols-6 gap-2 z-10 pb-4 rounded-md">
+      <div className="grid grid-cols-2 p-0 laptop:grid-cols-4 gap-2 z-10 pb-4 rounded-md">
         {sellers &&
           sellers.map((item: any) => (
             <SellerItem item={item} key={item.userId} />

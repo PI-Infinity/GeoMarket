@@ -89,8 +89,16 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
     try {
       if (action === "save") {
         setActions((prev: any) => ({ ...prev, saved: true }));
+        setData((prev: any) => ({
+          ...prev,
+          saves: prev.saves + 1,
+        }));
       } else {
         setActions((prev: any) => ({ ...prev, saved: false }));
+        setData((prev: any) => ({
+          ...prev,
+          saves: prev.saves - 1,
+        }));
       }
       await axios.patch(
         apiUrl +
@@ -113,6 +121,7 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
       setActions((prev: any) => ({ ...prev, rating: true }));
       setData((prev: any) => ({
         ...prev,
+        rating: prev.rating + 1,
         seller: { ...prev.seller, rating: prev.seller.rating + 1 },
       }));
       const response = await axios.patch(
@@ -189,7 +198,7 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
           </Breadcrumbs>
           <div className="flex items-center gap-1 ml-auto text-gray-400">
             <IoMdEye size={24} />
-            <span>{formatResults(data?.views?.length)}</span>
+            <span>{formatResults(data?.views)}</span>
           </div>
         </div>
 

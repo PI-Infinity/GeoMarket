@@ -53,7 +53,7 @@ export default function RootLayout({ children }: any) {
         />
         <meta name="apple-mobile-web-app-status-bar-color" content="#ff0000" />
       </Head>
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-gray-100`}>
         <AppContextWrapper>
           <Loading />
           <AuthContextWrapper>
@@ -68,7 +68,7 @@ export default function RootLayout({ children }: any) {
                         <SimpleBackdrop />
                         <main
                           className={
-                            "flex-1 flex p-2 laptop:mt-20 h-full relative"
+                            "flex-1 flex p-2 pt-0 laptop:pt-2 mt-20 h-full relative"
                           }
                         >
                           {children}

@@ -45,9 +45,9 @@ const SellerItem: React.FC<PropTypes> = ({ item }) => {
       className={`box-border rounded-xl bg-white laptop:p-4 flex flex-col justify-center shadow-md`}
     >
       <div className="flex gap-4 w-full items-center px-2 py-4 pb-2">
-        <h4 className="text-md font-bold" style={{ whiteSpace: "nowrap" }}>
+        <h3 className="text-md font-bold" style={{ whiteSpace: "nowrap" }}>
           {item.name}
-        </h4>
+        </h3>
         <div className="flex items-center gap-2 ml-auto">
           <MdDiamond
             size={24}

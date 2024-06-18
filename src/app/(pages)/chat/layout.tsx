@@ -36,7 +36,7 @@ const Chat: React.FC<propsTypes> = ({ children }) => {
       className={`flex-1 flex flex-col laptop:flex-row items-center justify-center w-full gap-2 laptop:gap-4 h-[calc(100vh-8.5rem)]`}
     >
       <div
-        className={`bg-gray-100 fixed z-30 ${
+        className={`fixed z-30 ${
           openChatList ? "top-16 laptop:top-0" : "top-0"
         } flex flex-col laptop:flex-row gap-4 items-center w-full  h-full h-full laptop:py-12 laptop:w-3/4 laptop:mr-14 laptop:relative`}
       >

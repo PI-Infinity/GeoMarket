@@ -58,6 +58,11 @@ const RecommendedProducts = () => {
   };
   return (
     <div className="w-full flex flex-col bg-gray-100 p-2 h-full rounded-xl items-center gap-2 laptop:max-w-2/3">
+      {products !== null && products.length === 0 && (
+        <div className="text-gray-400 flex w-full items-center justify-center text-red-500">
+          Not Found
+        </div>
+      )}
       {products?.length > 0 &&
         products?.map((item: any, index: number) => {
           let cover = item.gallery.find((i: any) => i.cover);
@@ -105,14 +110,21 @@ const RecommendedProducts = () => {
                     } hover:brightness-90 absolute right-2 top-2`}
                   />
 
-                  <div className="flex items-center gap-1 text-sm">
-                    {formatRating(item.rating)} <MdStar color="orange" />
-                  </div>
-
                   <h3 className="text-black font-semibold">{item.title.ka}</h3>
                   <p className="text-black font-normal text-sm">
                     {activeLanguage[item.category]}
                   </p>
+                  <div className="flex items-center gap-2 mt-2">
+                    <div className="flex items-center gap-2 text-sm text-green-500 font-semibold">
+                      {item?.price?.byOrder && activeLanguage.byOrder}
+                      {!item?.price?.byOrder &&
+                        parseFloat(item?.price?.value).toFixed(2)}{" "}
+                      {item?.price?.byOrder ? "" : "₾"}
+                    </div>
+                    <div className="flex items-center gap-1 text-sm">
+                      {formatRating(item.rating)} <MdStar color="orange" />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
