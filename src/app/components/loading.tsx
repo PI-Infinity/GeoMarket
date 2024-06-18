@@ -5,6 +5,7 @@ import georgiaGif from "public/Georgia-xl.gif";
 import { useLoading } from "../context/loadingcontext";
 
 const Loading = () => {
+  // loading
   const { isLoading } = useLoading();
 
   return (
