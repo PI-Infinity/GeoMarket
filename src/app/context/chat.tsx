@@ -1,28 +1,20 @@
 "use client";
-import axios from "axios";
+import { usePathname, useRouter } from "next/navigation";
 import {
   ReactNode,
   createContext,
   useContext,
   useEffect,
-  useLayoutEffect,
   useRef,
   useState,
 } from "react";
-import { io } from "socket.io-client";
-import { useApp } from "./app";
-import {
-  redirect,
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
-import { useAuth } from "./auth";
+import addMessages from "../hooks/addMessages";
 import getChats from "../hooks/getChats";
 import getMessages from "../hooks/getMessages";
-import addMessages from "../hooks/addMessages";
 import getRoom from "../hooks/getRoom";
 import getUnreadChats from "../hooks/getUnreadChats";
+import { useApp } from "./app";
+import { useAuth } from "./auth";
 
 /**
  * Chat context

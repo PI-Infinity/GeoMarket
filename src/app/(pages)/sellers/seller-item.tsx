@@ -44,10 +44,10 @@ const SellerItem: React.FC<PropTypes> = ({ item }) => {
     <div
       className={`box-border rounded-xl bg-white laptop:p-4 flex flex-col justify-center shadow-md`}
     >
-      <div className="flex mb-4 gap-4 w-full items-center p-4 laptop:p-0 pb-0">
-        <h3 className="text-xl font-bold" style={{ whiteSpace: "nowrap" }}>
+      <div className="flex gap-4 w-full items-center px-2 py-4 pb-2">
+        <h4 className="text-md font-bold" style={{ whiteSpace: "nowrap" }}>
           {item.name}
-        </h3>
+        </h4>
         <div className="flex items-center gap-2 ml-auto">
           <MdDiamond
             size={24}
@@ -76,7 +76,7 @@ const SellerItem: React.FC<PropTypes> = ({ item }) => {
         />
         <img />
       </div>
-      <div className="laptop:mt-4 flex items-center p-4 laptop:p-0">
+      <div className="laptop:mt-4 flex items-center p-4 laptop:p-0 w-full">
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2">
             <h4 className="text-black font-semibold">
@@ -84,13 +84,13 @@ const SellerItem: React.FC<PropTypes> = ({ item }) => {
             </h4>
           </div>
           <div className="flex items-center gap-3 shadow-md rounded-full py-1 px-3">
-            <div className={`flex items-center gap-1 text-md`}>
-              <MdStar color="orange" size={23} />
-              {formatRating(item.rating || 0)}
-            </div>
             <div className={`flex items-center text-md gap-1`}>
               <CgProductHunt size={23} />
               {item?.productsLength}
+            </div>
+            <div className={`flex items-center gap-1 text-md`}>
+              <MdStar color="orange" size={23} />
+              {formatRating(item.rating || 0)}
             </div>
             <div className={`flex items-center text-md gap-1`}>
               <FaUsers size={22} />

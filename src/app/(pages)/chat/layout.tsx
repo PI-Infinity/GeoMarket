@@ -37,11 +37,11 @@ const Chat: React.FC<propsTypes> = ({ children }) => {
     >
       <div
         className={`bg-gray-100 fixed z-30 ${
-          openChatList ? "top-20 laptop:top-0" : "top-0"
+          openChatList ? "top-16 laptop:top-0" : "top-0"
         } flex flex-col laptop:flex-row gap-4 items-center w-full  h-full h-full laptop:py-12 laptop:w-3/4 laptop:mr-14 laptop:relative`}
       >
         <div
-          className={`h-full w-full absolute  ${
+          className={`h-full w-full absolute pt-2  ${
             openChatList ? "top-0 left-0" : "-left-full"
           } laptop:left-0  laptop:w-80 w-full laptop:relative flex z-20 gap-2 laptop:gap-0 laptop:rounded-xl`}
           // style={{ left: pathname === "/chat" ? "0" : "-80%" }}

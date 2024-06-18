@@ -7,6 +7,8 @@ import HeadRoom from "react-headroom";
 import { MdAdd, MdPeople } from "react-icons/md";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { useChat } from "../context/chat";
+import { useEffect, useState } from "react";
+import { useLoading } from "../context/loadingcontext";
 
 export default function Header() {
   // define path name
@@ -18,6 +20,14 @@ export default function Header() {
   // chat context
   const { setCreateChatMobile, createChatMobile } = useChat();
 
+  // loading context
+  const { setIsLoading } = useLoading();
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading();
+    }, 500);
+  }, []);
+
   return (
     <HeadRoom
       downTolerance={10}
@@ -28,7 +38,7 @@ export default function Header() {
     >
       <ProgressBar
         height="4px"
-        color="#ff0000"
+        color="#DA291C"
         options={{ showSpinner: false }}
         shallowRouting
       />
@@ -39,12 +49,13 @@ export default function Header() {
           WebkitBackdropFilter: "blur(30px)",
           // background: isMobile ? "rgba(255,255,255,0.5)" : "white",
         }}
-        className="h-full w-full laptop:p-4 laptop:h-20 flex items-center justify-between shadow-md  laptop:shadow-sm laptop:bg-white text-red-600 whitespace-nowrap"
+        className="h-full w-full laptop:p-4 laptop:h-20 flex items-center justify-between shadow-md  laptop:shadow-sm laptop:bg-white whitespace-nowrap"
       >
         {
           <Link
             href="/"
             className="flex items-center w-96 p-4 gap-4 cursor-default"
+            style={{ color: "#DA291C" }}
           >
             <h1 className="cursor-pointer text-4xl">
               {pathname.startsWith("/admin") ? "Admin" : "Geo Market"}
@@ -63,6 +74,7 @@ export default function Header() {
         <div className="flex min-w-24 items-center justify-end p-4 pr-3">
           {pathname === "/chat" && !createChatMobile && (
             <div
+              style={{ color: "#a9a9a9" }}
               onClick={() => setCreateChatMobile(true)}
               className="flex laptop:hidden items-center gap-1 mr-6 rounded-full shadow-md px-3 py-1 cursor-pointer hover:brightness-95 bg-white"
             >
