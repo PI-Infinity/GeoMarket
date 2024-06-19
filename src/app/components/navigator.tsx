@@ -192,11 +192,12 @@ const Navigator: React.FC = () => {
           </Badge>
         </Link>
         <MdArrowDropUp
+          onClick={handleClick}
           color="red"
           size={32}
           className={`${
             scrollPosition > 100 ? "scale-1" : "scale-0"
-          } transition-all cursor-pointer hover:brightness-95`}
+          } transition-all cursor-pointer hover:brightness-95 mt-auto`}
         />
         {pathname.includes("/profile") && (
           <div

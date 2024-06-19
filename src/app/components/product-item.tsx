@@ -5,11 +5,12 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FaHeart, FaImages } from "react-icons/fa";
-import { MdDiamond, MdStar } from "react-icons/md";
+import { MdDiamond, MdOutlineReviews, MdStar } from "react-icons/md";
 import { useApp } from "../context/app";
 import { useProductsContext } from "../context/products";
 import { useUserContext } from "../context/user";
 import Image from "./image";
+import { BsCardList } from "react-icons/bs";
 
 interface PropTypes {
   item: any;
@@ -165,13 +166,14 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
               }}
               className={`font-bold hover:text-gray whitespace-nowrap overflow-hidden overflow-ellipsis ${
                 activeGrid === "double"
-                  ? "max-w-32 text-md"
+                  ? "max-w-40 text-md"
                   : "max-w-56 text-xl"
-              } laptop:max-w-56`}
+              } laptop:max-w-48`}
             >
               {product?.title?.ka}
             </h4>
           </Link>
+
           <div className={`flex items-center gap-1 text-md`}>
             <MdStar color="orange" size={20} />
             {formatRating(product?.rating || 0)}
@@ -225,7 +227,7 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
           activeGrid === "double" ? "p-2 pl-3" : "p-4"
         } laptop:p-0`}
       >
-        <div className="flex flex-col gap-1">
+        <div className="w-full flex flex-col gap-1">
           <Link
             href={
               !pathname.includes("/user") &&
@@ -301,88 +303,95 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
               parseFloat(product?.price?.value).toFixed(2)}{" "}
             {product?.price?.byOrder ? "" : "₾"}
           </div>
-
-          <div
-            className={`flex items-center ${
-              activeGrid === "double" ? "gap-3" : "gap-4"
-            }`}
-            style={{
-              opacity:
-                !currentUser || currentUser?.userId !== product?.seller.userId
-                  ? 1
-                  : 0.3,
-            }}
-          >
+          <div className="flex w-full items-center">
             <div
-              className={
-                !actions?.rating
-                  ? ` ${
-                      (!currentUser ||
-                        currentUser?.userId !== product?.seller.userId) &&
-                      "hover:brightness-95 transition-all cursor-pointer"
-                    }  text-gray-300`
-                  : "text-orange-200"
-              }
-              onClick={
-                currentUser && !actions.rating
-                  ? () => SetRating()
-                  : () => {
-                      if (pathname?.includes("user")) {
-                        setDestination({
-                          productId: product?.productId,
-                          userId: product?.seller?.userId,
-                          page: "user",
-                        });
-                      } else {
-                        setDestination({
-                          productId: null,
-                          userId: null,
-                          page: null,
-                        });
-                      }
-                      router.push("/login");
-                    }
-              }
-            >
-              <MdStar size={activeGrid === "double" ? 28 : 32} />
-            </div>
-
-            <div
-              className={`${
-                (!currentUser ||
-                  currentUser?.userId !== product?.seller.userId) &&
-                "hover:brightness-95 cursor-pointer transition-all"
+              className={`w-full flex items-center ${
+                activeGrid === "double" ? "gap-3" : "gap-4"
               }`}
-              onClick={
-                currentUser
-                  ? () => SaveProduct(actions.saved ? "remove" : "save")
-                  : () => {
-                      if (pathname?.includes("user")) {
-                        setDestination({
-                          productId: product?.productId,
-                          userId: product?.seller?.userId,
-                          page: "product",
-                        });
-                      } else {
-                        setDestination({
-                          productId: null,
-                          userId: null,
-                          page: null,
-                        });
-                      }
-                      router.push("/login");
-                    }
-              }
+              style={{
+                opacity:
+                  !currentUser || currentUser?.userId !== product?.seller.userId
+                    ? 1
+                    : 0.3,
+              }}
             >
-              <FaHeart
-                size={activeGrid === "double" ? 20 : 23}
+              <div
+                className={
+                  !actions?.rating
+                    ? ` ${
+                        (!currentUser ||
+                          currentUser?.userId !== product?.seller.userId) &&
+                        "hover:brightness-95 transition-all cursor-pointer"
+                      }  text-gray-300`
+                    : "text-orange-200"
+                }
+                onClick={
+                  currentUser && !actions.rating
+                    ? () => SetRating()
+                    : () => {
+                        if (pathname?.includes("user")) {
+                          setDestination({
+                            productId: product?.productId,
+                            userId: product?.seller?.userId,
+                            page: "user",
+                          });
+                        } else {
+                          setDestination({
+                            productId: null,
+                            userId: null,
+                            page: null,
+                          });
+                        }
+                        router.push("/login");
+                      }
+                }
+              >
+                <MdStar size={activeGrid === "double" ? 28 : 32} />
+              </div>
+              <div
                 className={`${
                   (!currentUser ||
                     currentUser?.userId !== product?.seller.userId) &&
-                  "cursor-pointer"
-                } ${actions?.saved ? "text-red-500" : "text-gray-300"}`}
-              />
+                  "hover:brightness-95 cursor-pointer transition-all"
+                }`}
+                onClick={
+                  currentUser
+                    ? () => SaveProduct(actions.saved ? "remove" : "save")
+                    : () => {
+                        if (pathname?.includes("user")) {
+                          setDestination({
+                            productId: product?.productId,
+                            userId: product?.seller?.userId,
+                            page: "product",
+                          });
+                        } else {
+                          setDestination({
+                            productId: null,
+                            userId: null,
+                            page: null,
+                          });
+                        }
+                        router.push("/login");
+                      }
+                }
+              >
+                <FaHeart
+                  size={activeGrid === "double" ? 20 : 23}
+                  className={`${
+                    (!currentUser ||
+                      currentUser?.userId !== product?.seller.userId) &&
+                    "cursor-pointer"
+                  } ${actions?.saved ? "text-red-500" : "text-gray-300"}`}
+                />
+              </div>
             </div>
+            <Link
+              href={`/user/product/${product?.productId}`}
+              className={`flex items-center gap-1 text-md ml-auto text-gray-400 cursor-pointer hover:brightness-90`}
+            >
+              <BsCardList size={20} />
+              {formatRating(product?.reviews || 0)}
+            </Link>
           </div>
         </div>
       </div>

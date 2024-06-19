@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { MdDiamond, MdStar } from "react-icons/md";
 import fetchRecommendedProducts from "@/app/hooks/getRecommendedProducts";
+import { MoonLoader } from "react-spinners";
 
 const RecommendedProducts = () => {
   // app context
@@ -30,9 +31,11 @@ const RecommendedProducts = () => {
    */
   const [products, setProducts] = useState<[]>([]);
   const [totalProducts, setTotalProducts] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const GetProducts = async () => {
     try {
+      setLoading(true);
       const response = await fetchRecommendedProducts({
         apiUrl,
         searchParams,
@@ -41,6 +44,7 @@ const RecommendedProducts = () => {
       if (response) {
         setProducts(response.data.products);
         setTotalProducts(response.totalProducts);
+        setLoading(false);
       }
     } catch (error: any) {
       console.log(error);
@@ -60,12 +64,17 @@ const RecommendedProducts = () => {
   };
   return (
     <div className="w-full flex flex-col h-full rounded-xl items-center gap-2">
-      {products !== null && products.length === 0 && (
+      {totalProducts !== null && products.length === 0 && (
         <div className="mt-8 text-gray-400 flex w-full items-center justify-center text-red-500">
           Not Found
         </div>
       )}
-      {products?.length > 0 &&
+      {loading ? (
+        <div className="w-full flex items-center justify-center h-80">
+          <MoonLoader size={24} color="red" />
+        </div>
+      ) : (
+        products?.length > 0 &&
         products?.map((item: any, index: number) => {
           let cover = item.gallery.find((i: any) => i.cover);
           return (
@@ -130,7 +139,8 @@ const RecommendedProducts = () => {
               </div>
             </div>
           );
-        })}
+        })
+      )}
     </div>
   );
 };

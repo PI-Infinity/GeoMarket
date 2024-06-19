@@ -8,15 +8,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Gallery from "./gallery";
 import Info from "./info";
-import RecommendedUsers from "./recommended-Users";
 import RecommendedProducts from "./recommended-products";
-
-// interface ProductTypes {
-//   _id: string;
-//   gallery: { url: string }[];
-//   rating: any;
-//   seller: any;
-// }
+import Reviews from "./reviews";
 
 const UserProductsPage: React.FC = () => {
   // product id
@@ -79,9 +72,10 @@ const UserProductsPage: React.FC = () => {
           />
         </div>
         <div>
-          <div className="m-2">
-            <h3>Reviews:</h3>
-            <div className="rounded-xl shadow-md h-24 w-full"></div>
+          <div className="m-2" id="reviews">
+            <div className="rounded-xl shadow-md w-full overflow-hidden">
+              <Reviews />
+            </div>
           </div>
         </div>
       </div>
