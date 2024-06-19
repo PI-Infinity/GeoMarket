@@ -32,7 +32,7 @@ export const ReviewItem = ({
 
   return (
     <>
-      <div className="flex w-full flex-col rounded-md overflow-hidden shadow-md relative">
+      <div className="bg-white flex w-full flex-col rounded-xl overflow-hidden shadow-sm relative">
         {confirm === item.reviewId && (
           <div className="absolute w-full h-full z-10 bg-gray-100">
             <div className="flex items-center justify-evenly h-full">

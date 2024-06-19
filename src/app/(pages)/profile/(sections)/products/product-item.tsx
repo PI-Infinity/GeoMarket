@@ -8,12 +8,13 @@ import Image from "@/app/components/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
-import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
+import { IoMdArrowDropleft, IoMdArrowDropright, IoMdEye } from "react-icons/io";
 import { MdBlock, MdDateRange, MdDelete, MdInfo, MdStar } from "react-icons/md";
 import { RiEjectFill, RiEjectLine } from "react-icons/ri";
 import axios from "axios";
 import nProgress from "nprogress";
 import { FaImages } from "react-icons/fa";
+import { BsCardList } from "react-icons/bs";
 
 interface PropTypes {
   item: any;
@@ -110,9 +111,24 @@ const ProductItem: React.FC<PropTypes> = ({
       className="box-border rounded-xl bg-gray-50 p-4 flex flex-col justify-center cursor-pointer shadow-md"
     >
       <div className="flex mb-4 gap-4 w-full items-center justify-between">
-        <div className="flex items-center gap-1 text-md">
-          <MdStar color="orange" size={20} />
-          {formatRating(product.rating)}
+        <div className="flex items-center gap-4">
+          <Link
+            href={`/user/product/${product?.productId}`}
+            className="hover:brightness-95 cursor-pointer"
+          >
+            <IoMdEye size={32} className="text-gray-500" />
+          </Link>
+          <div className="flex items-center gap-1 text-md">
+            <MdStar color="orange" size={20} />
+            {formatRating(product.rating)}
+          </div>
+          <Link
+            href={`/user/product/${product?.productId}`}
+            className={`flex items-center gap-1 text-md ml-auto text-gray-400 cursor-pointer hover:brightness-90`}
+          >
+            <BsCardList size={20} />
+            {formatRating(product?.reviews || 0)}
+          </Link>
         </div>
         <div
           onClick={() =>
@@ -144,18 +160,14 @@ const ProductItem: React.FC<PropTypes> = ({
           }}
         >
           {reorderedGallery?.map((file: any, index: number) => (
-            <div
+            <Link
+              href={`/profile/products/editProduct?id=${item?.productId}`}
               key={index}
               className="relative min-w-full aspect-square bg-gray-300 hover:brightness-95 transition-all overflow-hidden"
               style={{ scrollSnapAlign: "center" }}
             >
               <Image
                 alt={item?.seller?.name}
-                onClick={() => {
-                  router.push(
-                    `/profile/products/editProduct?id=${item?.productId}`
-                  );
-                }}
                 src={file?.url}
                 style={{
                   aspectRatio: 1,
@@ -164,7 +176,7 @@ const ProductItem: React.FC<PropTypes> = ({
                   objectFit: "cover",
                 }}
               />
-            </div>
+            </Link>
           ))}
         </div>
 

@@ -72,13 +72,15 @@ const UserProductsPage: React.FC = () => {
           />
         </div>
         <div>
-          <div className="m-2" id="reviews">
-            <div className="rounded-xl shadow-md w-full overflow-hidden">
-              <Reviews />
-            </div>
+          <div className="rounded-xl  w-full overflow-hidden">
+            <Reviews />
           </div>
         </div>
       </div>
+      <div
+        className="mt-4 mb-0 laptop:hidden"
+        style={{ height: "1px", width: "100%", background: "#d9d9d9" }}
+      />
 
       <div className="w-full flex flex-col laptop:w-96 laptop:mr-2">
         <div className="p-2">

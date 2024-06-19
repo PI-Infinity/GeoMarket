@@ -9,10 +9,12 @@ import { FaUser } from "react-icons/fa";
 import { MdDiamond, MdStar } from "react-icons/md";
 import fetchRecommendedProducts from "@/app/hooks/getRecommendedProducts";
 import { MoonLoader } from "react-spinners";
+import Link from "next/link";
+import { BsCardList } from "react-icons/bs";
 
 const RecommendedProducts = () => {
   // app context
-  const { apiUrl, activeLanguage } = useApp();
+  const { apiUrl, activeLanguage, isMobile } = useApp();
 
   // router
   const router = useRouter();
@@ -135,6 +137,13 @@ const RecommendedProducts = () => {
                     <MdStar color="orange" />
                     {formatRating(item.rating)}
                   </div>
+                  <Link
+                    href={`/user/product/${item?.productId}`}
+                    className={`flex items-center gap-1 text-sm text-gray-400 cursor-pointer hover:brightness-90`}
+                  >
+                    <BsCardList />
+                    {formatRating(item?.reviews || 0)}
+                  </Link>
                 </div>
               </div>
             </div>

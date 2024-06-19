@@ -29,7 +29,7 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
   const { currentUser, setDestination } = useAuth();
 
   // app context
-  const { apiUrl, activeLanguage } = useApp();
+  const { apiUrl, activeLanguage, isMobile } = useApp();
 
   // categories
   const { categories, activeGrid } = useProductsContext();
@@ -389,7 +389,7 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
               href={`/user/product/${product?.productId}`}
               className={`flex items-center gap-1 text-md ml-auto text-gray-400 cursor-pointer hover:brightness-90`}
             >
-              <BsCardList size={20} />
+              <BsCardList size={isMobile ? 16 : 20} />
               {formatRating(product?.reviews || 0)}
             </Link>
           </div>

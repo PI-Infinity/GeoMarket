@@ -139,7 +139,9 @@ const Item = (item: any, index: any) => {
               ? "შეინახა თქვენი პროდუქტი"
               : notification?.type === "rating"
               ? "მიანიჭა რეიტინგი თქვენს პროდუქტს"
-              : notification?.type
+              : notification?.type === "review"
+              ? "დატოვა კომენტარი თქვენს პროდუქტზე"
+              : notification?.type === "welcome"
               ? "მოგესალმებით! გისურვებთ ბედნიერ მოგზურობას ქართული ნიჭის სამყაროში <3"
               : ""}
           </p>

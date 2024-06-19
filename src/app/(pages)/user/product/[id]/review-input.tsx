@@ -56,7 +56,7 @@ const ReviewInput = ({ setList, setTotalReviews }: any) => {
     }
   };
   return (
-    <div className="h-full w-full bg-gray-50 flex items-center gap-2 rounded-xl overflow-hidden pr-2">
+    <div className="h-full w-full bg-gray-50 flex items-center gap-2 rounded-xl overflow-hidden shadow-md pr-2">
       <textarea
         value={textInput}
         onChange={(e) => setTextInput(e.target.value)}

@@ -150,12 +150,12 @@ const Reviews = () => {
   };
 
   return (
-    <div className="p-4 flex flex-col gap-2 w-full">
-      <h3 className="text-gray-400 font-semibold text-sm ml-4 mb-2">
+    <div className="pt-2 laptop:p-4 flex flex-col gap-2 w-full">
+      <h3 className="text-gray-400 font-semibold text-sm ml-2 laptop:ml-4 mb-2">
         Reviews ({totalReviews})
       </h3>
       <ReviewInput setList={setList} setTotalReviews={setTotalReviews} />
-      <div className="flex flex-col gap-2 items-center w-full">
+      <div className="flex flex-col gap-2 items-center w-full bg-white rounded-xl">
         {totalReviews !== null && list?.length === 0 && (
           <div className="my-4 ml-4 text-gray-400 flex w-full items-center text-red-500">
             Not Found
