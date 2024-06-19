@@ -44,6 +44,9 @@ export const ProductsContextWrapper = ({
    */
   const [products, setProducts] = useState<Product[]>([]);
 
+  // active grid style on mobile
+  const [activeGrid, setActiveGrid] = useState("double");
+
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState([0, 100000]);
@@ -57,6 +60,11 @@ export const ProductsContextWrapper = ({
       setLoadingProducts(true);
       const data = await fetchProducts({ apiUrl, search, category, price });
       setProducts(data.data.products);
+      if (data.totalProducts === 1) {
+        setActiveGrid("single");
+      } else {
+        setActiveGrid("double");
+      }
       setTotalProducts(data.totalProducts);
       setPage(1);
       setLoadingProducts(false);
@@ -183,7 +191,6 @@ export const ProductsContextWrapper = ({
       value={{
         products,
         setProducts,
-        // GetProducts,
         rerenderProducts,
         setRerenderProducts,
         category,
@@ -200,6 +207,8 @@ export const ProductsContextWrapper = ({
         scrollY,
         setScrollY,
         totalProducts,
+        activeGrid,
+        setActiveGrid,
       }}
     >
       {children}

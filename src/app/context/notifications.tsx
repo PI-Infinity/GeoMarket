@@ -51,7 +51,7 @@ export const NotificationsContextWrapper: React.FC<contextProps> = ({
       setLoadingNotifications(true);
       const list = await axios.get(
         apiUrl +
-          `/api/v1/users/${currentUser?.userId}/notifications?page=1&limit=12`
+          `/api/v1/users/${currentUser?.userId}/notifications?page=${page}&limit=15`
       );
       setNotifications(list.data.data.notifications);
       setPage(1);

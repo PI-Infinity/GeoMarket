@@ -6,12 +6,17 @@ import GetTimesAgo from "@/app/utils/getTimesAgo";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { IoMdEye } from "react-icons/io";
 import { MdClose, MdDone, MdRemove } from "react-icons/md";
 import { MoonLoader } from "react-spinners";
 
 const Item = (item: any, index: any) => {
   const [notification, setNotification] = useState(item.item);
+
+  useEffect(() => {
+    setNotification(item.item);
+  }, [item]);
 
   const { setTotalUnreads, setNotifications } = useNotifications();
 
@@ -24,14 +29,26 @@ const Item = (item: any, index: any) => {
   // change notification status
   const ReadNotification = async (notificationId: string) => {
     try {
-      setNotification({ ...notification, status: "read" });
+      setNotifications((prev: any) =>
+        prev.map((i: any) => {
+          if (i?.notificationId === notificationId) {
+            return { ...i, status: "read" };
+          } else {
+            return i;
+          }
+        })
+      );
       const response = await axios.patch(
         apiUrl +
           "/api/v1/users/" +
           currentUser?.userId +
           "/notifications/" +
           notificationId,
-        { ...notification, status: "read" }
+        {
+          ...notification,
+          status: "read",
+          sender: notification?.sender?.userId,
+        }
       );
       if (response.data.status === "success") {
         setTotalUnreads((prev: number) => (prev -= 1));
@@ -57,7 +74,6 @@ const Item = (item: any, index: any) => {
           notification.notificationId
       );
       if (response.data.status === "success") {
-        console.log("success");
         setNotifications((prev: any) =>
           prev.filter(
             (i: any) => i?.notificationId !== notification?.notificationId
@@ -114,16 +130,25 @@ const Item = (item: any, index: any) => {
             cursor:
               notification.sender !== "Geo Market" ? "pointer" : "default",
           }}
-          onClick={
-            notification.sender !== "Geo Market"
-              ? () =>
-                  router.push(`/user/${notification?.sender.userId}/products`)
-              : undefined
-          }
         >
           {notification?.sender?.name || notification?.sender}
         </h4>
-        <p className="text-sm">{notification?.text}</p>
+        <div className="flex items-center gap-2">
+          <p className="text-sm">
+            {notification?.type === "save"
+              ? "შეინახა თქვენი პროდუქტი"
+              : notification?.type === "rating"
+              ? "მიანიჭა რეიტინგი თქვენს პროდუქტს"
+              : notification?.type
+              ? "მოგესალმებით! გისურვებთ ბედნიერ მოგზურობას ქართული ნიჭის სამყაროში <3"
+              : ""}
+          </p>
+          {notification?.productId && (
+            <Link href={`/user/product/${notification?.productId}`}>
+              <IoMdEye size={24} className="text-gray-300" />
+            </Link>
+          )}
+        </div>
       </div>
       {confirm ? (
         <div className="ml-auto flex items-center justify-evenly p-1 px-3 gap-2 bg-gray-50 shadow-md rounded-full">

@@ -1,12 +1,18 @@
 "use client";
 import React from "react";
+import { MoonLoader } from "react-spinners";
 import { useProductsContext } from "../context/products";
 import ProductItem from "./product-item";
-import { useApp } from "../context/app";
 
 const ProductList: React.FC = () => {
   // products
-  const { products, totalProducts } = useProductsContext();
+  const {
+    products,
+    totalProducts,
+    activeGrid,
+    setActiveGrid,
+    loadingProducts,
+  } = useProductsContext();
 
   return (
     <div className={`h-full rounded-xl`}>
@@ -15,10 +21,63 @@ const ProductList: React.FC = () => {
           Not Found
         </div>
       )}
+      <div className="flex desktop:hidden w-full h-8 justify-between items-center px-2">
+        <div className="text-sm flex items-center gap-1 mb-2">
+          Total: ({totalProducts})
+        </div>
+        <div className="text-sm flex items-center gap-1 mb-2">
+          View:
+          <div className="flex items-center gap-2 ml-2">
+            <div className="flex items-center gap-0.5">
+              <div
+                className="h-4 w-2 rounded-sm"
+                onClick={() => setActiveGrid("double")}
+                style={{
+                  border:
+                    activeGrid === "double"
+                      ? "1.3px solid red"
+                      : "1.3px solid gray",
+                  background: activeGrid === "double" ? "red" : "none",
+                }}
+              />
+              <div
+                className="h-4 w-2 rounded-sm"
+                onClick={() => setActiveGrid("double")}
+                style={{
+                  border:
+                    activeGrid === "double"
+                      ? "1.3px solid red"
+                      : "1.3px solid gray",
+                  background: activeGrid === "double" ? "red" : "none",
+                }}
+              />
+            </div>
+            <div
+              className="h-4 w-4 rounded-sm"
+              onClick={() => setActiveGrid("single")}
+              style={{
+                border:
+                  activeGrid === "single"
+                    ? "1.3px solid red"
+                    : "1.3px solid gray",
+                background: activeGrid === "single" ? "red" : "none",
+              }}
+            />
+          </div>
+        </div>
+      </div>
+      {loadingProducts && (
+        <div className="w-full flex items-center justify-center h-56">
+          <MoonLoader size={40} color="red" />
+        </div>
+      )}
       <div
-        className={`grid grid-cols-1 p-0 laptop:grid-cols-4 gap-2 z-10 pb-4 rounded-md`}
+        className={`grid ${
+          activeGrid === "single" ? "grid-cols-1" : "grid-cols-2"
+        } p-0 laptop:grid-cols-4 gap-2 z-10 pb-4 rounded-md`}
       >
-        {products &&
+        {!loadingProducts &&
+          products &&
           products?.map((item: any) => (
             <ProductItem item={item} key={item.productId} />
           ))}

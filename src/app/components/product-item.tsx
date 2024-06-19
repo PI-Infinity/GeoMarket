@@ -3,10 +3,8 @@ import { useAuth } from "@/app/context/auth";
 import axios from "axios";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import nProgress from "nprogress";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaHeart, FaImages } from "react-icons/fa";
-import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
 import { MdDiamond, MdStar } from "react-icons/md";
 import { useApp } from "../context/app";
 import { useProductsContext } from "../context/products";
@@ -33,7 +31,7 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
   const { apiUrl, activeLanguage } = useApp();
 
   // categories
-  const { categories } = useProductsContext();
+  const { categories, activeGrid } = useProductsContext();
 
   // user context
   const { setProduct: setProductState, setUser } = useUserContext();
@@ -127,7 +125,7 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
     try {
       setActions((prev: any) => ({ ...prev, rating: true }));
       setProduct((prev: any) => ({ ...prev, rating: prev.rating + 1 }));
-      const response = await axios.patch(
+      await axios.patch(
         apiUrl + "/api/v1/products/" + product?.productId + "/rating",
         {
           targetUser: product?.seller.userId,
@@ -152,8 +150,12 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
     <div
       className={`box-border rounded-xl bg-white laptop:p-4 flex flex-col shadow-md`}
     >
-      <div className="flex mb-4 gap-4 w-full items-center p-4 laptop:p-0 pb-0">
-        <div className="flex items-center gap-2 w-full justify-between">
+      <div
+        className={`flex ${
+          activeGrid === "double" ? "mb-2 p-2 px-3" : "mb-4 p-4"
+        }  gap-4 w-full items-center laptop:p-0 pb-0`}
+      >
+        <div className="flex items-center gap-1 w-full justify-between">
           <Link
             href={`/user/product/${product?.productId}?category=${product?.category}`}
           >
@@ -161,8 +163,11 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
               onClick={() => {
                 setProductState(product);
               }}
-              style={{ fontSize: "18px" }}
-              className="font-bold hover:text-gray whitespace-nowrap overflow-hidden overflow-ellipsis max-w-56"
+              className={`font-bold hover:text-gray whitespace-nowrap overflow-hidden overflow-ellipsis ${
+                activeGrid === "double"
+                  ? "max-w-32 text-md"
+                  : "max-w-56 text-xl"
+              } laptop:max-w-56`}
             >
               {product?.title?.ka}
             </h4>
@@ -215,7 +220,11 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
         </div>
       </div>
 
-      <div className="laptop:mt-4 flex items-center p-4 laptop:p-0">
+      <div
+        className={`laptop:mt-4 flex items-center ${
+          activeGrid === "double" ? "p-2 pl-3" : "p-4"
+        } laptop:p-0`}
+      >
         <div className="flex flex-col gap-1">
           <Link
             href={
@@ -235,7 +244,9 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
           >
             <div className="flex items-center gap-2 max-w-full">
               <div
-                className={`relative shadow-md w-10 h-10 laptop:w-8 laptop:h-8 aspect-square overflow-hidden bg-gray-300 rounded-full overflow-hidden flex items-center justify-center`}
+                className={`relative shadow-md ${
+                  activeGrid === "double" ? "w-6 h-6" : "w-8 h-8"
+                } laptop:w-8 laptop:h-8 aspect-square overflow-hidden bg-gray-300 rounded-full overflow-hidden flex items-center justify-center`}
               >
                 <Image
                   alt={product?.seller?.name}
@@ -249,7 +260,13 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
                   }}
                 />
               </div>
-              <div className="whitespace-nowrap overflow-hidden overflow-ellipsis">
+              <div
+                className={`whitespace-nowrap overflow-hidden overflow-ellipsis ${
+                  activeGrid === "double"
+                    ? "max-w-28 text-sm"
+                    : "max-w-56 text-md"
+                } laptop:max-w-56`}
+              >
                 {product?.seller?.name}
               </div>
               {pathname === "/" && (
@@ -267,10 +284,18 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
             </div>
           </Link>
 
-          <p className="text-gray-600">
+          <p
+            className={`text-gray-600 ${
+              activeGrid === "double" ? "text-sm" : "text-md"
+            } laptop:text-md`}
+          >
             {categories?.find((i: any) => i.value === product?.category).label}
           </p>
-          <div className="flex items-center gap-2 text-green-500 font-semibold">
+          <div
+            className={`flex items-center gap-2 ${
+              activeGrid === "double" ? "text-sm" : "text-md"
+            } text-green-500 font-semibold laptop:text-md`}
+          >
             {product?.price?.byOrder && activeLanguage.byOrder}
             {!product?.price?.byOrder &&
               parseFloat(product?.price?.value).toFixed(2)}{" "}
@@ -278,7 +303,9 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
           </div>
 
           <div
-            className="flex items-center gap-4"
+            className={`flex items-center ${
+              activeGrid === "double" ? "gap-3" : "gap-4"
+            }`}
             style={{
               opacity:
                 !currentUser || currentUser?.userId !== product?.seller.userId
@@ -317,7 +344,7 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
                     }
               }
             >
-              <MdStar size={32} />
+              <MdStar size={activeGrid === "double" ? 28 : 32} />
             </div>
 
             <div
@@ -348,7 +375,7 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
               }
             >
               <FaHeart
-                size={23}
+                size={activeGrid === "double" ? 20 : 23}
                 className={`${
                   (!currentUser ||
                     currentUser?.userId !== product?.seller.userId) &&

@@ -123,7 +123,7 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
         rating: prev.rating + 1,
         seller: { ...prev.seller, rating: prev.seller.rating + 1 },
       }));
-      const response = await axios.patch(
+      await axios.patch(
         apiUrl + "/api/v1/products/" + data.productId + "/rating",
         {
           targetUser: data?.seller.userId,
