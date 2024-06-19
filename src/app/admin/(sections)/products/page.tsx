@@ -118,7 +118,7 @@ const Page = () => {
     try {
       setActionLoading({ active: true, type: "confirm" });
       const response = await axios.patch(
-        apiUrl + "/api/v1/products/" + productId,
+        apiUrl + "/api/v1/products/" + productId + "/confirm",
         {
           status: "draft",
         }
