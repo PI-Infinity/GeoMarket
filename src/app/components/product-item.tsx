@@ -156,7 +156,7 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
           activeGrid === "double" ? "mb-2 p-2 px-3" : "mb-4 p-4"
         }  gap-4 w-full items-center laptop:p-0 pb-0`}
       >
-        <div className="flex items-center gap-1 w-full justify-between">
+        <div className="flex items-center gap-1 w-full justify-between relative">
           <Link
             href={`/user/product/${product?.productId}?category=${product?.category}`}
           >
@@ -166,7 +166,7 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
               }}
               className={`font-bold hover:text-gray whitespace-nowrap overflow-hidden overflow-ellipsis ${
                 activeGrid === "double"
-                  ? "max-w-40 text-md"
+                  ? "max-w-32 text-md"
                   : "max-w-56 text-xl"
               } laptop:max-w-48`}
             >

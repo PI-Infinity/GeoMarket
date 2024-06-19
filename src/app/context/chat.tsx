@@ -8,7 +8,6 @@ import {
   useRef,
   useState,
 } from "react";
-import addMessages from "../hooks/addMessages";
 import getChats from "../hooks/getChats";
 import getMessages from "../hooks/getMessages";
 import getRoom from "../hooks/getRoom";
@@ -48,11 +47,12 @@ export const ChatContextWrapper: React.FC<contextProps> = ({ children }) => {
   const GetChats = async () => {
     try {
       setLoadingChats(true);
-      const response = await getChats({ apiUrl, currentUser });
+      const response = await getChats({ apiUrl, currentUser, newPage: 1 });
       if (response.status === "success") {
         setChats(response.data.chats);
         setTotalChats(response.total);
         setLoadingChats(false);
+        setPage(1);
       }
     } catch (error: any) {
       setLoadingChats(false);
@@ -106,7 +106,12 @@ export const ChatContextWrapper: React.FC<contextProps> = ({ children }) => {
   const GetMessages = async () => {
     try {
       setLoadingMessages(true);
-      const response = await getMessages({ apiUrl, activeRoom, currentUser });
+      const response = await getMessages({
+        apiUrl,
+        activeRoom,
+        page: 1,
+        currentUser,
+      });
 
       if (response.status === "success") {
         setMessages(response.data.messages);
@@ -124,10 +129,10 @@ export const ChatContextWrapper: React.FC<contextProps> = ({ children }) => {
   const AddMessages = async () => {
     const newPage = messagesPage + 1;
     try {
-      const response = await addMessages({
+      const response = await getMessages({
         apiUrl,
         activeRoom,
-        newPage,
+        page: newPage,
         currentUser,
       });
 

@@ -11,7 +11,6 @@ import {
 import { useApp } from "./app";
 import { useAuth } from "./auth";
 import fetchProducts from "../hooks/getProducts";
-import addProducts from "../hooks/addProducts";
 
 /**
  * Products state context
@@ -58,7 +57,13 @@ export const ProductsContextWrapper = ({
   useEffect(() => {
     const GetProducts = async () => {
       setLoadingProducts(true);
-      const data = await fetchProducts({ apiUrl, search, category, price });
+      const data = await fetchProducts({
+        apiUrl,
+        search,
+        category,
+        price,
+        page: 1,
+      });
       setProducts(data.data.products);
       if (data.totalProducts === 1) {
         setActiveGrid("single");
@@ -75,7 +80,13 @@ export const ProductsContextWrapper = ({
   const AddProducts = async () => {
     const newPage = page + 1;
     try {
-      const data = await addProducts({ apiUrl, search, category, price, page });
+      const data = await fetchProducts({
+        apiUrl,
+        search,
+        category,
+        price,
+        page: newPage,
+      });
       setTotalProducts(data.totalProducts);
       setProducts((prevProducts) => {
         // Create a new set with existing product IDs for quick lookup

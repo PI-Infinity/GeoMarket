@@ -6,6 +6,7 @@ import { ProfileContextWrapper } from "@/app/context/profile";
 import { useAuth } from "@/app/context/auth";
 import { useRouter } from "next/navigation";
 import { withAuth } from "../(auth)/withAuth";
+import { getCookie } from "@/app/utils/cookies";
 
 interface propsTypes {
   children: any;

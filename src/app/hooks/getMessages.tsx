@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const getMessages = async ({ apiUrl, activeRoom, currentUser }: any) => {
+const getMessages = async ({ apiUrl, activeRoom, page, currentUser }: any) => {
   try {
     const response = await axios.get(
       apiUrl +
@@ -8,7 +8,9 @@ const getMessages = async ({ apiUrl, activeRoom, currentUser }: any) => {
         activeRoom.members[0].id +
         "|" +
         activeRoom.members[1].id +
-        "?page=1&currentUser=" +
+        "?page=" +
+        page +
+        "&currentUser=" +
         currentUser?.userId
     );
     return response.data;

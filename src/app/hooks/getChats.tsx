@@ -1,12 +1,14 @@
 import axios from "axios";
 
-const getChats = async ({ apiUrl, currentUser }: any) => {
+const getChats = async ({ apiUrl, currentUser, newPage }: any) => {
   try {
     const response = await axios.get(
       apiUrl +
         "/api/v1/chats?userId=" +
         currentUser?.userId +
-        "&page=1&limit=12"
+        "&page=" +
+        newPage +
+        "&limit=12"
     );
     return response.data;
   } catch (error: any) {

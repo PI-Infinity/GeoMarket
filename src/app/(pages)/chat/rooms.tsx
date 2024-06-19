@@ -2,9 +2,9 @@
 import { useApp } from "@/app/context/app";
 import { useAuth } from "@/app/context/auth";
 import { useChat } from "@/app/context/chat";
-import addChats from "@/app/hooks/addChats";
 import { MoonLoader } from "react-spinners";
 import RoomItem from "./room-item";
+import getChats from "@/app/hooks/getChats";
 
 const Rooms = () => {
   // app context
@@ -27,7 +27,7 @@ const Rooms = () => {
   const AddChats = async () => {
     const newPage = page + 1;
     try {
-      const response = await addChats({ apiUrl, currentUser, newPage });
+      const response = await getChats({ apiUrl, currentUser, newPage });
       setChats((prevChats: any) => {
         // Create a new set with existing message IDs for quick lookup
         const existingIds = new Set(prevChats.map((ch: any) => ch.roomId));

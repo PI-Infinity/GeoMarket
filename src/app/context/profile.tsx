@@ -13,7 +13,6 @@ import { useApp } from "./app";
 import { useAuth } from "./auth";
 import { redirect, useRouter } from "next/navigation";
 import fetchProducts from "../hooks/getUserProducts";
-import addProducts from "../hooks/addUserProducts";
 
 /**
  * Profile state context
@@ -53,7 +52,12 @@ export const ProfileContextWrapper: React.FC<contextProps> = ({ children }) => {
   const GetProducts = async () => {
     try {
       setLoadingProducts(true);
-      const list = await fetchProducts({ apiUrl, search, currentUser });
+      const list = await fetchProducts({
+        apiUrl,
+        search,
+        currentUser,
+        page: 1,
+      });
       setProducts(list.data.products);
       setTotalProducts(list.totalProducts);
       setPage(1);
@@ -69,10 +73,10 @@ export const ProfileContextWrapper: React.FC<contextProps> = ({ children }) => {
   const AddProducts = async () => {
     const newPage = page + 1;
     try {
-      const response = await addProducts({
+      const response = await fetchProducts({
         apiUrl,
         search,
-        newPage,
+        page: newPage,
         currentUser,
       });
       setTotalProducts(response.totalProducts);

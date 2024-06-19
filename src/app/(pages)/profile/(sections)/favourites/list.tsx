@@ -7,7 +7,6 @@ import { useProfileContext } from "@/app/context/profile";
 import { useAuth } from "@/app/context/auth";
 import ProductItem from "@/app/components/product-item";
 import getFavouriteProducts from "@/app/hooks/getFavouriteProducts";
-import addFavouriteProducts from "@/app/hooks/addFavouriteProducts";
 
 interface propsTypes {
   setConfirmPopup: any;
@@ -42,7 +41,7 @@ const List: React.FC<propsTypes> = ({ setConfirmPopup }) => {
   const GetProducts = async () => {
     try {
       setLoadingProducts(true);
-      const list = await getFavouriteProducts({ apiUrl, currentUser });
+      const list = await getFavouriteProducts({ apiUrl, currentUser, page: 1 });
       setProducts(list.data.products);
       setPage(1);
       setTotalProducts(list.totalProducts);
@@ -59,10 +58,10 @@ const List: React.FC<propsTypes> = ({ setConfirmPopup }) => {
   const AddProducts = async () => {
     const newPage = page + 1;
     try {
-      const response = await addFavouriteProducts({
+      const response = await getFavouriteProducts({
         apiUrl,
         currentUser,
-        newPage,
+        page: newPage,
       });
       setTotalProducts(response.data.totalProducts);
 
