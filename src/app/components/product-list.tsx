@@ -16,11 +16,6 @@ const ProductList: React.FC = () => {
 
   return (
     <div className={`h-full rounded-xl`}>
-      {totalProducts !== null && totalProducts < 1 && (
-        <div className="text-gray-400 flex w-full items-center justify-center text-red-500 pt-4">
-          Not Found
-        </div>
-      )}
       <div className="flex desktop:hidden w-full h-8 justify-between items-center px-2">
         <div className="text-sm flex items-center gap-1 mb-2">
           Total: ({totalProducts})
@@ -66,6 +61,11 @@ const ProductList: React.FC = () => {
           </div>
         </div>
       </div>
+      {totalProducts !== null && totalProducts < 1 && (
+        <div className="text-gray-400 flex w-full items-center justify-center text-red-500 pt-4">
+          Not Found
+        </div>
+      )}
       {loadingProducts && (
         <div className="w-full flex items-center justify-center h-56">
           <MoonLoader size={40} color="red" />

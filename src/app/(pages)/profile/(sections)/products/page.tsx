@@ -6,7 +6,7 @@ import { useApp } from "@/app/context/app";
 import { useAuth } from "@/app/context/auth";
 import { useProfileContext } from "@/app/context/profile";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdAdd } from "react-icons/md";
 import List from "./list";
 
@@ -30,8 +30,14 @@ const Products: React.FC<propsTypes> = () => {
   // auth context
   const { currentUser } = useAuth();
 
+  useEffect(() => {
+    if (!confirmPopup.active) {
+      document.body.style.overflowY = "auto";
+    }
+  }, [confirmPopup.active]);
+
   return (
-    <>
+    <div className="overflow-hidden rounded-xl flex-1">
       <div className="flex flex-col gap-2 items-center w-full h-full laptop:mr-24">
         <div className="w-full flex gap-2">
           <div className="w-full">
@@ -59,7 +65,7 @@ const Products: React.FC<propsTypes> = () => {
       </div>
       <SimpleSnackbar alert={alert} setAlert={setAlert} />
       <ConfirmPopup confirmPopup={confirmPopup} />
-    </>
+    </div>
   );
 };
 

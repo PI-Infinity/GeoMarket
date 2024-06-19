@@ -19,14 +19,8 @@ const Favourites = () => {
     text: "",
   });
 
-  // profile context
-  const { alert, setAlert } = useProfileContext();
-
   // products context
-  const { search, setSearch, productsRef } = useProfileContext();
-
-  // auth context
-  const { currentUser } = useAuth();
+  const { productsRef } = useProfileContext();
 
   return (
     <>
@@ -39,9 +33,6 @@ const Favourites = () => {
           <List setConfirmPopup={setConfirmPopup} />
         </div>
       </div>
-
-      <SimpleSnackbar alert={alert} setAlert={setAlert} />
-      <ConfirmPopup confirmPopup={confirmPopup} />
     </>
   );
 };

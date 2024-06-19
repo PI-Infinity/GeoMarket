@@ -45,12 +45,12 @@ const SellerItem: React.FC<PropTypes> = ({ item }) => {
       className={`box-border rounded-xl bg-white pt-2 laptop:p-4 flex flex-col justify-center shadow-md`}
     >
       <div className="flex gap-4 w-full items-center px-2 pb-2">
-        <h3
-          className="font-bold max-w-48 overflow-hidden whitespace-nowrap overflow-ellipsis"
-          style={{ whiteSpace: "nowrap", fontSize: "18px" }}
+        <h4
+          className="font-bold max-w-48 laptop:max-w-48 overflow-hidden whitespace-nowrap overflow-ellipsis"
+          style={{ whiteSpace: "nowrap", fontSize: "16px" }}
         >
           {item.name}
-        </h3>
+        </h4>
         <div className="flex items-center gap-2 ml-auto">
           <MdDiamond
             size={24}
@@ -79,14 +79,14 @@ const SellerItem: React.FC<PropTypes> = ({ item }) => {
         />
         <img />
       </div>
-      <div className="laptop:mt-4 flex items-center p-4 laptop:p-0 w-full">
-        <div className="flex flex-col gap-3">
-          <div className="flex items-center gap-2">
+      <div className="laptop:mt-2 flex items-center p-4 pt-2 laptop:p-0 w-full">
+        <div className="flex flex-col gap-2 w-full">
+          <div className="flex items-center gap-2 w-full">
             <h4 className="text-black font-semibold">
               {categories?.find((i: any) => i.value === item?.category)?.label}
             </h4>
           </div>
-          <div className="flex items-center gap-3 shadow-md rounded-full py-1 px-3">
+          <div className="flex items-center gap-3 shadow-md rounded-full py-1 px-3 w-full">
             <div className={`flex items-center text-md gap-1`}>
               <CgProductHunt size={23} />
               {item?.productsLength}

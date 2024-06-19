@@ -204,7 +204,7 @@ const Register = () => {
     <div className="flex flex-1 flex-grow flex-col w-full min-h-full items-center justify-center">
       <div className="flex flex-col h-full w-full laptop:w-1/3 pl-4 pr-4 laptop:pl-0 laptop:pr-4 items-center justify-center gap-4">
         <Input
-          label={activeLanguage.firstName}
+          label={activeLanguage.firstName + "*"}
           value={name}
           onChange={(e) => setName(e.target.value)}
           type="text"
@@ -224,7 +224,7 @@ const Register = () => {
 
         <Input
           id="email"
-          label={activeLanguage.email}
+          label={activeLanguage.email + "*"}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           type="text"
@@ -243,7 +243,7 @@ const Register = () => {
         />
         <Input
           id="pass"
-          label={activeLanguage.password}
+          label={activeLanguage.password + "*"}
           value={password}
           type={showPassword ? "text" : "password"}
           onChange={(e) => setPassword(e.target.value)}
@@ -266,7 +266,7 @@ const Register = () => {
         <Input
           ref={ref}
           id="confirmPass"
-          label={activeLanguage.confirmPassword}
+          label={activeLanguage.confirmPassword + "*"}
           value={confirmPassword}
           type={showPassword ? "text" : "password"}
           onChange={(e) => setConfirmPassword(e.target.value)}

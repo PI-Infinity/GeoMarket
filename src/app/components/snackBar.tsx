@@ -14,7 +14,7 @@ const SimpleSnackbar = ({ alert, setAlert }: any) => {
       {alert.active && (
         <div
           onClick={() => setAlert({ active: false, type: "", text: "" })}
-          className="z-30 absolute"
+          className="z-50 absolute"
         >
           <Stack
             sx={{

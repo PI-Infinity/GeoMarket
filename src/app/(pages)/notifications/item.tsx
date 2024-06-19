@@ -153,7 +153,7 @@ const Item = (item: any, index: any) => {
         </div>
       </div>
       {confirm ? (
-        <div className="ml-auto flex items-center justify-evenly p-1 px-3 gap-2 bg-gray-50 shadow-md rounded-full">
+        <div className="absolute ml-auto right-2 bottom-2 flex items-center justify-evenly h-12 p-1 px-3 gap-2 bg-gray-50 shadow-md rounded-full">
           <div
             onClick={() => setConfirm("")}
             className="cursor-pointer hover:brightness-95"

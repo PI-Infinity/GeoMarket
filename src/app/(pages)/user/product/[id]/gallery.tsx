@@ -71,10 +71,10 @@ const Gallery: React.FC<propsTypes> = ({ list, rating, saves }) => {
           }}
           className="flex items-center gap-1 tex-sm absolute top-4 left-4 pt-1 pb-1 pl-2 pr-2 rounded-full z-10"
         >
-          <MdStar size={30} color="orange" />
-          <h3>{rating && formatRating(rating)}</h3>
-          <FaHeart size={22} color="red" className="ml-2" />
-          <h3>{rating && formatRating(saves)}</h3>
+          <MdStar size={24} color="orange" />
+          <h4 className="">{rating && formatRating(rating)}</h4>
+          <FaHeart size={18} color="red" className="ml-2" />
+          <h4 className="">{saves && formatRating(saves)}</h4>
         </div>
 
         <Image

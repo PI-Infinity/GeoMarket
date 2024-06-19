@@ -122,7 +122,7 @@ const List: React.FC<propsTypes> = ({ setConfirmPopup }) => {
   };
 
   return (
-    <div className="flex-1 w-full h-full">
+    <div className="flex-1 w-full h-full pb-6">
       {loadingProducts && (
         <div
           className="absolute w-full h-full overflow-hidden z-20"
