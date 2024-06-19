@@ -81,7 +81,7 @@ const Search: React.FC<propsTypes> = ({
           {suggestions?.map((item: any, index: number) => {
             return (
               <span
-                className="text-black text-sm font-semibold pl-12 cursor-pointer hover:brightness-110"
+                className="text-black text-sm font-semibold ml-10 cursor-pointer hover:brightness-110 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-96"
                 key={index}
                 onClick={() => {
                   setSearch(item);

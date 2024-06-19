@@ -26,7 +26,8 @@ const Search = () => {
     const GetSuggesations = async () => {
       try {
         const response = await axios.get(
-          apiUrl + `/api/v1/users?search=${search}`
+          apiUrl +
+            `/api/v1/users?search=${search}&page=1&limit=12&onlySellers=false`
         );
         setSuggesions(response.data.data.users);
       } catch (error: any) {
@@ -107,7 +108,7 @@ const Search = () => {
           ?.map((item: any, index: number) => {
             return (
               <span
-                className="text-black text-sm font-semibold pl-12 cursor-pointer hover:brightness-110 flex items-center gap-2"
+                className="text-black text-sm font-semibold cursor-pointer hover:brightness-110 flex items-center gap-2"
                 key={index}
                 onClick={() => {
                   SetChat(item);
@@ -133,7 +134,9 @@ const Search = () => {
                     }}
                   />
                 </Link>
-                {item.name}
+                <span className="text-sm whitespace-nowrap font-semibold max-w-64 laptop:max-w-96  overflow-hidden overflow-ellipsis">
+                  {item.name}
+                </span>
               </span>
             );
           })}

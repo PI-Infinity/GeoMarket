@@ -9,12 +9,13 @@ import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaTimes } from "react-icons/fa";
 import { IoMdEye } from "react-icons/io";
-import { MdDiamond, MdShare, MdStar } from "react-icons/md";
+import { MdDiamond, MdShare, MdStar, MdTimer } from "react-icons/md";
 import { v4 } from "uuid";
 import ShareComponent from "../../../../components/shareComponent";
 import { format } from "date-fns";
+import { CiCalendarDate } from "react-icons/ci";
 
 interface propsTypes {
   data: any;
@@ -38,6 +39,7 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
 
   // Function to format the rating
   const formatResults = (rating: any) => {
+    if (!rating) return 0;
     if (rating < 1000) return rating;
     if (rating < 10000) return `${(rating / 1000).toFixed(0)}k`;
     if (rating < 1000000) return `${Math.floor(rating / 1000)}k`;
@@ -60,7 +62,6 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
 
   // check current user actions in product
   useEffect(() => {
-    console.log(data.productId);
     const CheckProduct = async () => {
       try {
         const response = await axios.get(
@@ -171,36 +172,36 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
   return (
     <div className="relative p-0 laptop:p-2 flex-1 flex gap-4 w-full laptop:w-1/3 max-h-full rounded-xl bg-gray-100 shadow-sm text-black overflow-y-auto">
       <div className="text-black rounded-xl w-full p-4 flex flex-col bg-white">
-        <div className="text-sm text-gray-400 mb-2">
-          Added:{" "}
+        <div className="text-sm text-gray-400 mb-2 flex items-center ml-2 gap-2">
+          <CiCalendarDate size={20} />
           {data?.createdAt
             ? format(new Date(data.createdAt), "yyyy-MM-dd HH:mm")
             : ""}
+          <div className="flex items-center gap-1 ml-auto text-gray-400">
+            <IoMdEye size={24} />
+            <span>{formatResults(data?.views)}</span>
+          </div>
         </div>
-        <div className="flex items-center w-full">
+        <div className="flex items-center w-full text-sm ml-2">
           <Breadcrumbs aria-label="breadcrumb">
-            <Link color="inherit" href="/">
+            <Link color="inherit" href="/" className="text-sm">
               {activeLanguage.products}
             </Link>
             <Link
               color="inherit"
               href="/"
               onClick={() => setCategory(data?.category)}
+              style={{ opacity: 0.6 }}
+              className="text-sm"
             >
               {activeLanguage[data?.category]}
             </Link>
-
-            <p color="text.primary">
-              {language === "ka" ? data?.title?.ka : data?.title?.en}
-            </p>
           </Breadcrumbs>
-          <div className="flex items-center gap-1 ml-auto text-gray-400">
-            <IoMdEye size={24} />
-            <span>{formatResults(data?.views)}</span>
-          </div>
         </div>
-
-        <div className="flex items-center gap-4 m-4">
+        <h2 className="ml-2 mt-4">
+          {language === "ka" ? data?.title?.ka : data?.title?.en}
+        </h2>
+        <div className="flex items-center gap-2 m-4">
           <Link
             href={`/user/${data?.seller?.userId}/products`}
             className={`shadow-sm w-10 h-10 bg-gray-300 rounded-full overflow-hidden flex items-center justify-center`}
@@ -223,7 +224,7 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
           </Link>
 
           <MdDiamond
-            size={24}
+            size={20}
             className={`${
               data?.seller?.subscription?.type !== "Free"
                 ? "text-orange-500"
@@ -233,19 +234,17 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
 
           <Link
             href={`/user/${data?.seller?.userId}/products`}
-            className="flex gap-4 items-center"
+            className="flex gap-2 items-center"
           >
             <h4 className="font-semibold text-md">{data?.seller?.name}</h4>{" "}
             <div className="flex items-center gap-1 tex-sm">
+              <MdStar size={18} color="orange" />
               {formatResults(data?.seller?.rating)}
-              <MdStar size={16} color="orange" />
             </div>
           </Link>
         </div>
-        <h1 className="ml-4">
-          {language === "ka" ? data?.title?.ka : data?.title?.en}
-        </h1>
-        <h3 className="flex items-center gap-2 text-green-500 font-semibold mt-4 ml-4">
+
+        <h3 className="flex items-center gap-2 text-green-500 font-semibold  ml-2">
           {data?.price?.byOrder && activeLanguage.byOrder + ":"}
           {data?.price?.byOrder ? (
             <span className="text-black">{data?.price?.value}</span>
@@ -261,7 +260,7 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
             overflow: "auto",
             maxHeight: "16rem",
           }}
-          className="text-black p-4 pt-2 mt-auto rounded-xl bg-white h-full min-h-40"
+          className="text-black p-4 pl-2 pt-2 mt-auto rounded-xl bg-white h-full min-h-40"
         >
           {language === "ka" ? data?.description?.ka : data?.description?.en}
         </p>

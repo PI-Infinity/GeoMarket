@@ -93,6 +93,9 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
   }, [currentUser, product?.productId]);
 
   const SaveProduct = async (action: string) => {
+    if (currentUser?.userId === product?.seller.userId) {
+      return;
+    }
     try {
       if (action === "save") {
         setActions((prev: any) => ({ ...prev, saved: true }));
@@ -118,6 +121,9 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
   };
 
   const SetRating = async () => {
+    if (currentUser?.userId === product?.seller.userId) {
+      return;
+    }
     try {
       setActions((prev: any) => ({ ...prev, rating: true }));
       setProduct((prev: any) => ({ ...prev, rating: prev.rating + 1 }));
@@ -144,22 +150,22 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
 
   return (
     <div
-      className={`box-border rounded-xl bg-white laptop:p-4 flex flex-col justify-center shadow-md`}
+      className={`box-border rounded-xl bg-white laptop:p-4 flex flex-col shadow-md`}
     >
       <div className="flex mb-4 gap-4 w-full items-center p-4 laptop:p-0 pb-0">
         <div className="flex items-center gap-2 w-full justify-between">
           <Link
             href={`/user/product/${product?.productId}?category=${product?.category}`}
           >
-            <h3
+            <h4
               onClick={() => {
                 setProductState(product);
               }}
-              className="text-xl font-bold hover:text-gray"
-              style={{ whiteSpace: "nowrap" }}
+              style={{ fontSize: "18px" }}
+              className="font-bold hover:text-gray whitespace-nowrap overflow-hidden overflow-ellipsis max-w-56"
             >
               {product?.title?.ka}
-            </h3>
+            </h4>
           </Link>
           <div className={`flex items-center gap-1 text-md`}>
             <MdStar color="orange" size={20} />
@@ -167,7 +173,7 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
           </div>
         </div>
       </div>
-      <div className="flex-1 relative">
+      <div className="relative">
         <div
           className="w-full flex overflow-x-scroll aspect-square relative"
           style={{
@@ -227,7 +233,7 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
                 : undefined
             }
           >
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 max-w-full">
               <div
                 className={`relative shadow-md w-10 h-10 laptop:w-8 laptop:h-8 aspect-square overflow-hidden bg-gray-300 rounded-full overflow-hidden flex items-center justify-center`}
               >
@@ -243,7 +249,9 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
                   }}
                 />
               </div>
-              <div>{product?.seller?.name}</div>
+              <div className="whitespace-nowrap overflow-hidden overflow-ellipsis">
+                {product?.seller?.name}
+              </div>
               {pathname === "/" && (
                 <div className="flex items-center gap-2 ml-auto">
                   <MdDiamond
@@ -268,15 +276,24 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
               parseFloat(product?.price?.value).toFixed(2)}{" "}
             {product?.price?.byOrder ? "" : "₾"}
           </div>
-        </div>
-        {(!currentUser ||
-          (currentUser?.userId !== product?.seller.userId &&
-            actions.fetched)) && (
-          <div className="flex items-center gap-4 ml-auto">
+
+          <div
+            className="flex items-center gap-4"
+            style={{
+              opacity:
+                !currentUser || currentUser?.userId !== product?.seller.userId
+                  ? 1
+                  : 0.3,
+            }}
+          >
             <div
               className={
                 !actions?.rating
-                  ? "hover:brightness-95 transition-all cursor-pointer text-gray-300"
+                  ? ` ${
+                      (!currentUser ||
+                        currentUser?.userId !== product?.seller.userId) &&
+                      "hover:brightness-95 transition-all cursor-pointer"
+                    }  text-gray-300`
                   : "text-orange-200"
               }
               onClick={
@@ -304,7 +321,11 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
             </div>
 
             <div
-              className=" hover:brightness-95 transition-all cursor-pointer"
+              className={`${
+                (!currentUser ||
+                  currentUser?.userId !== product?.seller.userId) &&
+                "hover:brightness-95 cursor-pointer transition-all"
+              }`}
               onClick={
                 currentUser
                   ? () => SaveProduct(actions.saved ? "remove" : "save")
@@ -328,13 +349,15 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
             >
               <FaHeart
                 size={23}
-                className={`cursor-pointer ${
-                  actions?.saved ? "text-red-500" : "text-gray-300"
-                }`}
+                className={`${
+                  (!currentUser ||
+                    currentUser?.userId !== product?.seller.userId) &&
+                  "cursor-pointer"
+                } ${actions?.saved ? "text-red-500" : "text-gray-300"}`}
               />
             </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

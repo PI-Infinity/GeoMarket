@@ -29,6 +29,7 @@ const RecommendedProducts = () => {
    * getting recommended products
    */
   const [products, setProducts] = useState<[]>([]);
+  const [totalProducts, setTotalProducts] = useState(null);
 
   const GetProducts = async () => {
     try {
@@ -39,6 +40,7 @@ const RecommendedProducts = () => {
       });
       if (response) {
         setProducts(response.data.products);
+        setTotalProducts(response.totalProducts);
       }
     } catch (error: any) {
       console.log(error);
@@ -57,9 +59,9 @@ const RecommendedProducts = () => {
     return `${(rating / 1000000).toFixed(1)}m`;
   };
   return (
-    <div className="w-full flex flex-col bg-gray-100 p-2 h-full rounded-xl items-center gap-2 laptop:max-w-2/3">
+    <div className="w-full flex flex-col h-full rounded-xl items-center gap-2">
       {products !== null && products.length === 0 && (
-        <div className="text-gray-400 flex w-full items-center justify-center text-red-500">
+        <div className="mt-8 text-gray-400 flex w-full items-center justify-center text-red-500">
           Not Found
         </div>
       )}
@@ -75,55 +77,54 @@ const RecommendedProducts = () => {
                   `/user/product/${item.productId}?category=${item.category}`
                 );
               }}
-              className="cursor-pointer text-black flex flex-col gap-2 w-full laptop:h-1/6 hover:brightness-90 transition-all"
+              className="shadow-xl bg-white rounded-xl overflow-hidden cursor-pointer text-black flex gap-2 w-full laptop:h-1/6 hover:brightness-90 transition-al p-2"
             >
-              <div
-                className="flex h-full rounded-xl p-2  pl-4 bg-white relative"
-                style={{
-                  boxSizing: "border-box",
-                }}
-              >
-                <div className="flex items-center gap-4 w-1/4 laptop:w-1/3">
-                  <div
-                    className={`relative w-full shadow-md aspect-square overflow-hidden bg-gray-300 rounded-xl flex items-center justify-center`}
-                  >
-                    <Image
-                      alt={item?.seller.name}
-                      src={cover?.url}
-                      style={{
-                        aspectRatio: 1,
-                        zIndex: 0,
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                      }}
+              <div className="flex items-center gap-4 w-1/4 laptop:w-1/3">
+                <div
+                  className={`relative w-full shadow-md aspect-square overflow-hidden bg-gray-300 rounded-xl flex items-center justify-center`}
+                >
+                  <Image
+                    alt={item?.seller.name}
+                    src={cover?.url}
+                    style={{
+                      aspectRatio: 1,
+                      zIndex: 0,
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="pl-4 flex flex-col justify-center gap-1">
+                <div className="text-black font-semibold flex items-center gap-1">
+                  <div>
+                    <MdDiamond
+                      size={16}
+                      className={`${
+                        item?.seller?.subscription?.type !== "Free"
+                          ? "text-orange-500"
+                          : "text-gray-400"
+                      } hover:brightness-90`}
                     />
                   </div>
+                  <div className="text-md font-semibold whitespace-nowrap max-w-32 overflow-hidden overflow-ellipsis">
+                    {item.title.ka}
+                  </div>
                 </div>
-                <div className="pl-4 flex flex-col justify-center">
-                  <MdDiamond
-                    size={16}
-                    className={`${
-                      item?.seller?.subscription?.type !== "Free"
-                        ? "text-orange-500"
-                        : "text-gray-400"
-                    } hover:brightness-90 absolute right-2 top-2`}
-                  />
-
-                  <h3 className="text-black font-semibold">{item.title.ka}</h3>
-                  <p className="text-black font-normal text-sm">
-                    {activeLanguage[item.category]}
-                  </p>
-                  <div className="flex items-center gap-2 mt-2">
-                    <div className="flex items-center gap-2 text-sm text-green-500 font-semibold">
-                      {item?.price?.byOrder && activeLanguage.byOrder}
-                      {!item?.price?.byOrder &&
-                        parseFloat(item?.price?.value).toFixed(2)}{" "}
-                      {item?.price?.byOrder ? "" : "₾"}
-                    </div>
-                    <div className="flex items-center gap-1 text-sm">
-                      {formatRating(item.rating)} <MdStar color="orange" />
-                    </div>
+                <p className="text-black font-normal text-sm">
+                  {activeLanguage[item.category]}
+                </p>
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 text-sm text-green-500 font-semibold">
+                    {item?.price?.byOrder && activeLanguage.byOrder}
+                    {!item?.price?.byOrder &&
+                      parseFloat(item?.price?.value).toFixed(2)}{" "}
+                    {item?.price?.byOrder ? "" : "₾"}
+                  </div>
+                  <div className="flex items-center gap-1 text-sm">
+                    <MdStar color="orange" />
+                    {formatRating(item.rating)}
                   </div>
                 </div>
               </div>

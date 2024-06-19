@@ -5,13 +5,18 @@ import Image from "@/app/components/image";
 import { useRouter } from "next/navigation";
 import nProgress from "nprogress";
 import React, { useEffect, useState } from "react";
-import { FaUser } from "react-icons/fa";
+import { FaUser, FaUsers } from "react-icons/fa";
 import { MdDiamond, MdStar } from "react-icons/md";
 import getUsers from "@/app/hooks/getUsers";
+import { useProductsContext } from "@/app/context/products";
+import { CgProductHunt } from "react-icons/cg";
 
 const RecommendedUsers = () => {
   // app context
   const { apiUrl } = useApp();
+
+  // products context
+  const { categories } = useProductsContext();
 
   // router
   const router = useRouter();
@@ -28,6 +33,7 @@ const RecommendedUsers = () => {
         page: 1,
         limit: 6,
         search: "",
+        onlySellers: "true",
       });
       setUsers(response.data.users);
     } catch (error: any) {
@@ -51,7 +57,7 @@ const RecommendedUsers = () => {
   const { setUser } = useUserContext();
 
   return (
-    <div className="w-full flex laptop:h-32 flex-col laptop:flex-row items-center gap-2 p-2 overflow-x-auto">
+    <div className="w-full flex flex-col laptop:flex-row items-center gap-2 p-2 overflow-x-auto">
       {users?.length > 0 &&
         users?.map((item: any, index: number) => {
           return (
@@ -61,17 +67,8 @@ const RecommendedUsers = () => {
                 setUser(item);
               }}
               key={index}
-              className="relative hover:brightness-90 cursor-pointer transition-all text-black flex flex-col gap-2 w-full laptop:max-w-48 overflow-hidden  h-full bg-white rounded-xl p-4"
+              className="relative shadow-xl hover:brightness-90 cursor-pointer transition-all text-black flex flex-col gap-2 w-full laptop:max-w-60 overflow-hidden  h-full bg-white rounded-xl p-4"
             >
-              <MdDiamond
-                size={16}
-                className={`${
-                  item?.subscription?.type !== "Free"
-                    ? "text-orange-500"
-                    : "text-gray-400"
-                } hover:brightness-90 absolute top-2 right-2`}
-              />
-
               <div className="flex items-center gap-4">
                 <div
                   className={`relative shadow-md w-10 h-10 aspect-square overflow-hidden bg-gray-300 rounded-full overflow-hidden flex items-center justify-center`}
@@ -86,15 +83,42 @@ const RecommendedUsers = () => {
                     }}
                   />
                 </div>
-                <div className="flex items-center gap-1 text-sm">
-                  {formatRating(item.rating || 0)}{" "}
-                  <MdStar size={20} color="orange" />
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1 text-sm">
+                    <CgProductHunt size={23} />
+                    {item?.productsLength}
+                  </div>
+                  <div className="flex items-center gap-1 text-sm">
+                    <MdStar size={20} color="orange" />
+                    {formatRating(item.rating || 0)}
+                  </div>
+                  <div className={`flex items-center text-md gap-1`}>
+                    <FaUsers size={22} />
+                    {item?.productsLength}
+                  </div>
                 </div>
               </div>
-
-              <h3 className="text-black font-semibold whitespace-nowrap">
-                {item.name}
-              </h3>
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <MdDiamond
+                    size={16}
+                    className={`${
+                      item?.subscription?.type !== "Free"
+                        ? "text-orange-500"
+                        : "text-gray-400"
+                    } hover:brightness-90`}
+                  />
+                  <h4 className="text-black font-semibold whitespace-nowrap overflow-hidden overflow-ellipsis">
+                    {item.name}
+                  </h4>
+                </div>
+                <span className="text-black text-sm whitespace-nowrap">
+                  {
+                    categories?.find((i: any) => i.value === item.category)
+                      .label
+                  }
+                </span>
+              </div>
             </div>
           );
         })}

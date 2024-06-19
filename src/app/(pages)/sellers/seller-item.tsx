@@ -42,10 +42,13 @@ const SellerItem: React.FC<PropTypes> = ({ item }) => {
 
   return (
     <div
-      className={`box-border rounded-xl bg-white laptop:p-4 flex flex-col justify-center shadow-md`}
+      className={`box-border rounded-xl bg-white pt-2 laptop:p-4 flex flex-col justify-center shadow-md`}
     >
-      <div className="flex gap-4 w-full items-center px-2 py-4 pb-2">
-        <h3 className="text-md font-bold" style={{ whiteSpace: "nowrap" }}>
+      <div className="flex gap-4 w-full items-center px-2 pb-2">
+        <h3
+          className="font-bold max-w-48 overflow-hidden whitespace-nowrap overflow-ellipsis"
+          style={{ whiteSpace: "nowrap", fontSize: "18px" }}
+        >
           {item.name}
         </h3>
         <div className="flex items-center gap-2 ml-auto">

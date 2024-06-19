@@ -183,14 +183,18 @@ const RoomItem = ({ item }: any) => {
                   }
                 />
               </div>
-              <h4>{targetUser?.name}</h4>
+              <h4 className="max-w-56 laptop:max-w-40 overflow-hidden whitespace-nowrap overflow-ellipsis">
+                {targetUser?.name}
+              </h4>
             </div>
             <div>
               {item?.lastMessage?.text?.length < 1 && (
                 <MdImage size={24} color="gray" />
               )}
-              <p className="flex items-center gap-1 overflow-hidden">
-                {item?.lastMessage?.text}
+              <div className="flex items-center gap-1 overflow-hidden">
+                <span className="max-w-56 whitespace-nowrap overflow-hidden overflow-ellipsis">
+                  {item?.lastMessage?.text}
+                </span>
                 {item?.lastMessage?.sender === currentUser?.userId && (
                   <MdDoneAll
                     size={16}
@@ -199,7 +203,7 @@ const RoomItem = ({ item }: any) => {
                     }
                   />
                 )}
-              </p>
+              </div>
             </div>
           </div>
           <div

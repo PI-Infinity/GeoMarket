@@ -164,7 +164,9 @@ const LeftBar = () => {
         </div>
       </OnlineBadge>
 
-      <div className="mt-4 text-lg font-semibold">{user?.name}</div>
+      <div className="mt-4 text-lg font-semibold max-w-72 laptop:max-w-64 whitespace-nowrap overflow-hidden overflow-ellipsis">
+        {user?.name}
+      </div>
       <div className="flex items-center gap-1 mt-4">
         <MdStar size={24} color="orange" />
         <span>{user?.rating ? formatRating(user?.rating) : 0}</span>
