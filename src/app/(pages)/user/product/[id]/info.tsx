@@ -165,7 +165,9 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
       lastMessage: "",
       status: "read",
     };
-    router.push(`/chat/${room.roomId}`);
+    router.push(
+      `/chat/${room.roomId}?user=${data.seller.userId}&product=${data.productId}`
+    );
     setActiveRoom(room);
   };
 
@@ -204,7 +206,7 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
         <div className="flex items-center gap-2 m-4">
           <Link
             href={`/user/${data?.seller?.userId}/products`}
-            className={`shadow-sm w-10 h-10 bg-gray-300 rounded-full overflow-hidden flex items-center justify-center`}
+            className={`shadow-sm w-10 aspect-square bg-gray-300 rounded-full overflow-hidden flex items-center justify-center`}
           >
             <div
               style={{ position: "relative", width: "100%", height: "100%" }}

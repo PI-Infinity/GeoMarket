@@ -62,6 +62,7 @@ const UserProductsPage: React.FC = () => {
               list={product?.gallery}
               rating={product?.rating}
               saves={product?.saves}
+              user={product?.seller}
             />
           </div>
           <Info

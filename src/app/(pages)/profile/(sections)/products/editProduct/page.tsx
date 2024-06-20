@@ -22,7 +22,6 @@ import { FcAddImage } from "react-icons/fc";
 import { IoMdEye } from "react-icons/io";
 import { MdClose, MdDelete } from "react-icons/md";
 import { v4 } from "uuid";
-import { handleFileUpload } from "../fileInput";
 import { useProductsContext } from "@/app/context/products";
 import Image from "@/app/components/image";
 
@@ -133,120 +132,120 @@ const EditProduct: React.FC<propsTypes> = () => {
     router.push("/profile/products");
   };
 
-  async function ProductUpload() {
-    // delete old files if are any
-    deletePaths.map((i: any) => {
-      let fileRef = ref(storage, i);
-      deleteObject(fileRef).then(() => {
-        console.log("item deleted");
-      });
-    });
-    const addFileInCloud = async (file: any) => {
-      const fileId = v4();
-      const folderId = currentProduct.gallery[0].folderId;
-      const fileRef = ref(
-        storage,
-        `products/user:${currentUser?.userId}/${folderId}/${fileId}`
-      );
-      setOpenBackDrop(true);
+  const uploadFiles = async (event: any) => {
+    const files = event.target.files;
+    if (!files) return;
 
-      const uploadTask = uploadBytesResumable(fileRef, file?.blob);
+    const fileURLs = Array.from(files)
+      .map((file) => {
+        console.log(file);
+        if (file instanceof Blob && "name" in file) {
+          return {
+            url: URL.createObjectURL(file),
+            cover: false,
+            file: file,
+            name: file.name,
+          };
+        }
+        return null;
+      })
+      .filter((file) => file !== null);
 
-      // Return a promise that resolves with the download URL upon successful upload
-      return new Promise((resolve, reject) => {
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {},
-          (error) => {
-            // Handle unsuccessful uploads
-            console.error(error);
-            reject(error);
-          },
-          async () => {
-            // Handle successful uploads on complete
-            try {
-              const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-              resolve({
-                url: downloadURL,
-                type: file.blob.type,
-                width: file.width,
-                height: file.height,
-                cover: file.cover,
-                folderId: folderId,
-                fileId: fileId,
-              });
-            } catch (error) {
-              reject(error);
-            }
-          }
-        );
-      });
-    };
+    setProduct((prev: any) => {
+      const alreadyHasCover = prev.gallery.some((file: any) => file.cover);
 
-    try {
-      let urls: any;
-      if (product.gallery.length > 0) {
-        urls = await Promise.all(
-          product.gallery.map((file: any) => {
-            if (file.blob) {
-              return addFileInCloud(file);
-            } else {
-              return file;
-            }
-          })
-        );
-      } else {
-        urls = [];
+      if (fileURLs.length > 0 && !alreadyHasCover) {
+        if (fileURLs[0]) {
+          fileURLs[0].cover = true;
+        }
       }
 
-      const newProduct = {
-        status:
-          product.title !== currentProduct.title ||
-          product.description !== currentProduct.description ||
-          product.gallery !== currentProduct.gallery ||
-          product.category !== currentProduct.category
-            ? "inReview"
-            : product.status,
-        title: product.title,
-        category: product.category.value,
-        description: product.description,
-        price: product.price,
-        gallery: urls,
-        seller: product?.seller,
+      return {
+        ...prev,
+        gallery: [...prev.gallery, ...fileURLs],
       };
+    });
+  };
 
-      await axios.patch(
-        apiUrl + "/api/v1/products/" + product.productId,
-        newProduct
+  const ProductUpload = async () => {
+    setOpenBackDrop(true);
+
+    deletePaths.map((i: any) => {
+      console.log(i);
+      if (i) {
+        let fileRef = ref(storage, i);
+        deleteObject(fileRef).then(() => {
+          console.log("item deleted");
+        });
+      }
+    });
+
+    setDeletePaths([]);
+
+    const formData = new FormData();
+    for (let i = 0; i < product.gallery.length; i++) {
+      if (!product.gallery[i].type) {
+        formData.append("gallery", product.gallery[i].file);
+      }
+    }
+
+    const productData = {
+      productId: product?.productId,
+      status: product.status,
+      title: product.title,
+      category: product.category.value,
+      description: product.description,
+      price: product.price,
+      gallery: product.gallery.map(({ file, ...rest }: any) => rest), // Exclude file field
+      seller: {
+        userId: product.seller.userId,
+        cover: product?.seller?.cover,
+        name: product?.seller?.name,
+      },
+    };
+
+    formData.append("product", JSON.stringify(productData));
+
+    try {
+      const response = await axios.patch(
+        apiUrl + "/api/v1/products/" + product?.productId,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
 
-      GetProducts();
-
-      setProduct({
-        title: { en: "", ka: "" },
-        category: { value: "", label: "" },
-        description: { en: "", ka: "" },
-        price: { value: "", byOrder: false },
-        gallery: [],
-        seller: {
-          userId: currentUser?.userId,
-          cover: currentUser?._cover,
-          name: currentUser?.name,
-        },
-      });
-
-      close();
-
+      if (response.data.status === "success") {
+        GetProducts();
+        setProduct({
+          status: "inReview",
+          title: { en: "", ka: "" },
+          category: { value: "", label: "" },
+          description: { en: "", ka: "" },
+          price: { value: "", byOrder: false },
+          gallery: [],
+          seller: {
+            userId: currentUser?.userId, // replace with actual user ID
+            cover: currentUser?.cover, // replace with actual cover URL
+            name: currentUser?.name, // replace with actual name
+          },
+        });
+        setTimeout(() => {
+          close();
+          setOpenBackDrop(false);
+        }, 1000);
+      }
       setOpenBackDrop(false);
-      setAlert({
-        active: true,
-        type: "success",
-        text: activeLanguage.productUploadedSuccesfully,
-      });
-    } catch (error) {
+      // Display success message or perform other actions as needed
+    } catch (error: any) {
       console.error("Error during file upload:", error);
+      if (error.response) {
+        console.error("Error response:", error.response.data.message);
+      }
     }
-  }
+  };
 
   return (
     <>
@@ -469,7 +468,7 @@ const EditProduct: React.FC<propsTypes> = () => {
                     ) {
                       alert(activeLanguage.maxFile);
                     } else {
-                      handleFileUpload(e.target.files, setProduct);
+                      uploadFiles(e);
                     }
                   }}
                 />
@@ -481,7 +480,8 @@ const EditProduct: React.FC<propsTypes> = () => {
                   <FcAddImage size={80} color={"red"} />
                 </label>
                 <span style={{ color: "red", fontSize: "14px" }}>
-                  {activeLanguage.maxFile}*
+                  {activeLanguage.maxFile}* კვადრატი 1:1 (იდეალური 1500px /
+                  1500px)
                 </span>
               </div>
             </div>
@@ -507,7 +507,8 @@ const EditProduct: React.FC<propsTypes> = () => {
                       <MdDelete
                         onClick={(e) => {
                           e.stopPropagation();
-                          if (!item.blob) {
+                          if (item.folderId) {
+                            console.log(item.folderId);
                             setDeletePaths((prev) => [
                               ...prev,
                               `products/user:${currentUser?.userId}/${item.folderId}/${item.fileId}`,
@@ -541,9 +542,7 @@ const EditProduct: React.FC<propsTypes> = () => {
 
                       <Image
                         alt={currentUser?.name}
-                        src={
-                          item.blob ? URL.createObjectURL(item.blob) : item.url
-                        }
+                        src={item.url}
                         style={{
                           aspectRatio: 1,
                           cursor: "pointer",

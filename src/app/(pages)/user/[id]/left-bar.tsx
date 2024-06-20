@@ -106,7 +106,7 @@ const LeftBar = () => {
       lastMessage: "",
       status: "read",
     };
-    router.push(`/chat/${room.roomId}`);
+    router.push(`/chat/${room.roomId}?user=${user.userId}`);
     setActiveRoom(room);
   };
 

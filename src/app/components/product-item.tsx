@@ -167,7 +167,7 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
               className={`font-bold hover:text-gray whitespace-nowrap overflow-hidden overflow-ellipsis ${
                 activeGrid === "double"
                   ? "max-w-32 text-md"
-                  : "max-w-56 text-xl"
+                  : "max-w-80 text-xl"
               } laptop:max-w-48`}
             >
               {product?.title?.ka}
@@ -266,7 +266,7 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
                 className={`whitespace-nowrap overflow-hidden overflow-ellipsis ${
                   activeGrid === "double"
                     ? "max-w-28 text-sm"
-                    : "max-w-56 text-md"
+                    : "max-w-80 text-md"
                 } laptop:max-w-56`}
               >
                 {product?.seller?.name}
@@ -306,7 +306,9 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
           <div className="flex w-full items-center">
             <div
               className={`w-full flex items-center ${
-                activeGrid === "double" ? "gap-3" : "gap-4"
+                activeGrid === "double"
+                  ? "gap-2 relative right-1"
+                  : "gap-4 mt-1"
               }`}
               style={{
                 opacity:
@@ -375,14 +377,24 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
                       }
                 }
               >
-                <FaHeart
-                  size={activeGrid === "double" ? 20 : 23}
-                  className={`${
-                    (!currentUser ||
-                      currentUser?.userId !== product?.seller.userId) &&
-                    "cursor-pointer"
-                  } ${actions?.saved ? "text-red-500" : "text-gray-300"}`}
-                />
+                <div className="flex items-center gap-2 rounded-full py-1 px-3 shadow-md">
+                  <FaHeart
+                    size={activeGrid === "double" ? 12 : 18}
+                    className={`${
+                      (!currentUser ||
+                        currentUser?.userId !== product?.seller.userId) &&
+                      "cursor-pointer"
+                    } ${actions?.saved ? "text-red-500" : "text-gray-300"}`}
+                  />
+                  <span
+                    style={{
+                      fontSize: "12px",
+                      color: actions?.saved ? "red" : "gray",
+                    }}
+                  >
+                    {actions?.saved ? "შენახული" : "შენახვა"}
+                  </span>
+                </div>
               </div>
             </div>
             <Link

@@ -1,10 +1,6 @@
 import Image from "@/app/components/image";
-import React, { useEffect, useState } from "react";
-import {
-  FaArrowAltCircleLeft,
-  FaArrowAltCircleRight,
-  FaHeart,
-} from "react-icons/fa";
+import React, { useEffect, useState, useRef } from "react";
+import { FaHeart } from "react-icons/fa";
 import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
 import { MdStar } from "react-icons/md";
 
@@ -12,17 +8,25 @@ interface propsTypes {
   list: any;
   rating: number;
   saves: number;
+  user: any;
 }
 
-const Gallery: React.FC<propsTypes> = ({ list, rating, saves }) => {
+const Gallery: React.FC<propsTypes> = ({ list, rating, saves, user }) => {
   // get cover
   const cover = list?.findIndex((i: any) => i.cover);
 
   // active image
   const [active, setActive] = useState(cover);
+  const galleryRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    setActive(cover);
-  }, [cover]);
+    if (galleryRef.current) {
+      galleryRef.current.scrollTo({
+        left: galleryRef.current.offsetWidth * active,
+        behavior: "smooth",
+      });
+    }
+  }, [active]);
 
   // Function to format the rating
   const formatRating = (rating: any) => {
@@ -32,10 +36,20 @@ const Gallery: React.FC<propsTypes> = ({ list, rating, saves }) => {
     return `${(rating / 1000000).toFixed(1)}m`;
   };
 
+  // Filter items with .cover true
+  const coverItems = list && list?.filter((item: any) => item?.cover);
+
+  // Filter items with .cover false or undefined
+  const nonCoverItems = list && list.filter((item: any) => !item?.cover);
+
+  // Concatenate coverItems first and then nonCoverItems
+  const reorderedGallery = coverItems &&
+    nonCoverItems && [...coverItems, ...nonCoverItems];
+
   return (
     <div className="laptop:p-2 flex-1 flex flex-col laptop:flex-row gap-0 laptop:gap-2 w-full h-full rounded-xl bg-gray-100 shadow-sm text-black overflow-y-auto">
       <div
-        className="laptop:w-36 w-96 h-full flex laptop:flex-col gap-2 laptop:gap-0"
+        className="laptop:w-36 w-full h-full flex laptop:flex-col gap-2 laptop:gap-0"
         style={{ maxHeight: "35.5rem", overflowY: "auto" }}
       >
         {list?.map((itm: any, index: number) => {
@@ -43,9 +57,7 @@ const Gallery: React.FC<propsTypes> = ({ list, rating, saves }) => {
             <div
               key={index}
               onClick={() => setActive(index)}
-              className={`relative shadow-md border-[3px] border-${
-                active === index ? "red" : "white"
-              }-500 mb-2 w-20 h-20 laptop:h-28 laptop:w-28 overflow-hidden bg-gray-300 rounded-xl overflow-hidden`}
+              className={`relative shadow-md border-[3px] hover:brightness-75 mb-2 w-1/5 aspect-square laptop:h-28 laptop:w-28 overflow-hidden bg-gray-300 rounded-xl overflow-hidden`}
             >
               <Image
                 alt={itm?.fileId}
@@ -69,7 +81,7 @@ const Gallery: React.FC<propsTypes> = ({ list, rating, saves }) => {
             backdropFilter: "blur(10px)",
             WebkitBackdropFilter: "blur(10px)",
           }}
-          className="flex items-center gap-1 tex-sm absolute top-4 left-4 pt-1 pb-1 pl-2 pr-2 rounded-full z-10"
+          className="flex items-center gap-1 tex-sm absolute top-2 left-2 pt-1 pb-1 pl-2 pr-2 rounded-full z-10"
         >
           <MdStar size={24} color="orange" />
           <h4 className="">{rating && formatRating(rating)}</h4>
@@ -77,43 +89,34 @@ const Gallery: React.FC<propsTypes> = ({ list, rating, saves }) => {
           <h4 className="">{saves && formatRating(saves)}</h4>
         </div>
 
-        <Image
-          alt={list && list[active]?.fileId}
-          src={(list && list[active]?.url) || ""}
+        <div
+          ref={galleryRef}
+          className="w-full flex overflow-x-scroll aspect-square relative"
           style={{
-            aspectRatio: 1,
-            zIndex: 0,
-            objectFit: "cover",
-            height: "100%",
-            width: "100%",
+            scrollSnapType: "x mandatory",
+            WebkitOverflowScrolling: "touch", // Enables momentum scrolling on iOS Safari
           }}
-        />
-
-        {list?.length > 1 && (
-          <div
-            className="absolute z-10 bottom-8 w-full h-0 bg-white text-white flex items-center justify-between pl-4 pr-4"
-            style={{ transform: "translateY(50%)" }}
-          >
-            <IoMdArrowDropleft
-              onClick={
-                active === 0
-                  ? undefined
-                  : () => setActive((prev: number) => prev - 1)
-              }
-              className="text-gray-50 cursor-pointer hover:brightness-90"
-              size={40}
-            />
-            <IoMdArrowDropright
-              onClick={
-                active === list?.length - 1
-                  ? undefined
-                  : () => setActive((prev: number) => prev + 1)
-              }
-              className="text-gray-50 cursor-pointer hover:brightness-90"
-              size={40}
-            />
-          </div>
-        )}
+        >
+          {reorderedGallery?.map((file: any, index: number) => (
+            <div
+              key={index}
+              className="relative min-w-full aspect-square bg-gray-300 hover:brightness-95 transition-all overflow-hidden"
+              style={{ scrollSnapAlign: "center" }}
+            >
+              <Image
+                alt={user?.name}
+                src={file?.url}
+                style={{
+                  aspectRatio: 1,
+                  zIndex: 0,
+                  objectFit: "cover",
+                  height: "100%",
+                  width: "100%",
+                }}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

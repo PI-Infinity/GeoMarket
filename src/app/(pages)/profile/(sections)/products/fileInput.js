@@ -52,7 +52,6 @@ export const handleFileUpload = async (files, setFile) => {
       console.error("Error resizing file:", error);
     }
   }
-  console.log(processedFiles);
 
   setFile((prevFiles) => {
     const clonedProcessedFiles = processedFiles.map((file) => ({ ...file }));

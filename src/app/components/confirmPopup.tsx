@@ -37,7 +37,7 @@ const ConfirmPopup: React.FC<PropsType> = ({ confirmPopup }) => {
                 <Button
                   title={activeLanguage.no}
                   color="white"
-                  background="gray"
+                  background="red"
                   onClick={confirmPopup.close}
                 />
               </div>
@@ -45,7 +45,7 @@ const ConfirmPopup: React.FC<PropsType> = ({ confirmPopup }) => {
                 <Button
                   title={activeLanguage.yes}
                   color="white"
-                  background="red"
+                  background="green"
                   onClick={confirmPopup.agree}
                 />
               </div>
@@ -74,7 +74,7 @@ const ConfirmPopup: React.FC<PropsType> = ({ confirmPopup }) => {
                 <Button
                   title={activeLanguage.no}
                   color="white"
-                  background="gray"
+                  background="red"
                   onClick={confirmPopup.close}
                 />
               </div>
@@ -82,7 +82,7 @@ const ConfirmPopup: React.FC<PropsType> = ({ confirmPopup }) => {
                 <Button
                   title={activeLanguage.yes}
                   color="white"
-                  background="red"
+                  background="green"
                   onClick={confirmPopup.agree}
                 />
               </div>

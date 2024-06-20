@@ -14,8 +14,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import nProgress from "nprogress";
 import { useState } from "react";
-import { MdClose, MdDiamond, MdShare, MdStar } from "react-icons/md";
-import { resizeImage } from "./(sections)/products/fileInput";
+import { MdClose, MdDiamond, MdDone, MdShare, MdStar } from "react-icons/md";
+import { readAndCompressImage } from "browser-image-resizer";
+import { MoonLoader } from "react-spinners";
 
 const LeftBar = () => {
   // app context
@@ -53,78 +54,38 @@ const LeftBar = () => {
   /**
    * cover uploading
    * */
+  const [uploadingCover, setUploadingCover] = useState(false);
+  const coverInput = async (event: any) => {
+    setUploadingCover(true);
+    const file = event.target.files[0];
+    if (!file) return;
 
-  const coverInput = async (e: any) => {
-    const uploadedFile = e.target.files[0];
-
-    if (!uploadedFile) return; // Early return if no files selected
-
-    const maxWidth = 750;
-    const maxHeight = 750;
-    const quality = 1;
-
-    const resizedFile = await resizeImage(
-      uploadedFile,
-      maxWidth,
-      maxHeight,
-      "jpeg",
-      quality
-    );
-
-    CoverUpload(resizedFile);
-  };
-
-  // cover upload in cloud and db
-
-  async function CoverUpload(coverFile: any) {
-    const addFileInCloud = async (file: any) => {
-      const fileRef = ref(storage, `users/${currentUser?.userId}/cover`);
-      setOpenBackDrop(true);
-      const uploadTask = uploadBytesResumable(fileRef, file?.blob);
-
-      // Return a promise that resolves with the download URL upon successful upload
-      return new Promise((resolve, reject) => {
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {},
-          (error) => {
-            // Handle unsuccessful uploads
-            console.error(error);
-            reject(error);
-          },
-          async () => {
-            // Handle successful uploads on complete
-            try {
-              const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-              resolve({
-                url: downloadURL,
-                type: file.blob.type,
-                width: file.width,
-                height: file.height,
-              });
-            } catch (error) {
-              reject(error);
-            }
-          }
-        );
-      });
-    };
+    const formData = new FormData();
+    formData.append("image", file);
 
     try {
-      const coverObject = await addFileInCloud(coverFile);
-
-      const updatedUser = { ...currentUser, cover: coverObject };
-
-      await axios.patch(
-        apiUrl + `/api/v1/users/${currentUser?.userId}`,
-        updatedUser
+      const response = await axios.patch(
+        `${apiUrl}/api/v1/users/${currentUser?.userId}/cover`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
-      setCurrentUser(updatedUser);
-      setOpenBackDrop(false);
+      if (response.data.status === "success") {
+        setCurrentUser((prev: any) => ({
+          ...prev,
+          cover: response.data.cover,
+        }));
+        setTimeout(() => {
+          setUploadingCover(false);
+        }, 500);
+      }
     } catch (error) {
-      console.error("Error during file upload:", error);
+      console.error("Upload error:", error);
     }
-  }
+  };
 
   /**
    * delete cover
@@ -197,7 +158,7 @@ const LeftBar = () => {
         </div>
       )}
       <div className="relative">
-        {currentUser?.cover && (
+        {currentUser?.cover?.url && (
           <div
             className="h-6 w-6 rounded-full flex items-center justify-center absolute top-2 right-2 z-10 cursor-pointer hover:brightness-95"
             onClick={(e) => e.stopPropagation()}
@@ -214,7 +175,9 @@ const LeftBar = () => {
             />
           </div>
         )}
-        <div
+
+        <form
+          id="uploadForm"
           style={{ width: "150px", height: "150px" }}
           className="rounded-full overflow-hidden flex items-center justify-center relative"
         >
@@ -239,7 +202,17 @@ const LeftBar = () => {
               }}
             />
           </label>
-        </div>
+          {uploadingCover && (
+            <div
+              style={{ background: "rgba(0,0,0,0.2)" }}
+              className="absolute z-10 w-full h-full flex items-center justify-center"
+            >
+              <div className="w-8 h-8 rounded-full flex items-center justify-center shadow-md cursor-pointer hover:brightness-95">
+                <MoonLoader size={24} color="white" />
+              </div>
+            </div>
+          )}
+        </form>
       </div>
 
       <div className="mt-4 text-lg font-semibold">{currentUser?.name}</div>

@@ -164,13 +164,14 @@ export const ProductsContextWrapper = ({
       label: activeLanguage?.souvenirs,
     },
     {
-      value: "accessories",
-      label: activeLanguage?.accessories,
-    },
-    {
       value: "paintings",
       label: activeLanguage?.paintings,
     },
+    {
+      value: "accessories",
+      label: activeLanguage?.accessories,
+    },
+
     // {
     //   value: "clothing-footwear",
     //   label: "Clothing / Footwear",
@@ -184,9 +185,18 @@ export const ProductsContextWrapper = ({
       label: activeLanguage?.decorations,
     },
     {
+      value: "dishes",
+      label: activeLanguage?.dishes,
+    },
+    {
       value: "toys",
       label: activeLanguage?.toys,
     },
+    {
+      value: "other",
+      label: activeLanguage?.other,
+    },
+
     // {
     //   value: "food",
     //   label: "Food",

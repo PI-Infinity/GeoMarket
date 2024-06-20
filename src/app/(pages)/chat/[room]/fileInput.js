@@ -1,4 +1,3 @@
-import Compressor from "compressorjs";
 import Resizer from "react-image-file-resizer";
 
 export const handleFileUpload = async (e, setFile) => {
@@ -9,7 +8,7 @@ export const handleFileUpload = async (e, setFile) => {
 
   for (let i = 0; i < uploadedFiles.length; i++) {
     const file = uploadedFiles[i];
-    const resizedFile = await resizeImage(file, 1200, 1200, "jpeg", 1);
+    const resizedFile = await resizeImage(file, 800, 800, "jpeg", 1);
     processedFiles.push(resizedFile);
   }
 

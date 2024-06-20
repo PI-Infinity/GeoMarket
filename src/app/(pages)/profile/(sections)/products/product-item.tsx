@@ -142,8 +142,16 @@ const ProductItem: React.FC<PropTypes> = ({
                   agree: null,
                   text: "",
                 }),
-              agree: () =>
-                DeleteProduct(item?.productId, item?.gallery[0]?.folderId),
+              agree: () => {
+                DeleteProduct({
+                  itemId: item?.productId,
+                  folderId: item?.gallery[0]?.folderId,
+                }),
+                  console.log({
+                    itemId: item?.productId,
+                    folderId: item?.gallery[0]?.folderId,
+                  });
+              },
             })
           }
           className="hover:brightness-90 cursor-pointer"

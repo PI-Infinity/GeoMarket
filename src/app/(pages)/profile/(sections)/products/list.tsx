@@ -26,13 +26,14 @@ const List: React.FC<propsTypes> = ({ setConfirmPopup }) => {
    * Delete Product
    */
 
-  const DeleteProduct = async (itemId: any, folderId: any) => {
+  const DeleteProduct = async ({ itemId, folderId }: any) => {
     try {
       setOpenBackDrop(true);
       let fileRef = ref(
         storage,
         `products/user:${currentUser?.userId}/${folderId}/`
       );
+
       await axios.delete(apiUrl + "/api/v1/products/" + itemId);
       listAll(fileRef)
         .then((res) => {
@@ -76,19 +77,19 @@ const List: React.FC<propsTypes> = ({ setConfirmPopup }) => {
           }}
         />
       )}
-      {totalProducts !== null && totalProducts < 1 && (
+      {totalProducts !== null && products?.length < 1 && (
         <div className="text-gray-400 my-4 flex w-full items-center justify-center text-red-500">
           Not Found
         </div>
       )}
       <div className="grid laptop:grid-cols-3 gap-2 laptop:gap-4 pb-4 laptop:pb-0">
         {products &&
-          products?.map((item: any) => (
+          products?.map((item: any, index: any) => (
             <ProductItem
               setConfirmPopup={setConfirmPopup}
               DeleteProduct={DeleteProduct}
               item={item}
-              key={item.productId}
+              key={index}
             />
           ))}
       </div>

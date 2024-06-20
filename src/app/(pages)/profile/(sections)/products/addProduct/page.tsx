@@ -41,11 +41,12 @@ const AddProduct: React.FC<propsTypes> = () => {
   /* product state
    */
   const [product, setProduct] = useState({
+    status: "inReview",
     title: { en: "", ka: "" },
     category: { value: "", label: "" },
     description: { en: "", ka: "" },
     price: { value: "", byOrder: false },
-    gallery: [],
+    gallery: [{ file: "" }],
     seller: {
       userId: currentUser?.userId,
       cover: currentUser?.cover,
@@ -55,6 +56,7 @@ const AddProduct: React.FC<propsTypes> = () => {
 
   useEffect(() => {
     setProduct({
+      status: "inReview",
       title: { en: "", ka: "" },
       category: { value: "", label: "" },
       description: { en: "", ka: "" },
@@ -98,7 +100,8 @@ const AddProduct: React.FC<propsTypes> = () => {
       // product.description.en.length < 1 ||
       product.description.ka.length < 1 ||
       product.gallery?.length < 1 ||
-      product.price.value.length < 1
+      product.price.value.length < 1 ||
+      product?.category?.value?.length < 1
     ) {
       setDisabled(true);
     } else {
@@ -113,102 +116,101 @@ const AddProduct: React.FC<propsTypes> = () => {
    * Product Upload ind cloud and db
    * */
   const router = useRouter();
+
   const close = () => {
     router.push("/profile/products");
   };
 
-  async function ProductUpload() {
-    const folderId = "product:" + product.title.ka + v4();
-    const addFileInCloud = async (file: any) => {
-      const fileId = v4();
-      const fileRef = ref(
-        storage,
-        `products/user:${currentUser?.userId}/${folderId}/${fileId}`
-      );
-      setOpenBackDrop(true);
+  const uploadFiles = async (event: any) => {
+    const files = event.target.files;
+    if (!files) return;
 
-      const uploadTask = uploadBytesResumable(fileRef, file?.blob);
+    const fileURLs = Array.from(files)
+      .map((file) => {
+        if (file instanceof Blob) {
+          return {
+            url: URL.createObjectURL(file),
+            cover: false,
+            file: file,
+          };
+        }
+        return null;
+      })
+      .filter((file) => file !== null);
 
-      // Return a promise that resolves with the download URL upon successful upload
-      return new Promise((resolve, reject) => {
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {},
-          (error) => {
-            // Handle unsuccessful uploads
-            console.error(error);
-            reject(error);
-          },
-          async () => {
-            // Handle successful uploads on complete
-            try {
-              const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-              resolve({
-                url: downloadURL,
-                type: file.blob.type,
-                width: file.width,
-                height: file.height,
-                cover: file.cover,
-                folderId: folderId,
-                fileId: fileId,
-              });
-            } catch (error) {
-              reject(error);
-            }
-          }
-        );
-      });
-    };
+    setProduct((prev: any) => {
+      const alreadyHasCover = prev.gallery.some((file: any) => file.cover);
 
-    try {
-      let urls: any;
-      if (product.gallery.length > 0) {
-        urls = await Promise.all(
-          product.gallery.map((file) => addFileInCloud(file))
-        );
-      } else {
-        urls = [];
+      if (fileURLs.length > 0 && !alreadyHasCover) {
+        if (fileURLs[0]) {
+          fileURLs[0].cover = true;
+        }
       }
 
-      const newProduct = {
-        status: "inReview",
+      return {
+        ...prev,
+        gallery: [...prev.gallery, ...fileURLs],
+      };
+    });
+  };
+
+  const ProductUpload = async () => {
+    setOpenBackDrop(true);
+
+    const formData = new FormData();
+    for (let i = 0; i < product.gallery.length; i++) {
+      formData.append("gallery", product.gallery[i].file);
+    }
+
+    formData.append(
+      "product",
+      JSON.stringify({
+        status: product.status,
         title: product.title,
         category: product.category.value,
         description: product.description,
         price: product.price,
-        gallery: urls,
-        seller: product?.seller,
-      };
+        gallery: product.gallery.map(({ file, ...rest }) => rest), // Exclude file field
+        seller: product.seller,
+      })
+    );
 
-      await axios.post(apiUrl + "/api/v1/products", newProduct);
-
-      GetProducts();
-
-      setProduct({
-        title: { en: "", ka: "" },
-        category: { value: "", label: "" },
-        description: { en: "", ka: "" },
-        price: { value: "", byOrder: false },
-        gallery: [],
-        seller: {
-          userId: currentUser?.userId,
-          cover: currentUser?._cover,
-          name: currentUser?.name,
+    try {
+      const response = await axios.post(apiUrl + "/api/v1/products", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
       });
 
-      close();
+      if (response.data.status === "success") {
+        GetProducts();
+        setProduct({
+          status: "inReview",
+          title: { en: "", ka: "" },
+          category: { value: "", label: "" },
+          description: { en: "", ka: "" },
+          price: { value: "", byOrder: false },
+          gallery: [],
+          seller: {
+            userId: currentUser?.userId, // replace with actual user ID
+            cover: currentUser?.cover, // replace with actual cover URL
+            name: currentUser?.name, // replace with actual name
+          },
+        });
+        setTimeout(() => {
+          close();
+          setOpenBackDrop(false);
+        }, 1000);
+      }
 
-      setOpenBackDrop(false);
-      setAlert({
-        active: true,
-        type: "success",
-        text: activeLanguage.productUploadedSuccesfully,
-      });
-    } catch (error) {
+      // Display success message or perform other actions as needed
+    } catch (error: any) {
       console.error("Error during file upload:", error);
+      if (error.response) {
+        console.error("Error response:", error.response.data);
+      }
     }
-  }
+  };
 
   return (
     <div className="w-full h-full flex flex-col items-center gap-4 bg-white p-2 shadow-sm rounded-xl mb-4 pb-4">
@@ -420,7 +422,7 @@ const AddProduct: React.FC<propsTypes> = () => {
                 if (e.target.files?.length > 5) {
                   alert(activeLanguage.maxFile);
                 } else {
-                  handleFileUpload(e.target.files, setProduct);
+                  uploadFiles(e);
                 }
               }}
             />
@@ -432,7 +434,7 @@ const AddProduct: React.FC<propsTypes> = () => {
               <FcAddImage size={80} color={"red"} />
             </label>
             <span style={{ color: "red", fontSize: "14px" }}>
-              {activeLanguage.maxFile}*
+              {activeLanguage.maxFile}* კვადრატი 1:1 (იდეალური 1500px / 1500px)
             </span>
           </div>
         </div>
@@ -483,7 +485,7 @@ const AddProduct: React.FC<propsTypes> = () => {
                   />
                   <Image
                     alt={currentUser?.name}
-                    src={URL.createObjectURL(item.blob)}
+                    src={item?.url}
                     style={{
                       aspectRatio: 1,
                       cursor: "pointer",

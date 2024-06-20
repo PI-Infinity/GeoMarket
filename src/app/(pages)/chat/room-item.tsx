@@ -188,10 +188,10 @@ const RoomItem = ({ item }: any) => {
               </h4>
             </div>
             <div>
-              {item?.lastMessage?.text?.length < 1 && (
-                <MdImage size={24} color="gray" />
-              )}
               <div className="flex items-center gap-1 overflow-hidden">
+                {item?.lastMessage?.text?.length < 1 && (
+                  <MdImage size={24} className="text-gray-400" />
+                )}
                 <span className="max-w-56 whitespace-nowrap overflow-hidden overflow-ellipsis">
                   {item?.lastMessage?.text}
                 </span>

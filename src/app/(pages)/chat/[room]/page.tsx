@@ -11,7 +11,7 @@ import { MoonLoader } from "react-spinners";
 import Input from "./input";
 import MessageItem from "./messageItem";
 import { OnlineBadge } from "@/app/components/onlineBadge";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 const ChatRoom = () => {
   // app context
@@ -97,6 +97,17 @@ const ChatRoom = () => {
   const pathname = usePathname();
   const roomId = pathname.split("/").pop();
 
+  const searchParams = useSearchParams();
+  const user = searchParams.get("user");
+  const product = searchParams.get("product");
+
+  let backPath = "/chat";
+  if (user && !product) {
+    backPath = "/user/" + user + "/products";
+  } else if (user && product) {
+    backPath = "/user/product/" + product;
+  }
+
   useEffect(() => {
     if (roomId && activeRoom?.roomId?.length < 1) {
       GetRoom(roomId);
@@ -147,7 +158,7 @@ const ChatRoom = () => {
             </a>
           )}
 
-          <Link href="/chat" className="pr-2">
+          <Link href={backPath} className="pr-2">
             <MdClose
               size={24}
               color="red"

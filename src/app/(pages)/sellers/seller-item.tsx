@@ -95,10 +95,10 @@ const SellerItem: React.FC<PropTypes> = ({ item }) => {
               <MdStar color="orange" size={23} />
               {formatRating(item.rating || 0)}
             </div>
-            <div className={`flex items-center text-md gap-1`}>
+            {/* <div className={`flex items-center text-md gap-1`}>
               <FaUsers size={22} />
               {item?.productsLength}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

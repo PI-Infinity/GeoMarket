@@ -121,7 +121,7 @@ export const UserContextWrapper: React.FC<contextProps> = ({ children }) => {
           identifier
       );
     } catch (error: any) {
-      console.log(error);
+      console.log(error.response.data.message);
     }
   };
 
