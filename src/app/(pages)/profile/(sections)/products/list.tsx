@@ -77,7 +77,7 @@ const List: React.FC<propsTypes> = ({ setConfirmPopup }) => {
         />
       )}
       {totalProducts !== null && totalProducts < 1 && (
-        <div className="text-gray-400 flex w-full items-center justify-center text-red-500">
+        <div className="text-gray-400 my-4 flex w-full items-center justify-center text-red-500">
           Not Found
         </div>
       )}

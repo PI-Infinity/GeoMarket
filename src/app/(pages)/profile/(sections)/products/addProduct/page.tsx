@@ -420,7 +420,7 @@ const AddProduct: React.FC<propsTypes> = () => {
                 if (e.target.files?.length > 5) {
                   alert(activeLanguage.maxFile);
                 } else {
-                  handleFileUpload(e, setProduct);
+                  handleFileUpload(e.target.files, setProduct);
                 }
               }}
             />

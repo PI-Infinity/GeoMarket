@@ -4,7 +4,7 @@ import { useApp } from "../context/app";
 
 export default function SelectComponent({ data, value, setValue }: any) {
   const { activeLanguage } = useApp();
-  console.log(data);
+
   return (
     <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
       <Select

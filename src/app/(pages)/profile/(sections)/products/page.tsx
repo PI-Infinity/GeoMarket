@@ -39,7 +39,7 @@ const Products: React.FC<propsTypes> = () => {
   return (
     <div className="overflow-hidden rounded-xl flex-1">
       <div className="flex flex-col gap-2 items-center w-full h-full laptop:mr-24">
-        <div className="w-full flex gap-2">
+        <div className="w-full flex flex-col laptop:flex-row gap-2">
           <div className="w-full">
             <Search
               search={search}
@@ -50,9 +50,11 @@ const Products: React.FC<propsTypes> = () => {
           <div>
             <Link
               href={"/profile/products/addProduct"}
-              className="w-11 h-11 bg-green-500 rounded-xl flex items-center justify-center cursor-pointer hover:brightness-95"
+              className="h-11 text-white font-bold px-3 bg-green-500 rounded-xl flex items-center justify-center cursor-pointer hover:brightness-95"
             >
-              <MdAdd size={32} color="white" />
+              {" "}
+              <MdAdd size={32} />
+              <span className="font-semibold">დამატება</span>
             </Link>
           </div>
         </div>

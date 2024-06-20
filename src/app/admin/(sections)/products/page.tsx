@@ -124,8 +124,13 @@ const Page = () => {
         }
       );
       if (response.data.status === "success") {
-        setRerender((prev: any) => !prev);
+        setProducts((prev: any) =>
+          prev.filter((i: any) => i.productId !== productId)
+        );
         setActionLoading({ active: false, type: "" });
+        setTimeout(() => {
+          setRerender((prev: any) => !prev);
+        }, 1000);
       }
     } catch (error: any) {
       console.log(error);

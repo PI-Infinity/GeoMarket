@@ -463,10 +463,13 @@ const EditProduct: React.FC<propsTypes> = () => {
                   onClick={(e: any) => {}}
                   onChange={(e: any) => {
                     e.preventDefault();
-                    if (e.target.files?.length > 10) {
+                    if (
+                      e.target.files?.length > 5 ||
+                      product?.gallery.length + e.target.files?.length > 5
+                    ) {
                       alert(activeLanguage.maxFile);
                     } else {
-                      handleFileUpload(e, setProduct);
+                      handleFileUpload(e.target.files, setProduct);
                     }
                   }}
                 />
@@ -504,7 +507,7 @@ const EditProduct: React.FC<propsTypes> = () => {
                       <MdDelete
                         onClick={(e) => {
                           e.stopPropagation();
-                          if (item.type) {
+                          if (!item.blob) {
                             setDeletePaths((prev) => [
                               ...prev,
                               `products/user:${currentUser?.userId}/${item.folderId}/${item.fileId}`,
