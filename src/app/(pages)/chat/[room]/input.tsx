@@ -14,7 +14,7 @@ import { MoonLoader } from "react-spinners";
 
 const Input = ({ setMessages }: any) => {
   const [input, setInput] = useState("");
-  const [file, setFile] = useState<any>([]);
+  const [file, setFile] = useState<any>(null);
 
   // current user
   const { currentUser, socket } = useAuth();
@@ -23,63 +23,47 @@ const Input = ({ setMessages }: any) => {
   const { activeRoom, setChats, chats, GetChats, bottomRef, messagesRef } =
     useChat();
 
+  const fileInput = async (event: any) => {
+    // setUploadingCover(true);
+    const file = event.target.files[0];
+    if (!file) return;
+
+    setFile(file);
+  };
+
   // app context
   const { apiUrl } = useApp();
 
   // Send Message
   const [uploadLoading, setUploadLoading] = useState(false);
+  let formData = new FormData();
+  formData.append("image", file);
+
   const SendMessage = async (newMsg: any) => {
     try {
-      let newMessage = newMsg;
-      if (newMessage.file) {
-        setUploadLoading(true);
-        const addFileInCloud = async (file: any) => {
-          const fileRef = ref(
-            storage,
-            `chats/roomId:${newMessage?.roomId}/${newMessage.messageId}`
-          );
+      let newMessage = {
+        ...newMsg,
+        file: file,
+        room: {
+          ...activeRoom,
+          members: activeRoom?.members?.map((i: any) => {
+            return { id: i.id, status: i.status };
+          }),
+        },
+      };
+      setUploadLoading(true);
+      formData.append("message", JSON.stringify(newMessage));
 
-          const uploadTask = uploadBytesResumable(
-            fileRef,
-            newMessage?.file?.blob
-          );
-
-          // Return a promise that resolves with the download URL upon successful upload
-          return new Promise((resolve, reject) => {
-            uploadTask.on(
-              "state_changed",
-              (snapshot) => {},
-              (error) => {
-                // Handle unsuccessful uploads
-                console.error(error);
-                reject(error);
-              },
-              async () => {
-                // Handle successful uploads on complete
-                try {
-                  const downloadURL = await getDownloadURL(
-                    uploadTask.snapshot.ref
-                  );
-                  resolve({
-                    url: downloadURL,
-                    type: newMsg?.file.blob.type,
-                    width: newMsg?.file.width,
-                    height: newMsg?.file.height,
-                    fileId: newMsg?.messageId,
-                  });
-                } catch (error) {
-                  reject(error);
-                }
-              }
-            );
-          });
-        };
-
-        let fileObj = await addFileInCloud(file);
-        console.log(fileObj);
-        newMessage = { ...newMessage, file: fileObj };
-        setUploadLoading(false);
+      const response = await axios.post(`${apiUrl}/api/v1/messages`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if (response.data.status === "success") {
+        newMessage = response.data.data.message;
       }
+
+      setUploadLoading(false);
 
       // Add the new message to the messages array
       setMessages((prev: any) => [newMessage, ...prev]);
@@ -89,7 +73,7 @@ const Input = ({ setMessages }: any) => {
       }, 100);
       // Clear the input field
       setInput("");
-      setFile([]);
+      setFile(null);
       // Update the last message in the chats array
       setChats((prev: any) =>
         prev.map((chat: any) => {
@@ -106,18 +90,6 @@ const Input = ({ setMessages }: any) => {
           return chat;
         })
       );
-
-      // Send the new message to the server
-      await axios.post(apiUrl + "/api/v1/messages", {
-        message: newMessage,
-        // if no messages send chat data for creatings
-        room: {
-          ...activeRoom,
-          members: activeRoom?.members?.map((i: any) => {
-            return { id: i.id, status: i.status };
-          }),
-        },
-      });
 
       // Check if a chat with matching member IDs already exists
       const existingChat = chats.find((chat: any) =>
@@ -166,17 +138,16 @@ const Input = ({ setMessages }: any) => {
             onClick={(e: any) => {}}
             onChange={(e: any) => {
               e.preventDefault();
-
-              handleFileUpload(e, setFile);
+              fileInput(e);
             }}
           />
-          {file[0] ? (
+          {file ? (
             <div className="h-16 relative aspect-square rounded-xl shadow-md overflow-hidden">
               <MdClose
                 size={16}
                 color="red"
                 className="absolute z-10 top-1 right-1 cursor-pointer hover:brightness-95"
-                onClick={uploadLoading ? undefined : () => setFile([])}
+                onClick={uploadLoading ? undefined : () => setFile(null)}
               />
               {uploadLoading && (
                 <div
@@ -188,7 +159,7 @@ const Input = ({ setMessages }: any) => {
               )}
               <Image
                 alt={currentUser?.name}
-                src={file[0] ? URL.createObjectURL(file[0]?.blob) : null}
+                src={file ? URL.createObjectURL(file) : null}
                 style={{
                   aspectRatio: 1,
                   zIndex: 0,
@@ -224,13 +195,19 @@ const Input = ({ setMessages }: any) => {
                       status: "active",
                     },
                     text: input,
-                    file: file[0],
+                    file: file,
                     createdAt: new Date(),
                     status: "unread",
                   })
           }
         >
-          <MdSend size={32} color="gray" />
+          <div className="w-10 flex justify-center">
+            {uploadLoading ? (
+              <MoonLoader size={24} className="text-green" />
+            ) : (
+              <MdSend size={32} color="gray" />
+            )}
+          </div>
         </div>
       </div>
     </div>

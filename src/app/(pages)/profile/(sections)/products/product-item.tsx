@@ -47,6 +47,10 @@ const ProductItem: React.FC<PropTypes> = ({
    */
   const [product, setProduct] = useState(item);
 
+  useEffect(() => {
+    setProduct(item);
+  }, [item]);
+
   // Function to format the rating
   const formatRating = (rating: any) => {
     if (rating < 1000) return rating;
@@ -145,12 +149,7 @@ const ProductItem: React.FC<PropTypes> = ({
               agree: () => {
                 DeleteProduct({
                   itemId: item?.productId,
-                  folderId: item?.gallery[0]?.folderId,
-                }),
-                  console.log({
-                    itemId: item?.productId,
-                    folderId: item?.gallery[0]?.folderId,
-                  });
+                });
               },
             })
           }

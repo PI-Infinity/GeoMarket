@@ -12,7 +12,7 @@ export default function SelectComponent({ data, value, setValue }: any) {
         className="w-full shadow-xl"
         defaultValue={value?.value === "" ? "" : value}
         onChange={setValue}
-        placeholder={activeLanguage.category}
+        placeholder={activeLanguage.category + "*"}
       />
     </div>
   );

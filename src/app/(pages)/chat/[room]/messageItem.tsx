@@ -9,6 +9,7 @@ import { setConfig } from "next/config";
 import React, { useEffect, useState } from "react";
 import { MdClose, MdDelete, MdDone, MdDoneAll, MdRemove } from "react-icons/md";
 import GetTimesAgo from "@/app/utils/getTimesAgo";
+import { MoonLoader } from "react-spinners";
 
 const MessagemItem = ({ item }: any) => {
   // messageData
@@ -18,7 +19,7 @@ const MessagemItem = ({ item }: any) => {
     status: "",
     messageId: "",
     roomId: "",
-    file: { url: "" },
+    file: { url: "", publicId: "", folder: "" },
     createdAt: "",
   });
 
@@ -29,7 +30,7 @@ const MessagemItem = ({ item }: any) => {
   const { apiUrl } = useApp();
 
   // chat context
-  const { setChats, setMessages } = useChat();
+  const { setChats, setMessages, messages } = useChat();
 
   // current user
   const { currentUser, socket } = useAuth();
@@ -101,36 +102,52 @@ const MessagemItem = ({ item }: any) => {
   /**
    * Delete message
    */
-  const DeleteMessage = async (msgId: any, roomId: any) => {
-    try {
-      setMsg({
-        sender: { id: "" },
-        text: "",
-        status: "",
-        messageId: "",
-        roomId: "",
-        file: { url: "" },
-        createdAt: "",
-      });
-      const response = await axios.delete(
-        apiUrl +
-          "/api/v1/messages/" +
-          msgId +
-          "?currentUser=" +
-          currentUser?.userId
-      );
-    } catch (error: any) {
-      console.log(error.response);
-    }
-  };
   // open config
   const [openConfig, setOpenConfig] = useState("");
   // confirm popup
   const [openConfrim, setOpenConfirm] = useState(false);
 
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
+  const DeleteMessage = async (msgId: any, publicId: any, folder: any) => {
+    try {
+      setDeleteLoading(true);
+      const response = await axios.delete(
+        apiUrl +
+          "/api/v1/messages/" +
+          msgId +
+          "?currentUser=" +
+          currentUser?.userId +
+          "&publicId=" +
+          publicId +
+          "&folder=" +
+          folder
+      );
+      if (response.data.status === "success") {
+        setMsg({
+          sender: { id: "" },
+          text: "",
+          status: "",
+          messageId: "",
+          roomId: "",
+          file: { url: "", publicId: "", folder: "" },
+          createdAt: "",
+        });
+        setMessages((prev: any) =>
+          prev.filter((i: any) => i.messageId !== item.messageId)
+        );
+        setConfig("");
+        setOpenConfirm(false);
+        setDeleteLoading(false);
+      }
+    } catch (error: any) {
+      console.log(error.response);
+    }
+  };
+
   return (
     <>
-      {msg?.messageId?.length > 0 && (
+      {deleteLoading ? (
         <div
           className="rounded-full w-full flex flex-col msgs-center p-2 py-1 gap-1"
           style={{
@@ -138,116 +155,142 @@ const MessagemItem = ({ item }: any) => {
               msg.sender.id === currentUser?.userId ? "flex-end" : "flex-start",
           }}
         >
-          {openConfrim ? (
-            <div className="flex items-center justify-evenly p-1 px-3 gap-2 bg-gray-50 shadow-md rounded-full">
-              <div
-                onClick={() => setOpenConfirm(false)}
-                className="cursor-pointer hover:brightness-95"
-              >
-                <MdClose size={24} color="red" />
-              </div>
-              <span className="text-sm font-semibold">Delete</span>
-              <div
-                onClick={() => DeleteMessage(msg?.messageId, msg?.roomId)}
-                className="cursor-pointer hover:brightness-95"
-              >
-                <MdDone size={24} color="green" />
-              </div>
-            </div>
-          ) : (
+          <MoonLoader size={24} color="red" />
+        </div>
+      ) : (
+        <>
+          {msg?.messageId?.length > 0 && (
             <div
-              className="flex items-center gap-2"
-              style={{ maxWidth: "50%" }}
+              className="rounded-full w-full flex flex-col msgs-center p-2 py-1 gap-1"
+              style={{
+                alignItems:
+                  msg.sender.id === currentUser?.userId
+                    ? "flex-end"
+                    : "flex-start",
+              }}
             >
-              {msg.sender.id !== currentUser?.userId &&
-                openConfig === msg?.messageId && (
-                  <div className="flex items-center gap-2">
-                    <MdDelete
-                      onClick={() => setOpenConfirm(true)}
-                      color="red"
-                      size={16}
-                    />
-                    <span
-                      className="text-gray-400"
-                      style={{ fontSize: "12px" }}
-                    >
-                      {GetTimesAgo(msg?.createdAt)}
-                    </span>
+              {openConfrim ? (
+                <div className="flex items-center justify-evenly p-1 px-3 gap-2 bg-gray-50 shadow-md rounded-full">
+                  <div
+                    onClick={() => setOpenConfirm(false)}
+                    className="cursor-pointer hover:brightness-95 w-8"
+                  >
+                    <MdClose size={24} color="red" />
                   </div>
-                )}
-              <div
-                className="shadow-sm rounded-xl overflow-hidden flex flex-col items-end cursor-pointer hover:brightness-95"
-                style={{
-                  background:
-                    msg.sender.id === currentUser?.userId ? "#f9f9f9" : "red",
-                  color:
-                    msg.sender.id === currentUser?.userId ? "black" : "white",
-                }}
-              >
-                {msg?.file?.url?.length > 0 && (
-                  <div className="w-48 relative aspect-square shadow-md">
-                    <Image
-                      onClick={() => setOpenConfig(msg?.messageId)}
-                      alt={currentUser?.name}
-                      src={msg?.file?.url}
-                      style={{
-                        aspectRatio: 1,
-                        zIndex: 0,
-                        width: "100%",
-                      }}
-                    />
-                    {msg.sender.id === currentUser?.userId &&
-                      (msg?.file || msg?.file?.url?.length > 0) &&
-                      msg?.text.length < 1 && (
-                        <MdDoneAll
+                  <span className="text-sm font-semibold">Delete</span>
+                  <div
+                    onClick={() =>
+                      DeleteMessage(
+                        msg?.messageId,
+                        msg?.file?.publicId,
+                        msg?.file?.folder
+                      )
+                    }
+                    className="cursor-pointer hover:brightness-95"
+                  >
+                    <MdDone size={24} color="green" />
+                  </div>
+                </div>
+              ) : (
+                <div
+                  className="flex items-center gap-2"
+                  style={{ maxWidth: "50%" }}
+                >
+                  {msg.sender.id !== currentUser?.userId &&
+                    openConfig === msg?.messageId && (
+                      <div className="flex items-center gap-2">
+                        <MdDelete
+                          onClick={() => setOpenConfirm(true)}
+                          color="red"
                           size={16}
-                          className="absolute z-10 bottom-2 right-2"
-                          color={msg.status === "unread" ? "gray" : "red"}
                         />
-                      )}
-                  </div>
-                )}
-                {msg.text?.length > 0 && (
-                  <div className="flex items-center gap-2 p-1 px-3">
-                    <p
-                      onClick={
-                        openConfig === msg?.messageId
-                          ? () => setOpenConfig("")
-                          : () => setOpenConfig(msg?.messageId)
-                      }
-                      className="whitespace-nowrap"
-                    >
-                      {msg.text}
-                    </p>
+                        <span
+                          className="text-gray-400"
+                          style={{ fontSize: "12px" }}
+                        >
+                          {GetTimesAgo(msg?.createdAt)}
+                        </span>
+                      </div>
+                    )}
+                  <div
+                    className="shadow-sm rounded-xl overflow-hidden flex flex-col items-end cursor-pointer hover:brightness-95"
+                    style={{
+                      background:
+                        msg.sender.id === currentUser?.userId
+                          ? "#f9f9f9"
+                          : "red",
+                      color:
+                        msg.sender.id === currentUser?.userId
+                          ? "black"
+                          : "white",
+                    }}
+                  >
+                    {msg?.file?.url?.length > 0 && (
+                      <div className="w-48 relative aspect-square shadow-md">
+                        <Image
+                          onClick={() => setOpenConfig(msg?.messageId)}
+                          alt={currentUser?.name}
+                          src={msg?.file?.url}
+                          style={{
+                            aspectRatio: 1,
+                            zIndex: 0,
+                            width: "100%",
+                          }}
+                        />
+                        {msg.sender.id === currentUser?.userId &&
+                          (msg?.file || msg?.file?.url?.length > 0) &&
+                          msg?.text.length < 1 && (
+                            <MdDoneAll
+                              size={16}
+                              className="absolute z-10 bottom-2 right-2"
+                              color={msg.status === "unread" ? "gray" : "red"}
+                            />
+                          )}
+                      </div>
+                    )}
+                    {msg.text?.length > 0 && (
+                      <div className="flex items-center gap-2 p-1 px-3">
+                        <p
+                          onClick={
+                            openConfig === msg?.messageId
+                              ? () => setOpenConfig("")
+                              : () => setOpenConfig(msg?.messageId)
+                          }
+                          className="whitespace-nowrap"
+                        >
+                          {msg.text}
+                        </p>
 
-                    {msg.sender.id === currentUser?.userId && (
-                      <MdDoneAll
-                        size={16}
-                        color={msg.status === "unread" ? "gray" : "red"}
-                      />
+                        {msg.sender.id === currentUser?.userId && (
+                          <MdDoneAll
+                            size={16}
+                            color={msg.status === "unread" ? "gray" : "red"}
+                          />
+                        )}
+                      </div>
                     )}
                   </div>
-                )}
-              </div>
-              {msg.sender.id === currentUser?.userId &&
-                openConfig === msg?.messageId && (
-                  <div className="flex items-center gap-1">
-                    <span
-                      className="text-gray-400"
-                      style={{ fontSize: "12px" }}
-                    >
-                      {GetTimesAgo(msg?.createdAt)}
-                    </span>
-                    <MdDelete
-                      onClick={() => setOpenConfirm(true)}
-                      color="red"
-                      size={16}
-                    />
-                  </div>
-                )}
+                  {msg.sender.id === currentUser?.userId &&
+                    openConfig === msg?.messageId && (
+                      <div className="flex items-center gap-1">
+                        <span
+                          className="text-gray-400"
+                          style={{ fontSize: "12px", whiteSpace: "nowrap" }}
+                        >
+                          {GetTimesAgo(msg?.createdAt)}
+                        </span>
+                        <MdDelete
+                          onClick={() => setOpenConfirm(true)}
+                          color="red"
+                          size={16}
+                        />
+                      </div>
+                    )}
+                </div>
+              )}
             </div>
           )}
-        </div>
+        </>
       )}
     </>
   );

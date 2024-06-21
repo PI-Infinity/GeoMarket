@@ -92,18 +92,15 @@ const LeftBar = () => {
    */
   const DeleteCover = async () => {
     try {
+      setUploadingCover(true);
       const response = await axios.patch(
-        apiUrl + "/api/v1/users/" + currentUser?.userId,
-        {
-          cover: null,
-        }
+        apiUrl + "/api/v1/users/" + currentUser?.userId + "/delete-cover"
       );
       if (response.data.status === "success") {
-        let fileRef = ref(storage, "/users/" + currentUser?.userId + "/cover");
-        deleteObject(fileRef).then(() => {
-          console.log("item deleted");
-        });
         setCurrentUser((prev: any) => ({ ...prev, cover: null }));
+        console.log("Cover image deleted successfully");
+
+        setUploadingCover(false);
       }
     } catch (error: any) {
       console.log(error.response.data.message);

@@ -225,7 +225,6 @@ const AddProduct: React.FC<propsTypes> = () => {
               onClick={disabled ? () => undefined : () => ProductUpload()}
               background="green"
               color="white"
-              loading={openBackDrop}
               disabled={disabled}
             />
           </div>

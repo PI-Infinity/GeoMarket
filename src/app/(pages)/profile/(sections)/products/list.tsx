@@ -6,6 +6,7 @@ import React from "react";
 import ProductItem from "./product-item";
 import { useProfileContext } from "@/app/context/profile";
 import { useAuth } from "@/app/context/auth";
+import { CgLayoutGridSmall } from "react-icons/cg";
 
 interface propsTypes {
   setConfirmPopup: any;
@@ -19,34 +20,24 @@ const List: React.FC<propsTypes> = ({ setConfirmPopup }) => {
   const { products, setProducts, setAlert, loadingProducts, totalProducts } =
     useProfileContext();
 
-  // auth context
-  const { currentUser } = useAuth();
-
   /**
    * Delete Product
    */
 
-  const DeleteProduct = async ({ itemId, folderId }: any) => {
+  CgLayoutGridSmall;
+
+  const DeleteProduct = async ({ itemId }: any) => {
+    console.log(itemId);
     try {
       setOpenBackDrop(true);
-      let fileRef = ref(
-        storage,
-        `products/user:${currentUser?.userId}/${folderId}/`
+      const response = await axios.delete(
+        apiUrl + "/api/v1/products/" + itemId
       );
-
-      await axios.delete(apiUrl + "/api/v1/products/" + itemId);
-      listAll(fileRef)
-        .then((res) => {
-          res.items.forEach((itemRef) => {
-            deleteObject(itemRef).then(() => {
-              console.log("item deleted");
-            });
-          });
-        })
-        .catch((error) => {
-          console.log("error : " + error);
-        });
-      setProducts(products?.filter((i: any) => i.productId !== itemId));
+      // if (response.data.status === "success") {
+      setProducts((prev: any) =>
+        prev?.filter((i: any) => i.productId !== itemId)
+      );
+      // }
       setConfirmPopup(false);
       setTimeout(() => {
         setOpenBackDrop(false);

@@ -11,6 +11,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { MdDiamond, MdDoneAll, MdImage, MdRemove } from "react-icons/md";
+import { MoonLoader } from "react-spinners";
 
 const RoomItem = ({ item }: any) => {
   // app context
@@ -42,9 +43,11 @@ const RoomItem = ({ item }: any) => {
 
   // delete confirm
   const [confirm, setConfirm] = useState({ room: "" });
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const DeleteChat = async () => {
     try {
+      setDeleteLoading(true);
       const response = await axios.delete(
         apiUrl +
           "/api/v1/chats/" +
@@ -61,6 +64,7 @@ const RoomItem = ({ item }: any) => {
       if (activeRoom?.roomId === confirm.room) {
         router.push("/chat");
       }
+      setDeleteLoading(false);
     } catch (error: any) {
       setConfirm({ room: "" });
       console.log(error.response);
@@ -106,22 +110,28 @@ const RoomItem = ({ item }: any) => {
   return (
     <>
       {confirm.room === item.roomId ? (
-        <div className="flex items-center rounded-xl w-full shadow-md p-2 cursor-pointer hover:brightness-95">
-          <div className="flex items-center justify-evenly font-semibold w-full h-full">
-            <div
-              className="text-red-500 h-14 aspect-square flex items-center justify-center hover:brightness-90"
-              onClick={() => setConfirm({ room: "" })}
-            >
-              No
+        <div className="flex items-center justify-center rounded-xl w-full shadow-md p-2 cursor-pointer hover:brightness-95">
+          {deleteLoading ? (
+            <MoonLoader size={24} color="red" />
+          ) : (
+            <div className="flex items-center justify-evenly font-semibold w-full h-full">
+              <div
+                className="text-red-500 h-14 aspect-square flex items-center justify-center hover:brightness-90"
+                onClick={() => setConfirm({ room: "" })}
+              >
+                No
+              </div>
+              <span className="text-sm font-semibold text-gray-400">
+                Delete?
+              </span>
+              <div
+                onClick={DeleteChat}
+                className="text-green-500 h-14 aspect-square flex items-center justify-center hover:brightness-90"
+              >
+                Yes
+              </div>
             </div>
-            <span className="text-sm font-semibold text-gray-400">Delete?</span>
-            <div
-              onClick={DeleteChat}
-              className="text-green-500 h-14 aspect-square flex items-center justify-center hover:brightness-90"
-            >
-              Yes
-            </div>
-          </div>
+          )}
         </div>
       ) : (
         <div

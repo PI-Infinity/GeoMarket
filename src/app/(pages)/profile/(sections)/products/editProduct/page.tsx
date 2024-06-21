@@ -122,7 +122,7 @@ const EditProduct: React.FC<propsTypes> = () => {
    * Product Upload ind cloud and db
    * */
   // delete paths. this state collects deleted file paths for deleting from cloud on edit product
-  const [deletePaths, setDeletePaths] = useState<String[]>([]);
+  const [deletePublicIds, setDeletePublicIds] = useState<String[]>([]);
 
   // router
   const router = useRouter();
@@ -170,18 +170,6 @@ const EditProduct: React.FC<propsTypes> = () => {
   const ProductUpload = async () => {
     setOpenBackDrop(true);
 
-    deletePaths.map((i: any) => {
-      console.log(i);
-      if (i) {
-        let fileRef = ref(storage, i);
-        deleteObject(fileRef).then(() => {
-          console.log("item deleted");
-        });
-      }
-    });
-
-    setDeletePaths([]);
-
     const formData = new FormData();
     for (let i = 0; i < product.gallery.length; i++) {
       if (!product.gallery[i].type) {
@@ -202,6 +190,7 @@ const EditProduct: React.FC<propsTypes> = () => {
         cover: product?.seller?.cover,
         name: product?.seller?.name,
       },
+      deletePublicIds: deletePublicIds,
     };
 
     formData.append("product", JSON.stringify(productData));
@@ -218,6 +207,7 @@ const EditProduct: React.FC<propsTypes> = () => {
       );
 
       if (response.data.status === "success") {
+        setDeletePublicIds([]);
         GetProducts();
         setProduct({
           status: "inReview",
@@ -237,7 +227,7 @@ const EditProduct: React.FC<propsTypes> = () => {
           setOpenBackDrop(false);
         }, 1000);
       }
-      setOpenBackDrop(false);
+
       // Display success message or perform other actions as needed
     } catch (error: any) {
       console.error("Error during file upload:", error);
@@ -267,7 +257,6 @@ const EditProduct: React.FC<propsTypes> = () => {
                   }
                   background={"green"}
                   color="white"
-                  loading={openBackDrop}
                   disabled={disabled}
                 />
               </div>
@@ -507,11 +496,10 @@ const EditProduct: React.FC<propsTypes> = () => {
                       <MdDelete
                         onClick={(e) => {
                           e.stopPropagation();
-                          if (item.folderId) {
-                            console.log(item.folderId);
-                            setDeletePaths((prev) => [
+                          if (item.folder) {
+                            setDeletePublicIds((prev) => [
                               ...prev,
-                              `products/user:${currentUser?.userId}/${item.folderId}/${item.fileId}`,
+                              `${item.folder}${item.publicId}`,
                             ]);
                           }
                           setProduct((prevProduct: any) => {
