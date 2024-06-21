@@ -49,6 +49,7 @@ export const ProductsContextWrapper = ({
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState([0, 100000]);
+  const [byOrder, setByOrder] = useState(true);
   const [rerenderProducts, setRerenderProducts] = useState(false);
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [page, setPage] = useState(1);
@@ -63,6 +64,7 @@ export const ProductsContextWrapper = ({
         category,
         price,
         page: 1,
+        byOrder,
       });
       setProducts(data.data.products);
       if (data.totalProducts === 1) {
@@ -75,7 +77,7 @@ export const ProductsContextWrapper = ({
       setLoadingProducts(false);
     };
     GetProducts();
-  }, [rerenderProducts, category, search, price, currentUser]);
+  }, [rerenderProducts, category, search, price, currentUser, byOrder]);
 
   const AddProducts = async () => {
     const newPage = page + 1;
@@ -86,6 +88,7 @@ export const ProductsContextWrapper = ({
         category,
         price,
         page: newPage,
+        byOrder,
       });
       setTotalProducts(data.totalProducts);
       setProducts((prevProducts) => {
@@ -223,6 +226,8 @@ export const ProductsContextWrapper = ({
         setSearch,
         price,
         setPrice,
+        byOrder,
+        setByOrder,
         productsRef,
         scrollToTop,
         scrollY,

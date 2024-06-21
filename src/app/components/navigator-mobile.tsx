@@ -198,7 +198,10 @@ const NavigatorMobile: React.FC = () => {
             }
             className={`w-8 laptop:w-3/5 bg-gray-200 aspect-square flex items-center justify-center hover:brightness-90 transition-all rounded-full`}
           >
-            <div className="shadow-ms rounded-full overflow-hidden h-full w-full">
+            <div
+              style={{ border: "1.5px solid #d9d9d9" }}
+              className="shadow-ms rounded-full overflow-hidden h-full w-full"
+            >
               <Image
                 alt={currentUser?.name || "alt"}
                 src={currentUser?.cover?.url}

@@ -1,18 +1,20 @@
 "use client";
 import { useApp } from "@/app/context/app";
-import { Typography } from "@mui/material";
+import { Checkbox, FormControlLabel, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { MdClose, MdDone } from "react-icons/md";
 import { useProductsContext } from "../context/products";
 import FilterItem from "./filter-item";
 import { Input } from "./input";
+import { CheckBox } from "@mui/icons-material";
 
 const Filter: React.FC = () => {
   //app context
   const { activeLanguage } = useApp();
 
   // products context
-  const { categories, setPrice, price } = useProductsContext();
+  const { categories, setPrice, price, byOrder, setByOrder } =
+    useProductsContext();
 
   // price range
   const defaultPrices = [0, 100000];
@@ -116,6 +118,34 @@ const Filter: React.FC = () => {
                 />
               </div>
             )}
+            <FormControlLabel
+              style={{ position: "relative", left: "8px" }}
+              control={
+                <Checkbox
+                  checked={byOrder}
+                  onChange={() => setByOrder((prev: any) => !prev)}
+                  inputProps={{ "aria-label": "By Order" }}
+                  sx={{
+                    color: "red",
+                    "&.Mui-checked": {
+                      color: "red",
+                    },
+                    "& .MuiSvgIcon-root": {
+                      fill: "red",
+                    },
+                  }}
+                />
+              }
+              label="By Order"
+              sx={{
+                "& .MuiFormControlLabel-label": {
+                  whiteSpace: "nowrap",
+                  color: "#b9b9b9",
+                  fontSize: "14px",
+                  fontWeight: "500",
+                },
+              }}
+            />
           </div>
         </div>
       </ul>

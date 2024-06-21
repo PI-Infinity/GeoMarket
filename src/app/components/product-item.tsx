@@ -168,7 +168,7 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
                 activeGrid === "double"
                   ? "max-w-32 text-md"
                   : "max-w-80 text-xl"
-              } laptop:max-w-48`}
+              } laptop:max-w-56`}
             >
               {product?.title?.ka}
             </h4>
