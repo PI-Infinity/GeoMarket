@@ -10,7 +10,7 @@ export default function Sellers() {
   const { loading, isMobile, apiUrl } = useApp();
 
   // sellers
-  const [sellers, setSellers] = useState<[]>([]);
+  const [sellers, setSellers] = useState<any>([]);
   const [page, setPage] = useState(1);
   const [totalSellers, setTotalSellers] = useState(null);
   const [search, setSearch] = useState("");
@@ -36,6 +36,68 @@ export default function Sellers() {
   useEffect(() => {
     GetUsers();
   }, [apiUrl, search]);
+
+  const AddSellers = async () => {
+    const newPage = page + 1;
+    try {
+      const data = await getUsers({
+        apiUrl,
+        search,
+        page: newPage,
+        limit: 8,
+        onlySellers: "true",
+      });
+      setTotalSellers(data.totalUsers);
+      setSellers((prevSellers: any) => {
+        // Create a new set with existing sellers IDs for quick lookup
+        const existingIds = new Set(
+          prevSellers.map((seller: any) => seller.userId)
+        );
+
+        // Filter out duplicates from the newly fetched sellerss based on sellers ID
+        const filteredNewsellerss = data.data.users.filter(
+          (p: any) => !existingIds.has(p.sellersId)
+        );
+
+        if (filteredNewsellerss.length > 0) {
+          return [...prevSellers, ...filteredNewsellerss];
+        } else {
+          return [...prevSellers];
+        }
+      });
+
+      setPage(newPage);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // products ref
+  const productsRef = useRef<HTMLDivElement>();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Ensure productsRef.current is not null before accessing its properties
+      if (productsRef.current) {
+        const { bottom } = productsRef.current.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+
+        // Check if the bottom of the component is near the bottom of the window viewport
+        if (bottom <= windowHeight + 200) {
+          if (totalSellers && totalSellers > sellers.length) {
+            // setLoadMore(true);
+            AddSellers();
+          }
+        }
+      }
+    };
+
+    // Register the scroll event listener
+    window.addEventListener("scroll", handleScroll);
+
+    // Cleanup function to remove the event listener
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [sellers.length, totalSellers, productsRef]);
 
   return (
     <div

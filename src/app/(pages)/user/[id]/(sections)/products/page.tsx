@@ -4,6 +4,7 @@ import List from "./list";
 import { useUserContext } from "@/app/context/user";
 import axios from "axios";
 import { useApp } from "@/app/context/app";
+import getUsersProducts from "@/app/hooks/getUserProducts";
 
 interface propsTypes {}
 
@@ -30,17 +31,22 @@ const Products: React.FC<propsTypes> = () => {
    */
   const [products, setProducts] = useState<Product[]>([]);
   const [loadingProducts, setLoadingProducts] = useState(false);
+  const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(null);
 
   const GetProducts = async () => {
     try {
       setLoadingProducts(true);
-      const list = await axios.get(
-        apiUrl + `/api/v1/products?search&seller=${user?.userId}&status=public`
-      );
-      setProducts(list.data.data.products);
-      setTotalProducts(list.data.totalProducts);
+      const list = await getUsersProducts({
+        apiUrl,
+        search,
+        userId: user?.userId,
+        page,
+        limit: 8,
+      });
+      setProducts(list.data.products);
+      setTotalProducts(list.totalProducts);
       setPage(1);
       setLoadingProducts(false);
     } catch (error: any) {
@@ -57,10 +63,14 @@ const Products: React.FC<propsTypes> = () => {
   const AddProducts = async () => {
     const newPage = page + 1;
     try {
-      const response = await axios.get(
-        `${apiUrl}/api/v1/products?&seller=${user?.userId}&page=${newPage}&status=public`
-      );
-      setTotalProducts(response.data.totalProducts);
+      const response = await getUsersProducts({
+        apiUrl,
+        search,
+        userId: user?.userId,
+        page: newPage,
+        limit: 8,
+      });
+      setTotalProducts(response.totalProducts);
 
       setProducts((prevProducts) => {
         // Create a new set with existing product IDs for quick lookup
@@ -69,7 +79,7 @@ const Products: React.FC<propsTypes> = () => {
         );
 
         // Filter out duplicates from the newly fetched products based on product ID
-        const filteredNewProducts = response.data.data.products.filter(
+        const filteredNewProducts = response.data.products.filter(
           (p: any) => !existingIds.has(p.productId)
         );
 

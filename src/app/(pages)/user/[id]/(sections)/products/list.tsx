@@ -16,9 +16,6 @@ const List: React.FC<propsTypes> = ({
   loadingProducts,
   totalProducts,
 }: any) => {
-  // app context
-  const { loading } = useApp();
-
   return (
     <div
       className="flex-1 w-full h-full laptop:bg-white relative"

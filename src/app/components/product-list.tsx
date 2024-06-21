@@ -79,7 +79,11 @@ const ProductList: React.FC = () => {
         {!loadingProducts &&
           products &&
           products?.map((item: any) => (
-            <ProductItem item={item} key={item.productId} />
+            <ProductItem
+              item={item}
+              key={item.productId}
+              activeGrid={activeGrid}
+            />
           ))}
       </div>
     </div>

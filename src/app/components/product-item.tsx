@@ -16,9 +16,15 @@ interface PropTypes {
   item: any;
   from?: string;
   UnSave?: any;
+  activeGrid?: any;
 }
 
-const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
+const SellerItem: React.FC<PropTypes> = ({
+  item,
+  from,
+  UnSave,
+  activeGrid,
+}) => {
   // current path name
   const pathname = usePathname();
 
@@ -32,7 +38,7 @@ const SellerItem: React.FC<PropTypes> = ({ item, from, UnSave }) => {
   const { apiUrl, activeLanguage, isMobile } = useApp();
 
   // categories
-  const { categories, activeGrid } = useProductsContext();
+  const { categories } = useProductsContext();
 
   // user context
   const { setProduct: setProductState, setUser } = useUserContext();

@@ -55,8 +55,9 @@ export const ProfileContextWrapper: React.FC<contextProps> = ({ children }) => {
       const list = await fetchProducts({
         apiUrl,
         search,
-        currentUser,
-        page: 1,
+        userId: currentUser?.userId,
+        page,
+        limit: 8,
       });
       setProducts(list.data.products);
       setTotalProducts(list.totalProducts);
@@ -76,8 +77,9 @@ export const ProfileContextWrapper: React.FC<contextProps> = ({ children }) => {
       const response = await fetchProducts({
         apiUrl,
         search,
+        userId: currentUser?.userId,
         page: newPage,
-        currentUser,
+        limit: 8,
       });
       setTotalProducts(response.totalProducts);
 
