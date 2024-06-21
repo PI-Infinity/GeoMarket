@@ -2,6 +2,7 @@ import Button from "@/app/components/button";
 import { useApp } from "@/app/context/app";
 import { useAuth } from "@/app/context/auth";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { MdClose, MdDelete, MdDone } from "react-icons/md";
 import { v4 } from "uuid";
@@ -10,12 +11,17 @@ const Item = ({ item, period }: any) => {
   // app context
   const { apiUrl, loading: appLoading } = useApp();
   // auth state
-  const { currentUser, setCurrentUser } = useAuth();
+  const { currentUser, setCurrentUser, setDestination } = useAuth();
   // activation loading
   const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
   // activation function
   const Activate = async (variant: any) => {
+    if (!currentUser) {
+      setDestination("subscription");
+      return router.push("login");
+    }
     const subscription = variant;
 
     try {

@@ -159,9 +159,9 @@ const Page = () => {
 
   return (
     <div className="w-full p-2">
-      <div className="flex items-center gap-4 my-2 mb-4">
+      <div className="flex items-center gap-4 my-2 mb-4 overflow-x-auto py-2">
         <div
-          className={`p-4 pt-2 pb-2 rounded-xl cursor-pointer hover:brightness-95 shadow-md ${
+          className={`p-4 pt-2 pb-2 whitespace-nowrap max-w-64 rounded-xl cursor-pointer hover:brightness-95 shadow-md ${
             status === "inReview" && "bg-green-500"
           }`}
           onClick={() => setStatus("inReview")}
@@ -169,7 +169,7 @@ const Page = () => {
           In Review
         </div>
         <div
-          className={`p-4 pt-2 pb-2 rounded-xl cursor-pointer hover:brightness-95 shadow-md ${
+          className={`p-4 pt-2 pb-2 whitespace-nowrap max-w-64 rounded-xl cursor-pointer hover:brightness-95 shadow-md ${
             status === "public" && "bg-green-500"
           }`}
           onClick={() => setStatus("public")}
@@ -177,7 +177,7 @@ const Page = () => {
           Public
         </div>
         <div
-          className={`p-4 pt-2 pb-2 rounded-xl cursor-pointer hover:brightness-95 shadow-md ${
+          className={`p-4 pt-2 pb-2 whitespace-nowrap max-w-64 rounded-xl cursor-pointer hover:brightness-95 shadow-md ${
             status === "rejected" && "bg-green-500"
           }`}
           onClick={() => setStatus("rejected")}
@@ -185,7 +185,7 @@ const Page = () => {
           Rejected
         </div>
         <div
-          className={`p-4 pt-2 pb-2 rounded-xl cursor-pointer hover:brightness-95 shadow-md ${
+          className={`p-4 pt-2 pb-2 whitespace-nowrap max-w-64 rounded-xl cursor-pointer hover:brightness-95 shadow-md ${
             status === "draft" && "bg-green-500"
           }`}
           onClick={() => setStatus("draft")}
@@ -193,7 +193,10 @@ const Page = () => {
           in Draft
         </div>
       </div>
-      <div ref={productsRef} className="grid grid-cols-4 w-full gap-2">
+      <div
+        ref={productsRef}
+        className="grid grid-cols-1 laptop:grid-cols-4 w-full gap-2"
+      >
         {loadingProducts ? (
           <BounceLoader color="red" size={40} className="m-24" />
         ) : (

@@ -174,6 +174,8 @@ const Register = () => {
         router.push("/user/product/" + destination?.productId);
       } else if (destination?.page === "user") {
         router.push("/user/" + destination?.userId + "/products");
+      } else if (destination === "subscription") {
+        router.push("/subscription");
       } else {
         router.push("/");
       }

@@ -152,7 +152,7 @@ const Reviews = () => {
   return (
     <div className="pt-2 laptop:p-4 flex flex-col gap-2 w-full">
       <h3 className="text-gray-400 font-semibold text-sm ml-2 laptop:ml-4 mb-2">
-        Reviews ({totalReviews})
+        Comments ({totalReviews})
       </h3>
       <ReviewInput setList={setList} setTotalReviews={setTotalReviews} />
       <div className="flex flex-col gap-2 items-center w-full bg-white rounded-xl">

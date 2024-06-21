@@ -22,9 +22,9 @@ const Layout: React.FC<propsTypes> = ({ children }) => {
       <div
         className={`flex-1 flex flex-col laptop:flex-row items-start justify-between w-full gap-2 laptop:gap-4 h-full`}
       >
-        <div>
+        <div className="w-full">
           <LeftBar />
-          <div className="flex flex-col gap-4 items-center w-full h-full laptop:ml-80 laptop:mr-14 laptop:pl-2 laptop:pr-4">
+          <div className="flex flex-col gap-4 items-center h-full laptop:ml-80 laptop:mr-14 laptop:pl-2 laptop:pr-4">
             <div className="relative flex-1 w-full h-full rounded-xl text-black">
               {children}
             </div>

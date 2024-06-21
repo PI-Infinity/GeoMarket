@@ -80,7 +80,7 @@ const ProductItem: React.FC<PropTypes> = ({
       style={{
         filter: item.status === "public" ? "brightness(1)" : "brightness(0.95)",
       }}
-      className="box-border rounded-xl bg-gray-50 p-4 flex flex-col justify-center cursor-pointer shadow-md max-w-80"
+      className="box-border rounded-xl bg-gray-50 p-4 flex flex-col justify-center cursor-pointer shadow-md laptop:max-w-80"
     >
       <p className="text-xl font-bold">Status: {item?.status}</p>
       <div className="flex mb-2 mt-2 gap-4 w-full items-center justify-between">

@@ -1,5 +1,6 @@
 "use client";
 import { useApp } from "@/app/context/app";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 
@@ -32,12 +33,12 @@ const Menu: React.FC = () => {
           transition ? 1 : 0
         } p-4 transition-all duration-200 ease text-black font-semibold flex flex-col gap-2`}
       >
-        <div>{activeLanguage?.prices}</div>
-        <div>{activeLanguage?.support}</div>
-        <div>{activeLanguage?.privacyPolicy}</div>
-        <div>{activeLanguage?.about}</div>
-        <div>{activeLanguage?.howToUse}</div>
-        <div>{activeLanguage?.termsAndRules}</div>
+        <Link href="/subscription">{activeLanguage?.prices}</Link>
+        <Link href="/support">{activeLanguage?.support}</Link>
+        <Link href="/about">{activeLanguage?.about}</Link>
+        <Link href="/privacy">{activeLanguage?.privacyPolicy}</Link>
+        <Link href="/terms">{activeLanguage?.termsAndRules}</Link>
+        <Link href="/usage">{activeLanguage?.howToUse}</Link>
 
         <div
           onClick={(e) => e.stopPropagation()}

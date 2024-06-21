@@ -49,7 +49,7 @@ export const UserContextWrapper: React.FC<contextProps> = ({ children }) => {
   const GetUser = async () => {
     try {
       const response = await getUser({ apiUrl, userId });
-      if (response.data.user) {
+      if (response.status === "success") {
         setUser(response.data.user);
       }
     } catch (error: any) {
@@ -61,7 +61,7 @@ export const UserContextWrapper: React.FC<contextProps> = ({ children }) => {
     if (
       user?.userId?.length < 1 &&
       userId &&
-      pathname.includes(`/user`) &&
+      pathname.includes(`/user/`) &&
       !pathname.includes(`/user/product`)
     ) {
       GetUser();
