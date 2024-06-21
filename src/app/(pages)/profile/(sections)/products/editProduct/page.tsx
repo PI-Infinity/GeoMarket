@@ -138,7 +138,6 @@ const EditProduct: React.FC<propsTypes> = () => {
 
     const fileURLs = Array.from(files)
       .map((file) => {
-        console.log(file);
         if (file instanceof Blob && "name" in file) {
           return {
             url: URL.createObjectURL(file),

@@ -159,7 +159,8 @@ const ProductItem: React.FC<PropTypes> = ({
         </div>
       </div>
       <div className="flex-1 relative">
-        <div
+        <Link
+          href={`/profile/products/editProduct?id=${item?.productId}`}
           className="w-full flex overflow-x-scroll aspect-square relative"
           style={{
             scrollSnapType: "x mandatory",
@@ -167,8 +168,7 @@ const ProductItem: React.FC<PropTypes> = ({
           }}
         >
           {reorderedGallery?.map((file: any, index: number) => (
-            <Link
-              href={`/profile/products/editProduct?id=${item?.productId}`}
+            <div
               key={index}
               className="relative min-w-full aspect-square bg-gray-300 hover:brightness-95 transition-all overflow-hidden"
               style={{ scrollSnapAlign: "center" }}
@@ -183,9 +183,9 @@ const ProductItem: React.FC<PropTypes> = ({
                   objectFit: "cover",
                 }}
               />
-            </Link>
+            </div>
           ))}
-        </div>
+        </Link>
 
         <div>
           {reorderedGallery?.length > 1 && (
