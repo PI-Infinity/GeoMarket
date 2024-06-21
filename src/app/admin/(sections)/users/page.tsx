@@ -99,6 +99,7 @@ export default function UsersTable() {
                   if (index < 10) {
                     return (
                       <div
+                        key={index}
                         className="cursor-pointer"
                         style={{ color: i === page ? "black" : "#b9b9b9" }}
                         onClick={() => setPage(i)}
