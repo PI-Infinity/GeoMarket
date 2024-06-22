@@ -12,7 +12,7 @@ const Page = () => {
     window.scrollTo(0, 0);
   }, []);
   // app context
-  const { activeLanguage } = useApp();
+  const { activeLanguage, subscriptionItems } = useApp();
 
   // use auth
   const { currentUser } = useAuth();
@@ -23,126 +23,6 @@ const Page = () => {
   useEffect(() => {
     setPeriod(currentUser?.subscription?.time || "monthly");
   }, [currentUser]);
-
-  // subscription items
-  const items = [
-    {
-      status: "active",
-      value: "Free",
-      options: {
-        topLevelSorting: false,
-        products: 10,
-      },
-      price: 0,
-      description: ["10 Products", "Top Level Sorting"],
-      btn: "",
-      icon: <MdDiamond color="gray" size={28} />,
-    },
-    {
-      status: "active",
-      value: "Economy",
-      time: "monthly",
-      options: {
-        topLevelSorting: true,
-        products: 20,
-      },
-      price: 16,
-      description: ["20 Products", "Top Level Sorting"],
-      btn: "",
-      icon: <MdDiamond color="orange" size={28} />,
-    },
-    {
-      status: "active",
-      value: "Economy",
-      time: "annually",
-      options: {
-        topLevelSorting: true,
-        products: 20,
-      },
-      price: 155,
-      description: ["20 Products", "Top Level Sorting"],
-      btn: "",
-      icon: <MdDiamond color="orange" size={28} />,
-    },
-    {
-      status: "active",
-      value: "Normal",
-      time: "monthly",
-      options: {
-        topLevelSorting: true,
-        products: 30,
-      },
-      price: 21,
-      description: ["30 Products", "Top Level Sorting"],
-      btn: "",
-      icon: <MdDiamond color="orange" size={28} />,
-    },
-    {
-      status: "active",
-      value: "Normal",
-      time: "annually",
-      options: {
-        topLevelSorting: true,
-        products: 30,
-      },
-      price: 204,
-      description: ["30 Products", "Top Level Sorting"],
-      btn: "",
-      icon: <MdDiamond color="orange" size={28} />,
-    },
-    {
-      status: "active",
-      value: "Premium",
-      time: "monthly",
-      options: {
-        topLevelSorting: true,
-        products: 100,
-      },
-      price: 31,
-      description: ["100 Products", "Top Level Sorting"],
-      btn: "",
-      icon: <MdDiamond color="orange" size={28} />,
-    },
-    {
-      status: "active",
-      value: "Premium",
-      time: "annually",
-      options: {
-        topLevelSorting: true,
-        products: 100,
-      },
-      price: 301,
-      description: ["100 Products", "Top Level Sorting"],
-      btn: "",
-      icon: <MdDiamond color="orange" size={28} />,
-    },
-    {
-      status: "active",
-      value: "Premium+",
-      time: "monthly",
-      options: {
-        topLevelSorting: true,
-        products: 100000,
-      },
-      price: 50,
-      description: ["Unlimited Products", "Top Level Sorting"],
-      btn: "",
-      icon: <MdDiamond color="orange" size={28} />,
-    },
-    {
-      status: "active",
-      value: "Premium+",
-      time: "annually",
-      options: {
-        topLevelSorting: true,
-        products: 100000,
-      },
-      price: 495,
-      description: ["Unlimited Products", "Top Level Sorting"],
-      btn: "",
-      icon: <MdDiamond color="orange" size={28} />,
-    },
-  ];
 
   return (
     <div className="w-full pl-4 pr-4 text-gray-500 flex flex-col items-center justify-center gap-4 laptop:gap-8 mt-4 pb-16 laptop:pb-0">
@@ -171,7 +51,7 @@ const Page = () => {
         </div>
       </div>
       <div className="mr-0 laptop:mr-20 w-full laptop:h-96 laptop:w-4/5 rounded-xl shadow-sm p-4 laptop:p-8 flex flex-col laptop:flex-row items-center justify-center gap-4 bg-white">
-        {items
+        {subscriptionItems
           ?.filter(
             (it: any) =>
               it?.time?.toLowerCase() === period?.toLowerCase() || !it?.time

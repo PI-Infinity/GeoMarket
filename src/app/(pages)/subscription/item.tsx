@@ -51,7 +51,7 @@ const Item = ({ item, period }: any) => {
     try {
       setLoading(true);
       const response = await axios.patch(
-        apiUrl + "/api/v1/subscriptions/" + currentUser.userId,
+        apiUrl + "/api/v1/subscriptions/" + currentUser.userId + "/cancel",
         { canceled }
       );
       if (response.data.status === "success") {

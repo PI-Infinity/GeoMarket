@@ -78,11 +78,7 @@ export default function UsersTable() {
         >
           Reset
           <div className="h-6 flex items-center">
-            {loading ? (
-              <MoonLoader size={20} color="red" />
-            ) : (
-              <GrPowerReset size={20} />
-            )}
+            <GrPowerReset size={20} />
           </div>
         </div>
       </div>
@@ -171,14 +167,14 @@ const items = [
     label: "N",
     width:
       "min-w-16 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center justify-center overflow-x-auto",
-    sort: true,
+    sort: false,
   },
   {
     value: "online",
     label: "Online",
     width:
       "min-w-24 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center justify-center overflow-x-auto",
-    sort: true,
+    sort: false,
   },
   {
     value: "name",
@@ -199,7 +195,7 @@ const items = [
     label: "Categories",
     width:
       "min-w-32 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center overflow-x-auto",
-    sort: true,
+    sort: false,
   },
   {
     value: "email",
@@ -213,34 +209,34 @@ const items = [
     label: "Phone",
     width:
       "min-w-36 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center overflow-x-auto",
-    sort: true,
+    sort: false,
   },
   {
     value: "subscription",
     label: "Subscription",
     width:
       "min-w-32 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center justify-center overflow-x-auto",
-    sort: true,
+    sort: false,
   },
   {
     value: "addresses",
     label: "Addresses",
     width:
       "min-w-32 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center overflow-x-auto",
-    sort: true,
+    sort: false,
   },
   {
     value: "registerDate",
     label: "Register Date",
     width:
       "min-w-40 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center overflow-x-auto",
-    sort: true,
+    sort: false,
   },
   {
     value: "lastVisit",
     label: "Last Visit",
     width:
       "min-w-32 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center overflow-x-auto",
-    sort: true,
+    sort: false,
   },
 ];

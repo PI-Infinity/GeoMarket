@@ -6,8 +6,10 @@ import { useAuth } from "@/app/context/auth";
 import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
-import { MdDiamond, MdStar } from "react-icons/md";
+import { MdClose, MdDiamond, MdStar } from "react-icons/md";
 import Item from "./item";
+import AddSubscription from "./addSubscription";
+import Button from "@/app/components/button";
 
 // Define the subscription interface
 interface Subscription {
@@ -22,10 +24,11 @@ const Page = () => {
   // auth state
   const { currentUser } = useAuth();
   // get invoices
-  const [subscriptions, setsubscriptions] = useState<Subscription[]>([]);
+  const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [loadingSubscriptions, setLoadingSubscriptions] = useState(false);
   const [page, setPage] = useState(1);
   const [totalSubscriptions, setTotalSubscriptions] = useState(null);
+  const [rerender, setRerender] = useState(false);
 
   const GetSubscriptions = async () => {
     try {
@@ -33,7 +36,7 @@ const Page = () => {
       const list = await axios.get(
         apiUrl + `/api/v1/subscriptions?page=1&limit=3`
       );
-      setsubscriptions(list.data.data.subscriptions);
+      setSubscriptions(list.data.data.subscriptions);
       setPage(1);
       setTotalSubscriptions(list.data.totalSubscriptions);
       setLoadingSubscriptions(false);
@@ -44,7 +47,7 @@ const Page = () => {
     if (apiUrl) {
       GetSubscriptions();
     }
-  }, [currentUser]);
+  }, [currentUser, rerender]);
 
   const AddSubscriptions = async () => {
     const newPage = page + 1;
@@ -54,7 +57,7 @@ const Page = () => {
       );
       setTotalSubscriptions(response.data.totalSubscriptions);
 
-      setsubscriptions((prevsubscriptions) => {
+      setSubscriptions((prevsubscriptions) => {
         // Create a new set with existing subscription IDs for quick lookup
         const existingIds = new Set(
           prevsubscriptions.map((subscription) => subscription.subscriptionId)
@@ -94,7 +97,6 @@ const Page = () => {
             totalSubscriptions &&
             totalSubscriptions > subscriptions?.length
           ) {
-            // setLoadMore(true);
             AddSubscriptions();
           }
         }
@@ -108,17 +110,49 @@ const Page = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [subscriptions?.length, totalSubscriptions, subscriptionsRef]);
 
+  // open adding subscription in mobile
+  const [open, setOpen] = useState(false);
+
   return (
-    <div className="bg-white h-full w-full rounded-xl shadow-sm flex gap-2">
+    <div
+      className={`h-full w-full mt-2 laptop:mt-0 rounded-xl shadow-sm flex flex-col laptop:flex-row`}
+    >
+      <div className="h-11 w-full laptop:hidden flex justify-center items-center">
+        {open ? (
+          <MdClose
+            color="red"
+            size={40}
+            onClick={() => setOpen(false)}
+            className="hover:brightness-95 cursor-pointer"
+          />
+        ) : (
+          <Button
+            title="Add New Subscription"
+            background="green"
+            color="white"
+            onClick={() => setOpen(true)}
+          />
+        )}
+      </div>
+      {open && (
+        <div className={`flex laptop:hidden flex flex-1 w-full`}>
+          <AddSubscription setRerender={setRerender} />
+        </div>
+      )}
+
       <div
-        className="flex-1 p-2 flex flex-col gap-2 w-full"
+        className="mt-2 laptop:mt-0 laptop:p-2 flex flex-col gap-2 w-full laptop:w-2/3"
         ref={subscriptionsRef}
       >
         {subscriptions?.map((item: any, index: number) => {
-          return <Item key={index} item={item} />;
+          return (
+            <Item key={index} item={item} setSubscriptions={setSubscriptions} />
+          );
         })}
       </div>
-      <div className="w-96 hidden laptop:flex">Add Subscription:</div>
+      <div className={`hidden laptop:flex-1 w-full laptop:flex`}>
+        <AddSubscription setRerender={setRerender} />
+      </div>
     </div>
   );
 };

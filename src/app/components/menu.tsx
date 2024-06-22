@@ -1,6 +1,7 @@
 "use client";
 import { useApp } from "@/app/context/app";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 

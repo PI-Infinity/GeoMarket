@@ -18,7 +18,7 @@ const ProductList: React.FC = () => {
     <div className={`h-full rounded-xl`}>
       <div className="flex desktop:hidden w-full h-8 justify-between items-center px-2">
         <div className="text-sm flex items-center gap-1 mb-2">
-          Total: ({totalProducts})
+          Total: ({totalProducts || 0})
         </div>
         <div className="text-sm flex items-center gap-1 mb-2">
           View:
@@ -61,7 +61,7 @@ const ProductList: React.FC = () => {
           </div>
         </div>
       </div>
-      {totalProducts !== null && totalProducts < 1 && (
+      {totalProducts !== null && totalProducts < 1 && !loadingProducts && (
         <div className="text-gray-400 flex w-full items-center justify-center text-red-500 pt-4">
           Not Found
         </div>

@@ -10,6 +10,7 @@ import {
 import { v4 } from "uuid";
 import { en, ka } from "../languages/list";
 import { usePathname } from "next/navigation";
+import { MdDiamond } from "react-icons/md";
 
 /**
  * App context state
@@ -165,9 +166,130 @@ export const AppContextWrapper: React.FC<contextProps> = ({ children }) => {
         isMobile,
         isLoading,
         setIsLoading,
+        subscriptionItems,
       }}
     >
       {children}
     </App.Provider>
   );
 };
+
+// subscription items
+const subscriptionItems = [
+  {
+    status: "active",
+    value: "Free",
+    options: {
+      topLevelSorting: false,
+      products: 10,
+    },
+    price: 0,
+    description: ["10 Products", "Top Level Sorting"],
+    btn: "",
+    icon: <MdDiamond color="gray" size={28} />,
+  },
+  {
+    status: "active",
+    value: "Economy",
+    time: "monthly",
+    options: {
+      topLevelSorting: true,
+      products: 20,
+    },
+    price: 16,
+    description: ["20 Products", "Top Level Sorting"],
+    btn: "",
+    icon: <MdDiamond color="orange" size={28} />,
+  },
+  {
+    status: "active",
+    value: "Economy",
+    time: "annually",
+    options: {
+      topLevelSorting: true,
+      products: 20,
+    },
+    price: 155,
+    description: ["20 Products", "Top Level Sorting"],
+    btn: "",
+    icon: <MdDiamond color="orange" size={28} />,
+  },
+  {
+    status: "active",
+    value: "Normal",
+    time: "monthly",
+    options: {
+      topLevelSorting: true,
+      products: 30,
+    },
+    price: 21,
+    description: ["30 Products", "Top Level Sorting"],
+    btn: "",
+    icon: <MdDiamond color="orange" size={28} />,
+  },
+  {
+    status: "active",
+    value: "Normal",
+    time: "annually",
+    options: {
+      topLevelSorting: true,
+      products: 30,
+    },
+    price: 204,
+    description: ["30 Products", "Top Level Sorting"],
+    btn: "",
+    icon: <MdDiamond color="orange" size={28} />,
+  },
+  {
+    status: "active",
+    value: "Premium",
+    time: "monthly",
+    options: {
+      topLevelSorting: true,
+      products: 100,
+    },
+    price: 31,
+    description: ["100 Products", "Top Level Sorting"],
+    btn: "",
+    icon: <MdDiamond color="orange" size={28} />,
+  },
+  {
+    status: "active",
+    value: "Premium",
+    time: "annually",
+    options: {
+      topLevelSorting: true,
+      products: 100,
+    },
+    price: 301,
+    description: ["100 Products", "Top Level Sorting"],
+    btn: "",
+    icon: <MdDiamond color="orange" size={28} />,
+  },
+  {
+    status: "active",
+    value: "Premium+",
+    time: "monthly",
+    options: {
+      topLevelSorting: true,
+      products: 100000,
+    },
+    price: 50,
+    description: ["Unlimited Products", "Top Level Sorting"],
+    btn: "",
+    icon: <MdDiamond color="orange" size={28} />,
+  },
+  {
+    status: "active",
+    value: "Premium+",
+    time: "annually",
+    options: {
+      topLevelSorting: true,
+      products: 100000,
+    },
+    price: 495,
+    description: ["Unlimited Products", "Top Level Sorting"],
+    btn: "",
+    icon: <MdDiamond color="orange" size={28} />,
+  },
+];

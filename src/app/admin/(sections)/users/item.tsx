@@ -39,7 +39,17 @@ const Item = ({ item, index, items }: any) => {
       </div>
       <div className={`${items[2].width}`}>{item?.name}</div>
       <div className={`${items[3].width}`}>{item?.totalProducts}</div>
-      <div className={`${items[4].width}`}>{item?.categories}</div>
+      <div className={`${items[4].width}`}>
+        {item?.uniqueCategories?.map((i: any, index: number) => {
+          if (i) {
+            if (index !== item?.uniqueCategories?.length - 1) {
+              return i + ", ";
+            } else {
+              return i;
+            }
+          }
+        })}
+      </div>
       <div className={`${items[5].width}`}>{item?.email}</div>
       <div className={`${items[6].width}`}>{item?.phone.number}</div>
       <div className={`${items[7].width}`}>{item?.subscription.type}</div>

@@ -66,58 +66,65 @@ const Filter: React.FC = () => {
             </Typography>
           </div>
 
-          <div className="w-full flex items-center justify-center gap-2 mt-2 ">
-            <Input
-              label="Min"
-              value={minPrice}
-              type="text"
-              padding="py-2 p-3"
-              onChange={(e: any) => setMinPrice(e.target.value)}
-              disabled={JSON.stringify(defaultPrices) !== JSON.stringify(price)}
-            />
+          <div className="w-full flex laptop:flex-col items-center laptop:items-start justify-center gap-2 mt-2 ">
+            <div className="flex items-center w-full gap-2">
+              <Input
+                label="Min"
+                value={minPrice}
+                type="text"
+                padding="py-2 p-3"
+                onChange={(e: any) => setMinPrice(e.target.value)}
+                disabled={
+                  JSON.stringify(defaultPrices) !== JSON.stringify(price)
+                }
+              />
 
-            <Input
-              label="Max"
-              value={maxPrice}
-              type="text"
-              padding="py-2 px-3"
-              onChange={(e: any) => setMaxPrice(e.target.value)}
-              disabled={JSON.stringify(defaultPrices) !== JSON.stringify(price)}
-            />
-            {JSON.stringify(defaultPrices) !== JSON.stringify(price) ? (
-              <div
-                onClick={() => {
-                  setPrice([0, 100000]);
-                  setMinPrice(0);
-                  setMaxPrice(100000);
-                }}
-                style={{
-                  cursor:
-                    minPrice > 0 || maxPrice < 100000 ? "pointer" : "default",
-                }}
-                className={`hover:brightness-95 bg-white h-10 aspect-square flex items-center justify-center shadow-md rounded-xl`}
-              >
-                <MdClose size={24} color="red" />
-              </div>
-            ) : (
-              <div
-                onClick={AcceptRange}
-                style={{
-                  cursor:
-                    minPrice > 0 || maxPrice < 100000 ? "pointer" : "default",
-                }}
-                className={`${
-                  minPrice > 0 && "hover:brightness-95"
-                } bg-white h-10 aspect-square flex items-center justify-center shadow-md rounded-xl`}
-              >
-                <MdDone
-                  size={24}
-                  color={
-                    minPrice > 0 || maxPrice < 100000 ? "green" : "#e5e5e5"
-                  }
-                />
-              </div>
-            )}
+              <Input
+                label="Max"
+                value={maxPrice}
+                type="text"
+                padding="py-2 px-3"
+                onChange={(e: any) => setMaxPrice(e.target.value)}
+                disabled={
+                  JSON.stringify(defaultPrices) !== JSON.stringify(price)
+                }
+              />
+              {JSON.stringify(defaultPrices) !== JSON.stringify(price) ? (
+                <div
+                  onClick={() => {
+                    setPrice([0, 100000]);
+                    setMinPrice(0);
+                    setMaxPrice(100000);
+                  }}
+                  style={{
+                    cursor:
+                      minPrice > 0 || maxPrice < 100000 ? "pointer" : "default",
+                  }}
+                  className={`hover:brightness-95 bg-white h-10 aspect-square flex items-center justify-center shadow-md rounded-xl`}
+                >
+                  <MdClose size={24} color="red" />
+                </div>
+              ) : (
+                <div
+                  onClick={AcceptRange}
+                  style={{
+                    cursor:
+                      minPrice > 0 || maxPrice < 100000 ? "pointer" : "default",
+                  }}
+                  className={`${
+                    minPrice > 0 && "hover:brightness-95"
+                  } bg-white h-10 aspect-square flex items-center justify-center shadow-md rounded-xl`}
+                >
+                  <MdDone
+                    size={24}
+                    color={
+                      minPrice > 0 || maxPrice < 100000 ? "green" : "#e5e5e5"
+                    }
+                  />
+                </div>
+              )}
+            </div>
+
             <FormControlLabel
               style={{ position: "relative", left: "8px" }}
               control={

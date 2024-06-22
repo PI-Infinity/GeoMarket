@@ -61,7 +61,7 @@ export default function Header() {
             </h1>
           </Link>
         }
-        {pathname !== "/sellers" && (
+        {pathname !== "/sellers" && !pathname?.includes("/admin") && (
           <Link
             href="/sellers"
             className="hidden laptop:flex items-center gap-2 ml-auto shadow-md text-gray-500 rounded-full bg-gray-50 px-4 py-1 cursor-pointer hover:brightness-95"
@@ -70,7 +70,10 @@ export default function Header() {
             Sellers
           </Link>
         )}
-        <div className="flex min-w-24 items-center justify-end p-4 pr-3">
+        <div
+          className="flex min-w-24 items-center justify-end p-4 pr-3"
+          style={{ display: pathname?.includes("/admin") ? "none" : "flex" }}
+        >
           {pathname === "/chat" && !createChatMobile && (
             <div
               style={{ color: "#a9a9a9" }}
