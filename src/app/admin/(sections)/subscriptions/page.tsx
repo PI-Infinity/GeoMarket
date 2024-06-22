@@ -10,6 +10,8 @@ import { MdClose, MdDiamond, MdStar } from "react-icons/md";
 import Item from "./item";
 import AddSubscription from "./addSubscription";
 import Button from "@/app/components/button";
+import { MoonLoader } from "react-spinners";
+import Search from "./search";
 
 // Define the subscription interface
 interface Subscription {
@@ -26,6 +28,7 @@ const Page = () => {
   // get invoices
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [loadingSubscriptions, setLoadingSubscriptions] = useState(false);
+  const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [totalSubscriptions, setTotalSubscriptions] = useState(null);
   const [rerender, setRerender] = useState(false);
@@ -34,7 +37,7 @@ const Page = () => {
     try {
       setLoadingSubscriptions(true);
       const list = await axios.get(
-        apiUrl + `/api/v1/subscriptions?page=1&limit=3`
+        apiUrl + `/api/v1/subscriptions?page=1&limit=3&search=${search}`
       );
       setSubscriptions(list.data.data.subscriptions);
       setPage(1);
@@ -47,7 +50,7 @@ const Page = () => {
     if (apiUrl) {
       GetSubscriptions();
     }
-  }, [currentUser, rerender]);
+  }, [currentUser, rerender, search]);
 
   const AddSubscriptions = async () => {
     const newPage = page + 1;
@@ -139,11 +142,16 @@ const Page = () => {
           <AddSubscription setRerender={setRerender} />
         </div>
       )}
-
       <div
         className="mt-2 laptop:mt-0 laptop:p-2 flex flex-col gap-2 w-full laptop:w-2/3"
         ref={subscriptionsRef}
       >
+        <Search search={search} setSearch={setSearch} />
+        {loadingSubscriptions && (
+          <div className="w-full flex items-center justify-center h-96">
+            <MoonLoader color="red" size={24} />
+          </div>
+        )}
         {subscriptions?.map((item: any, index: number) => {
           return (
             <Item key={index} item={item} setSubscriptions={setSubscriptions} />

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Search from "./search";
+import Search from "./userSearch";
 import { useApp } from "@/app/context/app";
 import axios from "axios";
 import Button from "@/app/components/button";

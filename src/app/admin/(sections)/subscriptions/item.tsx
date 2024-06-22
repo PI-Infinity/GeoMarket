@@ -8,6 +8,7 @@ import axios from "axios";
 import Link from "next/link";
 import React, { useState } from "react";
 import { MdDiamond, MdStar } from "react-icons/md";
+import { MoonLoader } from "react-spinners";
 
 const Item = ({ item, setSubscriptions }: any) => {
   // app context
@@ -18,6 +19,8 @@ const Item = ({ item, setSubscriptions }: any) => {
    */
   // activation loading
   const [loading, setLoading] = useState(false);
+
+  const [confirm, setConfirm] = useState(false);
 
   const UnActive = async () => {
     const canceled = {
@@ -42,6 +45,7 @@ const Item = ({ item, setSubscriptions }: any) => {
         );
         setTimeout(() => {
           setLoading(false);
+          setConfirm(false);
         }, 500);
       }
     } catch (error: any) {
@@ -49,6 +53,7 @@ const Item = ({ item, setSubscriptions }: any) => {
       console.log(error.response.data.message);
     }
   };
+
   return (
     <div className="w-full bg-white p-4 border-[1px] border-gray-200 rounded-xl shadow-md flex flex-col gap-2 relative">
       <div className="absolute right-4 top-4 flex flex-col items-end gap-4">
@@ -87,14 +92,33 @@ const Item = ({ item, setSubscriptions }: any) => {
           {formatNumbers(item?.user?.rating)}
         </div>
         {item?.status !== "canceled" && (
-          <div className="h-8 w-24">
-            <Button
-              background="red"
-              color="white"
-              onClick={UnActive}
-              title="Cancel"
-              loading={loading}
-            />
+          <div className="h-8 w-24 flex justify-center items-center">
+            {confirm ? (
+              <div className="flex items-center justify-evenly w-full">
+                <div
+                  className={`${
+                    loading ? "text-gray-300" : "text-red-500"
+                  } cursor-pointer hover:brightness-95`}
+                  onClick={loading ? undefined : () => setConfirm(false)}
+                >
+                  No
+                </div>
+                <div
+                  className="text-green-500 cursor-pointer hover:brightness-95"
+                  onClick={UnActive}
+                >
+                  {loading ? <MoonLoader size={20} color="green" /> : "Yes"}
+                </div>
+              </div>
+            ) : (
+              <Button
+                background="red"
+                color="white"
+                onClick={() => setConfirm(true)}
+                title="Cancel"
+                loading={loading}
+              />
+            )}
           </div>
         )}
       </div>
