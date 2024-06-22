@@ -2,6 +2,7 @@
 import Image from "@/app/components/image";
 import { useProductsContext } from "@/app/context/products";
 import { useUserContext } from "@/app/context/user";
+import { formatNumbers } from "@/app/utils/formatNumbers";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { CgProductHunt } from "react-icons/cg";
@@ -21,14 +22,6 @@ const SellerItem: React.FC<PropTypes> = ({ item }) => {
 
   // products context
   const { categories } = useProductsContext();
-
-  // Function to format the rating
-  const formatRating = (rating: any) => {
-    if (rating < 1000) return rating;
-    if (rating < 10000) return `${(rating / 1000).toFixed(0)}k`;
-    if (rating < 1000000) return `${Math.floor(rating / 1000)}k`;
-    return `${(rating / 1000000).toFixed(1)}m`;
-  };
 
   /**
    * Save/unsave product
@@ -93,7 +86,7 @@ const SellerItem: React.FC<PropTypes> = ({ item }) => {
             </div>
             <div className={`flex items-center gap-1 text-md`}>
               <MdStar color="orange" size={23} />
-              {formatRating(item.rating || 0)}
+              {formatNumbers(item.rating || 0)}
             </div>
             {/* <div className={`flex items-center text-md gap-1`}>
               <FaUsers size={22} />

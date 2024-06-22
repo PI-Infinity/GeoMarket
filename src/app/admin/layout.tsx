@@ -1,11 +1,8 @@
 "use client";
-import { useApp } from "@/app/context/app";
-import { ProfileContextWrapper } from "@/app/context/profile";
-import { redirect } from "next/navigation";
-import React, { useEffect, useLayoutEffect } from "react";
-import LeftBar from "./left-bar";
-import { useAuth } from "../context/auth";
+import React, { useEffect } from "react";
 import { withAdmin } from "../(pages)/(auth)/withAdmin";
+import { AdminContextWrapper } from "../context/admin";
+import LeftBar from "./left-bar";
 
 interface propsTypes {
   children: any;
@@ -18,7 +15,7 @@ const Layout: React.FC<propsTypes> = ({ children }) => {
   }, [children]);
 
   return (
-    <ProfileContextWrapper>
+    <AdminContextWrapper>
       <div
         className={`flex-1 flex flex-col laptop:flex-row items-start justify-between w-full gap-2 laptop:gap-4 h-full`}
       >
@@ -31,7 +28,7 @@ const Layout: React.FC<propsTypes> = ({ children }) => {
           </div>
         </div>
       </div>
-    </ProfileContextWrapper>
+    </AdminContextWrapper>
   );
 };
 

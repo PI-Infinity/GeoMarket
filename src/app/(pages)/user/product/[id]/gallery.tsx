@@ -1,4 +1,5 @@
 import Image from "@/app/components/image";
+import { formatNumbers } from "@/app/utils/formatNumbers";
 import React, { useEffect, useState, useRef } from "react";
 import { FaHeart } from "react-icons/fa";
 import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
@@ -27,14 +28,6 @@ const Gallery: React.FC<propsTypes> = ({ list, rating, saves, user }) => {
       });
     }
   }, [active]);
-
-  // Function to format the rating
-  const formatRating = (rating: any) => {
-    if (rating < 1000) return rating;
-    if (rating < 10000) return `${(rating / 1000).toFixed(0)}k`;
-    if (rating < 1000000) return `${Math.floor(rating / 1000)}k`;
-    return `${(rating / 1000000).toFixed(1)}m`;
-  };
 
   // Filter items with .cover true
   const coverItems = list && list?.filter((item: any) => item?.cover);
@@ -84,9 +77,9 @@ const Gallery: React.FC<propsTypes> = ({ list, rating, saves, user }) => {
           className="flex items-center gap-1 tex-sm absolute top-2 left-2 pt-1 pb-1 pl-2 pr-2 rounded-full z-10"
         >
           <MdStar size={24} color="orange" />
-          <h4 className="">{rating && formatRating(rating)}</h4>
+          <h4 className="">{rating && formatNumbers(rating)}</h4>
           <FaHeart size={18} color="red" className="ml-2" />
-          <h4 className="">{saves && formatRating(saves)}</h4>
+          <h4 className="">{saves && formatNumbers(saves)}</h4>
         </div>
 
         <div

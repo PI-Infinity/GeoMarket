@@ -2,6 +2,7 @@ import Image from "@/app/components/image";
 import { useAuth } from "@/app/context/auth";
 import { useProductsContext } from "@/app/context/products";
 import { FormatDate } from "@/app/utils/formatDate";
+import { formatNumbers } from "@/app/utils/formatNumbers";
 import Link from "next/link";
 import React, { useState } from "react";
 import { MdDelete, MdDone, MdEdit, MdStar } from "react-icons/md";
@@ -22,13 +23,6 @@ export const ReviewItem = ({
   const { product } = useProductsContext();
   // auth state
   const { currentUser } = useAuth();
-  // Function to format the rating
-  const formatRating = (rating: any) => {
-    if (rating < 1000) return rating;
-    if (rating < 10000) return `${(rating / 1000).toFixed(0)}k`;
-    if (rating < 1000000) return `${Math.floor(rating / 1000)}k`;
-    return `${(rating / 1000000).toFixed(1)}m`;
-  };
 
   return (
     <>
@@ -76,7 +70,7 @@ export const ReviewItem = ({
             </h4>
             <div className="flex items-center gap-1 text-sm">
               <MdStar size={20} color="orange" />
-              {formatRating(item.reviewer.rating || 0)}
+              {formatNumbers(item.reviewer.rating || 0)}
             </div>
             {currentUser?.userId === item?.reviewer?.userId && (
               <div className="flex ml-auto">

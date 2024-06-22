@@ -11,6 +11,7 @@ import fetchRecommendedProducts from "@/app/hooks/getRecommendedProducts";
 import { MoonLoader } from "react-spinners";
 import Link from "next/link";
 import { BsCardList } from "react-icons/bs";
+import { formatNumbers } from "@/app/utils/formatNumbers";
 
 const RecommendedProducts = () => {
   // app context
@@ -57,13 +58,6 @@ const RecommendedProducts = () => {
     GetProducts();
   }, [apiUrl, searchParams, productId]);
 
-  // Function to format the rating
-  const formatRating = (rating: any) => {
-    if (rating < 1000) return rating;
-    if (rating < 10000) return `${(rating / 1000).toFixed(0)}k`;
-    if (rating < 1000000) return `${Math.floor(rating / 1000)}k`;
-    return `${(rating / 1000000).toFixed(1)}m`;
-  };
   return (
     <div className="w-full flex flex-col h-full rounded-xl items-center gap-2">
       {totalProducts !== null && products.length === 0 && (
@@ -135,14 +129,14 @@ const RecommendedProducts = () => {
                   </div>
                   <div className="flex items-center gap-1 text-sm">
                     <MdStar color="orange" />
-                    {formatRating(item.rating)}
+                    {formatNumbers(item.rating)}
                   </div>
                   <Link
                     href={`/user/product/${item?.productId}`}
                     className={`flex items-center gap-1 text-sm text-gray-400 cursor-pointer hover:brightness-90`}
                   >
                     <BsCardList />
-                    {formatRating(item?.reviews || 0)}
+                    {formatNumbers(item?.reviews || 0)}
                   </Link>
                 </div>
               </div>

@@ -16,6 +16,7 @@ import { v4 } from "uuid";
 import ShareComponent from "../../../../components/shareComponent";
 import { format } from "date-fns";
 import { CiCalendarDate } from "react-icons/ci";
+import { formatNumbers } from "@/app/utils/formatNumbers";
 
 interface propsTypes {
   data: any;
@@ -36,15 +37,6 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
 
   // products context
   const { setCategory } = useProductsContext();
-
-  // Function to format the rating
-  const formatResults = (rating: any) => {
-    if (!rating) return 0;
-    if (rating < 1000) return rating;
-    if (rating < 10000) return `${(rating / 1000).toFixed(0)}k`;
-    if (rating < 1000000) return `${Math.floor(rating / 1000)}k`;
-    return `${(rating / 1000000).toFixed(1)}m`;
-  };
 
   /**
    * Save/unsave product
@@ -181,7 +173,7 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
             : ""}
           <div className="flex items-center gap-1 ml-auto text-gray-400">
             <IoMdEye size={24} />
-            <span>{formatResults(data?.views)}</span>
+            <span>{formatNumbers(data?.views)}</span>
           </div>
         </div>
         <div className="flex items-center w-full text-sm ml-2">
@@ -241,7 +233,7 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
             <h4 className="font-semibold text-md">{data?.seller?.name}</h4>{" "}
             <div className="flex items-center gap-1 tex-sm">
               <MdStar size={18} color="orange" />
-              {formatResults(data?.seller?.rating)}
+              {formatNumbers(data?.seller?.rating)}
             </div>
           </Link>
         </div>

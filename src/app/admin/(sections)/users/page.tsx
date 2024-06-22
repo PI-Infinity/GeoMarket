@@ -6,6 +6,8 @@ import Item from "./item";
 import Sections from "./sections";
 import { MdArrowLeft, MdArrowRight } from "react-icons/md";
 import { MoonLoader } from "react-spinners";
+import getAdminUsers from "@/app/hooks/getAdminUsers";
+import { GrPowerReset } from "react-icons/gr";
 
 // Define the User type for better type safety
 interface User {
@@ -23,17 +25,17 @@ export default function UsersTable() {
   const [search, setSearch] = React.useState("");
   const [totalUsers, setTotalUsers] = React.useState(null);
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [sort, setSort] = React.useState({ sortField: "", sortOrder: "" });
 
-  const GetUsers = async () => {
+  const GetUsers = async ({ srch, pg, srt }: any) => {
     setLoading(true);
     try {
-      const response = await getUsers({
+      const response = await getAdminUsers({
         apiUrl,
-        search,
-        page,
-        limit: 13,
-        onlySellers: "false",
-        admin: "true",
+        search: srch,
+        page: pg,
+        limit: 12,
+        sort: srt,
       });
 
       setUsers(response.data.users);
@@ -46,8 +48,15 @@ export default function UsersTable() {
   };
 
   React.useEffect(() => {
-    GetUsers();
-  }, [apiUrl, page]);
+    GetUsers({ srch: search, pg: page, srt: sort });
+  }, [apiUrl, page, sort]);
+
+  const ResetData = () => {
+    setSearch("");
+    setPage(1);
+    setSort({ sortField: "", sortOrder: "" });
+    GetUsers({ srch: "", pg: 1, srt: { sortField: "", sortOrder: "" } });
+  };
 
   // user ref
   const containerRef = React.useRef<any>(null);
@@ -62,16 +71,32 @@ export default function UsersTable() {
 
   return (
     <div style={{ height: "100%", overflowX: "scroll" }}>
-      <Sections items={items} />
+      <div className="flex items-center gap-4 p-2">
+        <div
+          onClick={ResetData}
+          className="m-2 cursor-pointer hover:brightness-95 flex items-center gap-2"
+        >
+          Reset
+          <div className="h-6 flex items-center">
+            {loading ? (
+              <MoonLoader size={20} color="red" />
+            ) : (
+              <GrPowerReset size={20} />
+            )}
+          </div>
+        </div>
+      </div>
+      <Sections items={items} sort={sort} setSort={setSort} />
       <div
-        className="min-w-full flex flex-col items-center justify-between min-h-full"
+        style={{ minHeight: "73vh" }}
+        className="min-w-full flex flex-col items-center justify-between"
         ref={containerRef}
       >
         <div className="h-full w-full relative">
           {loading ? (
             <div
-              style={{ height: "70vh" }}
-              className="h-full flex items-center justify-center"
+              style={{ height: "60vh" }}
+              className="flex items-center justify-center"
             >
               <MoonLoader size={32} color="red" />
             </div>
@@ -142,63 +167,80 @@ export default function UsersTable() {
 
 const items = [
   {
+    value: "index",
+    label: "N",
+    width:
+      "min-w-16 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center justify-center overflow-x-auto",
+    sort: true,
+  },
+  {
     value: "online",
     label: "Online",
     width:
-      "min-w-20 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center justify-center overflow-x-auto",
+      "min-w-24 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center justify-center overflow-x-auto",
+    sort: true,
   },
   {
     value: "name",
     label: "Name",
     width:
       "min-w-48 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center overflow-x-auto",
+    sort: false,
   },
   {
     value: "totalProducts",
     label: "Total Products",
     width:
-      "min-w-32 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center overflow-x-auto",
+      "min-w-40 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center justify-center overflow-x-auto",
+    sort: true,
   },
   {
     value: "categories",
     label: "Categories",
     width:
-      "min-w-40 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center overflow-x-auto",
+      "min-w-32 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center overflow-x-auto",
+    sort: true,
   },
   {
     value: "email",
     label: "Email",
     width:
-      "min-w-56 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center overflow-x-auto",
+      "min-w-32 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center overflow-x-auto",
+    sort: false,
   },
   {
     value: "phone",
     label: "Phone",
     width:
-      "min-w-56 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center overflow-x-auto",
+      "min-w-36 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center overflow-x-auto",
+    sort: true,
   },
   {
     value: "subscription",
     label: "Subscription",
     width:
-      "min-w-40 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center overflow-x-auto",
+      "min-w-32 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center justify-center overflow-x-auto",
+    sort: true,
   },
   {
     value: "addresses",
     label: "Addresses",
     width:
-      "min-w-40 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center overflow-x-auto",
+      "min-w-32 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center overflow-x-auto",
+    sort: true,
   },
   {
     value: "registerDate",
     label: "Register Date",
     width:
       "min-w-40 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center overflow-x-auto",
+    sort: true,
   },
   {
     value: "lastVisit",
     label: "Last Visit",
     width:
-      "min-w-40 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center overflow-x-auto",
+      "min-w-32 py-2 px-4 overflow-hidden text-sm whitespace-nowrap overflow-ellipsis border-r-[1px] border-b-[1px] h-10 flex items-center overflow-x-auto",
+    sort: true,
   },
 ];

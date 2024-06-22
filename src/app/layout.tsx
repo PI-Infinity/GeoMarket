@@ -61,23 +61,21 @@ export default function RootLayout({ children }: any) {
               <ChatContextWrapper>
                 <ProductsContextWrapper>
                   <UserContextWrapper>
-                    <AdminContextWrapper>
-                      <div className="pb-10" style={{ minHeight: "90vh" }}>
-                        <Header />
-                        <Menu />
-                        <SimpleBackdrop />
-                        <main
-                          className={
-                            "flex-1 flex p-2 pt-0 laptop:pt-2 mt-20 h-full relative"
-                          }
-                        >
-                          {children}
-                          <Navigator />
-                          <NavigatorMobile />
-                        </main>
-                        <Footer />
-                      </div>
-                    </AdminContextWrapper>
+                    <div className="pb-10" style={{ minHeight: "90vh" }}>
+                      <Header />
+                      <Menu />
+                      <SimpleBackdrop />
+                      <main
+                        className={
+                          "flex-1 flex p-2 pt-0 laptop:pt-2 mt-20 h-full relative"
+                        }
+                      >
+                        {children}
+                        <Navigator />
+                        <NavigatorMobile />
+                      </main>
+                      <Footer />
+                    </div>
                   </UserContextWrapper>
                 </ProductsContextWrapper>
               </ChatContextWrapper>

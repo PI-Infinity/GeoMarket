@@ -3,7 +3,7 @@ import { useApp } from "@/app/context/app";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import ProductItem from "./product-item";
-import { BounceLoader } from "react-spinners";
+import { BounceLoader, MoonLoader } from "react-spinners";
 
 // Define the Product interface
 interface Product {
@@ -118,7 +118,7 @@ const Page = () => {
     try {
       setActionLoading({ active: true, type: "confirm" });
       const response = await axios.patch(
-        apiUrl + "/api/v1/products/" + productId + "/confirm",
+        apiUrl + "/api/v1/products/" + productId + "/status",
         {
           status: "draft",
         }
@@ -137,13 +137,13 @@ const Page = () => {
     }
   };
   /**
-   * Block Product
+   * Reject Product
    */
   const Reject = async (productId: any) => {
     try {
       setActionLoading({ active: true, type: "reject" });
       const response = await axios.patch(
-        apiUrl + "/api/v1/products/" + productId,
+        apiUrl + "/api/v1/products/" + productId + "/status",
         {
           status: "rejected",
         }
@@ -198,7 +198,7 @@ const Page = () => {
         className="grid grid-cols-1 laptop:grid-cols-4 w-full gap-2"
       >
         {loadingProducts ? (
-          <BounceLoader color="red" size={40} className="m-24" />
+          <MoonLoader color="red" size={40} className="m-24" />
         ) : (
           <>
             {products?.length < 1 ? (

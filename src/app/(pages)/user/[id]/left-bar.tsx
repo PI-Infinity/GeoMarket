@@ -5,6 +5,7 @@ import { useApp } from "@/app/context/app";
 import { useAuth } from "@/app/context/auth";
 import { useChat } from "@/app/context/chat";
 import { useUserContext } from "@/app/context/user";
+import { formatNumbers } from "@/app/utils/formatNumbers";
 import axios from "axios";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -41,14 +42,6 @@ const LeftBar = () => {
       label: activeLanguage.contact,
     },
   ];
-
-  // Function to format the rating
-  const formatRating = (rating: any) => {
-    if (rating < 1000) return rating;
-    if (rating < 10000) return `${(rating / 1000).toFixed(0)}k`;
-    if (rating < 1000000) return `${Math.floor(rating / 1000)}k`;
-    return `${(rating / 1000000).toFixed(1)}m`;
-  };
 
   /**
    * share options
@@ -169,7 +162,7 @@ const LeftBar = () => {
       </div>
       <div className="flex items-center gap-1 mt-4">
         <MdStar size={24} color="orange" />
-        <span>{user?.rating ? formatRating(user?.rating) : 0}</span>
+        <span>{user?.rating ? formatNumbers(user?.rating) : 0}</span>
       </div>
       {(language === "ka" && user?.about?.ka?.length > 0) ||
       (language === "en" && user?.about?.en?.length > 0) ? (

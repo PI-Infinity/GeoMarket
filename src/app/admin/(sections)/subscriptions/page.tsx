@@ -7,6 +7,7 @@ import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { MdDiamond, MdStar } from "react-icons/md";
+import Item from "./item";
 
 // Define the subscription interface
 interface Subscription {
@@ -107,36 +108,6 @@ const Page = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [subscriptions?.length, totalSubscriptions, subscriptionsRef]);
 
-  // format order date to display format
-  const DefineDate = (dateValue: any) => {
-    const date = new Date(dateValue);
-
-    // Example format: "February 25, 2024, 16:35"
-    // Adjust the format according to your needs
-    const formattedDate = date.toLocaleString("en-US", {
-      month: "short", // "February"
-      day: "2-digit", // "25"
-      year: "numeric", // "2024"
-      hour: "2-digit", // "16"
-      minute: "2-digit", // "35"
-      hour12: false,
-    });
-    return formattedDate;
-  };
-
-  // Function to format the rating
-  const formatRating = (rating: any) => {
-    if (rating < 1000) return rating;
-    if (rating < 10000) return `${(rating / 1000).toFixed(0)}k`;
-    if (rating < 1000000) return `${Math.floor(rating / 1000)}k`;
-    return `${(rating / 1000000).toFixed(1)}m`;
-  };
-
-  /**
-   * changing subscription status
-   */
-  const [changeStatus, setChangeStatus] = useState({ value: "" });
-
   return (
     <div className="bg-white h-full w-full rounded-xl shadow-sm flex gap-2">
       <div
@@ -144,124 +115,10 @@ const Page = () => {
         ref={subscriptionsRef}
       >
         {subscriptions?.map((item: any, index: number) => {
-          return (
-            <div
-              key={index}
-              className="p-4 border-[1px] border-gray-200 rounded-xl shadow-md flex flex-col gap-2 relative"
-            >
-              <div className="absolute right-4 top-4 flex flex-col items-end gap-4">
-                <MdDiamond
-                  size={28}
-                  className={`${
-                    item?.status === "active"
-                      ? "text-orange-500"
-                      : item?.status === "canceled"
-                      ? "text-red-500"
-                      : "text-gray-300"
-                  } cursor-pointer hover:brightness-90 `}
-                />
-                <Link
-                  href={`/user/${item?.user?.userId}/products`}
-                  style={{ width: "30px", height: "30px" }}
-                  className=" bg-gray-300 rounded-full overflow-hidden flex items-center justify-center relative cursor-pointer hover:brightness-95"
-                >
-                  <Image
-                    alt={item?.user?.name}
-                    src={item?.user?.cover?.url}
-                    style={{
-                      aspectRatio: 1,
-                      zIndex: 0,
-                      objectFit: "cover",
-                      width: "100%",
-                      height: "100%",
-                    }}
-                  />
-                </Link>
-                <Link href={`/user/${item?.user?.userId}/products`}>
-                  <h4>{item?.user?.name}</h4>
-                </Link>
-                <div className="flex items-center gap-1">
-                  <MdStar color="orange" />
-                  {formatRating(item?.user?.rating)}
-                </div>
-                <SelectComponent
-                  data={[
-                    { value: "active", label: "Active" },
-                    { value: "canceled", label: "Canceled" },
-                    { value: "expired", label: "Expired" },
-                  ]}
-                  value={changeStatus}
-                  setValue={setChangeStatus}
-                />
-              </div>
-              <div className="flex items-center gap-2">
-                <div
-                  className="h-4 w-4 rounded-full"
-                  style={{
-                    background:
-                      item?.status === "active"
-                        ? "green"
-                        : item?.status === "canceled"
-                        ? "red"
-                        : "gray",
-                  }}
-                />
-                <h4 className="text-sm">Status: </h4>
-                <span className="text-sm">
-                  {item?.status.charAt(0).toUpperCase() + item?.status.slice(1)}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <h4 className="text-sm">Type: </h4>
-                <span className="text-sm">
-                  {item?.type} /{" "}
-                  {item?.time.charAt(0).toUpperCase() + item?.time.slice(1)}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <h4 className="text-sm">Price: </h4>
-                <span className="text-sm">{item?.price}₾</span>
-              </div>
-              <div className="flex flex-col gap-2">
-                <h4 className="text-sm">Options: </h4>
-                <span className="ml-4 text-sm">
-                  Unclocked products:{" "}
-                  <span className="font-semibold">
-                    {item?.options.products === 100000
-                      ? "Unlimited"
-                      : item?.options.products}
-                  </span>
-                </span>
-                <span className="ml-4 text-sm">
-                  Top Level Sorting:{" "}
-                  <span className="font-semibold text-sm">
-                    {item?.options.topLevelSorting ? "True" : "False"}
-                  </span>
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <h4 className="text-sm">Activate Date: </h4>
-                <span className="text-sm">
-                  {DefineDate(item?.activationDate)}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <h4 className="text-sm">Expire Date: </h4>
-                <span className="text-sm">{DefineDate(item?.expireDate)}</span>
-              </div>
-              {item.cancelDate && (
-                <div className="flex items-center gap-2">
-                  <h4 className="text-sm">Cancel Date: </h4>
-                  <span className="text-sm">
-                    {DefineDate(item?.cancelDate)}
-                  </span>
-                </div>
-              )}
-            </div>
-          );
+          return <Item key={index} item={item} />;
         })}
       </div>
-      <div className="w-96 flex">Add Subscription:</div>
+      <div className="w-96 hidden laptop:flex">Add Subscription:</div>
     </div>
   );
 };

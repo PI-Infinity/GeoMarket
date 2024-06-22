@@ -10,6 +10,7 @@ import { MdDiamond, MdStar } from "react-icons/md";
 import getUsers from "@/app/hooks/getUsers";
 import { useProductsContext } from "@/app/context/products";
 import { CgProductHunt } from "react-icons/cg";
+import { formatNumbers } from "@/app/utils/formatNumbers";
 
 const RecommendedUsers = () => {
   // app context
@@ -44,14 +45,6 @@ const RecommendedUsers = () => {
   useEffect(() => {
     GetUsers();
   }, [apiUrl]);
-
-  // Function to format the rating
-  const formatRating = (rating: any) => {
-    if (rating < 1000) return rating;
-    if (rating < 10000) return `${(rating / 1000).toFixed(0)}k`;
-    if (rating < 1000000) return `${Math.floor(rating / 1000)}k`;
-    return `${(rating / 1000000).toFixed(1)}m`;
-  };
 
   // user context
   const { setUser } = useUserContext();
@@ -90,7 +83,7 @@ const RecommendedUsers = () => {
                   </div>
                   <div className="flex items-center gap-1 text-sm">
                     <MdStar size={20} color="orange" />
-                    {formatRating(item.rating || 0)}
+                    {formatNumbers(item.rating || 0)}
                   </div>
                   <div className={`flex items-center text-md gap-1`}>
                     <FaUsers size={22} />

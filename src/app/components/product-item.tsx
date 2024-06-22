@@ -11,6 +11,7 @@ import { useProductsContext } from "../context/products";
 import { useUserContext } from "../context/user";
 import Image from "./image";
 import { BsCardList } from "react-icons/bs";
+import { formatNumbers } from "../utils/formatNumbers";
 
 interface PropTypes {
   item: any;
@@ -45,14 +46,6 @@ const SellerItem: React.FC<PropTypes> = ({
 
   // product
   const [product, setProduct] = useState(item);
-
-  // Function to format the rating
-  const formatRating = (rating: any) => {
-    if (rating < 1000) return rating;
-    if (rating < 10000) return `${(rating / 1000).toFixed(0)}k`;
-    if (rating < 1000000) return `${Math.floor(rating / 1000)}k`;
-    return `${(rating / 1000000).toFixed(1)}m`;
-  };
 
   // get cover
   const cover = product?.gallery?.findIndex((i: any) => i.cover);
@@ -182,7 +175,7 @@ const SellerItem: React.FC<PropTypes> = ({
 
           <div className={`flex items-center gap-1 text-md`}>
             <MdStar color="orange" size={20} />
-            {formatRating(product?.rating || 0)}
+            {formatNumbers(product?.rating || 0)}
           </div>
         </div>
       </div>
@@ -408,7 +401,7 @@ const SellerItem: React.FC<PropTypes> = ({
               className={`flex items-center gap-1 text-md ml-auto text-gray-400 cursor-pointer hover:brightness-90`}
             >
               <BsCardList size={isMobile ? 16 : 20} />
-              {formatRating(product?.reviews || 0)}
+              {formatNumbers(product?.reviews || 0)}
             </Link>
           </div>
         </div>

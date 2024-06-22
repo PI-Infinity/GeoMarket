@@ -11,7 +11,7 @@ const getUsers = async ({
   try {
     const response = await axios.get(
       apiUrl +
-        `/api/v1/users?search=${search}&page=${page}&limit=${limit}&&onlySellers=${onlySellers}&admin=${admin}`
+        `/api/v1/users?search=${search}&page=${page}&limit=${limit}&onlySellers=${onlySellers}&admin=${admin}`
     );
 
     return response.data;

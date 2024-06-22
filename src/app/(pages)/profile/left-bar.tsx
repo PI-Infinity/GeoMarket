@@ -17,6 +17,7 @@ import { useState } from "react";
 import { MdClose, MdDiamond, MdDone, MdShare, MdStar } from "react-icons/md";
 import { readAndCompressImage } from "browser-image-resizer";
 import { MoonLoader } from "react-spinners";
+import { formatNumbers } from "@/app/utils/formatNumbers";
 
 const LeftBar = () => {
   // app context
@@ -105,14 +106,6 @@ const LeftBar = () => {
     } catch (error: any) {
       console.log(error.response.data.message);
     }
-  };
-
-  // Function to format the rating
-  const formatRating = (rating: any) => {
-    if (rating < 1000) return rating;
-    if (rating < 10000) return `${(rating / 1000).toFixed(0)}k`;
-    if (rating < 1000000) return `${Math.floor(rating / 1000)}k`;
-    return `${(rating / 1000000).toFixed(1)}m`;
   };
 
   /**
@@ -217,7 +210,7 @@ const LeftBar = () => {
       <div className="flex items-center gap-1 mt-4">
         <MdStar size={24} color="orange" />
         <span>
-          {currentUser?.rating ? formatRating(currentUser?.rating) : 0}
+          {currentUser?.rating ? formatNumbers(currentUser?.rating) : 0}
         </span>
       </div>
 

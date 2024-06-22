@@ -1,5 +1,13 @@
 "use client";
-import { ReactNode, createContext, useContext, useState } from "react";
+import axios from "axios";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { useApp } from "./app";
 
 /**
  * Admin state context
@@ -14,8 +22,34 @@ interface contextProps {
 }
 
 export const AdminContextWrapper: React.FC<contextProps> = ({ children }) => {
+  const { apiUrl } = useApp();
+
+  // rerender stats
+  const [rerender, setRerender] = useState(false);
+  const [loading, setLoading] = useState(false);
+  /**
+   * get dashboard stats
+   */
+  const [stats, setStats] = useState(null);
+  const GetStats = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(apiUrl + "/api/v1/admin");
+      if (response.data.status === "success") {
+        setStats(response.data.data);
+        setLoading(false);
+      }
+    } catch (error: any) {
+      console.log(error.response.data.message);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    GetStats();
+  }, [rerender]);
   return (
-    <AdminContext.Provider value={{ menuList }}>
+    <AdminContext.Provider value={{ menuList, stats, setRerender, loading }}>
       {children}
     </AdminContext.Provider>
   );

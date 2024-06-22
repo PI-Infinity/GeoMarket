@@ -15,6 +15,7 @@ import axios from "axios";
 import nProgress from "nprogress";
 import { FaImages } from "react-icons/fa";
 import { BsCardList } from "react-icons/bs";
+import { formatNumbers } from "@/app/utils/formatNumbers";
 
 interface PropTypes {
   item: any;
@@ -50,14 +51,6 @@ const ProductItem: React.FC<PropTypes> = ({
   useEffect(() => {
     setProduct(item);
   }, [item]);
-
-  // Function to format the rating
-  const formatRating = (rating: any) => {
-    if (rating < 1000) return rating;
-    if (rating < 10000) return `${(rating / 1000).toFixed(0)}k`;
-    if (rating < 1000000) return `${Math.floor(rating / 1000)}k`;
-    return `${(rating / 1000000).toFixed(1)}m`;
-  };
 
   // get cover
   const cover = product.gallery?.findIndex((i: any) => i.cover);
@@ -124,14 +117,14 @@ const ProductItem: React.FC<PropTypes> = ({
           </Link>
           <div className="flex items-center gap-1 text-md">
             <MdStar color="orange" size={20} />
-            {formatRating(product.rating)}
+            {formatNumbers(product.rating)}
           </div>
           <Link
             href={`/user/product/${product?.productId}`}
             className={`flex items-center gap-1 text-md ml-auto text-gray-400 cursor-pointer hover:brightness-90`}
           >
             <BsCardList size={20} />
-            {formatRating(product?.reviews || 0)}
+            {formatNumbers(product?.reviews || 0)}
           </Link>
         </div>
         <div
