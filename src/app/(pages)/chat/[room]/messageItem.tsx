@@ -2,13 +2,11 @@ import Image from "@/app/components/image";
 import { useApp } from "@/app/context/app";
 import { useAuth } from "@/app/context/auth";
 import { useChat } from "@/app/context/chat";
-import { storage } from "@/app/firebase";
-import axios from "axios";
-import { deleteObject, listAll, ref } from "firebase/storage";
-import { setConfig } from "next/config";
-import React, { useEffect, useState } from "react";
-import { MdClose, MdDelete, MdDone, MdDoneAll, MdRemove } from "react-icons/md";
 import GetTimesAgo from "@/app/utils/getTimesAgo";
+import axios from "axios";
+import { setConfig } from "next/config";
+import { useEffect, useState } from "react";
+import { MdClose, MdDelete, MdDone, MdDoneAll } from "react-icons/md";
 import { MoonLoader } from "react-spinners";
 
 const MessagemItem = ({ item }: any) => {
@@ -27,7 +25,7 @@ const MessagemItem = ({ item }: any) => {
     setMsg(item);
   }, [item]);
   // app context
-  const { apiUrl } = useApp();
+  const { apiUrl, activeLanguage } = useApp();
 
   // chat context
   const { setChats, setMessages, messages } = useChat();
@@ -177,7 +175,9 @@ const MessagemItem = ({ item }: any) => {
                   >
                     <MdClose size={24} color="red" />
                   </div>
-                  <span className="text-sm font-semibold">Delete</span>
+                  <span className="text-sm font-semibold">
+                    {activeLanguage?.delete}
+                  </span>
                   <div
                     onClick={() =>
                       DeleteMessage(

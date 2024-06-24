@@ -3,13 +3,12 @@ import { useApp } from "@/app/context/app";
 import { useAuth } from "@/app/context/auth";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { MdClose, MdDelete, MdDone } from "react-icons/md";
-import { v4 } from "uuid";
+import { useState } from "react";
+import { MdClose, MdDone } from "react-icons/md";
 
 const Item = ({ item, period }: any) => {
   // app context
-  const { apiUrl, loading: appLoading } = useApp();
+  const { apiUrl, loading: appLoading, activeLanguage } = useApp();
   // auth state
   const { currentUser, setCurrentUser, setDestination } = useAuth();
   // activation loading
@@ -90,24 +89,39 @@ const Item = ({ item, period }: any) => {
       <div className="flex flex-col items-center gap-8 w-full rounded-md mt-4">
         <div>
           <div className="text-gray text-center flex items-center gap-2">
-            <div>{item.icon}</div> <h2 className="mr-6">{item.value}</h2>
+            <div>{item.icon}</div>{" "}
+            <h2 className="mr-6">
+              {item.value === "Premium+"
+                ? activeLanguage?.premiumPlus
+                : activeLanguage[item.value.toLowerCase()]}
+            </h2>
           </div>
         </div>
 
         <div className="bg-white shadow-md rounded-full pl-8 pr-8 text-green-500 flex items-center gap-1">
-          <h3>{item.price}₾</h3>/<h4>{period && period[0]}.</h4>
+          <h3>{item.price}₾</h3>/
+          <h4>
+            {period === "monthly" ? activeLanguage?.mo : activeLanguage?.y}.
+          </h4>
         </div>
 
         <div className="flex flex-col">
           {item?.description?.map((itm: any, index: any) => {
             return (
-              <p className="text-md flex items-center gap-2" key={index}>
+              <p
+                className="text-md flex items-center gap-2 whitespace-nowrap text-sm"
+                key={index}
+              >
                 {item.value === "Free" && index === 1 ? (
                   <MdClose size={18} color="red" />
                 ) : (
                   <MdDone color="green" size={18} />
                 )}{" "}
-                {itm}
+                {itm?.includes("Products")
+                  ? itm?.split(" ")[0] !== "Unlimited"
+                    ? itm?.split(" ")[0] + " " + activeLanguage?.product
+                    : activeLanguage?.unlimited + " " + activeLanguage?.products
+                  : activeLanguage?.topLevelSorting}
               </p>
             );
           })}
@@ -121,8 +135,8 @@ const Item = ({ item, period }: any) => {
             <Button
               title={
                 currentUser?.subscription?.price === item.price
-                  ? "Cancel"
-                  : "Select"
+                  ? activeLanguage?.cancel
+                  : activeLanguage?.select
               }
               background={
                 currentUser?.subscription?.price === item.price

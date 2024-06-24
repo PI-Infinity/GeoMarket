@@ -14,7 +14,7 @@ interface propsTypes {
 
 const List: React.FC<propsTypes> = ({ setConfirmPopup }) => {
   // app context
-  const { apiUrl, setOpenBackDrop } = useApp();
+  const { apiUrl, setOpenBackDrop, activeLanguage } = useApp();
 
   // profile context
   const { products, setProducts, setAlert, loadingProducts, totalProducts } =
@@ -23,8 +23,6 @@ const List: React.FC<propsTypes> = ({ setConfirmPopup }) => {
   /**
    * Delete Product
    */
-
-  CgLayoutGridSmall;
 
   const DeleteProduct = async ({ itemId }: any) => {
     console.log(itemId);
@@ -70,7 +68,7 @@ const List: React.FC<propsTypes> = ({ setConfirmPopup }) => {
       )}
       {totalProducts !== null && products?.length < 1 && (
         <div className="text-gray-400 my-4 flex w-full items-center justify-center text-red-500">
-          Not Found
+          {activeLanguage?.notFound}
         </div>
       )}
       <div className="grid laptop:grid-cols-3 gap-2 laptop:gap-4 pb-4 laptop:pb-0">

@@ -14,7 +14,7 @@ interface propsTypes {
 
 const List: React.FC<propsTypes> = ({ setConfirmPopup }) => {
   // app context
-  const { apiUrl, setOpenBackDrop } = useApp();
+  const { apiUrl, activeLanguage } = useApp();
 
   // profile context
   const { setAlert, productsRef } = useProfileContext();
@@ -134,7 +134,7 @@ const List: React.FC<propsTypes> = ({ setConfirmPopup }) => {
       )}
       {totalProducts !== null && totalProducts < 1 && (
         <div className="text-gray-400 flex w-full items-center justify-center text-red-500">
-          Not Found
+          {activeLanguage?.notFound}
         </div>
       )}
       <div className="grid laptop:grid-cols-3 gap-2 laptop:gap-4 ">

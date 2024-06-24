@@ -20,7 +20,7 @@ const Item = (item: any, index: any) => {
 
   const { setTotalUnreads, setNotifications } = useNotifications();
 
-  const { apiUrl } = useApp();
+  const { apiUrl, activeLanguage } = useApp();
 
   const { currentUser } = useAuth();
 
@@ -160,7 +160,9 @@ const Item = (item: any, index: any) => {
           >
             <MdClose size={24} color="red" />
           </div>
-          <span className="text-sm font-semibold">Delete</span>
+          <span className="text-sm font-semibold">
+            {activeLanguage?.delete}
+          </span>
           <div onClick={Delete} className="cursor-pointer hover:brightness-95">
             {deleteLoading ? (
               <MoonLoader size={16} color="red" />

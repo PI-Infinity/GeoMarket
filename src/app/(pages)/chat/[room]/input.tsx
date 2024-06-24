@@ -32,7 +32,7 @@ const Input = ({ setMessages }: any) => {
   };
 
   // app context
-  const { apiUrl } = useApp();
+  const { apiUrl, activeLanguage } = useApp();
 
   // Send Message
   const [uploadLoading, setUploadLoading] = useState(false);
@@ -109,9 +109,6 @@ const Input = ({ setMessages }: any) => {
       if (socket) {
         socket.emit("sendMessage", newMessage);
       }
-
-      // Optionally handle response if needed
-      console.log("Message sent successfully");
     } catch (error: any) {
       console.log(
         "Error sending message:",
@@ -126,7 +123,7 @@ const Input = ({ setMessages }: any) => {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         className="h-full w-full p-2 pl-4 bg-transparent"
-        placeholder="Text here..."
+        placeholder={activeLanguage?.text + "..."}
       />
       <div className="flex items-center gap-4">
         <div className="cursor-pointer hover:brightness-90 mr-4">

@@ -14,6 +14,7 @@ import {
   WhatsappIcon,
   WhatsappShareButton,
 } from "react-share";
+import { useApp } from "../context/app";
 
 interface PropsType {
   setOpenShareOptions: any;
@@ -22,7 +23,7 @@ interface PropsType {
 
 const ShareComponent: React.FC<PropsType> = ({ setOpenShareOptions, path }) => {
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
-  const pathname = usePathname();
+  const { activeLanguage } = useApp();
 
   const textToCopy = "https://geomarket.shop" + path;
 
@@ -39,7 +40,6 @@ const ShareComponent: React.FC<PropsType> = ({ setOpenShareOptions, path }) => {
     try {
       const successful = document.execCommand("copy");
       if (successful) {
-        console.log("Text successfully copied to clipboard");
         setIsTooltipOpen(true);
         setTimeout(() => {
           setIsTooltipOpen(false);
@@ -94,7 +94,7 @@ const ShareComponent: React.FC<PropsType> = ({ setOpenShareOptions, path }) => {
           <WhatsappIcon size={32} round />
         </WhatsappShareButton>
       </div>
-      <Tooltip title="Copied!" open={isTooltipOpen}>
+      <Tooltip title={activeLanguage?.copied} open={isTooltipOpen}>
         <button
           onClick={handleCopyClick}
           style={{
@@ -111,8 +111,7 @@ const ShareComponent: React.FC<PropsType> = ({ setOpenShareOptions, path }) => {
             cursor: "pointer",
           }}
         >
-          <MdFileCopy />
-          Copy
+          <MdFileCopy size={22} className="text-gray-400" />
         </button>
       </Tooltip>
       <div

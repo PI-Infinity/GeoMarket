@@ -3,6 +3,7 @@ import React from "react";
 import { MoonLoader } from "react-spinners";
 import { useProductsContext } from "../context/products";
 import ProductItem from "./product-item";
+import { useApp } from "../context/app";
 
 const ProductList: React.FC = () => {
   // products
@@ -14,14 +15,17 @@ const ProductList: React.FC = () => {
     loadingProducts,
   } = useProductsContext();
 
+  // app context
+  const { activeLanguage } = useApp();
+
   return (
     <div className={`h-full rounded-xl`}>
       <div className="flex desktop:hidden w-full h-8 justify-between items-center px-2">
         <div className="text-sm flex items-center gap-1 mb-2">
-          Total: ({totalProducts || 0})
+          {activeLanguage?.total}: ({totalProducts || 0})
         </div>
         <div className="text-sm flex items-center gap-1 mb-2">
-          View:
+          {activeLanguage?.view}:
           <div className="flex items-center gap-2 ml-2">
             <div className="flex items-center gap-0.5">
               <div
@@ -63,7 +67,7 @@ const ProductList: React.FC = () => {
       </div>
       {totalProducts !== null && totalProducts < 1 && !loadingProducts && (
         <div className="text-gray-400 flex w-full items-center justify-center text-red-500 pt-4">
-          Not Found
+          {activeLanguage?.notFound}
         </div>
       )}
       {loadingProducts && (

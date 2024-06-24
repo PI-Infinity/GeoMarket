@@ -16,7 +16,7 @@ const UserProductsPage: React.FC = () => {
   const productId = usePathname().split("/")[3];
 
   // app state
-  const { apiUrl } = useApp();
+  const { apiUrl, activeLanguage } = useApp();
 
   /**
    * gettin product
@@ -86,7 +86,7 @@ const UserProductsPage: React.FC = () => {
       <div className="w-full flex flex-col laptop:w-96 laptop:mr-2">
         <div className="p-2">
           <h3 className="text-gray-400 font-semibold text-sm">
-            Recommended Products:
+            {activeLanguage?.recommendedProducts}:
           </h3>
         </div>
         <div className="w-full rounded-xl h-full">

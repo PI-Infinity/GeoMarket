@@ -62,7 +62,7 @@ const RecommendedProducts = () => {
     <div className="w-full flex flex-col h-full rounded-xl items-center gap-2">
       {totalProducts !== null && products.length === 0 && (
         <div className="mt-8 text-gray-400 flex w-full items-center justify-center text-red-500">
-          Not Found
+          {activeLanguage?.notFound}
         </div>
       )}
       {loading ? (

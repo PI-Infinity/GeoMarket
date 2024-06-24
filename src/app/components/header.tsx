@@ -8,13 +8,18 @@ import { MdAdd, MdPeople } from "react-icons/md";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { useChat } from "../context/chat";
 import { useEffect, useState } from "react";
+import { useAuth } from "../context/auth";
 
 export default function Header() {
   // define path name
   const pathname = usePathname();
 
   // app context
-  const { openMenu, setOpenMenu, isMobile, setIsLoading } = useApp();
+  const { openMenu, setOpenMenu, isMobile, setIsLoading, activeLanguage } =
+    useApp();
+
+  // auth state
+  const { currentUser, setDestination } = useAuth();
 
   // chat context
   const { setCreateChatMobile, createChatMobile } = useChat();
@@ -67,13 +72,33 @@ export default function Header() {
             className="hidden laptop:flex items-center gap-2 ml-auto shadow-md text-gray-500 rounded-full bg-gray-50 px-4 py-1 cursor-pointer hover:brightness-95"
           >
             <MdPeople size={20} color="red" />
-            Sellers
+            {activeLanguage?.sellers}
           </Link>
         )}
         <div
           className="flex min-w-24 items-center justify-end p-4 pr-3"
           style={{ display: pathname?.includes("/admin") ? "none" : "flex" }}
         >
+          {pathname !== "/chat" && (
+            <Link
+              href={currentUser ? "/profile/products/addProduct" : "/login"}
+              style={{ color: "#a9a9a9" }}
+              onClick={
+                currentUser
+                  ? undefined
+                  : () => {
+                      setDestination({
+                        productId: null,
+                        userId: null,
+                        page: null,
+                      });
+                    }
+              }
+              className="flex items-center gap-1 mr-6 rounded-full shadow-md px-3 py-1 cursor-pointer hover:brightness-95 bg-white"
+            >
+              <MdAdd size={24} color="red" />
+            </Link>
+          )}
           {pathname === "/chat" && !createChatMobile && (
             <div
               style={{ color: "#a9a9a9" }}
@@ -81,7 +106,7 @@ export default function Header() {
               className="flex laptop:hidden items-center gap-1 mr-6 rounded-full shadow-md px-3 py-1 cursor-pointer hover:brightness-95 bg-white"
             >
               <MdAdd size={24} color="#a9a9a9" />
-              New
+              New Chat
             </div>
           )}
           <div

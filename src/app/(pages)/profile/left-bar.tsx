@@ -115,7 +115,7 @@ const LeftBar = () => {
 
   return (
     <div
-      className={`static laptop:h-[calc(100%-5.5rem)] h-full pb-8 laptop:pb-0 laptop:fixed  w-full laptop:w-80 bg-white rounded-xl shadow-sm flex flex-col items-center text-black`}
+      className={`relative laptop:h-[calc(100%-5.5rem)] h-full pb-8 laptop:pb-0 laptop:fixed  w-full laptop:w-80 bg-white rounded-xl shadow-sm flex flex-col items-center text-black`}
     >
       <div className="flex gap-1 w-full items-center justify-between p-4">
         <Link
@@ -131,7 +131,11 @@ const LeftBar = () => {
             } cursor-pointer hover:brightness-90`}
           />
 
-          <p className="font-semibold">{currentUser?.subscription?.type}</p>
+          <p className="font-semibold">
+            {currentUser?.subscription?.type === "Premium+"
+              ? activeLanguage?.premiumPlus
+              : activeLanguage[currentUser?.subscription?.type?.toLowerCase()]}
+          </p>
         </Link>
         <MdShare
           size={24}
@@ -205,7 +209,9 @@ const LeftBar = () => {
         </form>
       </div>
 
-      <div className="mt-4 text-lg font-semibold">{currentUser?.name}</div>
+      <div className="mt-4 w-full text-center laptop:w-4/5 text-lg font-semibold  overflow-hidden overflow-ellipsis">
+        {currentUser?.name}
+      </div>
 
       <div className="flex items-center gap-1 mt-4">
         <MdStar size={24} color="orange" />

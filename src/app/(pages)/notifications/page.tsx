@@ -48,9 +48,9 @@ const Notifications = () => {
         <h3 className="p-4 pb-0 text-gray-400">
           {activeLanguage.notifications}
         </h3>
-        {totalNotifications !== null && totalNotifications === 0 && (
+        {totalNotifications !== null && notifications?.length === 0 && (
           <div className="text-gray-400 flex w-full items-center justify-center text-red-500 my-8">
-            Not Found
+            {activeLanguage?.notFound}
           </div>
         )}
         <div

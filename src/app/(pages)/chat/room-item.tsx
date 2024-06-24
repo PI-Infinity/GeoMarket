@@ -15,16 +15,13 @@ import { MoonLoader } from "react-spinners";
 
 const RoomItem = ({ item }: any) => {
   // app context
-  const { apiUrl, isMobile } = useApp();
+  const { apiUrl, activeLanguage } = useApp();
 
   // router
   const router = useRouter();
 
   // pathname
   const pathname = usePathname();
-
-  // products context
-  const { setProduct } = useUserContext();
 
   // defines room id from path
   const {
@@ -119,16 +116,16 @@ const RoomItem = ({ item }: any) => {
                 className="text-red-500 h-14 aspect-square flex items-center justify-center hover:brightness-90"
                 onClick={() => setConfirm({ room: "" })}
               >
-                No
+                {activeLanguage?.no}
               </div>
               <span className="text-sm font-semibold text-gray-400">
-                Delete?
+                {activeLanguage?.delete}?
               </span>
               <div
                 onClick={DeleteChat}
                 className="text-green-500 h-14 aspect-square flex items-center justify-center hover:brightness-90"
               >
-                Yes
+                {activeLanguage?.yes}
               </div>
             </div>
           )}
@@ -226,7 +223,7 @@ const RoomItem = ({ item }: any) => {
               className="text-gray-500 whitespace-nowrap"
               style={{ fontSize: "12px" }}
             >
-              {/* {GetTimesAgo(item?.createdAt)} */}Just now
+              {GetTimesAgo(item?.createdAt)}
             </span>
             <MdRemove
               size={16}

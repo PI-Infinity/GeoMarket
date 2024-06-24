@@ -143,7 +143,7 @@ const Filter: React.FC = () => {
                   }}
                 />
               }
-              label="By Order"
+              label={activeLanguage?.byOrder}
               sx={{
                 "& .MuiFormControlLabel-label": {
                   whiteSpace: "nowrap",

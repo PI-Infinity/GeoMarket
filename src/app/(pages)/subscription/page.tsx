@@ -37,7 +37,7 @@ const Page = () => {
           }`}
         >
           {period === "monthly" && <MdOutlineDone color="red" size={24} />}
-          monthly
+          {activeLanguage?.monthly}
         </div>
         <div
           onClick={() => setPeriod("annually")}
@@ -48,10 +48,11 @@ const Page = () => {
           }`}
         >
           {period === "annually" && <MdOutlineDone color="red" size={24} />}
-          annually <span className="text-green-500 font-semibold">(-19%)</span>
+          {activeLanguage?.annually}{" "}
+          <span className="text-green-500 font-semibold">(-19%)</span>
         </div>
       </div>
-      <div className="mr-0 laptop:mr-20 w-full laptop:h-96 laptop:w-4/5 rounded-xl shadow-sm p-4 laptop:p-8 flex flex-col laptop:flex-row items-center justify-center gap-4 bg-white">
+      <div className="mr-0 laptop:mr-20 w-full laptop:h-96 laptop:w-5/6 rounded-xl shadow-sm p-4 laptop:p-8 flex flex-col laptop:flex-row items-center justify-center gap-4 bg-white">
         {subscriptionItems
           ?.filter(
             (it: any) =>
@@ -61,10 +62,9 @@ const Page = () => {
             return <Item item={item} key={index} period={period} />;
           })}
       </div>
-      <div className="w-full laptop:w-4/5 laptop:h-40 mr-0 laptop:mr-20 rounded-xl shadow-sm flex flex-col gap-4 p-4 laptop:flex-row items-center justify-between laptop:pl-16 laptop:pr-16 bg-white">
+      <div className="w-full laptop:w-5/6 laptop:h-40 mr-0 laptop:mr-20 rounded-xl shadow-sm flex flex-col gap-4 p-4 laptop:flex-row items-center justify-between laptop:pl-16 laptop:pr-16 bg-white">
         <div className="flex flex-col items-center laptop:items-start">
-          <h1>Have questions?</h1>
-          <p className="text-xl">Request call!</p>
+          <h1>{activeLanguage?.haveQuestions}</h1>
         </div>
 
         <Link href="/support" className="h-11 w-40">

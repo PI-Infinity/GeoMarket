@@ -49,14 +49,14 @@ export default function Page() {
 
   return (
     <div className="flex w-full flex-col items-center justify-center">
-      <div className="w-full laptop:w-2/5 rounded-xl mt-8 laptop:mt-20 flex flex-col items-center p-2 gap-4">
+      <div className="w-full laptop:w-2/5 rounded-xl mt-8 laptop:mt-20 flex flex-col items-center p-2">
         <div className="flex flex-col items-center">
           <h2 className="text-black">{activeLanguage.support}</h2>
-          <span className="text-black text-sm mb-4 text-center px-8">
-            Typically answers in 1-3 hours, the answer you will get in email
+          <span className="text-gray-400 text-sm mb-4 text-center px-8">
+            {activeLanguage?.typicallyAnswer}
           </span>
         </div>
-        <div className="h-10 w-full">
+        <div className="w-full">
           <Input
             label={activeLanguage?.name + "*"}
             type="text"
@@ -65,7 +65,7 @@ export default function Page() {
             warning={true}
           />
         </div>
-        <div className="h-10 w-ful mt-2 w-full">
+        <div className="w-full mt-2 w-full">
           <Input
             label={activeLanguage?.email + "*"}
             type="text"
@@ -73,7 +73,7 @@ export default function Page() {
             value={email}
           />
         </div>
-        <div className="h-10 w-ful mt-2 w-full">
+        <div className="w-full mt-2 w-full">
           <Input
             label={activeLanguage?.phone + " " + activeLanguage.optional}
             type="text"
@@ -81,7 +81,7 @@ export default function Page() {
             value={phone}
           />
         </div>
-        <div className="h-48 w-full bg-gray-50 flex items-center gap-2 rounded-xl overflow-hidden shadow-md pr-2">
+        <div className="h-48 mt-2 w-full bg-white flex items-center gap-2 rounded-xl overflow-hidden shadow-md pr-2">
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -90,7 +90,7 @@ export default function Page() {
             maxLength={300}
           />
         </div>
-        <div className="h-11 w-full">
+        <div className="h-11 w-full mt-2">
           <Button
             background="green"
             color="white"

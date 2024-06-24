@@ -269,7 +269,7 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
         <div className="h-12 mt-4 flex items-center gap-4">
           {currentUser?.userId !== data?.seller?.userId && (
             <Button
-              title="Starting to Buy"
+              title={activeLanguage?.startingBuy}
               background="green"
               color="white"
               onClick={() => {

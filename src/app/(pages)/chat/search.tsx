@@ -69,7 +69,7 @@ const Search = () => {
 
   return (
     <div className="w-full flex flex-col items-center text-gray-400">
-      <h3 className="mb-8">Find User</h3>
+      <h3 className="mb-8">{activeLanguage?.findUser}</h3>
       <div className="w-full h-11 rounded-xl flex items-center overflow-hidden shadow-sm">
         <div className="min-w-14 flex items-center justify-center bg-gray-300 h-full">
           <MdSearch size={30} color="white" />
@@ -80,11 +80,7 @@ const Search = () => {
             setHide(true);
             setSearch(e.target.value);
           }}
-          placeholder={
-            activeLanguage && typeof activeLanguage.search === "string"
-              ? activeLanguage.search
-              : "Search user by name..."
-          }
+          placeholder={activeLanguage.search}
           className="h-full w-full p-4 text-black"
         />
         {search?.length > 0 && (

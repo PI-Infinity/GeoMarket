@@ -15,7 +15,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 
 const ChatRoom = () => {
   // app context
-  const { apiUrl } = useApp();
+  const { apiUrl, activeLanguage } = useApp();
 
   // chat context
   const {
@@ -185,7 +185,7 @@ const ChatRoom = () => {
           })
         ) : (
           <div className="absolute top-1/2 flex justify-center w-full text-gray-400">
-            First message target user will recieve on his Email!
+            {activeLanguage?.firstMessageAlert}
           </div>
         )}
         {messages?.length > 29 &&
@@ -196,7 +196,7 @@ const ChatRoom = () => {
                 className="border-full rounded-full shadow-md px-3 py-1 cursor-pointer hover:bgightness-95 w-32 text-center"
                 onClick={AddMessages}
               >
-                Load More
+                {activeLanguage?.loadMore}
               </div>
             </div>
           )}

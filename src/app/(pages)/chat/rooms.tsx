@@ -8,20 +8,13 @@ import getChats from "@/app/hooks/getChats";
 
 const Rooms = () => {
   // app context
-  const { apiUrl } = useApp();
+  const { apiUrl, activeLanguage } = useApp();
 
   // auth context
   const { currentUser } = useAuth();
 
-  const {
-    chats,
-    setChats,
-    totalChats,
-    page,
-    setPage,
-
-    loadingChats,
-  } = useChat();
+  const { chats, setChats, totalChats, page, setPage, loadingChats } =
+    useChat();
 
   // add chats
   const AddChats = async () => {
@@ -63,9 +56,9 @@ const Rooms = () => {
           })
         )}
 
-        {totalChats !== null && totalChats === 0 && (
+        {totalChats !== null && chats?.length === 0 && (
           <div className="text-gray-400 flex w-full items-center justify-center text-red-500 mt-24">
-            Not Found
+            {activeLanguage?.chats + " " + activeLanguage?.notFound}
           </div>
         )}
 
@@ -75,7 +68,7 @@ const Rooms = () => {
               className="border-full rounded-full shadow-md px-3 py-1 cursor-pointer hover:bgightness-95 w-32 text-center"
               onClick={AddChats}
             >
-              Load More
+              {activeLanguage?.loadMore}
             </div>
           </div>
         )}

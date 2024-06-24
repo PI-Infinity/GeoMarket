@@ -6,7 +6,10 @@ import Search from "./search";
 import { useChat } from "@/app/context/chat";
 
 const Chats = () => {
-  // app state
+  // app context
+  const { activeLanguage } = useApp();
+
+  // chat state
   const { createChatMobile, setCreateChatMobile } = useChat();
 
   // active state
@@ -20,7 +23,7 @@ const Chats = () => {
             onClick={() => setActiveState("search")}
             className="py-2 px-4 w-80 rounded-full text-center cursor-pointer hover:brightness-95 shadow-md text-green-500 bg-white font-semibold"
           >
-            Start New Conversation
+            {activeLanguage?.startConversation}
           </div>
         ) : (
           <div className="w-2/3 absolute top-32">

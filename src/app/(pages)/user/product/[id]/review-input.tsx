@@ -9,7 +9,7 @@ import { v4 } from "uuid";
 
 const ReviewInput = ({ setList, setTotalReviews }: any) => {
   // app context
-  const { apiUrl } = useApp();
+  const { apiUrl, activeLanguage } = useApp();
 
   // auth state
   const { currentUser } = useAuth();
@@ -61,7 +61,7 @@ const ReviewInput = ({ setList, setTotalReviews }: any) => {
         value={textInput}
         onChange={(e) => setTextInput(e.target.value)}
         className="h-full w-full p-2 pl-4 bg-transparent"
-        placeholder="Text here..."
+        placeholder={activeLanguage?.typeHere}
         maxLength={300}
       />
       <div className="h-full w-20 flex items-center justify-center">

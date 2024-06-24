@@ -14,7 +14,7 @@ interface Subscription {
 
 const Invoices = () => {
   // app context
-  const { apiUrl } = useApp();
+  const { apiUrl, activeLanguage } = useApp();
   // auth state
   const { currentUser } = useAuth();
   // get invoices
@@ -126,6 +126,11 @@ const Invoices = () => {
   return (
     <div className="bg-white h-full rounded-xl shadow-sm">
       <div className="flex-1 p-4 flex flex-col gap-2" ref={subscriptionsRef}>
+        {totalSubscriptions !== null && subscriptions?.length < 1 && (
+          <div className="text-gray-400 flex w-full items-center justify-center text-red-500">
+            {activeLanguage?.notFound}
+          </div>
+        )}
         {subscriptions?.map((item: any, index: number) => {
           return (
             <div
@@ -140,7 +145,7 @@ const Invoices = () => {
                     : item?.status === "canceled"
                     ? "text-red-500"
                     : "text-gray-300"
-                } cursor-pointer hover:brightness-90 absolute right-4 top-4`}
+                }  absolute right-4 top-4`}
               />
               <div className="flex items-center gap-2">
                 <div
@@ -154,52 +159,52 @@ const Invoices = () => {
                         : "gray",
                   }}
                 />
-                <h4 className="text-sm">Status: </h4>
+                <h4 className="text-sm">{activeLanguage?.status}: </h4>
                 <span className="text-sm">
-                  {item?.status.charAt(0).toUpperCase() + item?.status.slice(1)}
+                  {activeLanguage[item?.status?.toLowerCase()]}
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <h4 className="text-sm">Type: </h4>
+                <h4 className="text-sm">{activeLanguage?.type}: </h4>
                 <span className="text-sm">
-                  {item?.type} /{" "}
-                  {item?.time.charAt(0).toUpperCase() + item?.time.slice(1)}
+                  {item.type === "Premium+"
+                    ? activeLanguage?.premiumPlus
+                    : activeLanguage[item.type?.toLowerCase()]}{" "}
+                  / {activeLanguage[item?.time?.toLowerCase()]}
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <h4 className="text-sm">Price: </h4>
+                <h4 className="text-sm">{activeLanguage?.price}: </h4>
                 <span className="text-sm">{item?.price}₾</span>
               </div>
               <div className="flex flex-col gap-2">
-                <h4 className="text-sm">Options: </h4>
+                <h4 className="text-sm">{activeLanguage?.includes}: </h4>
                 <span className="ml-4 text-sm">
-                  Unclocked products:{" "}
+                  {activeLanguage?.products}:{" "}
                   <span className="font-semibold">
                     {item?.options.products === 100000
-                      ? "Unlimited"
+                      ? activeLanguage?.unlimited
                       : item?.options.products}
                   </span>
                 </span>
-                <span className="ml-4 text-sm">
-                  Top Level Sorting:{" "}
-                  <span className="font-semibold text-sm">
-                    {item?.options.topLevelSorting ? "True" : "False"}
-                  </span>
+                <span className="ml-4 text-sm font-semibold">
+                  {item?.options.topLevelSorting &&
+                    activeLanguage?.topLevelSorting}
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <h4 className="text-sm">Activate Date: </h4>
+                <h4 className="text-sm">{activeLanguage?.activateDate}: </h4>
                 <span className="text-sm">
                   {DefineDate(item?.activationDate)}
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <h4 className="text-sm">Expire Date: </h4>
+                <h4 className="text-sm">{activeLanguage?.expireDate}: </h4>
                 <span className="text-sm">{DefineDate(item?.expireDate)}</span>
               </div>
               {item.cancelDate && (
                 <div className="flex items-center gap-2">
-                  <h4 className="text-sm">Cancel Date: </h4>
+                  <h4 className="text-sm">{activeLanguage?.cancelDate}: </h4>
                   <span className="text-sm">
                     {DefineDate(item?.cancelDate)}
                   </span>
