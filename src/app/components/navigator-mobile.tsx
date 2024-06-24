@@ -92,7 +92,7 @@ const NavigatorMobile: React.FC = () => {
 
   return (
     <div
-      className={`fixed bottom-8 z-30 shadow-md laptop:w-16 px-4  rounded-xl mr-2 ${
+      className={`fixed bottom-7 z-30 shadow-md laptop:w-16 px-4  rounded-xl mr-2 ${
         (pathname.includes("/login") ||
           pathname.includes("/signup") ||
           pathname.includes("/chat/") ||
@@ -239,21 +239,31 @@ const NavigatorMobile: React.FC = () => {
         )}
       </div>
       <div
-        style={{ fontSize: "12px", whiteSpace: "nowrap" }}
-        className="text-red-500 h-8 text-center font-semibold flex items-center justify-center animate-marquee"
+        style={{
+          whiteSpace: "nowrap",
+          background: "white",
+          width: "100%",
+          overflow: "hidden",
+        }}
+        className="text-red-500 rounded-full mt-1 h-6 text-center  flex items-center justify-center"
       >
-        პლატფორმა მუშაობს სატესტო რეჟიმში, ხარვეზების დაფიქსირების შემთხვევაში{" "}
-        <Link
-          href="/support"
-          style={{
-            fontSize: "12px",
-            textDecoration: "underline",
-            cursor: "pointer",
-          }}
-          className="font-bold ml-2"
+        <div
+          style={{ fontSize: "12px" }}
+          className="animate-marquee font-semibold"
         >
-          მოგვწერეთ!
-        </Link>
+          პლატფორმა მუშაობს სატესტო რეჟიმში, ხარვეზების დაფიქსირების შემთხვევაში{" "}
+          <Link
+            href="/support"
+            style={{
+              fontSize: "12px",
+              textDecoration: "underline",
+              cursor: "pointer",
+            }}
+            className="font-bold ml-1"
+          >
+            მოგვწერეთ!
+          </Link>
+        </div>
       </div>
       <style jsx>{`
         @keyframes marquee {
