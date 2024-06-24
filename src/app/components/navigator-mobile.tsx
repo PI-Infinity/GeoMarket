@@ -239,10 +239,21 @@ const NavigatorMobile: React.FC = () => {
         )}
       </div>
       <div
-        style={{ fontSize: "12px" }}
+        style={{ fontSize: "12px", whiteSpace: "nowrap" }}
         className="text-red-500 h-8 text-center font-semibold flex items-center justify-center animate-marquee"
       >
-        პლატფორმა მუშაობს სატესტო რეჟიმში
+        პლატფორმა მუშაობს სატესტო რეჟიმში, ხარვეზების დაფიქსირების შემთხვევაში{" "}
+        <Link
+          href="/support"
+          style={{
+            fontSize: "12px",
+            textDecoration: "underline",
+            cursor: "pointer",
+          }}
+          className="font-bold ml-2"
+        >
+          მოგვწერეთ!
+        </Link>
       </div>
       <style jsx>{`
         @keyframes marquee {
@@ -255,7 +266,7 @@ const NavigatorMobile: React.FC = () => {
         }
 
         .animate-marquee {
-          animation: marquee 10s linear infinite;
+          animation: marquee 20s linear infinite;
         }
       `}</style>
     </div>

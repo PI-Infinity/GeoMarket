@@ -66,9 +66,6 @@ export default function Header() {
             </h1>
           </Link>
         }
-        <div className="hidden ml-auto pr-8 text-red-500 text-sm text-center font-semibold laptop:flex items-center justify-center">
-          პლატფორმა მუშაობს სატესტო რეჟიმში
-        </div>
         {pathname !== "/sellers" && !pathname?.includes("/admin") && (
           <Link
             href="/sellers"
