@@ -180,7 +180,7 @@ const RoomItem = ({ item }: any) => {
                   ? "red"
                   : "black",
             }}
-            className="ml-4 flex flex-col gap-1"
+            className="ml-2 flex flex-col gap-1"
           >
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-1">
@@ -193,9 +193,11 @@ const RoomItem = ({ item }: any) => {
                   }
                 />
               </div>
-              <h4 className="max-w-56 laptop:max-w-40 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                {targetUser?.name}
-              </h4>
+              <div className="laptop:max-w-32">
+                <h4 className="max-w-72 overflow-hidden whitespace-nowrap overflow-ellipsis">
+                  {targetUser?.name}
+                </h4>
+              </div>
             </div>
             <div>
               <div className="flex items-center gap-1 overflow-hidden">
@@ -220,8 +222,11 @@ const RoomItem = ({ item }: any) => {
             onClick={(e) => e.stopPropagation()}
             className="ml-auto text-red-300 h-full flex flex-col items-end justify-evenly gap-2 p-2 cursor-pointer hover:text-red-500 "
           >
-            <span className="text-gray-500" style={{ fontSize: "12px" }}>
-              {GetTimesAgo(item?.createdAt)}
+            <span
+              className="text-gray-500 whitespace-nowrap"
+              style={{ fontSize: "12px" }}
+            >
+              {/* {GetTimesAgo(item?.createdAt)} */}Just now
             </span>
             <MdRemove
               size={16}

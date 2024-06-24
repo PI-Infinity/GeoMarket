@@ -22,7 +22,7 @@ const Button: React.FC<PropsType> = ({
   return (
     <div
       id={id}
-      onClick={onClick}
+      onClick={!loading ? onClick : undefined}
       className={`w-full h-full rounded-xl flex items-center justify-center gap-2 ${
         disabled ? "bg-gray-300" : "bg-" + background + "-500"
       } text-${disabled ? "white" : color} cursor-${

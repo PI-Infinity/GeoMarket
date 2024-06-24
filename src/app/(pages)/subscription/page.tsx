@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { MdDiamond, MdOutlineDone } from "react-icons/md";
 import Item from "./item";
 import { useAuth } from "@/app/context/auth";
+import Link from "next/link";
 
 const Page = () => {
   useEffect(() => {
@@ -60,20 +61,20 @@ const Page = () => {
             return <Item item={item} key={index} period={period} />;
           })}
       </div>
-      <div className="w-full laptop:w-4/5 h-40 mr-0 laptop:mr-20 rounded-xl shadow-sm flex items-center justify-between pl-16 pr-16 bg-white">
-        <div>
+      <div className="w-full laptop:w-4/5 laptop:h-40 mr-0 laptop:mr-20 rounded-xl shadow-sm flex flex-col gap-4 p-4 laptop:flex-row items-center justify-between laptop:pl-16 laptop:pr-16 bg-white">
+        <div className="flex flex-col items-center laptop:items-start">
           <h1>Have questions?</h1>
           <p className="text-xl">Request call!</p>
         </div>
 
-        <div className="h-11 w-40">
+        <Link href="/support" className="h-11 w-40">
           <Button
             title={activeLanguage.support}
-            onClick={() => alert("Support")}
+            onClick={() => undefined}
             background="red"
             color="white"
           />
-        </div>
+        </Link>
       </div>
     </div>
   );

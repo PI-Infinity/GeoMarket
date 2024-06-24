@@ -36,7 +36,7 @@ export default function Header() {
       z-20 w-full `}
     >
       <ProgressBar
-        height="4px"
+        height="0.3rem"
         color="#DA291C"
         options={{ showSpinner: false }}
         shallowRouting
