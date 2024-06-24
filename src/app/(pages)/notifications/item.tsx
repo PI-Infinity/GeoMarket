@@ -174,7 +174,12 @@ const Item = (item: any, index: any) => {
           onClick={(e) => e.stopPropagation()}
           className="ml-auto text-red-300 h-full flex flex-col items-end justify-evenly gap-2  cursor-pointer hover:text-red-500 pr-2"
         >
-          <span className="text-gray-500" style={{ fontSize: "12px" }}>
+          <span
+            className={`${
+              notification?.status === "unread" ? "text-white" : "text-gray-500"
+            } whitespace-nowrap`}
+            style={{ fontSize: "12px" }}
+          >
             {GetTimesAgo(notification?.createdAt)}
           </span>
           <MdRemove
