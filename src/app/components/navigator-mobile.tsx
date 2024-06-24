@@ -92,13 +92,13 @@ const NavigatorMobile: React.FC = () => {
 
   return (
     <div
-      className={`fixed bottom-2 z-30 laptop:top-20 laptop:mt-2 shadow-md laptop:w-16 px-4 laptop:px-0 laptop:py-4 laptop:right-0 laptop:pb-4 laptop:shadow-sm  rounded-xl mr-2 laptop:bg-white ${
+      className={`fixed bottom-8 z-30 shadow-md laptop:w-16 px-4  rounded-xl mr-2 ${
         (pathname.includes("/login") ||
           pathname.includes("/signup") ||
           pathname.includes("/chat/") ||
           pathname.startsWith("/admin")) &&
         "hidden"
-      } h-12 laptop:bg-white laptop:h-[calc(100%-8.5rem)] w-[calc(100%-1rem)] z-20 flex laptop:hidden laptop:flex-col items-center justify-between`}
+      } h-12 w-[calc(100%-1rem)] z-20  laptop:hidden`}
       style={{
         backdropFilter: "blur(30px)",
         WebkitBackdropFilter: "blur(30px)",
@@ -196,7 +196,7 @@ const NavigatorMobile: React.FC = () => {
                     });
                   }
             }
-            className={`w-8 laptop:w-3/5 bg-gray-200 aspect-square flex items-center justify-center hover:brightness-90 transition-all rounded-full`}
+            className={`w-8 bg-gray-200 aspect-square flex items-center justify-center hover:brightness-90 transition-all rounded-full`}
           >
             <div
               style={{ border: "1.5px solid #d9d9d9" }}
@@ -214,9 +214,7 @@ const NavigatorMobile: React.FC = () => {
             </div>
           </Link>
         ) : (
-          <div
-            className={`laptop:mt-auto w-8 laptop:bm-8 none laptop:flex flex-col gap-12 laptop:w-full items-center`}
-          >
+          <div className={`w-8 noneflex-col gap-12 laptop:w-full items-center`}>
             <div
               className="cursor-pointer hover:brightness-105"
               onClick={
@@ -240,6 +238,26 @@ const NavigatorMobile: React.FC = () => {
           </div>
         )}
       </div>
+      <div
+        style={{ fontSize: "12px" }}
+        className="text-red-500 h-8 text-center font-semibold flex items-center justify-center animate-marquee"
+      >
+        პლატფორმა მუშაობს სატესტო რეჟიმში
+      </div>
+      <style jsx>{`
+        @keyframes marquee {
+          0% {
+            transform: translateX(100%);
+          }
+          100% {
+            transform: translateX(-100%);
+          }
+        }
+
+        .animate-marquee {
+          animation: marquee 10s linear infinite;
+        }
+      `}</style>
     </div>
   );
 };

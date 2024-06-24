@@ -20,9 +20,8 @@ import Loading from "./components/loading";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Geo Market - ქართული ხელოვნების ბაზარი",
-  description:
-    "Discover and purchase unique Georgian art and crafts on Geo Market.",
+  title: "Geo Market - ქართული ბაზარი",
+  description: "უნიკალური ქართული პროდუქცია",
 };
 
 export default function RootLayout({ children }: any) {
@@ -52,6 +51,23 @@ export default function RootLayout({ children }: any) {
           content="black-translucent"
         />
         <meta name="apple-mobile-web-app-status-bar-color" content="#ff0000" />
+        {/* Open Graph Meta Tags */}
+        <meta property="og:title" content="Geo Market - ქართული ბაზარი" />
+        <meta property="og:description" content="უნიკალური ქართული პროდუქცია" />
+        <meta property="og:image" content="/banner.webp" />
+        <meta property="og:url" content="https://geomarket.shop" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Geo Market" />
+
+        {/* Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Geo Market - ქართული ბაზარი" />
+        <meta
+          name="twitter:description"
+          content="უნიკალური ქართული პროდუქცია"
+        />
+        <meta name="twitter:image" content="/banner.webp" />
+        <meta name="twitter:url" content="https://geomarket.shop" />
       </Head>
       <body className={`${inter.className} bg-gray-100`}>
         <AppContextWrapper>
