@@ -101,12 +101,12 @@ export default function Header() {
           )}
           {pathname === "/chat" && !createChatMobile && (
             <div
-              style={{ color: "#a9a9a9" }}
+              style={{ fontWeight: "600" }}
               onClick={() => setCreateChatMobile(true)}
-              className="flex laptop:hidden items-center gap-1 mr-6 rounded-full shadow-md px-3 py-1 cursor-pointer hover:brightness-95 bg-white"
+              className="flex text-gray-300 text-sm laptop:hidden items-center gap-1 mr-6 rounded-full shadow-md px-3 py-1 cursor-pointer hover:brightness-95 bg-white"
             >
-              <MdAdd size={24} color="#a9a9a9" />
-              New Chat
+              <MdAdd size={18} />
+              {activeLanguage?.new}
             </div>
           )}
           <div
