@@ -262,9 +262,10 @@ const SellerItem: React.FC<PropTypes> = ({
                 />
               </div>
               <div
+                style={{ fontWeight: 600 }}
                 className={`whitespace-nowrap overflow-hidden overflow-ellipsis ${
                   activeGrid === "double"
-                    ? "max-w-28 text-sm"
+                    ? "max-w-36 text-sm"
                     : "max-w-80 text-md"
                 } laptop:max-w-56`}
               >
@@ -286,7 +287,7 @@ const SellerItem: React.FC<PropTypes> = ({
           </Link>
 
           <p
-            className={`text-gray-600 ${
+            className={`text-gray-400 ${
               activeGrid === "double" ? "text-sm" : "text-md"
             } laptop:text-md`}
           >

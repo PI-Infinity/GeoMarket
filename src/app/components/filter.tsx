@@ -25,7 +25,7 @@ const Filter: React.FC = () => {
   };
 
   return (
-    <div className="laptop:p-4 flex flex-col gap-2 laptop:gap-8 w-full laptop:w-80">
+    <div className="laptop:p-4 flex flex-col laptop:gap-8 w-full laptop:w-80">
       <ul className="flex laptop:flex-col gap-2 overflow-x-auto max-w-screen py-2 laptop:py-0">
         {categories.map((item: any, index: number) => (
           <FilterItem key={index} item={item} />

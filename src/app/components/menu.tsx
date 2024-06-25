@@ -34,12 +34,12 @@ const Menu: React.FC = () => {
           transition ? 1 : 0
         } p-4 transition-all duration-200 ease text-black font-semibold flex flex-col gap-2`}
       >
-        <Link href="/subscription">{activeLanguage?.prices}</Link>
+        {/* <Link href="/subscription">{activeLanguage?.prices}</Link> */}
         <Link href="/support">{activeLanguage?.support}</Link>
-        <Link href="/about">{activeLanguage?.about}</Link>
-        <Link href="/privacy">{activeLanguage?.privacyPolicy}</Link>
+        {/* <Link href="/about">{activeLanguage?.about}</Link> */}
+        {/* <Link href="/privacy">{activeLanguage?.privacyPolicy}</Link> */}
         <Link href="/terms">{activeLanguage?.termsAndRules}</Link>
-        <Link href="/usage">{activeLanguage?.howToUse}</Link>
+        {/* <Link href="/usage">{activeLanguage?.howToUse}</Link> */}
 
         <div
           onClick={(e) => e.stopPropagation()}

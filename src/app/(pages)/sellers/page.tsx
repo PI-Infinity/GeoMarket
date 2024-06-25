@@ -15,9 +15,11 @@ export default function Sellers() {
   const [totalSellers, setTotalSellers] = useState(null);
   const [search, setSearch] = useState("");
   const sellersRef = useRef(null);
+  const [loadingSellers, setLoadingSellers] = useState(false);
 
   const GetUsers = async () => {
     try {
+      setLoadingSellers(true);
       const response = await getUsers({
         apiUrl,
         search,
@@ -28,6 +30,7 @@ export default function Sellers() {
       setSellers(response.data.users);
       setTotalSellers(response.totalUsers);
       setPage(1);
+      setLoadingSellers(false);
     } catch (error: any) {
       console.log(error.response.data);
     }
@@ -123,7 +126,11 @@ export default function Sellers() {
             className={`flex-1 w-full rounded-md 
             text-black`}
           >
-            <SellersList sellers={sellers} totalSellers={totalSellers} />
+            <SellersList
+              sellers={sellers}
+              totalSellers={totalSellers}
+              loadingSellers={loadingSellers}
+            />
           </div>
         </div>
       </div>
