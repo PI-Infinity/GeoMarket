@@ -28,7 +28,8 @@ const NavigatorMobile: React.FC = () => {
   const router = useRouter();
 
   // current user context
-  const { currentUser, setCurrentUser, setDestination } = useAuth();
+  const { currentUser, setCurrentUser, setDestination, setRerenderUser } =
+    useAuth();
 
   // notification context
   const { totalUnreads } = useNotifications();
@@ -89,8 +90,8 @@ const NavigatorMobile: React.FC = () => {
   const handleClick = () => {
     if (scrollPosition > 0) {
       window.scrollTo({ top: 0, behavior: "smooth" });
-    } else if (scrollPosition === 0) {
-      setRerenderProducts((prev: any) => !prev);
+    } else if (scrollPosition === 0 && pathname === "/") {
+      setRerenderUser((prev: any) => !prev);
     } else {
       router.push("/");
     }

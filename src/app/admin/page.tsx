@@ -136,7 +136,7 @@ const Page = () => {
             </div>
           </div>
           <div className="mt-8">
-            <h4>Las 30 Days Registers:</h4>
+            <h4>Last uploaded products:</h4>
             <div className="h-48 shadow-md rounded-xl w-full mt-2 flex items-center gap-2 overflow-x-auto">
               {stats?.uploadsByDate?.map((item: any, index: number) => {
                 // Calculate the height percentage

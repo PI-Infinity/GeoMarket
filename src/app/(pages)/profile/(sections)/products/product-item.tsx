@@ -77,7 +77,7 @@ const ProductItem: React.FC<PropTypes> = ({
   const ChangeStatus = async (status: any) => {
     try {
       const response = await axios.patch(
-        apiUrl + "/api/v1/products/" + item?.productId,
+        apiUrl + "/api/v1/products/status/" + item?.productId,
         {
           status: status,
         }
@@ -215,7 +215,7 @@ const ProductItem: React.FC<PropTypes> = ({
             </div>
             <span className="text-sm">{activeLanguage.rejectedText}</span>
             <Link
-              href="/terms"
+              href="/terms/productUpload"
               className="text-red font-semibold"
               style={{ textDecoration: "underline" }}
             >

@@ -24,6 +24,7 @@ import { MdClose, MdDelete } from "react-icons/md";
 import { v4 } from "uuid";
 import { useProductsContext } from "@/app/context/products";
 import Image from "@/app/components/image";
+import UploadingRules from "../addProduct/uploadingRules";
 
 interface propsTypes {}
 
@@ -178,7 +179,7 @@ const EditProduct: React.FC<propsTypes> = () => {
 
     const productData = {
       productId: product?.productId,
-      status: product.status,
+      status: "inReview",
       title: product.title,
       category: product.category.value,
       description: product.description,
@@ -239,13 +240,13 @@ const EditProduct: React.FC<propsTypes> = () => {
   return (
     <>
       {product && (
-        <div className="w-full h-full flex flex-col items-center gap-4 bg-white p-2 shadow-sm rounded-xl mb-4 pb-4">
+        <div className="w-full h-full flex flex-col gap-4 bg-white p-2 shadow-sm rounded-xl mb-4 pb-4">
           <div className="w-full flex items-center justify-end">
             <div className="w-full text-xl font-semibold pl-4">
               {activeLanguage.editProduct}
             </div>
             <div className="flex items-center gap-2 h-11">
-              <div className="w-40 h-full">
+              <div className="w-40 hidden laptop:flex h-full">
                 <Button
                   title={activeLanguage.save}
                   onClick={
@@ -266,6 +267,10 @@ const EditProduct: React.FC<propsTypes> = () => {
                 <MdClose size={32} color="white" />
               </Link>
             </div>
+          </div>
+          <div className="w-full laptop:w-1/2 laptop:px-4">
+            <h4 className="ml-4">{activeLanguage?.rules}:</h4>
+            <UploadingRules rejectReasons={product?.rejectReasons} />
           </div>
           <div className="w-full flex-1 flex flex-col laptop:flex-row pl-0 laptop:pl-4 overflow-y-auto overflow-x-hidden">
             <div className="flex flex-col gap-4">
@@ -543,6 +548,20 @@ const EditProduct: React.FC<propsTypes> = () => {
                 );
               })}
             </div>
+          </div>
+          <div className="w-full laptop:hidden h-11 mb-16">
+            <Button
+              title={activeLanguage.upload}
+              onClick={
+                disabled ||
+                JSON.stringify(product) === JSON.stringify(currentProduct)
+                  ? () => undefined
+                  : () => ProductUpload()
+              }
+              background="green"
+              color="white"
+              disabled={disabled}
+            />
           </div>
         </div>
       )}

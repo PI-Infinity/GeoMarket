@@ -1,4 +1,5 @@
 "use client";
+import { productUploadingRules } from "@/app/(pages)/profile/(sections)/products/addProduct/uploadingRules";
 import Button from "@/app/components/button";
 import Image from "@/app/components/image";
 import { useApp } from "@/app/context/app";
@@ -10,6 +11,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FaImages } from "react-icons/fa";
 import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
+import { MdClose } from "react-icons/md";
 
 interface PropTypes {
   item: any;
@@ -50,12 +52,16 @@ const ProductItem: React.FC<PropTypes> = ({
   // Concatenate coverItems first and then nonCoverItems
   const reorderedGallery = [...coverItems, ...nonCoverItems];
 
+  // reject reasons
+  const [openRejectReasons, setOpenRejectReasons] = useState(false);
+  const [rejectReasons, setRejectReasons] = useState<any>([]);
+
   return (
     <div
       style={{
         filter: item.status === "public" ? "brightness(1)" : "brightness(0.95)",
       }}
-      className="box-border rounded-xl bg-gray-50 p-4 flex flex-col cursor-pointer shadow-md laptop:max-w-80"
+      className="relative overflow-hidden box-border rounded-xl bg-gray-50 p-4 flex flex-col cursor-pointer shadow-md laptop:max-w-80"
     >
       <p className="text-md font-bold">Status: {item?.status}</p>
       <div className="flex mb-2 mt-2 gap-4 w-full items-center justify-between">
@@ -70,11 +76,11 @@ const ProductItem: React.FC<PropTypes> = ({
               title="Reject"
               background="red"
               color="white"
-              onClick={() => Reject(item.productId)}
+              onClick={() => setOpenRejectReasons(true)}
               loading={actionLoading.active && actionLoading.type === "reject"}
             />
           </div>
-          <div className="w-full h-10" onClick={() => Confirm(item.productId)}>
+          <div className="w-full h-10">
             <Button
               title="Confirm"
               background="green"
@@ -156,6 +162,53 @@ const ProductItem: React.FC<PropTypes> = ({
           {item.price?.byOrder ? "" : "₾"}
         </div>
       </div>
+      {openRejectReasons && (
+        <div className="absolute bg-gray-50 h-full flex flex-col gap-2">
+          <MdClose
+            onClick={() => {
+              setOpenRejectReasons(false);
+              setRejectReasons([]);
+            }}
+            color="red"
+            size={24}
+            className="absolute right-2 top-0 cursor-pointer hover:brightness-95"
+          />
+          <h4>Reject Reasons:</h4>
+          {productUploadingRules?.map((itm: any, index: number) => {
+            return (
+              <div
+                key={index}
+                style={{
+                  border: rejectReasons?.includes(itm?.value)
+                    ? "1.5px solid red"
+                    : "1.5px solid white",
+                }}
+                onClick={
+                  rejectReasons?.includes(itm?.value)
+                    ? () =>
+                        setRejectReasons((prev: any) =>
+                          prev?.filter((i: any) => i !== itm?.value)
+                        )
+                    : () =>
+                        setRejectReasons((prev: any) => [...prev, itm.value])
+                }
+                className="shadow-md p-2 bg-gray-50 rounded-xl hover:brightness-95 cursor-pointer"
+              >
+                <h4>{itm?.title}</h4>
+                <p>{itm?.description}</p>
+              </div>
+            );
+          })}
+          <div className="h-11">
+            <Button
+              title="Confirm"
+              background="green"
+              color="white"
+              onClick={() => Reject(item.productId, rejectReasons)}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

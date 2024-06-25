@@ -19,6 +19,7 @@ import { storage } from "@/app/firebase";
 import axios from "axios";
 import { useProductsContext } from "@/app/context/products";
 import Image from "@/app/components/image";
+import UploadingRules from "./uploadingRules";
 
 interface propsTypes {}
 
@@ -213,13 +214,13 @@ const AddProduct: React.FC<propsTypes> = () => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col items-center gap-4 bg-white p-2 shadow-sm rounded-xl mb-4 pb-4">
+    <div className="w-full h-full flex flex-col gap-4 bg-white p-2 shadow-sm rounded-xl">
       <div className="w-full flex items-center justify-end">
         <div className="w-full text-xl font-semibold pl-0 laptop:pl-4">
           {activeLanguage.addProduct}
         </div>
         <div className="flex items-center gap-2 h-11">
-          <div className="w-40 h-full">
+          <div className="hidden laptop:flex w-40 h-full">
             <Button
               title={activeLanguage.upload}
               onClick={disabled ? () => undefined : () => ProductUpload()}
@@ -236,7 +237,11 @@ const AddProduct: React.FC<propsTypes> = () => {
           </Link>
         </div>
       </div>
-      <div className="w-full flex-1 flex flex-col laptop:flex-row pl-0 laptop:pl-4 overflow-y-auto overflow-x-hidden">
+      <div className="w-full laptop:w-1/2 laptop:px-4">
+        <h4 className="ml-4">{activeLanguage?.rules}:</h4>
+        <UploadingRules />
+      </div>
+      <div className="w-full flex-1 mt-2 flex flex-col laptop:flex-row pl-0 laptop:pl-4 overflow-y-auto overflow-x-hidden">
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
@@ -498,6 +503,15 @@ const AddProduct: React.FC<propsTypes> = () => {
             );
           })}
         </div>
+      </div>
+      <div className="w-full laptop:hidden h-11 mb-16">
+        <Button
+          title={activeLanguage.upload}
+          onClick={disabled ? () => undefined : () => ProductUpload()}
+          background="green"
+          color="white"
+          disabled={disabled}
+        />
       </div>
     </div>
   );

@@ -141,6 +141,7 @@ export const ProfileContextWrapper: React.FC<contextProps> = ({ children }) => {
       value={{
         products,
         totalProducts,
+
         setProducts,
         GetProducts,
         alert,

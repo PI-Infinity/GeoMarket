@@ -27,6 +27,7 @@ export const AuthContextWrapper: React.FC<contextProps> = ({ children }) => {
   // Current user state
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [loading, setLoading] = useState(true); // Add a loading state
+  const [rerenderUser, setRerenderUser] = useState(false);
 
   // App context to get API URL
   const { apiUrl } = useApp();
@@ -115,7 +116,7 @@ export const AuthContextWrapper: React.FC<contextProps> = ({ children }) => {
     } else {
       setLoading(false); // Set loading to false if no local user
     }
-  }, []);
+  }, [rerenderUser]);
 
   // destination page after login or register
   interface Destination {
@@ -133,6 +134,7 @@ export const AuthContextWrapper: React.FC<contextProps> = ({ children }) => {
         socket: socket.current,
         destination,
         setDestination,
+        setRerenderUser,
       }}
     >
       {children}

@@ -438,6 +438,19 @@ export const en = {
   paintings: "Paintings",
   souvenirs: "Souvenirs",
   productUploadedSuccesfully: "Product uploaded successfully!",
+  rules: "Rules",
+  originProductTitle: "1. Origin of the Product",
+  originProductDescription: "The product must be made exclusively in Georgia.",
+  contentRelevanceTitle: "2. Relevance of Content",
+  contentRelevanceDescription:
+    "The category, images, title, and description must be relevant to each other.",
+  contentQualityTitle: "3. Content Quality",
+  contentQualityDescription: "mage quality must be satisfactory.",
+  censorshipTitle: "4. Censorship",
+  censorShipDescription:
+    "Texts and images must adhere to the main censorship rules.",
+  copyrightTitle: "5. Copyright",
+  copyrightDescription: "The product must have the correct copyright.",
 };
 
 export const ka = {
@@ -879,4 +892,19 @@ export const ka = {
   paintings: "ნახატები",
   souvenirs: "სუვენირები",
   productUploadedSuccesfully: "პროდუქტი აიტვირთა წარმატებით!",
+  rules: "წესები",
+  originProductTitle: "1. პროდუქტის წარმომაბლობა",
+  originProductDescription:
+    "პროდუქტი დამზადებული უნდა იყოს საქართველოში ან უნდა იყოს ქართული თემატიკის",
+  contentRelevanceTitle: "2. რელევანტური კონტენტი",
+  contentRelevanceDescription:
+    "კატეგორია, დასახელება, აღწერა და სურათები უნდა იყოს ერთმანეთთან შესაბამისი",
+  contentQualityTitle: "3. სურათის ხარისხი",
+  contentQualityDescription: "სურათის ხარისხი უნდა იყოს დამაკმაყოფილებელი",
+  censorshipTitle: "4. ცენზურა",
+  censorshipDescription:
+    "სურათები და ტექსტები უნდა იცავდეს ცენზურის ძირითად მახასიათებლებს",
+  copyrightTitle: "5. საავტორო უფლებები",
+  copyrightDescription:
+    "პროდუქტის გამოქვეყნება არ უნდა აღვევდეს საავტორო უფლებებს.",
 };

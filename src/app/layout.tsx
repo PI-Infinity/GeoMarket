@@ -77,7 +77,7 @@ export default function RootLayout({ children }: any) {
               <ChatContextWrapper>
                 <ProductsContextWrapper>
                   <UserContextWrapper>
-                    <div className="pb-10" style={{ minHeight: "90vh" }}>
+                    <div className="pb-16" style={{ minHeight: "90vh" }}>
                       <Header />
                       <Menu />
                       <SimpleBackdrop />

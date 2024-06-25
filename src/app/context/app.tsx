@@ -158,6 +158,37 @@ export const AppContextWrapper: React.FC<contextProps> = ({ children }) => {
     }
   }, [openMenu, pathname]);
 
+  // edit product for navigation from notifications to edit product when product is rejeted
+  const [editProduct, setEditProduct] = useState(null);
+
+  const productUploadingRules = [
+    {
+      title: activeLanguage.originProductTitle,
+      description: activeLanguage?.originProductDescription,
+      value: "product origin",
+    },
+    {
+      title: activeLanguage?.contentRelevanceTitle,
+      description: activeLanguage?.contentRelevanceDescription,
+      value: "content relevance",
+    },
+    {
+      title: activeLanguage?.contentQualityTitle,
+      description: activeLanguage?.contentQualityDescription,
+      value: "content quality",
+    },
+    {
+      title: activeLanguage?.censorshipTitle,
+      description: activeLanguage?.censorshipDescription,
+      value: "censorship",
+    },
+    {
+      title: activeLanguage?.copyrightTitle,
+      description: activeLanguage?.copyrightDescription,
+      value: "copyright",
+    },
+  ];
+
   return (
     <App.Provider
       value={{
@@ -173,6 +204,9 @@ export const AppContextWrapper: React.FC<contextProps> = ({ children }) => {
         isLoading,
         setIsLoading,
         subscriptionItems,
+        setEditProduct,
+        editProduct,
+        productUploadingRules,
       }}
     >
       {children}

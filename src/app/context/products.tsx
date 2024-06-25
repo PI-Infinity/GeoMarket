@@ -215,6 +215,7 @@ export const ProductsContextWrapper = ({
       value={{
         products,
         setProducts,
+
         rerenderProducts,
         setRerenderProducts,
         category,

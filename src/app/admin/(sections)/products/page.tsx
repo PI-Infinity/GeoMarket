@@ -4,6 +4,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import ProductItem from "./product-item";
 import { BounceLoader, MoonLoader } from "react-spinners";
+import { productUploadingRules } from "@/app/(pages)/profile/(sections)/products/addProduct/uploadingRules";
 
 // Define the Product interface
 interface Product {
@@ -139,13 +140,14 @@ const Page = () => {
   /**
    * Reject Product
    */
-  const Reject = async (productId: any) => {
+  const Reject = async (productId: any, rejectReasons: any) => {
     try {
       setActionLoading({ active: true, type: "reject" });
       const response = await axios.patch(
         apiUrl + "/api/v1/products/" + productId + "/status",
         {
           status: "rejected",
+          reason: rejectReasons,
         }
       );
       if (response.data.status === "success") {

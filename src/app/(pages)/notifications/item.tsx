@@ -10,6 +10,7 @@ import React, { useEffect, useState } from "react";
 import { IoMdEye } from "react-icons/io";
 import { MdClose, MdDone, MdRemove } from "react-icons/md";
 import { MoonLoader } from "react-spinners";
+import { useUserContext } from "@/app/context/user";
 
 const Item = (item: any, index: any) => {
   const [notification, setNotification] = useState(item.item);
@@ -20,9 +21,11 @@ const Item = (item: any, index: any) => {
 
   const { setTotalUnreads, setNotifications } = useNotifications();
 
-  const { apiUrl, activeLanguage } = useApp();
+  const { apiUrl, activeLanguage, productUploadingRules } = useApp();
 
   const { currentUser } = useAuth();
+
+  const { setProduct } = useUserContext();
 
   const router = useRouter();
 
@@ -94,11 +97,18 @@ const Item = (item: any, index: any) => {
       onClick={
         notification?.status === "unread"
           ? () => ReadNotification(notification?.notificationId)
-          : undefined
+          : () => {
+              if (notification?.type === "product-reject") {
+                router.push("/profile/products");
+              } else {
+                router.push(`/user/product/${notification?.productId})`);
+                setProduct(notification?.product);
+              }
+            }
       }
-      className={`p-2 border-[1px] border-gray-200 rounded-xl shadow-md flex gap-4 relative ${
+      className={`p-2 border-[1px] border-gray-200 rounded-xl shadow-md flex gap-4 relative cursor-pointer ${
         notification?.status === "unread"
-          ? "bg-red-500 text-white cursor-pointer hover:brightness-95"
+          ? "bg-red-500 text-white  hover:brightness-95"
           : "text-gray-400"
       }`}
     >
@@ -124,36 +134,84 @@ const Item = (item: any, index: any) => {
           />
         </div>
       </div>
-      <div className="flex flex-col gap-1">
-        <h4
-          style={{
-            cursor:
-              notification.sender !== "Geo Market" ? "pointer" : "default",
-          }}
-        >
-          {notification?.sender?.name || notification?.sender}
-        </h4>
-        <div className="flex items-center gap-2">
-          <p className="text-sm">
-            {notification?.type === "save"
-              ? "შეინახა თქვენი პროდუქტი"
-              : notification?.type === "rating"
-              ? "მიანიჭა რეიტინგი თქვენს პროდუქტს"
-              : notification?.type === "review"
-              ? "დატოვა კომენტარი თქვენს პროდუქტზე"
-              : notification?.type === "welcome"
-              ? "მოგესალმებით! გისურვებთ ბედნიერ მოგზურობას ქართული ნიჭის სამყაროში <3"
-              : ""}
-          </p>
-          {notification?.productId && (
-            <Link href={`/user/product/${notification?.productId}`}>
-              <IoMdEye size={24} className="text-gray-300" />
-            </Link>
-          )}
+      <div className="flex flex-col w-full">
+        <div className="w-full flex items-center">
+          <h4
+            style={{
+              cursor:
+                notification.sender !== "Geo Market" ? "pointer" : "default",
+            }}
+          >
+            {notification?.sender?.name || notification?.sender}{" "}
+          </h4>
+          <span
+            className={`${
+              notification?.status === "unread" ? "text-white" : "text-gray-400"
+            } whitespace-nowrap ml-auto`}
+            style={{ fontSize: "12px" }}
+          >
+            {GetTimesAgo(notification?.createdAt)}
+          </span>
+        </div>
+        <div className="flex items-center gap-2 w-full">
+          <div className="text-sm">
+            {notification?.type === "save" ? (
+              "შეინახა თქვენი პროდუქტი"
+            ) : notification?.type === "rating" ? (
+              "მიანიჭა რეიტინგი თქვენს პროდუქტს"
+            ) : notification?.type === "review" ? (
+              "დატოვა კომენტარი თქვენს პროდუქტზე"
+            ) : notification?.type === "welcome" ? (
+              "მოგესალმებით! გისურვებთ ბედნიერ მოგზურობას ქართული ნიჭის სამყაროში <3"
+            ) : notification?.type === "product-reject" ? (
+              <div className="flex flex-col gap-1">
+                <span className="whitespace-nowrap">
+                  პროდუქტი {} არ დადასტურდა! მიზეზი:
+                </span>
+                <div className="flex flex-col gap-1">
+                  {notification?.text?.map((i: any, x: any) => {
+                    let rsn = productUploadingRules?.find(
+                      (it: any) => it.value === i
+                    );
+                    return (
+                      <span key={x} className="text-sm flex items-center gap-1">
+                        <MdClose
+                          size={16}
+                          color={
+                            notification?.status === "unread" ? "white" : "red"
+                          }
+                        />
+                        {rsn?.title}
+                      </span>
+                    );
+                  })}
+                  {notification?.type === "product-reject" && (
+                    <Link
+                      onClick={(e) => e.stopPropagation()}
+                      href={`/terms/productUpload`}
+                      className="flex text-sm gap-1 mt-2 max-w-32 items-center justify-center shadow-md rounded-full px-2 bg-white text-gray-300"
+                    >
+                      Rules <IoMdEye size={24} className="text-gray-300" />
+                    </Link>
+                  )}
+                </div>
+              </div>
+            ) : notification?.type === "product-public" ? (
+              "პროდუქტი გამოქვეყნდა წარმატებით!"
+            ) : notification?.type === "product-draft" ? (
+              `პროდუქტი დადასტურდა, მაგრამ არ გამოქვეყნდა! მიზეზი: ${notification?.text}`
+            ) : (
+              ""
+            )}
+          </div>
         </div>
       </div>
+
       {confirm ? (
-        <div className="absolute ml-auto right-2 bottom-2 flex items-center justify-evenly h-12 p-1 px-3 gap-2 bg-gray-50 shadow-md rounded-full">
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="absolute ml-auto right-2 bottom-2 flex items-center justify-evenly h-12 p-1 px-3 gap-2 bg-gray-50 shadow-md rounded-full"
+        >
           <div
             onClick={() => setConfirm("")}
             className="cursor-pointer hover:brightness-95"
@@ -174,16 +232,8 @@ const Item = (item: any, index: any) => {
       ) : (
         <div
           onClick={(e) => e.stopPropagation()}
-          className="ml-auto text-red-300 h-full flex flex-col items-end justify-evenly gap-2  cursor-pointer hover:text-red-500 pr-2"
+          className="absolute right-2 text-red-300 h-full flex flex-col items-end justify-evenly gap-2  cursor-pointer hover:text-red-500 pr-2"
         >
-          <span
-            className={`${
-              notification?.status === "unread" ? "text-white" : "text-gray-500"
-            } whitespace-nowrap`}
-            style={{ fontSize: "12px" }}
-          >
-            {GetTimesAgo(notification?.createdAt)}
-          </span>
           <MdRemove
             size={12}
             onClick={() => setConfirm(notification?.notificationId)}
