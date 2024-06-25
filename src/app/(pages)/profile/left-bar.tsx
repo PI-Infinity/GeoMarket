@@ -36,10 +36,10 @@ const LeftBar = () => {
       value: "info",
       label: activeLanguage.personalInfo,
     },
-    {
-      value: "invoices",
-      label: activeLanguage.invoices,
-    },
+    // {
+    //   value: "invoices",
+    //   label: activeLanguage.invoices,
+    // },
     {
       value: "settings",
       label: activeLanguage.settings,
@@ -118,7 +118,7 @@ const LeftBar = () => {
       className={`relative laptop:h-[calc(100%-5.5rem)] h-full pb-8 laptop:pb-0 laptop:fixed  w-full laptop:w-80 bg-white rounded-xl shadow-sm flex flex-col items-center text-black`}
     >
       <div className="flex gap-1 w-full items-center justify-between p-4">
-        <Link
+        {/* <Link
           href="/subscription"
           className="flex items-center gap-2 cursor-pointer"
         >
@@ -136,7 +136,7 @@ const LeftBar = () => {
               ? activeLanguage?.premiumPlus
               : activeLanguage[currentUser?.subscription?.type?.toLowerCase()]}
           </p>
-        </Link>
+        </Link> */}
         <MdShare
           size={24}
           className="text-gray-300 cursor-pointer hover:brightness-95 ml-auto"

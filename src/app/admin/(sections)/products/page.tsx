@@ -109,6 +109,7 @@ const Page = () => {
   const [actionLoading, setActionLoading] = useState({
     active: false,
     type: "",
+    item: "",
   });
 
   /**
@@ -116,7 +117,7 @@ const Page = () => {
    */
   const Confirm = async (productId: any) => {
     try {
-      setActionLoading({ active: true, type: "confirm" });
+      setActionLoading({ active: true, type: "confirm", item: productId });
       const response = await axios.patch(
         apiUrl + "/api/v1/products/" + productId + "/status",
         {
@@ -127,7 +128,7 @@ const Page = () => {
         setProducts((prev: any) =>
           prev.filter((i: any) => i.productId !== productId)
         );
-        setActionLoading({ active: false, type: "" });
+        setActionLoading({ active: false, type: "", item: productId });
         setTimeout(() => {
           setRerender((prev: any) => !prev);
         }, 1000);
@@ -141,7 +142,7 @@ const Page = () => {
    */
   const Reject = async (productId: any, rejectReasons: any) => {
     try {
-      setActionLoading({ active: true, type: "reject" });
+      setActionLoading({ active: true, type: "reject", item: productId });
       const response = await axios.patch(
         apiUrl + "/api/v1/products/" + productId + "/status",
         {
@@ -151,7 +152,7 @@ const Page = () => {
       );
       if (response.data.status === "success") {
         setRerender((prev: boolean) => !prev);
-        setActionLoading({ active: false, type: "" });
+        setActionLoading({ active: false, type: "", item: productId });
       }
     } catch (error: any) {
       console.log(error);

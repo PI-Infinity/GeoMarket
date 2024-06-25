@@ -92,6 +92,7 @@ const NavigatorMobile: React.FC = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else if (scrollPosition === 0 && pathname === "/") {
       setRerenderUser((prev: any) => !prev);
+      setRerenderProducts((prev: any) => !prev);
     } else {
       router.push("/");
     }

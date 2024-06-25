@@ -214,7 +214,7 @@ const EditProduct: React.FC<propsTypes> = () => {
           title: { en: "", ka: "" },
           category: { value: "", label: "" },
           description: { en: "", ka: "" },
-          price: { value: "", byOrder: false },
+          price: { value: "", byOrder: false, createTime: "" },
           gallery: [],
           seller: {
             userId: currentUser?.userId, // replace with actual user ID
@@ -390,23 +390,59 @@ const EditProduct: React.FC<propsTypes> = () => {
                 />
               </div>
               <div className="flex flex-col gap-1">
-                {!product?.price.byOrder && (
-                  <div className="w-96 flex items-center gap-2">
-                    <Input
-                      label={activeLanguage.price + "* ₾"}
-                      id="price"
-                      value={product?.price.value}
-                      onChange={(e: any) =>
-                        setProduct((prev: any) => ({
-                          ...prev,
-                          price: { ...prev.price, value: e.target.value },
-                        }))
-                      }
-                      type="number"
-                    />
-                    <span className="text-lg">₾</span>
-                  </div>
-                )}
+                <h4>{activeLanguage?.price}:</h4>
+                <div className="flex items-center gap-2">
+                  {product.price.value !== "byAgreement" && (
+                    <div className="w-96 flex items-center gap-2">
+                      <Input
+                        label={activeLanguage.price + "* ₾"}
+                        id="price"
+                        value={product?.price.value}
+                        onChange={(e: any) =>
+                          setProduct((prev: any) => ({
+                            ...prev,
+                            price: { ...prev.price, value: e.target.value },
+                          }))
+                        }
+                        type="number"
+                      />
+                      <span className="text-lg">₾</span>
+                    </div>
+                  )}
+                  <FormControlLabel
+                    sx={{ color: "gray" }}
+                    style={{ width: "75%" }}
+                    control={
+                      <Checkbox
+                        checked={product.price.value === "byAgreement"}
+                        onChange={
+                          product.price.value === "byAgreement"
+                            ? (e: any) => {
+                                setProduct((prev: any) => ({
+                                  ...prev,
+                                  price: {
+                                    ...prev.price,
+                                    value: "",
+                                  },
+                                }));
+                              }
+                            : (e: any) => {
+                                setProduct((prev: any) => ({
+                                  ...prev,
+                                  price: {
+                                    ...prev.price,
+                                    value: "byAgreement",
+                                  },
+                                }));
+                              }
+                        }
+                        name="byOrder"
+                        sx={{ color: "Black" }}
+                      />
+                    }
+                    label={"შეთანხმებით"}
+                  />
+                </div>
                 <FormControlLabel
                   sx={{ color: "gray" }}
                   style={{ width: "75%" }}
@@ -418,7 +454,6 @@ const EditProduct: React.FC<propsTypes> = () => {
                           ...prev,
                           price: {
                             ...prev.price,
-                            value: "",
                             byOrder: !prev.price.byOrder,
                           },
                         }));
@@ -433,11 +468,11 @@ const EditProduct: React.FC<propsTypes> = () => {
                   <div className="w-96 mt-2">
                     <Input
                       label={activeLanguage.createTime}
-                      value={product?.price.value}
+                      value={product?.price.createTime}
                       onChange={(e: any) =>
                         setProduct((prev: any) => ({
                           ...prev,
-                          price: { ...prev.price, value: e.target.value },
+                          price: { ...prev.price, createTime: e.target.value },
                         }))
                       }
                       type="text"

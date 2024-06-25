@@ -44,7 +44,7 @@ const SellerItem: React.FC<PropTypes> = ({ item }) => {
         >
           {item.name}
         </h4>
-        <div className="flex items-center gap-2 ml-auto">
+        {/* <div className="flex items-center gap-2 ml-auto">
           <MdDiamond
             size={24}
             className={`${
@@ -53,7 +53,7 @@ const SellerItem: React.FC<PropTypes> = ({ item }) => {
                 : "text-gray-400"
             } hover:brightness-90`}
           />
-        </div>
+        </div> */}
       </div>
       <div className="relative w-full aspect-square bg-gray-300 laptop:rounded-xl hover:brightness-95 transition-all overflow-hidden">
         <Image

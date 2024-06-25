@@ -27,7 +27,7 @@ const Page = () => {
 
   return (
     <div className="w-full pl-4 pr-4 text-gray-500 flex flex-col items-center justify-center gap-4 laptop:gap-8 mt-4 pb-16 laptop:pb-0">
-      <div className="mr-0 laptop:mr-20 mt-0 laptop:mt-8 flex items-center justify-center gap-4 w-full">
+      {/* <div className="mr-0 laptop:mr-20 mt-0 laptop:mt-8 flex items-center justify-center gap-4 w-full">
         <div
           onClick={() => setPeriod("monthly")}
           className={`relative flex items-center gap-2 justify-center w-1/2 laptop:w-64 rounded-xl text-center p-4 pt-3 pb-4 shadow-md font-semibold ${
@@ -75,7 +75,7 @@ const Page = () => {
             color="white"
           />
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 };

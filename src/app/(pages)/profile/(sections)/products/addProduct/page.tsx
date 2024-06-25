@@ -46,7 +46,7 @@ const AddProduct: React.FC<propsTypes> = () => {
     title: { en: "", ka: "" },
     category: { value: "", label: "" },
     description: { en: "", ka: "" },
-    price: { value: "", byOrder: false },
+    price: { value: "", byOrder: false, createTime: "" },
     gallery: [{ file: "" }],
     seller: {
       userId: currentUser?.userId,
@@ -61,7 +61,7 @@ const AddProduct: React.FC<propsTypes> = () => {
       title: { en: "", ka: "" },
       category: { value: "", label: "" },
       description: { en: "", ka: "" },
-      price: { value: "", byOrder: false },
+      price: { value: "", byOrder: false, createTime: "" },
       gallery: [],
       seller: {
         userId: currentUser?.userId,
@@ -190,7 +190,7 @@ const AddProduct: React.FC<propsTypes> = () => {
           title: { en: "", ka: "" },
           category: { value: "", label: "" },
           description: { en: "", ka: "" },
-          price: { value: "", byOrder: false },
+          price: { value: "", byOrder: false, createTime: "" },
           gallery: [],
           seller: {
             userId: currentUser?.userId, // replace with actual user ID
@@ -237,10 +237,7 @@ const AddProduct: React.FC<propsTypes> = () => {
           </Link>
         </div>
       </div>
-      <div className="w-full laptop:w-1/2 laptop:px-4">
-        <h4 className="ml-4">{activeLanguage?.rules}:</h4>
-        <UploadingRules />
-      </div>
+
       <div className="w-full flex-1 mt-2 flex flex-col laptop:flex-row pl-0 laptop:pl-4 overflow-y-auto overflow-x-hidden">
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
@@ -358,22 +355,58 @@ const AddProduct: React.FC<propsTypes> = () => {
             />
           </div>
           <div className="flex flex-col gap-1">
-            {!product.price.byOrder && (
-              <div className="w-96">
-                <Input
-                  label={activeLanguage.price + "* ₾"}
-                  id="price"
-                  value={product.price.value}
-                  onChange={(e: any) =>
-                    setProduct((prev: any) => ({
-                      ...prev,
-                      price: { ...prev.price, value: e.target.value },
-                    }))
-                  }
-                  type="number"
-                />
-              </div>
-            )}
+            <div className="flex items-center gap-2">
+              {product.price.value !== "byAgreement" && (
+                <div className="w-72">
+                  <Input
+                    label={activeLanguage.price + "* ₾"}
+                    id="price"
+                    value={product.price.value}
+                    onChange={(e: any) =>
+                      setProduct((prev: any) => ({
+                        ...prev,
+                        price: { ...prev.price, value: e.target.value },
+                      }))
+                    }
+                    type="number"
+                  />
+                </div>
+              )}
+              <FormControlLabel
+                sx={{ color: "gray" }}
+                style={{ width: "75%" }}
+                control={
+                  <Checkbox
+                    checked={product.price.value === "byAgreement"}
+                    onChange={
+                      product.price.value === "byAgreement"
+                        ? (e: any) => {
+                            setProduct((prev: any) => ({
+                              ...prev,
+                              price: {
+                                ...prev.price,
+                                value: "",
+                              },
+                            }));
+                          }
+                        : (e: any) => {
+                            setProduct((prev: any) => ({
+                              ...prev,
+                              price: {
+                                ...prev.price,
+                                value: "byAgreement",
+                              },
+                            }));
+                          }
+                    }
+                    name="byOrder"
+                    sx={{ color: "Black" }}
+                  />
+                }
+                label={"შეთანხმებით"}
+              />
+            </div>
+
             <FormControlLabel
               sx={{ color: "gray" }}
               style={{ width: "75%" }}
@@ -385,7 +418,6 @@ const AddProduct: React.FC<propsTypes> = () => {
                       ...prev,
                       price: {
                         ...prev.price,
-                        value: "",
                         byOrder: !prev.price.byOrder,
                       },
                     }));
@@ -394,17 +426,17 @@ const AddProduct: React.FC<propsTypes> = () => {
                   sx={{ color: "Black" }}
                 />
               }
-              label={activeLanguage.byOrder + " " + activeLanguage.optional}
+              label={activeLanguage.byOrder}
             />
             {product.price.byOrder && (
               <div className="w-96 mt-2">
                 <Input
                   label={activeLanguage.createTime}
-                  value={product.price.value}
+                  value={product.price.createTime}
                   onChange={(e: any) =>
                     setProduct((prev: any) => ({
                       ...prev,
-                      price: { ...prev.price, value: e.target.value },
+                      price: { ...prev.price, createTime: e.target.value },
                     }))
                   }
                   type="text"
@@ -512,6 +544,10 @@ const AddProduct: React.FC<propsTypes> = () => {
           color="white"
           disabled={disabled}
         />
+      </div>
+      <div className="w-full laptop:w-1/2 laptop:px-4">
+        <h4 className="ml-4">{activeLanguage?.rules}:</h4>
+        <UploadingRules />
       </div>
     </div>
   );

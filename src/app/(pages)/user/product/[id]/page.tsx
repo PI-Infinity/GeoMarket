@@ -83,7 +83,7 @@ const UserProductsPage: React.FC = () => {
         style={{ height: "1px", width: "100%", background: "#d9d9d9" }}
       />
 
-      <div className="w-full flex flex-col laptop:w-96 laptop:mr-2">
+      <div className="w-full flex flex-col laptop:w-1/3 laptop:mr-2">
         <div className="p-2">
           <h3 className="text-gray-400 font-semibold text-sm">
             {activeLanguage?.recommendedProducts}:

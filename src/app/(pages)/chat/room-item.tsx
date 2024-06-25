@@ -177,10 +177,10 @@ const RoomItem = ({ item }: any) => {
                   ? "red"
                   : "black",
             }}
-            className="ml-2 flex flex-col gap-1"
+            className="ml-4 flex flex-col gap-1"
           >
             <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1">
+              {/* <div className="flex items-center gap-1">
                 <MdDiamond
                   size={18}
                   color={
@@ -189,7 +189,7 @@ const RoomItem = ({ item }: any) => {
                       : "orange"
                   }
                 />
-              </div>
+              </div> */}
               <div className="laptop:max-w-32">
                 <h4 className="max-w-72 overflow-hidden whitespace-nowrap overflow-ellipsis">
                   {targetUser?.name}

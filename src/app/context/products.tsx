@@ -77,7 +77,7 @@ export const ProductsContextWrapper = ({
       setLoadingProducts(false);
     };
     GetProducts();
-  }, [rerenderProducts, category, search, price, currentUser, byOrder]);
+  }, [rerenderProducts, category, search, price, byOrder]);
 
   const AddProducts = async () => {
     const newPage = page + 1;

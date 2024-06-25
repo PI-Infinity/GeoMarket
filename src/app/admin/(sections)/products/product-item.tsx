@@ -36,12 +36,6 @@ const ProductItem: React.FC<PropTypes> = ({
   // categories
   const { categories } = useProductsContext();
 
-  // get cover
-  const cover = item.gallery?.findIndex((i: any) => i.cover);
-
-  // active image
-  const [active, setActive] = useState(cover);
-
   // Filter items with .cover true
   const coverItems = item?.gallery.filter((item: any) => item?.cover);
 
@@ -76,7 +70,11 @@ const ProductItem: React.FC<PropTypes> = ({
               background="red"
               color="white"
               onClick={() => setOpenRejectReasons(true)}
-              loading={actionLoading.active && actionLoading.type === "reject"}
+              loading={
+                actionLoading.active &&
+                actionLoading.type === "reject" &&
+                actionLoading?.item === item?.productId
+              }
             />
           </div>
           <div className="w-full h-10">
@@ -85,7 +83,11 @@ const ProductItem: React.FC<PropTypes> = ({
               background="green"
               color="white"
               onClick={() => Confirm(item.productId)}
-              loading={actionLoading.active && actionLoading.type === "confirm"}
+              loading={
+                actionLoading.active &&
+                actionLoading.type === "confirm" &&
+                actionLoading?.item === item?.productId
+              }
             />
           </div>
         </div>
@@ -155,10 +157,33 @@ const ProductItem: React.FC<PropTypes> = ({
         </p>
         <p className="text-gray-600">{item?.description.ka}</p>
         <p className="text-gray-600">{item?.description.en}</p>
-        <div className="flex items-center gap-2 text-green-500 font-semibold">
-          {item.price?.byOrder && activeLanguage.byOrder}
-          {!item.price?.byOrder && parseFloat(item.price?.value).toFixed(2)}
-          {item.price?.byOrder ? "" : "₾"}
+        <div
+          className={`flex flex-col gap-2 text-smtext-green-500 font-semibold laptop:text-md`}
+        >
+          {item.price?.byOrder ? (
+            <div className="font-semibold flex items-center gap-1 text-orange-500 text-sm">
+              <span className="text-sm font-semibold">
+                {activeLanguage.byOrder}
+              </span>
+              {item?.price.createTime?.length > 0 && (
+                <span className="text-sm font-semibold">
+                  ({item?.price.createTime})
+                </span>
+              )}
+            </div>
+          ) : (
+            <div className="font-semibold flex items-center gap-1 text-orange-500 text-sm">
+              <span className="text-sm font-semibold">
+                {activeLanguage?.made}
+              </span>
+            </div>
+          )}
+          <span className="font-semibold text-sm text-green-500">
+            {item.price?.value === "byAgreement"
+              ? "₾ " + activeLanguage?.byAgreement
+              : parseFloat(item.price?.value).toFixed(2)}
+            {item.price?.value === "byAgreement" ? "" : "₾"}
+          </span>
         </div>
       </div>
       {openRejectReasons && (
@@ -193,8 +218,8 @@ const ProductItem: React.FC<PropTypes> = ({
                 }
                 className="shadow-md p-2 bg-gray-50 rounded-xl hover:brightness-95 cursor-pointer"
               >
-                <h4>{itm?.title}</h4>
-                <p>{itm?.description}</p>
+                <h4 className="text-sm">{itm?.title}</h4>
+                <p className="text-sm">{itm?.description}</p>
               </div>
             );
           })}

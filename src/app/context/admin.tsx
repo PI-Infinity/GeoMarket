@@ -73,10 +73,10 @@ export const menuList = [
     path: "users",
     label: "Users",
   },
-  {
-    path: "subscriptions",
-    label: "Subscriptions",
-  },
+  // {
+  //   path: "subscriptions",
+  //   label: "Subscriptions",
+  // },
   {
     path: "analytics",
     label: "Analytics",

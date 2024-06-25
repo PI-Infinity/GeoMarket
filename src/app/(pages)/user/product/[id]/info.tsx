@@ -217,18 +217,18 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
             </div>
           </Link>
 
-          <MdDiamond
+          {/* <MdDiamond
             size={20}
             className={`${
               data?.seller?.subscription?.type !== "Free"
                 ? "text-orange-500"
                 : "text-gray-400"
             } hover:brightness-90`}
-          />
+          /> */}
 
           <Link
             href={`/user/${data?.seller?.userId}/products`}
-            className="flex gap-2 items-center"
+            className="flex gap-2 items-center ml-2"
           >
             <h4 className="font-semibold text-md">{data?.seller?.name}</h4>{" "}
             <div className="flex items-center gap-1 tex-sm">
@@ -237,17 +237,31 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
             </div>
           </Link>
         </div>
-
-        <h3 className="flex items-center gap-2 text-green-500 font-semibold  ml-2">
-          {data?.price?.byOrder && activeLanguage.byOrder + ":"}
-          {data?.price?.byOrder ? (
-            <span className="text-black">{data?.price?.value}</span>
-          ) : data?.price?.value?.length > 0 ? (
-            parseFloat(data?.price?.value).toFixed(2)
+        <h3 className="flex flex-col gap-2 text-green-500 font-semibold  ml-2">
+          {data.price?.byOrder ? (
+            <div className="flex gap-1">
+              <span className="font-semibold text-orange-500 ">
+                {activeLanguage.byOrder}
+              </span>
+              {data?.price.createTime?.length > 0 && (
+                <span className="font-semibold text-orange-500 ">
+                  ({data.price.createTime})
+                </span>
+              )}
+            </div>
           ) : (
-            ""
-          )}{" "}
-          {data?.price?.byOrder ? "" : "₾"}
+            <div className="flex gap-1">
+              <span className="font-semibold text-orange-500 ">
+                {activeLanguage?.made}
+              </span>
+            </div>
+          )}
+          <span className="font-semibold ">
+            {data.price?.value === "byAgreement"
+              ? "₾ " + activeLanguage?.byAgreement
+              : parseFloat(data.price?.value).toFixed(2)}
+            {data.price?.value === "byAgreement" ? "" : "₾"}
+          </span>
         </h3>
         <p
           style={{

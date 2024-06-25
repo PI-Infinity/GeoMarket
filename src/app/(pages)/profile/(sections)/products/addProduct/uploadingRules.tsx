@@ -6,7 +6,7 @@ const UploadingRules = ({ rejectReasons }: any) => {
   const { productUploadingRules } = useApp();
   return (
     <div className="w-full text-black flex flex-col justify-center items-center">
-      <div className="my-2 flex flex-col gap-4 shadow-md p-4 py-4 rounded-xl">
+      <div className="my-2 flex flex-col gap-4 shadow-md px-2 py-4 rounded-xl">
         {productUploadingRules?.map((item: any, index: number) => {
           return (
             <div className="pl-4" key={index}>

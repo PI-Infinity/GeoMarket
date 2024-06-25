@@ -93,14 +93,14 @@ const RecommendedUsers = () => {
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  <MdDiamond
+                  {/* <MdDiamond
                     size={16}
                     className={`${
                       item?.subscription?.type !== "Free"
                         ? "text-orange-500"
                         : "text-gray-400"
                     } hover:brightness-90`}
-                  />
+                  /> */}
                   <h4 className="text-black font-semibold whitespace-nowrap overflow-hidden overflow-ellipsis">
                     {item.name}
                   </h4>

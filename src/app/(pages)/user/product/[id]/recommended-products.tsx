@@ -84,7 +84,7 @@ const RecommendedProducts = () => {
               }}
               className="shadow-xl bg-white rounded-xl overflow-hidden cursor-pointer text-black flex gap-2 w-full laptop:h-1/6 hover:brightness-90 transition-al p-2"
             >
-              <div className="flex items-center gap-4 w-1/4 laptop:w-1/3">
+              <div className="flex items-center gap-2 w-1/4 laptop:w-1/3">
                 <div
                   className={`relative w-full shadow-md aspect-square overflow-hidden bg-gray-300 rounded-xl flex items-center justify-center`}
                 >
@@ -101,9 +101,9 @@ const RecommendedProducts = () => {
                   />
                 </div>
               </div>
-              <div className="pl-4 flex flex-col justify-center gap-1">
+              <div className="pl-2 flex flex-col justify-center">
                 <div className="text-black font-semibold flex items-center gap-1">
-                  <div>
+                  {/* <div>
                     <MdDiamond
                       size={16}
                       className={`${
@@ -112,7 +112,7 @@ const RecommendedProducts = () => {
                           : "text-gray-400"
                       } hover:brightness-90`}
                     />
-                  </div>
+                  </div> */}
                   <div className="text-md font-semibold whitespace-nowrap max-w-32 overflow-hidden overflow-ellipsis">
                     {item.title.ka}
                   </div>
@@ -120,24 +120,49 @@ const RecommendedProducts = () => {
                 <p className="text-black font-normal text-sm">
                   {activeLanguage[item.category]}
                 </p>
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-2 text-sm text-green-500 font-semibold">
-                    {item?.price?.byOrder && activeLanguage.byOrder}
-                    {!item?.price?.byOrder &&
-                      parseFloat(item?.price?.value).toFixed(2)}{" "}
-                    {item?.price?.byOrder ? "" : "₾"}
-                  </div>
-                  <div className="flex items-center gap-1 text-sm">
-                    <MdStar color="orange" />
-                    {formatNumbers(item.rating)}
-                  </div>
-                  <Link
-                    href={`/user/product/${item?.productId}`}
-                    className={`flex items-center gap-1 text-sm text-gray-400 cursor-pointer hover:brightness-90`}
+                <div className="flex flex-col gap-1">
+                  <div
+                    className={`flex flex-col gap-1 text-sm text-green-500 font-semibold laptop:text-md`}
                   >
-                    <BsCardList />
-                    {formatNumbers(item?.reviews || 0)}
-                  </Link>
+                    {item.price?.byOrder ? (
+                      <div className="flex gap-1">
+                        <span className="font-semibold text-orange-500 text-sm">
+                          {activeLanguage.byOrder}
+                        </span>
+                        {item?.price.createTime?.length > 0 && (
+                          <span className="font-semibold text-orange-500 text-sm">
+                            ({item.price.createTime})
+                          </span>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="flex gap-1">
+                        <span className="font-semibold text-orange-500 text-sm">
+                          {activeLanguage?.made}
+                        </span>
+                      </div>
+                    )}
+
+                    <span className="font-semibold text-sm">
+                      {item.price?.value === "byAgreement"
+                        ? "₾ " + activeLanguage?.byAgreement
+                        : parseFloat(item.price?.value).toFixed(2)}
+                      {item.price?.value === "byAgreement" ? "" : "₾"}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1 text-sm">
+                      <MdStar color="orange" />
+                      {formatNumbers(item.rating)}
+                    </div>
+                    <Link
+                      href={`/user/product/${item?.productId}`}
+                      className={`flex items-center gap-1 text-sm text-gray-400 cursor-pointer hover:brightness-90`}
+                    >
+                      <BsCardList />
+                      {formatNumbers(item?.reviews || 0)}
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

@@ -270,7 +270,7 @@ const SellerItem: React.FC<PropTypes> = ({
               >
                 {product?.seller?.name}
               </div>
-              {pathname === "/" && (
+              {/* {pathname === "/" && (
                 <div className="flex items-center gap-2 ml-auto">
                   <MdDiamond
                     size={20}
@@ -281,7 +281,7 @@ const SellerItem: React.FC<PropTypes> = ({
                     } hover:brightness-90`}
                   />
                 </div>
-              )}
+              )} */}
             </div>
           </Link>
 
@@ -293,14 +293,38 @@ const SellerItem: React.FC<PropTypes> = ({
             {categories?.find((i: any) => i.value === product?.category).label}
           </p>
           <div
-            className={`flex items-center gap-2 ${
+            className={`flex min-h-14 flex-col gap-2 ${
               activeGrid === "double" ? "text-sm" : "text-md"
             } text-green-500 font-semibold laptop:text-md`}
           >
-            {product?.price?.byOrder && activeLanguage.byOrder}
-            {!product?.price?.byOrder &&
-              parseFloat(product?.price?.value).toFixed(2)}{" "}
-            {product?.price?.byOrder ? "" : "₾"}
+            {product.price?.byOrder ? (
+              <div className="font-semibold flex items-center gap-1 text-orange-500 text-sm">
+                <span className="text-sm font-semibold">
+                  {activeLanguage.byOrder}
+                </span>
+                {product?.price.createTime?.length > 0 && (
+                  <span className="text-sm font-semibold">
+                    ({product?.price.createTime})
+                  </span>
+                )}
+              </div>
+            ) : (
+              <div className="font-semibold flex items-center gap-1 text-orange-500 text-sm">
+                <span className="text-sm font-semibold">
+                  {activeLanguage?.made}
+                </span>
+              </div>
+            )}
+            {product.price?.byOrder &&
+              product?.price.createTime?.length < 1 && (
+                <span className="text-sm text-gray-300">/</span>
+              )}
+            <span className="font-semibold text-sm">
+              {product.price?.value === "byAgreement"
+                ? "₾ " + activeLanguage?.byAgreement
+                : parseFloat(product.price?.value).toFixed(2)}
+              {product.price?.value === "byAgreement" ? "" : "₾"}
+            </span>
           </div>
           <div className="flex w-full items-center">
             <div

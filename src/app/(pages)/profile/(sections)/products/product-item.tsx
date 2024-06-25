@@ -196,16 +196,38 @@ const ProductItem: React.FC<PropTypes> = ({
           <p className="text-gray-600">
             {categories?.find((i: any) => i.value === item?.category).label}
           </p>
-          <div className="flex items-center gap-2 text-green-500 font-semibold">
-            {product.price?.byOrder && activeLanguage.byOrder}
-            {!product.price?.byOrder &&
-              parseFloat(product.price?.value).toFixed(2)}
-            {product.price?.byOrder ? "" : "₾"}
+          <div
+            className={`flex flex-col gap-2 text-smtext-green-500 font-semibold laptop:text-md`}
+          >
+            {product.price?.byOrder ? (
+              <div className="font-semibold flex items-center gap-1 text-orange-500 text-sm">
+                <span className="text-sm font-semibold">
+                  {activeLanguage.byOrder}
+                </span>
+                {product?.price.createTime?.length > 0 && (
+                  <span className="text-sm font-semibold">
+                    ({product?.price.createTime})
+                  </span>
+                )}
+              </div>
+            ) : (
+              <div className="font-semibold flex items-center gap-1 text-orange-500 text-sm">
+                <span className="text-sm font-semibold">
+                  {activeLanguage?.made}
+                </span>
+              </div>
+            )}
+            <span className="font-semibold text-sm text-green-500">
+              {product.price?.value === "byAgreement"
+                ? "₾ " + activeLanguage?.byAgreement
+                : parseFloat(product.price?.value).toFixed(2)}
+              {product.price?.value === "byAgreement" ? "" : "₾"}
+            </span>
           </div>
         </div>
         {product.status === "inReview" ? (
-          <div className="text-orange-500 text-center flex items-center gap-2">
-            <MdInfo size={24} />
+          <div className="text-orange-500 text-center flex items-center gap-2 text-sm whitespace-nowrap">
+            <MdInfo size={20} />
             {activeLanguage.inReview}...
           </div>
         ) : product.status === "rejected" ? (
@@ -216,7 +238,7 @@ const ProductItem: React.FC<PropTypes> = ({
             <span className="text-sm">{activeLanguage.rejectedText}</span>
             <Link
               href="/terms/productUpload"
-              className="text-red font-semibold"
+              className="text-red font-semibold text-sm"
               style={{ textDecoration: "underline" }}
             >
               {activeLanguage.termsAndRules}
