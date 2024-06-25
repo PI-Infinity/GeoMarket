@@ -6,7 +6,6 @@ import { MdClose, MdDone } from "react-icons/md";
 import { useProductsContext } from "../context/products";
 import FilterItem from "./filter-item";
 import { Input } from "./input";
-import { CheckBox } from "@mui/icons-material";
 
 const Filter: React.FC = () => {
   //app context
@@ -24,6 +23,7 @@ const Filter: React.FC = () => {
   const AcceptRange = () => {
     setPrice([minPrice > 0 ? minPrice : 0, maxPrice > 0 ? maxPrice : 100000]);
   };
+
   return (
     <div className="laptop:p-4 flex flex-col gap-2 laptop:gap-8 w-full laptop:w-80">
       <ul className="flex laptop:flex-col gap-2 overflow-x-auto max-w-screen py-2 laptop:py-0">

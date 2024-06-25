@@ -16,6 +16,7 @@ const nextConfig = {
     API_KEY_GOOGLE: "AIzaSyA61_a1cztE7_ygTRUdET6qN62cnYrOMvY",
   },
   pageExtensions: ["mdx", "md", "jsx", "js", "tsx", "ts"],
+  reactStrictMode: false, // Set to false to disable Strict Mode temporarily
 };
 
 module.exports = nextConfig;

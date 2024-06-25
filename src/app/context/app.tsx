@@ -11,6 +11,7 @@ import { v4 } from "uuid";
 import { en, ka } from "../languages/list";
 import { usePathname } from "next/navigation";
 import { MdDiamond } from "react-icons/md";
+import axios from "axios";
 
 /**
  * App context state
@@ -66,12 +67,17 @@ export const AppContextWrapper: React.FC<contextProps> = ({ children }) => {
    * Generate unique identificator for user and save in cookie
    */
 
-  const generateUniqueIdentifier = () => {
-    const identifier = Cookies.get("uniqueIdentifier");
+  const generateUniqueIdentifier = async () => {
+    const identifier = Cookies.get("GeoMarket:uniqueIdentifier");
     if (!identifier) {
       const newIdentifier = generateRandomIdentifier();
-      Cookies.set("uniqueIdentifier", newIdentifier, { expires: 365 });
+      Cookies.set("GeoMarket:uniqueIdentifier", newIdentifier);
       return newIdentifier;
+    }
+    try {
+      await axios.post(apiUrl + "/visit", { uniqueId: identifier });
+    } catch (error: any) {
+      console.log(error.response.data.message);
     }
     return identifier;
   };

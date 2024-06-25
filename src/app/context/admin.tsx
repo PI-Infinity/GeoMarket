@@ -31,6 +31,7 @@ export const AdminContextWrapper: React.FC<contextProps> = ({ children }) => {
    * get dashboard stats
    */
   const [stats, setStats] = useState(null);
+
   const GetStats = async () => {
     try {
       setLoading(true);

@@ -18,6 +18,7 @@ import {
 import { useChat } from "../context/chat";
 import { useNotifications } from "../context/notifications";
 import { removeCookie } from "../utils/cookies";
+import { useProductsContext } from "../context/products";
 
 const NavigatorMobile: React.FC = () => {
   // define path name
@@ -34,6 +35,9 @@ const NavigatorMobile: React.FC = () => {
 
   // app context
   const { setOpenBackDrop } = useApp();
+
+  // products
+  const { setRerenderProducts } = useProductsContext();
 
   // chat context
   const { unreadChats } = useChat();
@@ -85,6 +89,8 @@ const NavigatorMobile: React.FC = () => {
   const handleClick = () => {
     if (scrollPosition > 0) {
       window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (scrollPosition === 0) {
+      setRerenderProducts((prev: any) => !prev);
     } else {
       router.push("/");
     }

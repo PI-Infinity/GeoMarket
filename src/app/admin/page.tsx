@@ -76,7 +76,6 @@ const Page = () => {
               {stats?.registrationsByDate?.map((item: any, index: number) => {
                 // Calculate the height percentage
                 const heightPercentage = (item.count / maxCount) * 100;
-                console.log(heightPercentage);
                 return (
                   <div
                     key={index}

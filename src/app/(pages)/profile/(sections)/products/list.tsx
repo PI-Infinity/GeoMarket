@@ -25,7 +25,6 @@ const List: React.FC<propsTypes> = ({ setConfirmPopup }) => {
    */
 
   const DeleteProduct = async ({ itemId }: any) => {
-    console.log(itemId);
     try {
       setOpenBackDrop(true);
       const response = await axios.delete(

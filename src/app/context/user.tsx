@@ -111,7 +111,7 @@ export const UserContextWrapper: React.FC<contextProps> = ({ children }) => {
    * count visit in product page
    */
   const setView = async () => {
-    const identifier = Cookies.get("uniqueIdentifier");
+    const identifier = Cookies.get("GeoMarket:uniqueIdentifier");
     try {
       await axios.post(
         apiUrl +
