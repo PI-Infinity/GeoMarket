@@ -1,5 +1,4 @@
 "use client";
-import { productUploadingRules } from "@/app/(pages)/profile/(sections)/products/addProduct/uploadingRules";
 import Button from "@/app/components/button";
 import Image from "@/app/components/image";
 import { useApp } from "@/app/context/app";
@@ -32,7 +31,7 @@ const ProductItem: React.FC<PropTypes> = ({
   const router = useRouter();
 
   // app context
-  const { activeLanguage } = useApp();
+  const { activeLanguage, productUploadingRules } = useApp();
 
   // categories
   const { categories } = useProductsContext();

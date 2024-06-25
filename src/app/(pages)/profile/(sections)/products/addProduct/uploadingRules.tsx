@@ -1,6 +1,5 @@
 "use client";
 import { useApp } from "@/app/context/app";
-import { useProfileContext } from "@/app/context/profile";
 import { MdClose, MdDone } from "react-icons/md";
 
 const UploadingRules = ({ rejectReasons }: any) => {

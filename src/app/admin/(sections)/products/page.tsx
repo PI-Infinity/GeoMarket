@@ -4,7 +4,6 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import ProductItem from "./product-item";
 import { BounceLoader, MoonLoader } from "react-spinners";
-import { productUploadingRules } from "@/app/(pages)/profile/(sections)/products/addProduct/uploadingRules";
 
 // Define the Product interface
 interface Product {
