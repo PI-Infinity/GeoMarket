@@ -1,4 +1,3 @@
-import { AdminContextWrapper } from "@/app/context/admin";
 import { AppContextWrapper } from "@/app/context/app";
 import { AuthContextWrapper } from "@/app/context/auth";
 import { Inter } from "next/font/google";
@@ -16,6 +15,7 @@ import { UserContextWrapper } from "./context/user";
 import "./globals.css";
 import { Metadata } from "next";
 import Loading from "./components/loading";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -77,6 +77,7 @@ export default function RootLayout({ children }: any) {
               <ChatContextWrapper>
                 <ProductsContextWrapper>
                   <UserContextWrapper>
+                    <Analytics />
                     <div className="pb-16" style={{ minHeight: "90vh" }}>
                       <Header />
                       <Menu />
