@@ -40,7 +40,7 @@ const Input = ({ setMessages }: any) => {
   formData.append("image", file);
 
   const SendMessage = async (newMsg: any) => {
-    if (input?.length < 1 || file === null) {
+    if (input?.length < 1 && file === null) {
       return;
     }
     try {
