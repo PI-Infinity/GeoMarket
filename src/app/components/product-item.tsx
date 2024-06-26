@@ -299,12 +299,12 @@ const SellerItem: React.FC<PropTypes> = ({
             } text-green-500 font-semibold laptop:text-md`}
           >
             {product.price?.byOrder ? (
-              <div className="font-semibold flex items-center gap-1 text-orange-500 text-sm">
+              <div className="font-semibold flex items-center gap-1 text-orange-500 text-sm w-full">
                 <span className="text-sm font-semibold">
                   {activeLanguage.byOrder}
                 </span>
                 {product?.price.createTime?.length > 0 && (
-                  <span className="text-sm font-semibold">
+                  <span className="text-sm font-semibold whitespace-nowrap overflow-hidden max-w-2/3 overflow-ellipsis ">
                     ({product?.price.createTime})
                   </span>
                 )}
@@ -316,10 +316,6 @@ const SellerItem: React.FC<PropTypes> = ({
                 </span>
               </div>
             )}
-            {product.price?.byOrder &&
-              product?.price.createTime?.length < 1 && (
-                <span className="text-sm text-gray-300">/</span>
-              )}
             <span className="font-semibold text-sm">
               {product.price?.value === "byAgreement"
                 ? "₾ " + activeLanguage?.byAgreement
