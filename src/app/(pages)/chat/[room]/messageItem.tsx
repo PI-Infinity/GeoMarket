@@ -37,8 +37,6 @@ const MessagemItem = ({ item }: any) => {
   const SeenMessage = async () => {
     try {
       if (msg?.sender.id !== currentUser?.userId && msg.status === "unread") {
-        console.log("seen");
-
         await axios.patch(apiUrl + "/api/v1/messages/" + msg.messageId, {
           status: "seen",
         });
@@ -218,11 +216,11 @@ const MessagemItem = ({ item }: any) => {
                       background:
                         msg.sender.id === currentUser?.userId
                           ? "#f9f9f9"
-                          : "red",
+                          : "#FFF5F5",
                       color:
                         msg.sender.id === currentUser?.userId
                           ? "black"
-                          : "white",
+                          : "black",
                     }}
                   >
                     {msg?.file?.url?.length > 0 && (
