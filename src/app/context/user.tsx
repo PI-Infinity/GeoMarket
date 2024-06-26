@@ -1,5 +1,4 @@
 "use client";
-import axios from "axios";
 import {
   ReactNode,
   createContext,
@@ -11,7 +10,7 @@ import {
 import { useApp } from "./app";
 import { useAuth } from "./auth";
 import { usePathname } from "next/navigation";
-import Cookies from "js-cookie";
+
 import getUser from "../hooks/getUser";
 
 /**
@@ -106,32 +105,6 @@ export const UserContextWrapper: React.FC<contextProps> = ({ children }) => {
       window.removeEventListener("popstate", handlePopState);
     };
   }, []);
-
-  /**
-   * count visit in product page
-   */
-  const setView = async () => {
-    const identifier = Cookies.get("GeoMarket:uniqueIdentifier");
-    try {
-      await axios.post(
-        apiUrl +
-          "/api/v1/products/" +
-          product?.productId +
-          "/view?user=" +
-          identifier
-      );
-    } catch (error: any) {
-      console.log(error.response.data.message);
-    }
-  };
-
-  useEffect(() => {
-    if (product?.productId?.length > 0) {
-      if (product.seller?.userId !== currentUser?.userId) {
-        setView();
-      }
-    }
-  }, [product, currentUser]);
 
   return (
     <UserContext.Provider

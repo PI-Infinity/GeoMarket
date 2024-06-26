@@ -68,11 +68,11 @@ export const AppContextWrapper: React.FC<contextProps> = ({ children }) => {
    */
 
   const generateUniqueIdentifier = async () => {
-    const identifier = Cookies.get("GeoMarket:uniqueIdentifier");
+    let identifier = Cookies.get("GeoMarket:uniqueIdentifier");
     if (!identifier) {
       const newIdentifier = generateRandomIdentifier();
       Cookies.set("GeoMarket:uniqueIdentifier", newIdentifier);
-      return newIdentifier;
+      identifier = Cookies.get("GeoMarket:uniqueIdentifier");
     }
     try {
       await axios.post(apiUrl + "/visit", { uniqueId: identifier });

@@ -10,6 +10,9 @@ import Gallery from "./gallery";
 import Info from "./info";
 import RecommendedProducts from "./recommended-products";
 import Reviews from "./reviews";
+import Cookies from "js-cookie";
+import axios from "axios";
+import { useAuth } from "@/app/context/auth";
 
 const UserProductsPage: React.FC = () => {
   // product id
@@ -52,6 +55,35 @@ const UserProductsPage: React.FC = () => {
 
   // alert state
   const [alert, setAlert] = useState({ active: false, text: "", type: "" });
+
+  // auth context
+  const { currentUser } = useAuth();
+
+  /**
+   * count visit in product page
+   */
+  const setView = async () => {
+    const identifier = Cookies.get("GeoMarket:uniqueIdentifier");
+    try {
+      await axios.post(
+        apiUrl +
+          "/api/v1/products/" +
+          product?.productId +
+          "/view?user=" +
+          identifier
+      );
+    } catch (error: any) {
+      console.log(error.response.data.message);
+    }
+  };
+
+  useEffect(() => {
+    if (product?.productId?.length > 0) {
+      if (product.seller?.userId !== currentUser?.userId) {
+        setView();
+      }
+    }
+  }, [product, currentUser]);
 
   return (
     <div className="flex-1 flex flex-col laptop:flex-row items-start justify-between w-full h-full gap-2 pb-16 laptop:pb-0">

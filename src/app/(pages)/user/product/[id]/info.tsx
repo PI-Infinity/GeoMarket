@@ -239,7 +239,7 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
         </div>
         <h3 className="flex flex-col gap-2 text-green-500 font-semibold  ml-2">
           {data.price?.byOrder ? (
-            <div className="flex gap-1">
+            <div className="flex flex-col">
               <span className="font-semibold text-orange-500 ">
                 {activeLanguage.byOrder}
               </span>
