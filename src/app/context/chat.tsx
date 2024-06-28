@@ -34,6 +34,10 @@ export const ChatContextWrapper: React.FC<contextProps> = ({ children }) => {
   // auth context
   const { currentUser } = useAuth();
 
+  useEffect(() => {
+    document.title = "ჩატი" || "იტვირთება..."; // Sets the document name
+  }, []);
+
   /**
    * Chats
    */

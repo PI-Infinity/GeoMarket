@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FaImages } from "react-icons/fa";
 import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
-import { MdClose } from "react-icons/md";
+import { MdClose, MdDone } from "react-icons/md";
 
 interface PropTypes {
   item: any;
@@ -48,6 +48,11 @@ const ProductItem: React.FC<PropTypes> = ({
   // reject reasons
   const [openRejectReasons, setOpenRejectReasons] = useState(false);
   const [rejectReasons, setRejectReasons] = useState<any>([]);
+
+  console.log(rejectReasons);
+
+  // custom reject reason
+  const [customText, setCustomText] = useState("");
 
   return (
     <div
@@ -139,16 +144,17 @@ const ProductItem: React.FC<PropTypes> = ({
             />
           </Link>
         ))}
+        <div>
+          {reorderedGallery?.length > 1 && (
+            <FaImages
+              size={16}
+              className="shadow-xl absolute z-10 bottom-2 right-2"
+              color="white"
+            />
+          )}
+        </div>
       </div>
-      <div>
-        {reorderedGallery?.length > 1 && (
-          <FaImages
-            size={16}
-            className="shadow-xl absolute z-10 bottom-2 right-2"
-            color="white"
-          />
-        )}
-      </div>
+
       <div className="flex flex-col gap-1 mt-4">
         <h3 className="text-md font-bold">{item?.title?.ka}</h3>
         <h3 className="text-md font-bold">{item?.title?.en}</h3>
@@ -158,7 +164,7 @@ const ProductItem: React.FC<PropTypes> = ({
         <p className="text-gray-600">{item?.description.ka}</p>
         <p className="text-gray-600">{item?.description.en}</p>
         <div
-          className={`flex flex-col gap-2 text-smtext-green-500 font-semibold laptop:text-md`}
+          className={`flex flex-col gap-2 text-sm text-green-500 font-semibold laptop:text-md`}
         >
           {item.price?.byOrder ? (
             <div className="font-semibold flex items-center gap-1 text-orange-500 text-sm">
@@ -187,7 +193,7 @@ const ProductItem: React.FC<PropTypes> = ({
         </div>
       </div>
       {openRejectReasons && (
-        <div className="absolute bg-gray-50 h-full flex flex-col gap-2">
+        <div className="absolute z-10 bg-gray-50 h-full flex flex-col gap-2 pb-8">
           <MdClose
             onClick={() => {
               setOpenRejectReasons(false);
@@ -198,31 +204,85 @@ const ProductItem: React.FC<PropTypes> = ({
             className="absolute right-2 top-0 cursor-pointer hover:brightness-95"
           />
           <h4>Reject Reasons:</h4>
-          {productUploadingRules?.map((itm: any, index: number) => {
-            return (
-              <div
-                key={index}
-                style={{
-                  border: rejectReasons?.includes(itm?.value)
-                    ? "1.5px solid red"
-                    : "1.5px solid white",
-                }}
-                onClick={
-                  rejectReasons?.includes(itm?.value)
-                    ? () =>
-                        setRejectReasons((prev: any) =>
-                          prev?.filter((i: any) => i !== itm?.value)
-                        )
-                    : () =>
-                        setRejectReasons((prev: any) => [...prev, itm.value])
-                }
-                className="shadow-md p-2 bg-gray-50 rounded-xl hover:brightness-95 cursor-pointer"
-              >
-                <h4 className="text-sm">{itm?.title}</h4>
-                <p className="text-sm">{itm?.description}</p>
-              </div>
-            );
-          })}
+          <div className="overflow-y-auto px-2 pb-2">
+            {productUploadingRules?.map((itm: any, index: number) => {
+              return (
+                <div
+                  key={index}
+                  style={{
+                    border: rejectReasons?.includes(itm?.value)
+                      ? "1.5px solid red"
+                      : "1.5px solid white",
+                  }}
+                  onClick={
+                    rejectReasons?.includes(itm?.value)
+                      ? () =>
+                          setRejectReasons((prev: any) =>
+                            prev?.filter((i: any) => i !== itm?.value)
+                          )
+                      : () =>
+                          setRejectReasons((prev: any) => [...prev, itm.value])
+                  }
+                  className="shadow-md p-2 bg-gray-50 rounded-xl hover:brightness-95 cursor-pointer mt-2"
+                >
+                  <h4 className="text-sm">{itm?.title}</h4>
+                  <p className="text-sm">{itm?.description}</p>
+                </div>
+              );
+            })}
+          </div>
+          <div>
+            {rejectReasons?.map((i: any) => {
+              if (!productUploadingRules?.find((it: any) => it.value === i)) {
+                return (
+                  <div
+                    key={i}
+                    style={{
+                      border: "1.5px solid red",
+                    }}
+                    className="p-2 shadow-md rounded-xl cursor-pointer bg-gray-50 hover:brightness-95"
+                    onClick={() =>
+                      setRejectReasons((prev: any) =>
+                        prev?.filter((it: any) => it !== i)
+                      )
+                    }
+                  >
+                    7. {i}
+                  </div>
+                );
+              }
+            })}
+          </div>
+
+          <div className="w-full flex items-center gap-2 mt-2">
+            <textarea
+              id="about"
+              placeholder={`Custom reason...`}
+              className="w-full h-full rounded-xl p-2 shadow-md bg-white laptop:mb-0"
+              value={customText}
+              onChange={(e) => {
+                setCustomText(e.target.value);
+              }}
+            />
+            <div
+              onClick={
+                customText?.length > 0
+                  ? () => {
+                      setRejectReasons((prev: any) => [...prev, customText]);
+                      setCustomText("");
+                    }
+                  : undefined
+              }
+              style={{ cursor: customText?.length > 0 ? "pointer" : "auto" }}
+              className="w-12 aspect-square rounded-md shadow-md flex items-center justify-center"
+            >
+              <MdDone
+                size={32}
+                color={customText?.length > 0 ? "green" : "#d9d9d9"}
+              />
+            </div>
+          </div>
+
           <div className="h-11">
             <Button
               title="Confirm"

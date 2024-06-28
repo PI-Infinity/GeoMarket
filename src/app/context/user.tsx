@@ -29,9 +29,6 @@ export const UserContextWrapper: React.FC<contextProps> = ({ children }) => {
   // app context
   const { apiUrl } = useApp();
 
-  // auth state
-  const { currentUser } = useAuth();
-
   // alert state
   const [alert, setAlert] = useState({ active: false, text: "", type: "" });
 

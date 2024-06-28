@@ -60,6 +60,10 @@ const Products: React.FC<propsTypes> = () => {
     }
   }, [user?.userId]);
 
+  useEffect(() => {
+    document.title = user?.name || "იტვირთება..."; // Sets the document name
+  }, [user?.name]);
+
   const AddProducts = async () => {
     const newPage = page + 1;
     try {

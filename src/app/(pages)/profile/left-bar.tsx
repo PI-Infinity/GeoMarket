@@ -1,27 +1,19 @@
+"use client";
 import Image from "@/app/components/image";
 import ShareComponent from "@/app/components/shareComponent";
 import { useApp } from "@/app/context/app";
 import { useAuth } from "@/app/context/auth";
-import { storage } from "@/app/firebase";
+import { formatNumbers } from "@/app/utils/formatNumbers";
 import axios from "axios";
-import {
-  deleteObject,
-  getDownloadURL,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import nProgress from "nprogress";
 import { useState } from "react";
-import { MdClose, MdDiamond, MdDone, MdShare, MdStar } from "react-icons/md";
-import { readAndCompressImage } from "browser-image-resizer";
+import { MdClose, MdShare, MdStar } from "react-icons/md";
 import { MoonLoader } from "react-spinners";
-import { formatNumbers } from "@/app/utils/formatNumbers";
 
 const LeftBar = () => {
   // app context
-  const { setOpenBackDrop, apiUrl, activeLanguage, language } = useApp();
+  const { apiUrl, activeLanguage, language } = useApp();
   // filter filter
   const filterItems = [
     {

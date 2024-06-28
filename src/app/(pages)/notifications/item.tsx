@@ -173,17 +173,43 @@ const Item = (item: any, index: any) => {
                     let rsn = productUploadingRules?.find(
                       (it: any) => it.value === i
                     );
-                    return (
-                      <span key={x} className="text-sm flex items-center gap-1">
-                        <MdClose
-                          size={16}
-                          color={
-                            notification?.status === "unread" ? "white" : "red"
-                          }
-                        />
-                        {rsn?.title}
-                      </span>
-                    );
+                    if (
+                      !productUploadingRules?.find((it: any) => it.value === i)
+                    ) {
+                      return (
+                        <div
+                          key={index}
+                          className="text-sm flex items-center gap-1"
+                        >
+                          <MdClose
+                            size={16}
+                            color={
+                              notification?.status === "unread"
+                                ? "white"
+                                : "red"
+                            }
+                          />
+                          {i}
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <span
+                          key={x}
+                          className="text-sm flex items-center gap-1"
+                        >
+                          <MdClose
+                            size={16}
+                            color={
+                              notification?.status === "unread"
+                                ? "white"
+                                : "red"
+                            }
+                          />
+                          {rsn?.title}
+                        </span>
+                      );
+                    }
                   })}
                   {notification?.type === "product-reject" && (
                     <Link

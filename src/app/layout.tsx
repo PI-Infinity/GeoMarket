@@ -16,13 +16,14 @@ import "./globals.css";
 import { Metadata } from "next";
 import Loading from "./components/loading";
 import { Analytics } from "@vercel/analytics/react";
+import getAuthUser from "./hooks/getAuthUser";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Geo Market - ქართული ბაზარი",
+export const getMetadata = (title: string): Metadata => ({
+  title: title,
   description: "უნიკალური ქართული პროდუქცია",
-};
+});
 
 export default function RootLayout({ children }: any) {
   return (

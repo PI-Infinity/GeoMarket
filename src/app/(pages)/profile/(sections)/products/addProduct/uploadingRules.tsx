@@ -1,5 +1,6 @@
 "use client";
 import { useApp } from "@/app/context/app";
+import { useState } from "react";
 import { MdClose, MdDone } from "react-icons/md";
 
 const UploadingRules = ({ rejectReasons }: any) => {
@@ -24,6 +25,20 @@ const UploadingRules = ({ rejectReasons }: any) => {
             </div>
           );
         })}
+        {rejectReasons?.find(
+          (it: any) => !productUploadingRules?.some((i: any) => i.value === it)
+        ) && (
+          <div className="pl-4">
+            <div className="pl-2">
+              <h4 className="flex items-center gap-1">
+                <MdClose color="red" size={18} />
+                {rejectReasons?.find((it: any) =>
+                  productUploadingRules?.some((i: any) => i.value !== it)
+                )}
+              </h4>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

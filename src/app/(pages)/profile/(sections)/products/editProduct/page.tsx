@@ -297,7 +297,7 @@ const EditProduct: React.FC<propsTypes> = () => {
                     aria-label="United States"
                   />
                 </div>
-                <div className="w-96">
+                <div className="w-full laptop:w-96">
                   <Input
                     label={`${activeLanguage.title}${
                       activeLanguageInputTitle === "KA" ? "*" : ""
@@ -323,16 +323,18 @@ const EditProduct: React.FC<propsTypes> = () => {
                   />
                 </div>
               </div>
-              <Select
-                data={categories.filter((i: any) => i.value !== "")}
-                value={product?.category}
-                setValue={(e: any) => {
-                  setProduct((prev: any) => ({
-                    ...prev,
-                    category: e,
-                  }));
-                }}
-              />
+              <div className="w-full laptop:max-w-80">
+                <Select
+                  data={categories.filter((i: any) => i.value !== "")}
+                  value={product?.category}
+                  setValue={(e: any) => {
+                    setProduct((prev: any) => ({
+                      ...prev,
+                      category: e,
+                    }));
+                  }}
+                />
+              </div>
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2">
                   <ReactCountryFlag
@@ -361,7 +363,7 @@ const EditProduct: React.FC<propsTypes> = () => {
                   placeholder={`${activeLanguage.description}${
                     activeLanguageInputDesc === "KA" ? "*" : ""
                   }`}
-                  className="w-96 h-48 rounded-xl p-2 shadow-md bg-white"
+                  className="w-full laptop:w-96 h-48 rounded-xl p-2 shadow-md bg-white"
                   value={
                     activeLanguageInputDesc === "KA"
                       ? product?.description.ka
@@ -525,7 +527,7 @@ const EditProduct: React.FC<propsTypes> = () => {
                       style={{ border: item.cover ? "3px solid red" : "none" }}
                       className={`${
                         item.cover ? "border-[5px]" : "border-[0px]"
-                      }  w-full laptop:w-60 w-full laptop:h-60 overflow-hidden flex items-center rounded-xl relative bg-gray-300 shadow-sm`}
+                      }  w-full laptop:w-56 aspect-square overflow-hidden flex items-center rounded-xl relative bg-gray-300 shadow-sm`}
                     >
                       {item.cover && (
                         <span className="absolute top-2 left-2 text-red-500 font-semibold z-10">

@@ -1,12 +1,8 @@
 "use client";
-import React, { Suspense, useEffect, useState } from "react";
-import LeftBar from "./left-bar";
-import { useApp } from "@/app/context/app";
 import { ProfileContextWrapper } from "@/app/context/profile";
-import { useAuth } from "@/app/context/auth";
-import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 import { withAuth } from "../(auth)/withAuth";
-import { getCookie } from "@/app/utils/cookies";
+import LeftBar from "./left-bar";
 
 interface propsTypes {
   children: any;

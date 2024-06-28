@@ -136,12 +136,15 @@ export const ProfileContextWrapper: React.FC<contextProps> = ({ children }) => {
   // alert state
   const [alert, setAlert] = useState({ active: false, text: "", type: "" });
 
+  useEffect(() => {
+    document.title = "პირადი გვერდი" || "იტვირთება..."; // Sets the document name
+  }, []);
+
   return (
     <ProfileContext.Provider
       value={{
         products,
         totalProducts,
-
         setProducts,
         GetProducts,
         alert,

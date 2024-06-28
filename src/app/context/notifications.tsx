@@ -37,6 +37,10 @@ export const NotificationsContextWrapper: React.FC<contextProps> = ({
   // auth context
   const { currentUser } = useAuth();
 
+  useEffect(() => {
+    document.title = "შეტყობინებები" || "იტვირთება..."; // Sets the document name
+  }, []);
+
   /**
    *  Notifications
    * */

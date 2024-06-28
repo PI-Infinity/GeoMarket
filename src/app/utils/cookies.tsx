@@ -7,7 +7,7 @@ export const setCookie = (name: string, value: string, days: number = 7) => {
   Cookies.set(name, value, { expires: days, path: "/" });
 };
 
-// Get a cookie
+// Get a cookie (client-side)
 export const getCookie = (name: string): string | undefined => {
   return Cookies.get(name);
 };
@@ -17,7 +17,7 @@ export const removeCookie = (name: string) => {
   Cookies.remove(name, { path: "/" });
 };
 
+// Parse cookies from the request headers (server-side)
 export function parseCookies(req: any) {
-  // The cookie header is available in the request headers in server-side contexts
   return cookie.parse(req ? req.headers.cookie || "" : "");
 }

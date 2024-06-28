@@ -63,7 +63,9 @@ export const AdminContextWrapper: React.FC<contextProps> = ({ children }) => {
     GetStats(startDate, endDate);
   }, [rerender]);
 
-  console.log(stats);
+  useEffect(() => {
+    document.title = "ადმინი" || "იტვირთება..."; // Sets the document name
+  }, []);
   return (
     <AdminContext.Provider value={{ menuList, stats, setRerender, loading }}>
       {children}

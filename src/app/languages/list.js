@@ -448,11 +448,15 @@ export const en = {
     "The category, images, title, and description must be relevant to each other.",
   contentQualityTitle: "3. Content Quality",
   contentQualityDescription: "mage quality must be satisfactory.",
-  censorshipTitle: "4. Censorship",
+  uniqueProductsTitle: "4. Unique Products",
+  uniqueProductsDescription:
+    "The same product must not be uploaded multiple times. When uploading a product to the market, it must not be duplicated. If the same user uploads identical products with the same images and titles, it will be rejected.",
+  censorshipTitle: "5. Censorship",
   censorShipDescription:
     "Texts and images must adhere to the main censorship rules.",
-  copyrightTitle: "5. Copyright",
+  copyrightTitle: "6. Copyright",
   copyrightDescription: "The product must have the correct copyright.",
+  productUploadingRules: "Product uploading rules",
 };
 
 export const ka = {
@@ -905,10 +909,14 @@ export const ka = {
     "კატეგორია, დასახელება, აღწერა და სურათები უნდა იყოს ერთმანეთთან შესაბამისი",
   contentQualityTitle: "3. სურათის ხარისხი",
   contentQualityDescription: "სურათის ხარისხი უნდა იყოს დამაკმაყოფილებელი",
-  censorshipTitle: "4. ცენზურა",
+  uniqueProductsTitle: "4. უნიკალური პროდუქტი",
+  uniqueProductsDescription:
+    "პლატფორმაზე დაუშვებელია ერთი და იგივე პროდუქტის ერთანერი სურათებით და დასახელებით ატვირთვა",
+  censorshipTitle: "5. ცენზურა",
   censorshipDescription:
     "სურათები და ტექსტები უნდა იცავდეს ცენზურის ძირითად მახასიათებლებს",
-  copyrightTitle: "5. საავტორო უფლებები",
+  copyrightTitle: "6. საავტორო უფლებები",
   copyrightDescription:
     "პროდუქტის გამოქვეყნება არ უნდა აღვევდეს საავტორო უფლებებს.",
+  productUploadingRules: "პროდუქტის ატვირთის წესები",
 };

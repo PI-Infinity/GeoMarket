@@ -142,6 +142,9 @@ const Page = () => {
    */
   const Reject = async (productId: any, rejectReasons: any) => {
     try {
+      if (rejectReasons?.length < 1) {
+        return;
+      }
       setActionLoading({ active: true, type: "reject", item: productId });
       const response = await axios.patch(
         apiUrl + "/api/v1/products/" + productId + "/status",

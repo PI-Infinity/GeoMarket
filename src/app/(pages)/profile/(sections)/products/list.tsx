@@ -1,12 +1,8 @@
 import { useApp } from "@/app/context/app";
-import { storage } from "@/app/firebase";
+import { useProfileContext } from "@/app/context/profile";
 import axios from "axios";
-import { deleteObject, listAll, ref } from "firebase/storage";
 import React from "react";
 import ProductItem from "./product-item";
-import { useProfileContext } from "@/app/context/profile";
-import { useAuth } from "@/app/context/auth";
-import { CgLayoutGridSmall } from "react-icons/cg";
 
 interface propsTypes {
   setConfirmPopup: any;

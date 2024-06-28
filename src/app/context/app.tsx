@@ -158,6 +158,12 @@ export const AppContextWrapper: React.FC<contextProps> = ({ children }) => {
     }
   }, [openMenu, pathname]);
 
+  useEffect(() => {
+    if (pathname === "/" || pathname === "/login" || pathname === "/signup") {
+      document.title = "Geo Market - ქართული ბაზარი" || "იტვირთება..."; // Sets the document name
+    }
+  }, [pathname]);
+
   // edit product for navigation from notifications to edit product when product is rejeted
   const [editProduct, setEditProduct] = useState(null);
 
@@ -176,6 +182,11 @@ export const AppContextWrapper: React.FC<contextProps> = ({ children }) => {
       title: activeLanguage?.contentQualityTitle,
       description: activeLanguage?.contentQualityDescription,
       value: "content quality",
+    },
+    {
+      title: activeLanguage?.uniqueProductsTitle,
+      description: activeLanguage?.uniqueProductsDescription,
+      value: "unique products",
     },
     {
       title: activeLanguage?.censorshipTitle,

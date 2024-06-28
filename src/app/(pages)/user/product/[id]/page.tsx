@@ -13,6 +13,7 @@ import Reviews from "./reviews";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useAuth } from "@/app/context/auth";
+import Head from "next/head";
 
 const UserProductsPage: React.FC = () => {
   // product id
@@ -84,6 +85,10 @@ const UserProductsPage: React.FC = () => {
       }
     }
   }, [product, currentUser]);
+
+  useEffect(() => {
+    document.title = product?.title?.ka || "იტვირთება..."; // Sets the document title for the current page
+  }, [product?.title]);
 
   return (
     <div className="flex-1 flex flex-col laptop:flex-row items-start justify-between w-full h-full gap-2 pb-16 laptop:pb-0">
