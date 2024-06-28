@@ -1,4 +1,5 @@
 "use client";
+import Delivery from "@/app/advertisements/delivery";
 import Image from "@/app/components/image";
 import ShareComponent from "@/app/components/shareComponent";
 import { useApp } from "@/app/context/app";

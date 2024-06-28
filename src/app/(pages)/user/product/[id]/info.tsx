@@ -282,22 +282,24 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
         </div>
         <div className="h-12 mt-4 flex items-center gap-4">
           {currentUser?.userId !== data?.seller?.userId && (
-            <Button
-              title={activeLanguage?.startingBuy}
-              background="green"
-              color="white"
-              onClick={() => {
-                if (currentUser) {
-                  SetChat();
-                } else {
-                  router.push("/login");
-                  setDestination({
-                    productId: data?.productId,
-                    page: "product",
-                  });
-                }
-              }}
-            />
+            <div className="flex-1 h-12">
+              <Button
+                title={activeLanguage?.startingBuy}
+                background="green"
+                color="white"
+                onClick={() => {
+                  if (currentUser) {
+                    SetChat();
+                  } else {
+                    router.push("/login");
+                    setDestination({
+                      productId: data?.productId,
+                      page: "product",
+                    });
+                  }
+                }}
+              />
+            </div>
           )}
           {data && currentUser?.userId !== data?.seller?.userId && (
             <div

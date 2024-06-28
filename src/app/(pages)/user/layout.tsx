@@ -4,6 +4,7 @@ import { UserContextWrapper } from "@/app/context/user";
 import React, { useEffect } from "react";
 import LeftBar from "./[id]/left-bar";
 import { usePathname } from "next/navigation";
+import Carousel from "@/app/advertisements/carousel";
 
 interface propsTypes {
   children: any;

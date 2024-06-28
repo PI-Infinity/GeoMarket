@@ -3,11 +3,9 @@ import Filter from "@/app/components/filter";
 import ProductList from "@/app/components/product-list";
 import Search from "@/app/components/search";
 import { useEffect } from "react";
-import { useProductsContext } from "./context/products";
-import { GoogleOAuthProvider } from "@react-oauth/google";
+import Carousel from "./advertisements/carousel";
 import { useApp } from "./context/app";
-import Link from "next/link";
-import Image from "./components/image";
+import { useProductsContext } from "./context/products";
 
 export default function Index() {
   // app context
@@ -94,9 +92,13 @@ export default function Index() {
           </div>
         ))}
       </div> */}
+
+      <div className="flex-1 flex w-full h-full laptop:hidden">
+        <Carousel />
+      </div>
       {!isMobile && (
         <div
-          className={`w-80 bg-white rounded-xl h-full shadow-sm fixed h-[calc(100%-8.5rem)]`}
+          className={`w-80 bg-white rounded-xl h-full shadow-sm fixed min-h-[calc(100%-8.5rem)]`}
         >
           <Filter />
         </div>
@@ -108,6 +110,9 @@ export default function Index() {
         >
           <div className="w-full laptop:hidden">
             <Filter />
+          </div>
+          <div className="hidden flex-1 laptop:flex items-center gap-2 w-full h-full">
+            <Carousel />
           </div>
           <div className="w-full flex mt-2 laptop:mt-0">
             <Search search={search} setSearch={setSearch} />

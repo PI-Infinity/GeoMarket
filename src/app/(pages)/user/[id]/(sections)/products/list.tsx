@@ -1,4 +1,5 @@
 "use client";
+import Carousel from "@/app/advertisements/carousel";
 import ProductItem from "@/app/components/product-item";
 import { useApp } from "@/app/context/app";
 import React from "react";
@@ -22,6 +23,9 @@ const List: React.FC<propsTypes> = ({
       ref={productsRef}
       style={{ minHeight: "100vh" }}
     >
+      <div className="w-full p-2 mt-auto laptop:hidden">
+        <Carousel />
+      </div>
       {loadingProducts && (
         <div
           className="absolute w-full h-full overflow-hidden z-20 rounded-md"
@@ -31,6 +35,7 @@ const List: React.FC<propsTypes> = ({
           }}
         />
       )}
+
       {totalProducts !== null && totalProducts < 1 && (
         <div className="text-gray-400 flex w-full items-center justify-center text-red-500 py-4">
           Not Found

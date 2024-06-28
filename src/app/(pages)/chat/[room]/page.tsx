@@ -12,6 +12,8 @@ import Input from "./input";
 import MessageItem from "./messageItem";
 import { OnlineBadge } from "@/app/components/onlineBadge";
 import { usePathname, useSearchParams } from "next/navigation";
+import Carousel from "@/app/advertisements/carousel";
+import Delivery from "@/app/advertisements/delivery";
 
 const ChatRoom = () => {
   // app context
@@ -116,6 +118,9 @@ const ChatRoom = () => {
 
   return (
     <div className="relative w-full h-full rounded-xl shadow-md flex flex-col overflow-hidden bg-white">
+      <div className="w-full px-2 mb-auto flex gap-2">
+        <Delivery />
+      </div>
       <div className="h-16 shadow-md w-full bg-gray-50 flex items-center z-10 gap-2 pl-4 p-2">
         <OnlineBadge
           overlap="circular"
@@ -144,6 +149,7 @@ const ChatRoom = () => {
             {targetUser?.name}
           </h4>
         </Link>
+
         <div className="ml-auto flex items-center gap-4">
           {targetUser?.phone?.number && (
             <a
@@ -201,7 +207,7 @@ const ChatRoom = () => {
             </div>
           )}
       </div>
-      <div className="h-20 w-full">
+      <div className="h-20 w-full ">
         <Input messages={messages} setMessages={setMessages} />
       </div>
     </div>

@@ -1,3 +1,4 @@
+import Carousel from "@/app/advertisements/carousel";
 import Image from "@/app/components/image";
 import { OnlineBadge } from "@/app/components/onlineBadge";
 import ShareComponent from "@/app/components/shareComponent";
@@ -108,7 +109,7 @@ const LeftBar = () => {
       style={{
         display: !pathname.includes("user/products") ? "flex" : "none",
       }}
-      className={`laptop:h-[calc(100%-8rem)] w-full laptop:ml-2 pb-8 laptop:w-80 laptop:fixed laptop:left-0 bg-white rounded-xl h-full shadow-sm flex flex-col items-center text-black`}
+      className={`laptop:h-[calc(100%-8rem)] w-full laptop:ml-2 pb-8 laptop:pb-0 laptop:w-80 laptop:fixed laptop:left-0 bg-white rounded-xl h-full shadow-sm flex flex-col items-center text-black`}
     >
       <div className="flex items-center gap-2 w-full p-4">
         {/* <MdDiamond
@@ -204,6 +205,9 @@ const LeftBar = () => {
           );
         })}
       </ul>
+      <div className="w-full p-2 mt-auto hidden laptop:flex">
+        <Carousel />
+      </div>
     </div>
   );
 };

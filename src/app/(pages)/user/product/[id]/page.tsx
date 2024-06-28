@@ -14,6 +14,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { useAuth } from "@/app/context/auth";
 import Head from "next/head";
+import Carousel from "@/app/advertisements/carousel";
 
 const UserProductsPage: React.FC = () => {
   // product id
@@ -109,6 +110,9 @@ const UserProductsPage: React.FC = () => {
             setAlert={setAlert}
           />
         </div>
+        <div className="flex-1 mt-2 laptop:hidden">
+          <Carousel />
+        </div>
         <div>
           <div className="rounded-xl  w-full overflow-hidden">
             <Reviews />
@@ -121,6 +125,9 @@ const UserProductsPage: React.FC = () => {
       />
 
       <div className="w-full flex flex-col laptop:w-1/3 laptop:mr-2">
+        <div className="flex-1 mt-2 hidden laptop:flex">
+          <Carousel />
+        </div>
         <div className="p-2">
           <h3 className="text-gray-400 font-semibold text-sm">
             {activeLanguage?.recommendedProducts}:

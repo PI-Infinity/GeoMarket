@@ -17,6 +17,7 @@ import { Metadata } from "next";
 import Loading from "./components/loading";
 import { Analytics } from "@vercel/analytics/react";
 import getAuthUser from "./hooks/getAuthUser";
+import { AdsContextWrapper } from "./context/advertisments";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -73,32 +74,34 @@ export default function RootLayout({ children }: any) {
       <body className={`${inter.className} bg-gray-100`}>
         <AppContextWrapper>
           <Loading />
-          <AuthContextWrapper>
-            <NotificationsContextWrapper>
-              <ChatContextWrapper>
-                <ProductsContextWrapper>
-                  <UserContextWrapper>
-                    <Analytics />
-                    <div className="pb-16" style={{ minHeight: "90vh" }}>
-                      <Header />
-                      <Menu />
-                      <SimpleBackdrop />
-                      <main
-                        className={
-                          "flex-1 flex p-2 pt-0 laptop:pt-2 mt-20 h-full relative"
-                        }
-                      >
-                        {children}
-                        <Navigator />
-                        <NavigatorMobile />
-                      </main>
-                      <Footer />
-                    </div>
-                  </UserContextWrapper>
-                </ProductsContextWrapper>
-              </ChatContextWrapper>
-            </NotificationsContextWrapper>
-          </AuthContextWrapper>
+          <AdsContextWrapper>
+            <AuthContextWrapper>
+              <NotificationsContextWrapper>
+                <ChatContextWrapper>
+                  <ProductsContextWrapper>
+                    <UserContextWrapper>
+                      <Analytics />
+                      <div className="pb-16" style={{ minHeight: "90vh" }}>
+                        <Header />
+                        <Menu />
+                        <SimpleBackdrop />
+                        <main
+                          className={
+                            "flex-1 flex p-2 pt-0 laptop:pt-2 mt-20 h-full relative"
+                          }
+                        >
+                          {children}
+                          <Navigator />
+                          <NavigatorMobile />
+                        </main>
+                        <Footer />
+                      </div>
+                    </UserContextWrapper>
+                  </ProductsContextWrapper>
+                </ChatContextWrapper>
+              </NotificationsContextWrapper>
+            </AuthContextWrapper>
+          </AdsContextWrapper>
         </AppContextWrapper>
       </body>
     </html>
