@@ -45,7 +45,7 @@ const Delivery = () => {
   }, []);
 
   return (
-    <div className="flex items-center gap-2 w-full relative">
+    <div className="flex items-center gap-2 w-full relative overflow-hidden">
       <div className="p-2 h-full absolute z-10 -left-2 bg-gray-100">
         <div
           style={{ fontSize: "12px" }}
@@ -54,60 +54,36 @@ const Delivery = () => {
           რეკლამა
         </div>
       </div>
-      <div className="w-full flex gap-2 items-center overflow-hidden hide-scrollbar">
+      <div className="w-full flex gap-2 items-center overflow-hidden hide-scrollbar relative">
         <div className="animate-marquee flex gap-2">
-          {shuffledDeliveries.map((item: any, index: number) => (
-            <div
-              key={index}
-              className={`py-1 my-2 px-3 w-full relative rounded-xl text-gray-300 flex items-center gap-1 hover:brightness-90 cursor-pointer`}
-              style={{
-                width: "100%",
-                fontWeight: 600,
-                cursor: "pointer",
-                transition: "ease-in 200ms",
-              }}
-            >
-              <h4
-                className="text-gray-400 whitespace-nowrap"
+          {Array(5)
+            .fill(shuffledDeliveries)
+            .flat()
+            .map((item: any, index: number) => (
+              <div
+                key={index}
+                className="py-1 my-2 px-3 w-full relative rounded-xl text-gray-300 flex items-center gap-1 hover:brightness-90 cursor-pointer"
                 style={{
-                  fontSize: "12px",
-                  fontWeight: "500",
-                  textDecoration: "underline",
+                  width: "100%",
+                  fontWeight: 600,
+                  transition: "ease-in 200ms",
                 }}
               >
-                {item?.id}
-              </h4>
-              <div>
-                <TbTruckDelivery size={16} className="text-gray-500" />
+                <h4
+                  className="text-gray-400 whitespace-nowrap"
+                  style={{
+                    fontSize: "12px",
+                    fontWeight: "500",
+                    textDecoration: "underline",
+                  }}
+                >
+                  {item?.id}
+                </h4>
+                <div>
+                  <TbTruckDelivery size={16} className="text-gray-500" />
+                </div>
               </div>
-            </div>
-          ))}
-          {shuffledDeliveries.map((item: any, index: number) => (
-            <div
-              key={index + deliveries.length}
-              className={`py-1 my-2 px-3 w-full relative rounded-xl text-gray-300 flex items-center gap-1 hover:brightness-90 cursor-pointer`}
-              style={{
-                width: "100%",
-                fontWeight: 600,
-                cursor: "pointer",
-                transition: "ease-in 200ms",
-              }}
-            >
-              <h4
-                className="text-gray-400 whitespace-nowrap"
-                style={{
-                  fontSize: "12px",
-                  fontWeight: "500",
-                  textDecoration: "underline",
-                }}
-              >
-                {item?.id}
-              </h4>
-              <div>
-                <TbTruckDelivery size={16} className="text-gray-500" />
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
       <style jsx>{`
@@ -116,14 +92,14 @@ const Delivery = () => {
             transform: translateX(-100%);
           }
           100% {
-            transform: translateX(0);
+            transform: translateX(0%);
           }
         }
 
         .animate-marquee {
           display: flex;
-          width: 200%;
-          animation: marquee 30s linear infinite;
+          width: 500%;
+          animation: marquee 60s linear infinite;
         }
 
         .hide-scrollbar::-webkit-scrollbar {

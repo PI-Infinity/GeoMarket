@@ -118,9 +118,6 @@ const ChatRoom = () => {
 
   return (
     <div className="relative w-full h-full rounded-xl shadow-md flex flex-col overflow-hidden bg-white">
-      <div className="w-full px-2 mb-auto flex gap-2">
-        <Delivery />
-      </div>
       <div className="h-16 shadow-md w-full bg-gray-50 flex items-center z-10 gap-2 pl-4 p-2">
         <OnlineBadge
           overlap="circular"

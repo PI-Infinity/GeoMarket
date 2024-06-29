@@ -238,14 +238,14 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
           </Link>
         </div>
         <h3 className="flex flex-col gap-2 text-green-500 font-semibold  ml-2">
-          {data.price?.byOrder ? (
+          {data?.price?.byOrder ? (
             <div className="flex flex-col">
               <span className="font-semibold text-orange-500 ">
                 {activeLanguage.byOrder}
               </span>
               {data?.price.createTime?.length > 0 && (
                 <span className="font-semibold text-orange-500 ">
-                  ({data.price.createTime})
+                  ({data?.price.createTime})
                 </span>
               )}
             </div>
@@ -257,10 +257,10 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
             </div>
           )}
           <span className="font-semibold ">
-            {data.price?.value === "byAgreement"
+            {data?.price?.value === "byAgreement"
               ? "₾ " + activeLanguage?.byAgreement
-              : parseFloat(data.price?.value).toFixed(2)}
-            {data.price?.value === "byAgreement" ? "" : "₾"}
+              : parseFloat(data?.price?.value).toFixed(2)}
+            {data?.price?.value === "byAgreement" ? "" : "₾"}
           </span>
         </h3>
         <p

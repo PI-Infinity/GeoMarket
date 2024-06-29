@@ -23,14 +23,21 @@ const UserProductsPage: React.FC = () => {
   // app state
   const { apiUrl, activeLanguage } = useApp();
 
+  // auth context
+  const { currentUser } = useAuth();
+
   /**
-   * gettin product
+   * getting product
    */
   const { product, setProduct } = useUserContext();
 
   const GetProduct = async () => {
     try {
-      const response = await getProduct({ apiUrl, productId });
+      const response = await getProduct({
+        apiUrl,
+        productId,
+        requestBy: currentUser?.userId,
+      });
       if (response) {
         setProduct(response.data);
       }
@@ -43,7 +50,7 @@ const UserProductsPage: React.FC = () => {
     if (productId && product?.productId?.length < 1) {
       GetProduct();
     }
-  }, [productId, product?.productId]);
+  }, [productId, product?.productId, currentUser]);
 
   /**
    * confirm popup state
@@ -57,9 +64,6 @@ const UserProductsPage: React.FC = () => {
 
   // alert state
   const [alert, setAlert] = useState({ active: false, text: "", type: "" });
-
-  // auth context
-  const { currentUser } = useAuth();
 
   /**
    * count visit in product page
