@@ -53,7 +53,7 @@ const Ads = () => {
                   title={activeLanguage?.seeMore}
                   background="green"
                   color="white"
-                  onClick={() => router.push(item?.url)}
+                  onClick={() => router.push("/support")}
                 />
               </div>
             </div>

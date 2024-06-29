@@ -18,22 +18,17 @@ interface Ad {
 export const AdsContextWrapper = ({ children }: any) => {
   const ads: Ad[] = [
     {
-      ad: "Georgian Bank",
+      ad: "",
       img: "/banner.webp",
       link: "",
     },
     {
-      ad: "TBC Bank",
-      img: "/tech.webp",
-      link: "",
-    },
-    {
-      ad: "ONWay Delivery",
+      ad: "",
       img: "/tbilisi.jpeg",
       link: "",
     },
     {
-      ad: "Marge Shawrma",
+      ad: "",
       img: "/market.jpg",
       link: "",
     },
