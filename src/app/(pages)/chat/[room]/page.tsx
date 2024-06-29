@@ -187,7 +187,7 @@ const ChatRoom = () => {
             return <MessageItem key={index} item={item} />;
           })
         ) : (
-          <div className="absolute top-1/2 flex justify-center w-full text-gray-400">
+          <div className="absolute top-1/2 flex justify-center w-full text-gray-400 px-12 text-center">
             {activeLanguage?.firstMessageAlert}
           </div>
         )}
