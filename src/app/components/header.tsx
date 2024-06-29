@@ -9,6 +9,7 @@ import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { useChat } from "../context/chat";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/auth";
+import CarouselComponent from "../advertisements/delivery";
 
 export default function Header() {
   // define path name
@@ -66,6 +67,7 @@ export default function Header() {
             </h1>
           </Link>
         }
+
         {pathname !== "/sellers" && !pathname?.includes("/admin") && (
           <Link
             href="/sellers"
@@ -99,6 +101,7 @@ export default function Header() {
               <MdAdd size={24} color="red" />
             </Link>
           )}
+
           {pathname === "/chat" && !createChatMobile && (
             <div
               style={{ fontWeight: "600" }}

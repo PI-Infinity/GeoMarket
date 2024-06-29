@@ -38,7 +38,7 @@ const CarouselComponent = () => {
             style={{ fontSize: "16px" }}
             className="flex items-center justify-center font-semibold gap-1 w-2/6 "
           >
-            {currentDelivery.ad}
+            {currentDelivery?.ad}
           </div>
 
           <div className="w-2/6" onClick={(e) => e.stopPropagation()}>

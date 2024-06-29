@@ -24,12 +24,33 @@ export const AdsContextWrapper = ({ children }: any) => {
     },
     {
       ad: "",
-      img: "/tbilisi.jpeg",
+      img: "/souvenirs.jpg",
+      link: "",
+    },
+    {
+      ad: "",
+      img: "/gift.jpg",
       link: "",
     },
     {
       ad: "",
       img: "/market.jpg",
+      link: "",
+    },
+    {
+      ad: "",
+      img: "/books.jpg",
+      link: "",
+    },
+    {
+      ad: "",
+      img: "/woman.jpg",
+      link: "",
+    },
+
+    {
+      ad: "",
+      img: "/tbilisi.jpeg",
       link: "",
     },
   ];

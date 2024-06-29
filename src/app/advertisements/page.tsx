@@ -20,46 +20,51 @@ const Ads = () => {
   }
 
   return (
-    <div className="flex flex-col gap-2 w-full">
-      <h4 className="text-gray-400 pl-2">{activeLanguage?.advertisements}</h4>
-      {list?.map((item: any, index: number) => {
-        return (
-          <div key={index} className="w-full p-2 shadow-md rounded-xl bg-white">
+    <div className="flex-1 w-full flex justify-center">
+      <div className="flex flex-col gap-2 w-full laptop:w-1/3">
+        <h4 className="text-gray-400 pl-2">{activeLanguage?.advertisements}</h4>
+        {list?.map((item: any, index: number) => {
+          return (
             <div
-              className={`relative overflow-hidden rounded-xl shadow-md bg-gray-50 text-gray-300 flex items-center mb-2 hover:brightness-90 cursor-pointer`}
-              style={{
-                width: "100%",
-                aspectRatio: 3.5,
-                fontWeight: 600,
-                cursor: "pointer",
-                transition: "ease-in 200ms",
-              }}
+              key={index}
+              className="w-full  p-2 shadow-md rounded-xl bg-white"
             >
-              <Image
-                src={item.img}
-                alt={item.ad}
-                layout="fill"
-                objectFit="cover"
-                objectPosition="center"
-                placeholder="blur"
-                blurDataURL={item.img} // You might want to use a lower resolution image for the blurDataURL
-              />
-            </div>
-            <div className="text-black flex flex-col gap-1">
-              <h3 className="pl-2">{item.ad}</h3>
-              <p className="text-black pl-2 text-sm">{item?.description}</p>
-              <div className="h-11 w-full">
-                <Button
-                  title={activeLanguage?.seeMore}
-                  background="green"
-                  color="white"
-                  onClick={() => router.push("/support")}
+              <div
+                className={`relative overflow-hidden rounded-xl shadow-md bg-gray-50 text-gray-300 flex items-center mb-2 hover:brightness-90 cursor-pointer`}
+                style={{
+                  width: "100%",
+                  aspectRatio: 3.5,
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  transition: "ease-in 200ms",
+                }}
+              >
+                <Image
+                  src={item.img}
+                  alt={item.ad}
+                  layout="fill"
+                  objectFit="cover"
+                  objectPosition="center"
+                  placeholder="blur"
+                  blurDataURL={item.img} // You might want to use a lower resolution image for the blurDataURL
                 />
               </div>
+              <div className="text-black flex flex-col gap-1">
+                <h3 className="pl-2">{item.ad}</h3>
+                <p className="text-black pl-2 text-sm">{item?.description}</p>
+                <div className="h-11 w-full">
+                  <Button
+                    title={activeLanguage?.seeMore}
+                    background="green"
+                    color="white"
+                    onClick={() => router.push("/support")}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 };
