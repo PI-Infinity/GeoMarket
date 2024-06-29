@@ -288,19 +288,30 @@ const Register = () => {
             }
           }}
         />
-        <FormControlLabel
-          sx={{ color: "gray" }}
-          style={{ width: "100%", padding: "0 0.5rem" }}
-          control={
-            <Checkbox
-              checked={acceptRules}
-              onChange={() => setAcceptRules((prev: boolean) => !prev)}
-              name="შეკვეთით"
-              sx={{ color: "Black" }}
-            />
-          }
-          label={activeLanguage.confirmTerms}
-        />
+        <div className="flex items-center">
+          <FormControlLabel
+            sx={{ color: "gray" }}
+            style={{ width: "100%", padding: "0" }}
+            control={
+              <Checkbox
+                checked={acceptRules}
+                onChange={() => setAcceptRules((prev: boolean) => !prev)}
+                name="შეკვეთით"
+                sx={{ color: "Black" }}
+              />
+            }
+            label={activeLanguage.confirmTerms}
+          />
+          <Link
+            style={{ color: "gray", whiteSpace: "nowrap" }}
+            href="terms"
+            className="text-normal relative right-2"
+          >
+            <span style={{ textDecoration: "underline" }}>
+              {activeLanguage?.confirmTermsLink}
+            </span>
+          </Link>
+        </div>
         <div className="h-12 w-full">
           <Button
             id="btn"

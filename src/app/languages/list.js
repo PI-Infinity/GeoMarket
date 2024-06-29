@@ -189,7 +189,8 @@ export const en = {
   promoCode: "Promo Code",
   resetPassword: "Reset Password",
   createAccount: "Create Account",
-  confirmTerms: "Confirm terms & rules*",
+  confirmTerms: "Confirm",
+  confirmTermsLink: "Terms & rules*",
   send: "Send",
   resetPasswordInstructions:
     "After sending, you will receive a link via email to reset your password!",
@@ -654,7 +655,8 @@ export const ka = {
   promoCode: "პრომო კოდი",
   resetPassword: "პაროლის აღდგენა",
   createAccount: "ანგარიშის შექმნა",
-  confirmTerms: "გავეცანი, ვეთანხმები წესებს და პირობებს*",
+  confirmTerms: `გავეცანი, ვეთანხმები`,
+  confirmTermsLink: `წესებს და პირობებს*`,
   send: "გაგზავნა",
   resetPasswordInstructions:
     "გაგზავნის შემდეგ, თქვენ მიიღებთ ბმულს ელ. ფოსტაზე პაროლის განულებისთვის!",
