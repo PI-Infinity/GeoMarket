@@ -79,13 +79,24 @@ export const AdsContextWrapper = ({ children }: any) => {
 
   // delivery
   const deliveries = [
-    { ad: "Uni Box", img: "/favicon-32x32.png", link: "" },
-    { ad: "Onway", img: "/favicon-32x32.png", link: "" },
-    { ad: "Easyway", img: "/favicon-32x32.png", link: "" },
-    { ad: "Geo-express", img: "/favicon-32x32.png", link: "" },
-    { ad: "Glovo", img: "/favicon-32x32.png", link: "" },
-    { ad: "Walt", img: "/favicon-32x32.png", link: "" },
-    { ad: "Georgian-Post", img: "/favicon-32x32.png", link: "" },
+    {
+      ad: "Uni Box",
+      img: "/favicon-32x32.png",
+      link: "",
+      description: "ქალაქში - 6 ლარი, რეგიონში - 8.5 ლარი",
+    },
+    {
+      ad: "Onway",
+      img: "/favicon-32x32.png",
+      link: "",
+      description: "ქალაქში - 6 ლარი, რეგიონში - 10 ლარი",
+    },
+    {
+      ad: "Easyway",
+      img: "/favicon-32x32.png",
+      link: "",
+      description: "ქალაქში - 7 ლარი, რეგიონში - 9 ლარი",
+    },
   ];
 
   // Function to shuffle array
@@ -109,7 +120,20 @@ export const AdsContextWrapper = ({ children }: any) => {
     return array;
   };
 
+  const [currentIndexDelivery, setCurrentAdIndexDelivery] = useState(0);
   const [shuffledDeliveries, setShuffledDeliveries] = useState<any[]>([]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentAdIndexDelivery(
+        (prevIndex) => (prevIndex + 1) % shuffledDeliveries.length
+      );
+    }, 3000); // Interval time for changing ads
+
+    return () => clearInterval(interval);
+  }, [shuffledDeliveries]);
+
+  const currentDelivery = shuffledDeliveries[currentIndexDelivery];
 
   const shuffleAndSetDeliveries = () => {
     setShuffledDeliveries(shuffleArrayDelivery([...deliveries]));
@@ -120,7 +144,9 @@ export const AdsContextWrapper = ({ children }: any) => {
   }, []);
 
   return (
-    <AdsContext.Provider value={{ currentAd, shuffledAds, shuffledDeliveries }}>
+    <AdsContext.Provider
+      value={{ currentAd, shuffledAds, currentDelivery, shuffledDeliveries }}
+    >
       {children}
     </AdsContext.Provider>
   );

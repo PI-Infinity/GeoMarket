@@ -47,9 +47,7 @@ const Ads = () => {
             </div>
             <div className="text-black flex flex-col gap-1">
               <h3 className="pl-2">{item.ad}</h3>
-              <p className="text-black pl-2 text-sm">
-                {item?.description} Description
-              </p>
+              <p className="text-black pl-2 text-sm">{item?.description}</p>
               <div className="h-11 w-full">
                 <Button
                   title={activeLanguage?.seeMore}
