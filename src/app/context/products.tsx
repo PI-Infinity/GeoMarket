@@ -52,7 +52,7 @@ export const ProductsContextWrapper = ({
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [page, setPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(null);
-  const [displayedIds, setDisplayedIds] = useState<any>([]);
+  // const [displayedIds, setDisplayedIds] = useState<any>([]);
 
   useEffect(() => {
     const GetProducts = async () => {
@@ -64,7 +64,7 @@ export const ProductsContextWrapper = ({
         price,
         page: 1,
         byOrder,
-        displayedIds: displayedIds?.length > 0 ? displayedIds.join(",") : "",
+        // displayedIds: displayedIds?.length > 0 ? displayedIds.join(",") : "",
       });
       setProducts(data.data.products);
       if (data.totalProducts === 1) {
@@ -73,7 +73,7 @@ export const ProductsContextWrapper = ({
         setActiveGrid("double");
       }
       setTotalProducts(data.totalProducts);
-      setDisplayedIds(data.data.products?.map((i: any) => i?.productId));
+      // setDisplayedIds(data.data.products?.map((i: any) => i?.productId));
       setPage(1);
       setLoadingProducts(false);
     };
@@ -90,7 +90,7 @@ export const ProductsContextWrapper = ({
         price,
         page: newPage,
         byOrder,
-        displayedIds: displayedIds?.length > 0 ? displayedIds.join(",") : "",
+        // displayedIds: displayedIds?.length > 0 ? displayedIds.join(",") : "",
       });
 
       setProducts((prevProducts) => {
@@ -111,24 +111,24 @@ export const ProductsContextWrapper = ({
 
         return uniqueProducts;
       });
-      setDisplayedIds((prevIds: any) => {
-        // Create a new set with existing product IDs for quick lookup
-        const existingIds = new Set(prevIds);
+      // setDisplayedIds((prevIds: any) => {
+      //   // Create a new set with existing product IDs for quick lookup
+      //   const existingIds = new Set(prevIds);
 
-        // Filter out duplicates from the newly fetched products based on product ID
-        const filteredNewProducts = data.data.products.filter(
-          (p: any) => !existingIds.has(p.productId)
-        );
+      //   // Filter out duplicates from the newly fetched products based on product ID
+      //   const filteredNewProducts = data.data.products.filter(
+      //     (p: any) => !existingIds.has(p.productId)
+      //   );
 
-        // Map filtered products to get their IDs
-        const newProductIds = filteredNewProducts.map((p: any) => p.productId);
+      //   // Map filtered products to get their IDs
+      //   const newProductIds = filteredNewProducts.map((p: any) => p.productId);
 
-        if (newProductIds.length > 0) {
-          return [...prevIds, ...newProductIds];
-        } else {
-          return prevIds;
-        }
-      });
+      //   if (newProductIds.length > 0) {
+      //     return [...prevIds, ...newProductIds];
+      //   } else {
+      //     return prevIds;
+      //   }
+      // });
       setPage(newPage);
     } catch (error) {
       console.log(error);

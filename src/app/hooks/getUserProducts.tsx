@@ -1,10 +1,16 @@
 import axios from "axios";
 
-const getUsersProducts = async ({ apiUrl, search, userId, page }: any) => {
+const getUsersProducts = async ({
+  apiUrl,
+  search,
+  userId,
+  page,
+  status,
+}: any) => {
   try {
     const response = await axios.get(
       apiUrl +
-        `/api/v1/products/user/${userId}?page=${page}&limit=8&search=${search}`
+        `/api/v1/products/user/${userId}?page=${page}&limit=8&search=${search}&status=${status}`
     );
     return response.data;
   } catch (error: any) {

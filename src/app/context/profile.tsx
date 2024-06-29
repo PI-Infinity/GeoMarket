@@ -12,7 +12,7 @@ import {
 import { useApp } from "./app";
 import { useAuth } from "./auth";
 import { redirect, useRouter } from "next/navigation";
-import fetchProducts from "../hooks/getUserProducts";
+import getUsersProducts from "../hooks/getUserProducts";
 
 /**
  * Profile state context
@@ -52,7 +52,7 @@ export const ProfileContextWrapper: React.FC<contextProps> = ({ children }) => {
   const GetProducts = async () => {
     try {
       setLoadingProducts(true);
-      const list = await fetchProducts({
+      const list = await getUsersProducts({
         apiUrl,
         search,
         userId: currentUser?.userId,
@@ -74,7 +74,7 @@ export const ProfileContextWrapper: React.FC<contextProps> = ({ children }) => {
   const AddProducts = async () => {
     const newPage = page + 1;
     try {
-      const response = await fetchProducts({
+      const response = await getUsersProducts({
         apiUrl,
         search,
         userId: currentUser?.userId,

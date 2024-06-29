@@ -44,6 +44,7 @@ const Products: React.FC<propsTypes> = () => {
         userId: user?.userId,
         page,
         limit: 8,
+        status: "public",
       });
       setProducts(list.data.products);
       setTotalProducts(list.totalProducts);

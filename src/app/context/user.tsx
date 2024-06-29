@@ -55,10 +55,11 @@ export const UserContextWrapper: React.FC<contextProps> = ({ children }) => {
 
   useEffect(() => {
     if (
-      user?.userId?.length < 1 &&
-      userId &&
-      pathname.includes(`/user/`) &&
-      !pathname.includes(`/user/product`)
+      user?.userId?.length < 1 ||
+      (user?.userId !== userId &&
+        userId &&
+        pathname.includes(`/user/`) &&
+        !pathname.includes(`/user/product`))
     ) {
       GetUser();
     }
