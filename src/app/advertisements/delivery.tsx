@@ -16,18 +16,19 @@ const CarouselComponent = () => {
       <div className="w-full h-full overflow-hidden flex items-center">
         <div
           onClick={() => router.push("/support")}
-          className="w-full relative py-1 flex items-center gap-2 text-gray-400 whitespace-nowrap animate-marquee"
+          className="w-full relative py-1 flex items-center gap-2 text-gray-400 whitespace-nowrap"
           style={{
             fontWeight: 600,
             transition: "ease-in 200ms",
           }}
         >
-          <div className=" z-10 bg-gray-100 px-2">
-            <Link href="/support" className="flex justify-end w-full h-full">
+          <div className="bg-gray-100 w-2/6">
+            <Link href="/support" className="flex w-full h-full">
               <div
                 style={{ fontSize: "12px" }}
-                className="bg-white text-red-500 p-1 px-3 shadow-md rounded-full text-sm font-semibold"
+                className="bg-white text-red-500 p-1 px-3 shadow-sm rounded-full flex items-center gap-1 text-sm font-semibold"
               >
+                <FaTruckFast size={16} />
                 {activeLanguage?.ad}
               </div>
             </Link>
@@ -35,24 +36,21 @@ const CarouselComponent = () => {
 
           <div
             style={{ fontSize: "16px" }}
-            className="flex items-center gap-1 mr-6"
+            className="flex items-center justify-center font-semibold gap-1 w-2/6 "
           >
             {currentDelivery.ad}
-            <FaTruckFast size={18} />
-            <div style={{ fontSize: "12px", marginLeft: "8px" }}>
-              {currentDelivery?.description}
-            </div>
           </div>
 
-          <div className="px-2 ml-auto" onClick={(e) => e.stopPropagation()}>
+          <div className="w-2/6" onClick={(e) => e.stopPropagation()}>
             <Link
               href="/advertisements?from=delivery"
               className="flex justify-end w-full h-full"
             >
               <div
                 style={{ fontSize: "12px" }}
-                className="bg-white text-red-500 p-1 px-3 shadow-md rounded-full text-sm font-semibold"
+                className="bg-white text-red-500 p-1 px-3 shadow-sm rounded-full text-sm font-semibold flex items-center gap-1"
               >
+                {activeLanguage?.all}
                 <MdOutlineKeyboardDoubleArrowRight
                   size={20}
                   className="hover:brightness-90"
