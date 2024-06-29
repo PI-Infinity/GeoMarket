@@ -1,48 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { TbTruckDelivery } from "react-icons/tb";
 import "@/app/globals.css";
-
-const deliveries = [
-  { id: "Uni Box", logo: "" },
-  { id: "Onway", logo: "" },
-  { id: "Easyway", logo: "" },
-  { id: "Geo-express", logo: "" },
-  { id: "Glovo", logo: "" },
-  { id: "Walt", logo: "" },
-  { id: "Georgian-Post", logo: "" },
-];
-
-// Function to shuffle array
-const shuffleArray = (array: any[]): any[] => {
-  let currentIndex = array.length,
-    randomIndex;
-
-  // While there remain elements to shuffle.
-  while (currentIndex !== 0) {
-    // Pick a remaining element.
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-
-    // And swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
-    ];
-  }
-
-  return array;
-};
+import Link from "next/link";
+import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
+import { useAdsContext } from "../context/advertisments";
+import { useApp } from "../context/app";
 
 const Delivery = () => {
-  const [shuffledDeliveries, setShuffledDeliveries] = useState<any[]>([]);
-
-  const shuffleAndSetDeliveries = () => {
-    setShuffledDeliveries(shuffleArray([...deliveries]));
-  };
-
-  useEffect(() => {
-    shuffleAndSetDeliveries(); // Initial shuffle on mount
-  }, []);
+  const { shuffledDeliveries } = useAdsContext();
+  const { activeLanguage } = useApp();
 
   return (
     <div className="flex items-center gap-2 w-full relative overflow-hidden">
@@ -51,7 +17,7 @@ const Delivery = () => {
           style={{ fontSize: "12px" }}
           className="z-10 bg-white text-red-500 p-1 px-3 shadow-md rounded-full text-sm font-semibold"
         >
-          რეკლამა
+          {activeLanguage?.ad}
         </div>
       </div>
       <div className="w-full flex gap-2 items-center overflow-hidden hide-scrollbar relative">
@@ -77,7 +43,7 @@ const Delivery = () => {
                     textDecoration: "underline",
                   }}
                 >
-                  {item?.id}
+                  {item?.ad}
                 </h4>
                 <div>
                   <TbTruckDelivery size={16} className="text-gray-500" />
@@ -86,6 +52,19 @@ const Delivery = () => {
             ))}
         </div>
       </div>
+      <Link
+        href="/advertisements?from=delivery"
+        style={{
+          fontSize: "12px",
+          cursor: "pointer",
+        }}
+        className="absolute w-12 z-10 bottom-0 h-full right-0 flex items-center justify-end px-2 text-red-500 bg-gray-100 text-sm font-semibold "
+      >
+        <MdOutlineKeyboardDoubleArrowRight
+          size={24}
+          className="hover:brightness-90"
+        />
+      </Link>
       <style jsx>{`
         @keyframes marquee {
           0% {

@@ -11,7 +11,7 @@ export const useAdsContext = () => useContext(AdsContext);
 
 interface Ad {
   ad: string;
-  path: string;
+  img: string;
   link: string;
 }
 
@@ -19,22 +19,22 @@ export const AdsContextWrapper = ({ children }: any) => {
   const ads: Ad[] = [
     {
       ad: "Georgian Bank",
-      path: "/banner.webp",
+      img: "/banner.webp",
       link: "",
     },
     {
       ad: "TBC Bank",
-      path: "/tech.webp",
+      img: "/tech.webp",
       link: "",
     },
     {
       ad: "ONWay Delivery",
-      path: "/tbilisi.jpeg",
+      img: "/tbilisi.jpeg",
       link: "",
     },
     {
       ad: "Marge Shawrma",
-      path: "/market.jpg",
+      img: "/market.jpg",
       link: "",
     },
   ];
@@ -61,7 +61,6 @@ export const AdsContextWrapper = ({ children }: any) => {
   };
 
   const [currentAdIndex, setCurrentAdIndex] = useState(0);
-  const [fade, setFade] = useState(true);
   const [shuffledAds, setShuffledAds] = useState<Ad[]>([]);
 
   useEffect(() => {
@@ -70,16 +69,59 @@ export const AdsContextWrapper = ({ children }: any) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setFade(false);
       setCurrentAdIndex((prevIndex) => (prevIndex + 1) % shuffledAds.length);
-    }, 4000); // Interval time for changing ads
+    }, 3000); // Interval time for changing ads
 
     return () => clearInterval(interval);
   }, [shuffledAds]);
 
   const currentAd = shuffledAds[currentAdIndex];
 
+  // delivery
+  const deliveries = [
+    { ad: "Uni Box", img: "/favicon-32x32.png", link: "" },
+    { ad: "Onway", img: "/favicon-32x32.png", link: "" },
+    { ad: "Easyway", img: "/favicon-32x32.png", link: "" },
+    { ad: "Geo-express", img: "/favicon-32x32.png", link: "" },
+    { ad: "Glovo", img: "/favicon-32x32.png", link: "" },
+    { ad: "Walt", img: "/favicon-32x32.png", link: "" },
+    { ad: "Georgian-Post", img: "/favicon-32x32.png", link: "" },
+  ];
+
+  // Function to shuffle array
+  const shuffleArrayDelivery = (array: any[]): any[] => {
+    let currentIndex = array.length,
+      randomIndex;
+
+    // While there remain elements to shuffle.
+    while (currentIndex !== 0) {
+      // Pick a remaining element.
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+
+    return array;
+  };
+
+  const [shuffledDeliveries, setShuffledDeliveries] = useState<any[]>([]);
+
+  const shuffleAndSetDeliveries = () => {
+    setShuffledDeliveries(shuffleArrayDelivery([...deliveries]));
+  };
+
+  useEffect(() => {
+    shuffleAndSetDeliveries(); // Initial shuffle on mount
+  }, []);
+
   return (
-    <AdsContext.Provider value={{ currentAd }}>{children}</AdsContext.Provider>
+    <AdsContext.Provider value={{ currentAd, shuffledAds, shuffledDeliveries }}>
+      {children}
+    </AdsContext.Provider>
   );
 };

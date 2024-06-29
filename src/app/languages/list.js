@@ -6,6 +6,7 @@ export const en = {
   women: "Women",
   kids: "Kids",
   accessories: "Accessories",
+  jewellery: "Jewellery",
   dishes: "Dishes",
   sales: "Sales",
   login: "Login",
@@ -110,6 +111,7 @@ export const en = {
   comments: "Comments",
   discount: "Discount",
   total: "Total",
+  ad: "Ad",
   advertisements: "Advertisements",
   subtotal: "Subtotal",
   logout: "Logout",
@@ -457,6 +459,7 @@ export const en = {
   copyrightTitle: "6. Copyright",
   copyrightDescription: "The product must have the correct copyright.",
   productUploadingRules: "Product uploading rules",
+  seeMore: "See More",
 };
 
 export const ka = {
@@ -467,6 +470,7 @@ export const ka = {
   women: "ქალები",
   kids: "ბავშვები",
   accessories: "აქსესუარები",
+  jewellery: "სამკაულები",
   dishes: "ჭურჭელი",
   sales: "ფასდაკლებები",
   login: "შესვლა",
@@ -636,6 +640,7 @@ export const ka = {
   finances: "ფინანსები",
   coupons: "კუპონები",
   content: "კონტენტი",
+  ad: "რეკლამა",
   advertisements: "რეკლამები",
   settings: "პარამეტრები",
   enterLocation: "ჩაწერე მისამართი...",
@@ -919,4 +924,5 @@ export const ka = {
   copyrightDescription:
     "პროდუქტის გამოქვეყნება არ უნდა აღვევდეს საავტორო უფლებებს.",
   productUploadingRules: "პროდუქტის ატვირთის წესები",
+  seeMore: "მეტის გაგება",
 };
