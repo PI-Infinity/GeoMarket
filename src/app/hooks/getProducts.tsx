@@ -8,6 +8,7 @@ const fetchProducts = async ({
   page,
   byOrder,
 }: // displayedIds,
+// displayedIds,
 any) => {
   try {
     const response = await axios.get(

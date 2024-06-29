@@ -24,6 +24,7 @@ export const useProductsContext = () => useContext(ProductsContext);
 interface Product {
   productId: string;
   title: string;
+  _id: any;
   // other product fields
 }
 
@@ -63,7 +64,7 @@ export const ProductsContextWrapper = ({
         price,
         page: 1,
         byOrder,
-        // displayedIds: displayedIds?.length > 0 ? displayedIds.join(",") : "",
+        displayedIds: displayedIds?.length > 0 ? displayedIds.join(",") : "",
       });
       setProducts(data.data.products);
       if (data.totalProducts === 1) {
@@ -72,7 +73,7 @@ export const ProductsContextWrapper = ({
         setActiveGrid("double");
       }
       setTotalProducts(data.totalProducts);
-      // setDisplayedIds(data.data.products?.map((i: any) => i?.productId));
+      setDisplayedIds(data.data.products?.map((i: any) => i?.productId));
       setPage(1);
       setLoadingProducts(false);
     };
@@ -89,43 +90,45 @@ export const ProductsContextWrapper = ({
         price,
         page: newPage,
         byOrder,
-        // displayedIds: displayedIds?.length > 0 ? displayedIds.join(",") : "",
+        displayedIds: displayedIds?.length > 0 ? displayedIds.join(",") : "",
       });
+
       setProducts((prevProducts) => {
-        // Create a new set with existing product IDs for quick lookup
-        const existingIds = new Set(
-          prevProducts.map((product) => product.productId)
+        // Create a Map with existing products using productId as the key
+        const productMap = new Map(
+          prevProducts.map((product) => [product._id, product])
         );
+
+        // Iterate over new products and add them to the Map if they don't already exist
+        data.data.products.forEach((newProduct: any) => {
+          if (!productMap.has(newProduct._id)) {
+            productMap.set(newProduct._id, newProduct);
+          }
+        });
+
+        // Convert the Map values back to an array
+        const uniqueProducts = Array.from(productMap.values());
+
+        return uniqueProducts;
+      });
+      setDisplayedIds((prevIds: any) => {
+        // Create a new set with existing product IDs for quick lookup
+        const existingIds = new Set(prevIds);
 
         // Filter out duplicates from the newly fetched products based on product ID
         const filteredNewProducts = data.data.products.filter(
           (p: any) => !existingIds.has(p.productId)
         );
 
-        if (filteredNewProducts.length > 0) {
-          return [...prevProducts, ...filteredNewProducts];
+        // Map filtered products to get their IDs
+        const newProductIds = filteredNewProducts.map((p: any) => p.productId);
+
+        if (newProductIds.length > 0) {
+          return [...prevIds, ...newProductIds];
         } else {
-          return [...prevProducts];
+          return prevIds;
         }
       });
-      // setDisplayedIds((prevIds: any) => {
-      //   // Create a new set with existing product IDs for quick lookup
-      //   const existingIds = new Set(prevIds);
-
-      //   // Filter out duplicates from the newly fetched products based on product ID
-      //   const filteredNewProducts = data.data.products.filter(
-      //     (p: any) => !existingIds.has(p.productId)
-      //   );
-
-      //   // Map filtered products to get their IDs
-      //   const newProductIds = filteredNewProducts.map((p: any) => p.productId);
-
-      //   if (newProductIds.length > 0) {
-      //     return [...prevIds, ...newProductIds];
-      //   } else {
-      //     return prevIds;
-      //   }
-      // });
       setPage(newPage);
     } catch (error) {
       console.log(error);

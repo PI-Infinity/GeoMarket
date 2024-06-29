@@ -14,7 +14,6 @@ export default function Sellers() {
   const [page, setPage] = useState(1);
   const [totalSellers, setTotalSellers] = useState(null);
   const [search, setSearch] = useState("");
-  const sellersRef = useRef(null);
   const [loadingSellers, setLoadingSellers] = useState(false);
 
   const GetUsers = async () => {
@@ -59,7 +58,7 @@ export default function Sellers() {
 
         // Filter out duplicates from the newly fetched sellerss based on sellers ID
         const filteredNewsellerss = data.data.users.filter(
-          (p: any) => !existingIds.has(p.sellersId)
+          (p: any) => !existingIds.has(p.userId)
         );
 
         if (filteredNewsellerss.length > 0) {
@@ -76,19 +75,18 @@ export default function Sellers() {
   };
 
   // products ref
-  const productsRef = useRef<HTMLDivElement>();
+  const sellersRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      // Ensure productsRef.current is not null before accessing its properties
-      if (productsRef.current) {
-        const { bottom } = productsRef.current.getBoundingClientRect();
+      // Ensure sellersRef.current is not null before accessing its properties
+      if (sellersRef.current) {
+        const { bottom } = sellersRef.current.getBoundingClientRect();
         const windowHeight = window.innerHeight;
 
         // Check if the bottom of the component is near the bottom of the window viewport
         if (bottom <= windowHeight + 200) {
           if (totalSellers && totalSellers > sellers.length) {
-            // setLoadMore(true);
             AddSellers();
           }
         }
@@ -100,7 +98,7 @@ export default function Sellers() {
 
     // Cleanup function to remove the event listener
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [sellers.length, totalSellers, productsRef]);
+  }, [sellers.length, totalSellers, sellersRef]);
 
   return (
     <div
