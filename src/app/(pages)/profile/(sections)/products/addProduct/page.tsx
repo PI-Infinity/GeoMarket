@@ -1,24 +1,20 @@
 "use client";
+import Button from "@/app/components/button";
+import Image from "@/app/components/image";
 import { Input } from "@/app/components/input";
+import Select from "@/app/components/select";
+import { useApp } from "@/app/context/app";
+import { useAuth } from "@/app/context/auth";
+import { useProductsContext } from "@/app/context/products";
+import { useProfileContext } from "@/app/context/profile";
 import { Checkbox, FormControlLabel } from "@mui/material";
+import axios from "axios";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 import { FcAddImage } from "react-icons/fc";
 import { MdClose, MdDelete } from "react-icons/md";
-import { handleFileUpload } from "../fileInput";
-import Button from "@/app/components/button";
-import { useApp } from "@/app/context/app";
-import Select from "@/app/components/select";
-import { useAuth } from "@/app/context/auth";
-import { useProfileContext } from "@/app/context/profile";
-import Link from "next/link";
-import { v4 } from "uuid";
-import { useRouter } from "next/navigation";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { storage } from "@/app/firebase";
-import axios from "axios";
-import { useProductsContext } from "@/app/context/products";
-import Image from "@/app/components/image";
 import UploadingRules from "./uploadingRules";
 
 interface propsTypes {}
@@ -27,7 +23,7 @@ const AddProduct: React.FC<propsTypes> = () => {
   /**
    * app states
    */
-  const { apiUrl, openBackDrop, setOpenBackDrop, activeLanguage } = useApp();
+  const { apiUrl, setOpenBackDrop, activeLanguage } = useApp();
 
   /**
    * products context
@@ -46,7 +42,7 @@ const AddProduct: React.FC<propsTypes> = () => {
     title: { en: "", ka: "" },
     category: { value: "", label: "" },
     description: { en: "", ka: "" },
-    price: { value: "", byOrder: false, createTime: "" },
+    price: { value: "", byOrder: false, createTime: "", newPrice: "" },
     gallery: [{ file: "" }],
     seller: {
       userId: currentUser?.userId,
@@ -61,7 +57,7 @@ const AddProduct: React.FC<propsTypes> = () => {
       title: { en: "", ka: "" },
       category: { value: "", label: "" },
       description: { en: "", ka: "" },
-      price: { value: "", byOrder: false, createTime: "" },
+      price: { value: "", byOrder: false, createTime: "", newPrice: "" },
       gallery: [],
       seller: {
         userId: currentUser?.userId,
@@ -190,7 +186,7 @@ const AddProduct: React.FC<propsTypes> = () => {
           title: { en: "", ka: "" },
           category: { value: "", label: "" },
           description: { en: "", ka: "" },
-          price: { value: "", byOrder: false, createTime: "" },
+          price: { value: "", byOrder: false, createTime: "", newPrice: "" },
           gallery: [],
           seller: {
             userId: currentUser?.userId, // replace with actual user ID
@@ -386,6 +382,7 @@ const AddProduct: React.FC<propsTypes> = () => {
                               price: {
                                 ...prev.price,
                                 value: "",
+                                newPrice: "",
                               },
                             }));
                           }
@@ -395,6 +392,7 @@ const AddProduct: React.FC<propsTypes> = () => {
                               price: {
                                 ...prev.price,
                                 value: "byAgreement",
+                                newPrice: "",
                               },
                             }));
                           }
@@ -428,6 +426,29 @@ const AddProduct: React.FC<propsTypes> = () => {
               }
               label={activeLanguage.byOrder}
             />
+            {product.price.value !== "byAgreement" && (
+              <div className="w-72">
+                <Input
+                  label={
+                    activeLanguage.newPrice +
+                    " " +
+                    "(" +
+                    activeLanguage?.discounted +
+                    ")" +
+                    " ₾"
+                  }
+                  id="price"
+                  value={product.price?.newPrice}
+                  onChange={(e: any) =>
+                    setProduct((prev: any) => ({
+                      ...prev,
+                      price: { ...prev.price, newPrice: e.target.value },
+                    }))
+                  }
+                  type="number"
+                />
+              </div>
+            )}
             {product.price.byOrder && (
               <div className="w-96 mt-2">
                 <Input

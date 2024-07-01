@@ -23,7 +23,7 @@ const List: React.FC<propsTypes> = ({
       ref={productsRef}
       style={{ minHeight: "100vh" }}
     >
-      <div className="w-full p-2 mt-auto laptop:hidden">
+      <div className="w-full pb-2 mt-auto laptop:hidden">
         <Carousel />
       </div>
       {loadingProducts && (

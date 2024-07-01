@@ -1,29 +1,20 @@
 "use client";
 import Button from "@/app/components/button";
+import Image from "@/app/components/image";
 import { Input } from "@/app/components/input";
 import Select from "@/app/components/select";
 import { useApp } from "@/app/context/app";
 import { useAuth } from "@/app/context/auth";
+import { useProductsContext } from "@/app/context/products";
 import { useProfileContext } from "@/app/context/profile";
-import { storage } from "@/app/firebase";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import axios from "axios";
-import {
-  deleteObject,
-  getDownloadURL,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 import { FcAddImage } from "react-icons/fc";
-import { IoMdEye } from "react-icons/io";
 import { MdClose, MdDelete } from "react-icons/md";
-import { v4 } from "uuid";
-import { useProductsContext } from "@/app/context/products";
-import Image from "@/app/components/image";
 import UploadingRules from "../addProduct/uploadingRules";
 
 interface propsTypes {}
@@ -32,7 +23,7 @@ const EditProduct: React.FC<propsTypes> = () => {
   /**
    * app states
    */
-  const { apiUrl, openBackDrop, setOpenBackDrop, activeLanguage } = useApp();
+  const { apiUrl, setOpenBackDrop, activeLanguage } = useApp();
 
   /**
    * products context
@@ -214,7 +205,7 @@ const EditProduct: React.FC<propsTypes> = () => {
           title: { en: "", ka: "" },
           category: { value: "", label: "" },
           description: { en: "", ka: "" },
-          price: { value: "", byOrder: false, createTime: "" },
+          price: { value: "", byOrder: false, createTime: "", newPrice: "" },
           gallery: [],
           seller: {
             userId: currentUser?.userId, // replace with actual user ID
@@ -425,6 +416,7 @@ const EditProduct: React.FC<propsTypes> = () => {
                                   price: {
                                     ...prev.price,
                                     value: "",
+                                    newPrice: "",
                                   },
                                 }));
                               }
@@ -434,6 +426,7 @@ const EditProduct: React.FC<propsTypes> = () => {
                                   price: {
                                     ...prev.price,
                                     value: "byAgreement",
+                                    newPrice: "",
                                   },
                                 }));
                               }
@@ -445,6 +438,36 @@ const EditProduct: React.FC<propsTypes> = () => {
                     label={"შეთანხმებით"}
                   />
                 </div>
+                <h4 className="mt-2">
+                  {activeLanguage?.newPrice +
+                    " (" +
+                    activeLanguage?.discounted +
+                    ")"}
+                  :
+                </h4>
+                {product.price.value !== "byAgreement" && (
+                  <div className="w-72">
+                    <Input
+                      label={
+                        activeLanguage.newPrice +
+                        " " +
+                        "(" +
+                        activeLanguage?.discounted +
+                        ")" +
+                        " ₾"
+                      }
+                      id="price"
+                      value={product.price?.newPrice}
+                      onChange={(e: any) =>
+                        setProduct((prev: any) => ({
+                          ...prev,
+                          price: { ...prev.price, newPrice: e.target.value },
+                        }))
+                      }
+                      type="number"
+                    />
+                  </div>
+                )}
                 <FormControlLabel
                   sx={{ color: "gray" }}
                   style={{ width: "75%" }}

@@ -4,6 +4,7 @@ import { useApp } from "@/app/context/app";
 import getUsers from "@/app/hooks/getUsers";
 import { useEffect, useRef, useState } from "react";
 import SellersList from "./sellers-list";
+import Carousel from "@/app/advertisements/carousel";
 
 export default function Sellers() {
   // app context
@@ -112,6 +113,9 @@ export default function Sellers() {
           className={`ml-0 mr-0 laptop:ml-0 laptop:pr-2
           h-full flex flex-col gap-2 items-center w-full`}
         >
+          <div className="flex-1 flex w-full h-full">
+            <Carousel />
+          </div>
           <div className="w-full flex">
             <Search
               search={search}

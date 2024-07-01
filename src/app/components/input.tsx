@@ -42,6 +42,15 @@ export const Input: React.FC<PropsType> = ({
   returnKeyType,
   disabled,
 }) => {
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (type === "number") {
+      const pattern = /[0-9]/;
+      const inputChar = String.fromCharCode(event.charCode);
+      if (!pattern.test(inputChar)) {
+        event.preventDefault();
+      }
+    }
+  };
   return (
     <div className="rounded-xl w-full h-full shadow-md flex items-center bg-white">
       <input
@@ -58,6 +67,7 @@ export const Input: React.FC<PropsType> = ({
           disabled ? "text-gray-400" : "text-black"
         } bg-white`}
         onKeyDown={onKeyDown}
+        onKeyPress={handleKeyPress}
         disabled={disabled}
       />
       {password && (

@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FaImages } from "react-icons/fa";
 import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
-import { MdClose, MdDone } from "react-icons/md";
+import { MdClose, MdDelete, MdDone } from "react-icons/md";
 
 interface PropTypes {
   item: any;
@@ -26,6 +26,8 @@ const ProductItem: React.FC<PropTypes> = ({
   Confirm,
   Reject,
   actionLoading,
+  setConfirmPopup,
+  DeleteProduct,
 }) => {
   // router
   const router = useRouter();
@@ -49,8 +51,6 @@ const ProductItem: React.FC<PropTypes> = ({
   const [openRejectReasons, setOpenRejectReasons] = useState(false);
   const [rejectReasons, setRejectReasons] = useState<any>([]);
 
-  console.log(rejectReasons);
-
   // custom reject reason
   const [customText, setCustomText] = useState("");
 
@@ -61,42 +61,74 @@ const ProductItem: React.FC<PropTypes> = ({
       }}
       className="relative overflow-hidden box-border rounded-xl bg-gray-50 p-4 flex flex-col cursor-pointer shadow-md laptop:max-w-80"
     >
-      <p className="text-md font-bold">Status: {item?.status}</p>
-      <div className="flex mb-2 mt-2 gap-4 w-full items-center justify-between">
-        <div className="flex items-center gap-1 text-sm">
-          {FormatDate(item.createdAt)}
+      <div>
+        <div className="flex items-center justify-between w-full">
+          <p className="text-md font-bold">Status: {item?.status}</p>
+          <MdDelete
+            onClick={() =>
+              setConfirmPopup({
+                active: true,
+                text: activeLanguage.askDeleteProduct,
+                close: () =>
+                  setConfirmPopup({
+                    active: false,
+                    close: null,
+                    agree: null,
+                    text: "",
+                  }),
+                agree: () => {
+                  DeleteProduct({
+                    itemId: item?.productId,
+                  });
+                },
+              })
+            }
+            color="red"
+            size={24}
+            className="hover:brightness-90 cursor-pointer"
+          />
         </div>
+        <div className="flex mb-2 mt-2 gap-4 w-full items-center justify-between">
+          <div className="flex items-center gap-1 text-sm">
+            {FormatDate(item.createdAt)}
+          </div>
+        </div>
+
+        {item?.status !== "draft" && (
+          <div className="mb-4 flex items-center gap-4">
+            {item?.status !== "rejected" && (
+              <div className="w-full h-10">
+                <Button
+                  title="Reject"
+                  background="red"
+                  color="white"
+                  onClick={() => setOpenRejectReasons(true)}
+                  loading={
+                    actionLoading.active &&
+                    actionLoading.type === "reject" &&
+                    actionLoading?.item === item?.productId
+                  }
+                />
+              </div>
+            )}
+            {item?.status !== "public" && (
+              <div className="w-full h-10">
+                <Button
+                  title="Confirm"
+                  background="green"
+                  color="white"
+                  onClick={() => Confirm(item.productId)}
+                  loading={
+                    actionLoading.active &&
+                    actionLoading.type === "confirm" &&
+                    actionLoading?.item === item?.productId
+                  }
+                />
+              </div>
+            )}
+          </div>
+        )}
       </div>
-      {item?.status === "inReview" && (
-        <div className="mb-4 flex items-center gap-4">
-          <div className="w-full h-10">
-            <Button
-              title="Reject"
-              background="red"
-              color="white"
-              onClick={() => setOpenRejectReasons(true)}
-              loading={
-                actionLoading.active &&
-                actionLoading.type === "reject" &&
-                actionLoading?.item === item?.productId
-              }
-            />
-          </div>
-          <div className="w-full h-10">
-            <Button
-              title="Confirm"
-              background="green"
-              color="white"
-              onClick={() => Confirm(item.productId)}
-              loading={
-                actionLoading.active &&
-                actionLoading.type === "confirm" &&
-                actionLoading?.item === item?.productId
-              }
-            />
-          </div>
-        </div>
-      )}
 
       <div
         className="flex items-center gap-2 w-full"
@@ -125,6 +157,15 @@ const ProductItem: React.FC<PropTypes> = ({
           WebkitOverflowScrolling: "touch", // Enables momentum scrolling on iOS Safari
         }}
       >
+        {item?.price?.newPrice?.length > 0 && (
+          <div className="bg-red-500 text-sm absolute right-0 top-2 z-10 text-white py-1 px-3 rounded-bl-full rounded-tl-full">
+            -
+            {((parseInt(item.price.value) - parseInt(item.price.newPrice)) /
+              parseInt(item.price.value)) *
+              100}
+            %
+          </div>
+        )}
         {reorderedGallery?.map((file: any, index: number) => (
           <Link
             href={`/user/product/${item?.productId}?category=${item?.category}`}
@@ -184,12 +225,25 @@ const ProductItem: React.FC<PropTypes> = ({
               </span>
             </div>
           )}
-          <span className="font-semibold text-sm text-green-500">
-            {item.price?.value === "byAgreement"
-              ? "₾ " + activeLanguage?.byAgreement
-              : parseFloat(item.price?.value).toFixed(2)}
-            {item.price?.value === "byAgreement" ? "" : "₾"}
-          </span>
+          <div>
+            {item?.price?.newPrice?.length > 0 && (
+              <span className="font-semibold mr-2 text-sm text-green-500">
+                {parseFloat(item.price?.newPrice).toFixed(2)}₾
+              </span>
+            )}
+            <span
+              className={`font-semibold text-sm ${
+                item?.price?.newPrice?.length > 0
+                  ? "text-gray-300 line-through"
+                  : "text-green-500"
+              }`}
+            >
+              {item.price?.value === "byAgreement"
+                ? "₾ " + activeLanguage?.byAgreement
+                : parseFloat(item?.price?.value).toFixed(2)}
+              {item.price?.value === "byAgreement" ? "" : "₾"}
+            </span>
+          </div>
         </div>
       </div>
       {openRejectReasons && (

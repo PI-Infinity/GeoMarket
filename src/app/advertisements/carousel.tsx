@@ -16,7 +16,7 @@ const Carousel = () => {
         <div
           onClick={() => router.push("/support")}
           // onClick={() => router.push(currentAd?.url)}
-          className={`relative overflow-hidden rounded-xl shadow-md bg-gray-50 text-gray-300 flex items-center justify-center mb-2 hover:brightness-90 cursor-pointer`}
+          className={`relative overflow-hidden rounded-xl shadow-md bg-gray-50 text-gray-300 flex items-center justify-center hover:brightness-90 cursor-pointer`}
           style={{
             width: "100%",
             aspectRatio: 3.5,

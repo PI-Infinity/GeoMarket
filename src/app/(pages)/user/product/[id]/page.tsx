@@ -105,6 +105,7 @@ const UserProductsPage: React.FC = () => {
               rating={product?.rating}
               saves={product?.saves}
               user={product?.seller}
+              price={product?.price}
             />
           </div>
           <Info

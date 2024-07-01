@@ -256,12 +256,25 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
               </span>
             </div>
           )}
-          <span className="font-semibold ">
-            {data?.price?.value === "byAgreement"
-              ? "₾ " + activeLanguage?.byAgreement
-              : parseFloat(data?.price?.value).toFixed(2)}
-            {data?.price?.value === "byAgreement" ? "" : "₾"}
-          </span>
+          <div>
+            {data?.price?.newPrice?.length > 0 && (
+              <span className="font-semibold mr-2 text-sm text-green-500">
+                {parseFloat(data.price?.newPrice).toFixed(2)}₾
+              </span>
+            )}
+            <span
+              className={`font-semibold text-sm ${
+                data?.price?.newPrice?.length > 0
+                  ? "text-gray-300 line-through"
+                  : "text-green-500"
+              }`}
+            >
+              {data.price?.value === "byAgreement"
+                ? "₾ " + activeLanguage?.byAgreement
+                : parseFloat(data?.price?.value).toFixed(2)}
+              {data.price?.value === "byAgreement" ? "" : "₾"}
+            </span>
+          </div>
         </h3>
         <p
           style={{

@@ -2,17 +2,18 @@
 import { useApp } from "@/app/context/app";
 import { Checkbox, FormControlLabel, Typography } from "@mui/material";
 import React, { useState } from "react";
-import { MdClose, MdDone } from "react-icons/md";
+import { MdClose, MdDiscount, MdDone } from "react-icons/md";
 import { useProductsContext } from "../context/products";
 import FilterItem from "./filter-item";
 import { Input } from "./input";
+import { AiOutlinePercentage } from "react-icons/ai";
 
 const Filter: React.FC = () => {
   //app context
   const { activeLanguage } = useApp();
 
   // products context
-  const { categories, setPrice, price, byOrder, setByOrder } =
+  const { categories, setPrice, price, byOrder, setByOrder, sales, setSales } =
     useProductsContext();
 
   // price range
@@ -153,6 +154,22 @@ const Filter: React.FC = () => {
                 },
               }}
             />
+          </div>
+
+          <div
+            className={`mt-4 items-center gap-1 inline-block relative py-1 px-3 rounded-full shadow-md bg-gray-50 mt-2 ${
+              sales ? "text-red-500" : "text-gray-400"
+            } cursor-pointer hover:brightness-95`}
+            onClick={() => setSales((prev: any) => !prev)}
+          >
+            <div
+              className="flex items-center gap-1"
+              style={{ fontWeight: 500 }}
+            >
+              <AiOutlinePercentage />
+
+              {activeLanguage?.sales}
+            </div>
           </div>
         </div>
       </ul>

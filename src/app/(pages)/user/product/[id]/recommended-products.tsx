@@ -84,7 +84,17 @@ const RecommendedProducts = () => {
               }}
               className="shadow-xl bg-white rounded-xl overflow-hidden cursor-pointer text-black flex gap-2 w-full laptop:h-1/6 hover:brightness-90 transition-al p-2"
             >
-              <div className="flex items-center gap-2 w-1/4 laptop:w-1/3">
+              <div className="flex items-center gap-2 w-1/4 laptop:w-1/3 relative">
+                {item?.price?.newPrice?.length > 0 && (
+                  <div className="bg-red-500 text-sm absolute right-0 top-2 z-10 text-white py-1 px-3 rounded-bl-full rounded-tl-full">
+                    -
+                    {((parseInt(item?.price.value) -
+                      parseInt(item?.price.newPrice)) /
+                      parseInt(item?.price.value)) *
+                      100}
+                    %
+                  </div>
+                )}
                 <div
                   className={`relative w-full shadow-md aspect-square overflow-hidden bg-gray-300 rounded-xl flex items-center justify-center`}
                 >
@@ -143,12 +153,25 @@ const RecommendedProducts = () => {
                       </div>
                     )}
 
-                    <span className="font-semibold text-sm">
-                      {item.price?.value === "byAgreement"
-                        ? "₾ " + activeLanguage?.byAgreement
-                        : parseFloat(item.price?.value).toFixed(2)}
-                      {item.price?.value === "byAgreement" ? "" : "₾"}
-                    </span>
+                    <div>
+                      {item?.price?.newPrice?.length > 0 && (
+                        <span className="font-semibold mr-2 text-sm text-green-500">
+                          {parseFloat(item.price?.newPrice).toFixed(2)}₾
+                        </span>
+                      )}
+                      <span
+                        className={`font-semibold text-sm ${
+                          item?.price?.newPrice?.length > 0
+                            ? "text-gray-300 line-through"
+                            : "text-green-500"
+                        }`}
+                      >
+                        {item.price?.value === "byAgreement"
+                          ? "₾ " + activeLanguage?.byAgreement
+                          : parseFloat(item?.price?.value).toFixed(2)}
+                        {item.price?.value === "byAgreement" ? "" : "₾"}
+                      </span>
+                    </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="flex items-center gap-1 text-sm">

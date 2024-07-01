@@ -159,7 +159,7 @@ const SellerItem: React.FC<PropTypes> = ({
           <Link
             href={`/user/product/${product?.productId}?category=${product?.category}`}
           >
-            <h4
+            <div
               onClick={() => {
                 setProductState(product);
               }}
@@ -170,16 +170,26 @@ const SellerItem: React.FC<PropTypes> = ({
               } laptop:max-w-56`}
             >
               {product?.title?.ka}
-            </h4>
+            </div>
           </Link>
 
-          <div className={`flex items-center gap-1 text-md`}>
-            <MdStar color="orange" size={20} />
+          <div className={`flex items-center gap-1 text-sm`}>
+            <MdStar color="orange" size={18} />
             {formatNumbers(product?.rating || 0)}
           </div>
         </div>
       </div>
       <div className="relative">
+        {product?.price?.newPrice?.length > 0 && (
+          <div className="bg-red-500 text-sm absolute right-0 top-2 z-10 text-white py-1 px-3 rounded-bl-full rounded-tl-full">
+            -
+            {((parseInt(product.price.value) -
+              parseInt(product.price.newPrice)) /
+              parseInt(product.price.value)) *
+              100}
+            %
+          </div>
+        )}
         <div
           className="w-full flex overflow-x-scroll aspect-square relative"
           style={{
@@ -261,15 +271,31 @@ const SellerItem: React.FC<PropTypes> = ({
                   }}
                 />
               </div>
-              <div
-                style={{ fontWeight: 600 }}
-                className={`whitespace-nowrap overflow-hidden overflow-ellipsis ${
-                  activeGrid === "double"
-                    ? "max-w-36 text-sm"
-                    : "max-w-80 text-md"
-                } laptop:max-w-56`}
-              >
-                {product?.seller?.name}
+              <div className="flex items-center gap-2">
+                <div
+                  style={{ fontWeight: 600, fontSize: "12px" }}
+                  className={`whitespace-nowrap overflow-hidden overflow-ellipsis ${
+                    activeGrid === "double"
+                      ? "max-w-24 text-sm"
+                      : "max-w-80 text-md"
+                  } laptop:max-w-56`}
+                >
+                  {product?.seller?.name}
+                </div>
+
+                <div className={`flex items-center`} style={{ gap: "1px" }}>
+                  <MdStar color="orange" size={14} />
+                  <span
+                    style={{
+                      fontSize: "12px",
+                      gap: "1px",
+                      position: "relative",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {formatNumbers(product?.seller?.rating || 0)}
+                  </span>
+                </div>
               </div>
               {/* {pathname === "/" && (
                 <div className="flex items-center gap-2 ml-auto">
@@ -316,12 +342,25 @@ const SellerItem: React.FC<PropTypes> = ({
                 </span>
               </div>
             )}
-            <span className="font-semibold text-sm">
-              {product.price?.value === "byAgreement"
-                ? "₾ " + activeLanguage?.byAgreement
-                : parseFloat(product.price?.value).toFixed(2)}
-              {product.price?.value === "byAgreement" ? "" : "₾"}
-            </span>
+            <div>
+              {product?.price?.newPrice?.length > 0 && (
+                <span className="font-semibold mr-2 text-sm text-green-500">
+                  {parseFloat(product.price?.newPrice).toFixed(2)}₾
+                </span>
+              )}
+              <span
+                className={`font-semibold text-sm ${
+                  product?.price?.newPrice?.length > 0
+                    ? "text-gray-300 line-through"
+                    : "text-green-500"
+                }`}
+              >
+                {product.price?.value === "byAgreement"
+                  ? "₾ " + activeLanguage?.byAgreement
+                  : parseFloat(product?.price?.value).toFixed(2)}
+                {product.price?.value === "byAgreement" ? "" : "₾"}
+              </span>
+            </div>
           </div>
           <div className="flex w-full items-center">
             <div
@@ -350,6 +389,8 @@ const SellerItem: React.FC<PropTypes> = ({
                 onClick={
                   currentUser && !actions.rating
                     ? () => SetRating()
+                    : currentUser && actions?.rating
+                    ? undefined
                     : () => {
                         if (pathname?.includes("user")) {
                           setDestination({

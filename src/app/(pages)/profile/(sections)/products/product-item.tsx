@@ -1,21 +1,18 @@
 "use client";
+import Image from "@/app/components/image";
 import { useApp } from "@/app/context/app";
 import { useAuth } from "@/app/context/auth";
 import { useProductsContext } from "@/app/context/products";
 import { useProfileContext } from "@/app/context/profile";
-import { FormControlLabel, Switch } from "@mui/material";
-import Image from "@/app/components/image";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
-import { IoMdArrowDropleft, IoMdArrowDropright, IoMdEye } from "react-icons/io";
-import { MdBlock, MdDateRange, MdDelete, MdInfo, MdStar } from "react-icons/md";
-import { RiEjectFill, RiEjectLine } from "react-icons/ri";
-import axios from "axios";
-import nProgress from "nprogress";
-import { FaImages } from "react-icons/fa";
-import { BsCardList } from "react-icons/bs";
 import { formatNumbers } from "@/app/utils/formatNumbers";
+import { FormControlLabel, Switch } from "@mui/material";
+import axios from "axios";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import { BsCardList } from "react-icons/bs";
+import { FaImages } from "react-icons/fa";
+import { IoMdEye } from "react-icons/io";
+import { MdBlock, MdDelete, MdInfo, MdStar } from "react-icons/md";
 
 interface PropTypes {
   item: any;
@@ -28,9 +25,6 @@ const ProductItem: React.FC<PropTypes> = ({
   setConfirmPopup,
   DeleteProduct,
 }) => {
-  // router
-  const router = useRouter();
-
   // auth state
   const { currentUser } = useAuth();
 
@@ -178,6 +172,16 @@ const ProductItem: React.FC<PropTypes> = ({
               />
             </div>
           ))}
+          {product?.price?.newPrice?.length > 0 && (
+            <div className="bg-red-500 text-sm absolute right-0 top-2 z-10 text-white py-1 px-3 rounded-bl-full rounded-tl-full">
+              -
+              {((parseInt(product.price.value) -
+                parseInt(product.price.newPrice)) /
+                parseInt(product.price.value)) *
+                100}
+              %
+            </div>
+          )}
         </Link>
 
         <div>
@@ -217,12 +221,25 @@ const ProductItem: React.FC<PropTypes> = ({
                 </span>
               </div>
             )}
-            <span className="font-semibold text-sm text-green-500">
-              {product.price?.value === "byAgreement"
-                ? "₾ " + activeLanguage?.byAgreement
-                : parseFloat(product.price?.value).toFixed(2)}
-              {product.price?.value === "byAgreement" ? "" : "₾"}
-            </span>
+            <div>
+              {product?.price?.newPrice?.length > 0 && (
+                <span className="font-semibold mr-2 text-sm text-green-500">
+                  {parseFloat(product.price?.newPrice).toFixed(2)}₾
+                </span>
+              )}
+              <span
+                className={`font-semibold text-sm ${
+                  product?.price?.newPrice?.length > 0
+                    ? "text-gray-300 line-through"
+                    : "text-green-500"
+                }`}
+              >
+                {product.price?.value === "byAgreement"
+                  ? "₾ " + activeLanguage?.byAgreement
+                  : parseFloat(product?.price?.value).toFixed(2)}
+                {product.price?.value === "byAgreement" ? "" : "₾"}
+              </span>
+            </div>
           </div>
         </div>
         {product.status === "inReview" ? (

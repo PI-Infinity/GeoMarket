@@ -1,8 +1,7 @@
 import Image from "@/app/components/image";
 import { formatNumbers } from "@/app/utils/formatNumbers";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaHeart } from "react-icons/fa";
-import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
 import { MdStar } from "react-icons/md";
 
 interface propsTypes {
@@ -10,9 +9,16 @@ interface propsTypes {
   rating: number;
   saves: number;
   user: any;
+  price: any;
 }
 
-const Gallery: React.FC<propsTypes> = ({ list, rating, saves, user }) => {
+const Gallery: React.FC<propsTypes> = ({
+  list,
+  rating,
+  saves,
+  user,
+  price,
+}) => {
   // get cover
   const cover = list?.findIndex((i: any) => i.cover);
 
@@ -90,6 +96,15 @@ const Gallery: React.FC<propsTypes> = ({ list, rating, saves, user }) => {
             WebkitOverflowScrolling: "touch", // Enables momentum scrolling on iOS Safari
           }}
         >
+          {price?.newPrice?.length > 0 && (
+            <div className="bg-red-500 text-sm absolute right-0 top-2 z-10 text-white py-1 px-3 rounded-bl-full rounded-tl-full">
+              -
+              {((parseInt(price.value) - parseInt(price.newPrice)) /
+                parseInt(price.value)) *
+                100}
+              %
+            </div>
+          )}
           {reorderedGallery?.map((file: any, index: number) => (
             <div
               key={index}

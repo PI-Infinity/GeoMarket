@@ -93,7 +93,7 @@ export default function Index() {
         ))}
       </div> */}
 
-      <div className="flex-1 flex w-full h-full laptop:hidden">
+      <div className="flex-1 flex w-full h-full laptop:hidden pb-2">
         <Carousel />
       </div>
       {!isMobile && (

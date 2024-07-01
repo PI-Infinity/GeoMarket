@@ -52,6 +52,8 @@ export const ProductsContextWrapper = ({
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [page, setPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(null);
+  const [sales, setSales] = useState(false);
+  const [sort, setSort] = useState("random");
   // const [displayedIds, setDisplayedIds] = useState<any>([]);
 
   useEffect(() => {
@@ -64,6 +66,8 @@ export const ProductsContextWrapper = ({
         price,
         page: 1,
         byOrder,
+        sales,
+        sort,
         // displayedIds: displayedIds?.length > 0 ? displayedIds.join(",") : "",
       });
       setProducts(data.data.products);
@@ -78,7 +82,7 @@ export const ProductsContextWrapper = ({
       setLoadingProducts(false);
     };
     GetProducts();
-  }, [rerenderProducts, category, search, price, byOrder]);
+  }, [rerenderProducts, category, search, price, byOrder, sales, sort]);
 
   const AddProducts = async () => {
     const newPage = page + 1;
@@ -90,6 +94,8 @@ export const ProductsContextWrapper = ({
         price,
         page: newPage,
         byOrder,
+        sales,
+        sort,
         // displayedIds: displayedIds?.length > 0 ? displayedIds.join(",") : "",
       });
 
@@ -239,7 +245,8 @@ export const ProductsContextWrapper = ({
       value={{
         products,
         setProducts,
-
+        sales,
+        setSales,
         rerenderProducts,
         setRerenderProducts,
         category,
@@ -260,6 +267,8 @@ export const ProductsContextWrapper = ({
         totalProducts,
         activeGrid,
         setActiveGrid,
+        sort,
+        setSort,
       }}
     >
       {children}

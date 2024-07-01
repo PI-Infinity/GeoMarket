@@ -4,6 +4,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import ProductItem from "./product-item";
 import { BounceLoader, MoonLoader } from "react-spinners";
+import ConfirmPopup from "@/app/components/confirmPopup";
 
 // Define the Product interface
 interface Product {
@@ -14,7 +15,7 @@ interface Product {
 
 const Page = () => {
   // app context
-  const { apiUrl } = useApp();
+  const { apiUrl, setOpenBackDrop } = useApp();
 
   // filter products by status
   const [status, setStatus] = useState("inReview");
@@ -33,7 +34,8 @@ const Page = () => {
     try {
       setLoadingProducts(true);
       const list = await axios.get(
-        apiUrl + `/api/v1/products?search=${search}&page=1&status=${status}`
+        apiUrl +
+          `/api/v1/products?search=${search}&page=1&status=${status}&sort=last`
       );
       setProducts(list.data.data.products);
       setTotalProducts(list.data.totalProducts);
@@ -51,7 +53,7 @@ const Page = () => {
     const newPage = page + 1;
     try {
       const response = await axios.get(
-        `${apiUrl}/api/v1/products?search=${search}&page=${newPage}&status=${status}`
+        `${apiUrl}/api/v1/products?search=${search}&page=${newPage}&status=${status}&sort=last`
       );
       setTotalProducts(response.data.totalProducts);
 
@@ -162,8 +164,67 @@ const Page = () => {
     }
   };
 
+  /**
+   * Delete Product
+   */
+
+  // confirm popup to delete product
+  const [confirmPopup, setConfirmPopup] = useState({
+    active: false,
+    close: null,
+    agree: null,
+    text: "",
+  });
+
+  // profile context
+  const [alert, setAlert] = useState({
+    active: true,
+    type: "success",
+    text: "deleted successfully",
+  });
+
+  const DeleteProduct = async ({ itemId }: any) => {
+    try {
+      setOpenBackDrop(true);
+      const response = await axios.delete(
+        apiUrl + "/api/v1/products/" + itemId
+      );
+      // if (response.data.status === "success") {
+      setProducts((prev: any) =>
+        prev?.filter((i: any) => i.productId !== itemId)
+      );
+      // }
+      setConfirmPopup({
+        active: false,
+        close: null,
+        agree: null,
+        text: "",
+      });
+      setTimeout(() => {
+        setOpenBackDrop(false);
+        setAlert({
+          active: true,
+          type: "success",
+          text: "deleted successfully",
+        });
+      }, 500);
+    } catch (error: any) {
+      console.log(error);
+      setAlert({
+        active: true,
+        type: "error",
+        text: error.response,
+      });
+    }
+  };
+
+  console.log(confirmPopup);
+
   return (
     <div className="w-full p-2">
+      <div className="z-30 absolute">
+        <ConfirmPopup confirmPopup={confirmPopup} />
+      </div>
       <div className="flex items-center gap-4 my-2 mb-4 overflow-x-auto py-2">
         <div
           className={`p-4 pt-2 pb-2 whitespace-nowrap max-w-64 rounded-xl cursor-pointer hover:brightness-95 shadow-md ${
@@ -217,6 +278,8 @@ const Page = () => {
                     Confirm={Confirm}
                     Reject={Reject}
                     actionLoading={actionLoading}
+                    setConfirmPopup={setConfirmPopup}
+                    DeleteProduct={DeleteProduct}
                   />
                 );
               })
