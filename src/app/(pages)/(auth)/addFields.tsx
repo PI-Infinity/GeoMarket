@@ -53,9 +53,9 @@ export const AddFields = () => {
           phone: {
             number: phone || "",
             code: "",
-            whatsapp: false,
-            viber: false,
-            telegram: false,
+            whatsapp: whatsapp,
+            viber: viber,
+            telegram: telegram,
           },
         }));
       }
