@@ -81,7 +81,7 @@ export const AddFields = () => {
       }}
       className="fixed top-0 z-40 w-full min-h-screen bg-gray-50 flex-col items-center justify-center gap-4 px-8 "
     >
-      <div className="w-full laptop:w-1/3 flex flex-col items-center justify-center gap-2">
+      <div className="w-full laptop:w-1/3 flex flex-col items-center justify-center gap-2 relative bottom-16">
         <h2 className="text-black mb-8">{activeLanguage?.personalInfo}</h2>
         <div className="w-full flex flex-col gap-2">
           <h4 className="text-gray-300 ml-4" style={{ fontWeight: 500 }}>
