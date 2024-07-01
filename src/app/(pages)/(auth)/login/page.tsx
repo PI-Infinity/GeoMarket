@@ -4,16 +4,15 @@ import { Input } from "@/app/components/input";
 import SimpleSnackbar from "@/app/components/snackBar";
 import { useApp } from "@/app/context/app";
 import { useAuth } from "@/app/context/auth";
+import { setCookie } from "@/app/utils/cookies";
+import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ResetPassword from "./resetPassword";
-import nProgress from "nprogress";
-import { useSession, signIn, signOut } from "next-auth/react";
-import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
-import { setCookie } from "@/app/utils/cookies";
+import { AddFields } from "../addFields";
 
 const Login = () => {
   // current user
@@ -164,6 +163,7 @@ const Login = () => {
             admin: response.data.user.admin,
           })
         );
+
         if (destination?.page === "product") {
           router.push("/user/product/" + destination?.productId);
         } else if (destination?.page === "user") {

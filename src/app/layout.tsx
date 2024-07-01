@@ -18,6 +18,7 @@ import Loading from "./components/loading";
 import { Analytics } from "@vercel/analytics/react";
 import getAuthUser from "./hooks/getAuthUser";
 import { AdsContextWrapper } from "./context/advertisments";
+import { AddFields } from "./(pages)/(auth)/addFields";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -76,6 +77,7 @@ export default function RootLayout({ children }: any) {
           <Loading />
           <AdsContextWrapper>
             <AuthContextWrapper>
+              <AddFields />
               <NotificationsContextWrapper>
                 <ChatContextWrapper>
                   <ProductsContextWrapper>

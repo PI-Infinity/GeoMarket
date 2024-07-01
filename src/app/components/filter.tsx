@@ -72,7 +72,7 @@ const Filter: React.FC = () => {
               <Input
                 label="Min"
                 value={minPrice}
-                type="text"
+                type="number"
                 padding="py-2 p-3"
                 onChange={(e: any) => setMinPrice(e.target.value)}
                 disabled={
@@ -83,7 +83,7 @@ const Filter: React.FC = () => {
               <Input
                 label="Max"
                 value={maxPrice}
-                type="text"
+                type="number"
                 padding="py-2 px-3"
                 onChange={(e: any) => setMaxPrice(e.target.value)}
                 disabled={

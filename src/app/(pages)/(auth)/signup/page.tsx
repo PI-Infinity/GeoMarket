@@ -31,6 +31,7 @@ const Register = () => {
   // identify states
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [acceptRules, setAcceptRules] = useState(false);
@@ -72,6 +73,7 @@ const Register = () => {
     if (
       name?.length < 1 ||
       email?.length < 1 ||
+      phone?.length < 1 ||
       password?.length < 1 ||
       confirmPassword?.length < 1 ||
       !acceptRules
@@ -86,6 +88,13 @@ const Register = () => {
       return setAlert({
         active: true,
         text: activeLanguage.incorrectEmail,
+        type: "error",
+      });
+    }
+    if (phone?.length < 9) {
+      return setAlert({
+        active: true,
+        text: activeLanguage.incorrectPhone,
         type: "error",
       });
     }
@@ -157,6 +166,13 @@ const Register = () => {
       const response = await axios.post(apiUrl + "/api/v1/users/signup", {
         name: name,
         email: email,
+        phone: {
+          number: phone,
+          code: "",
+          whatsapp: false,
+          viber: false,
+          telegram: false,
+        },
         password: password,
         confirmPassword: confirmPassword,
         acceptPrivacy: true,
@@ -184,6 +200,7 @@ const Register = () => {
         setRegisterLoading(false);
         setName("");
         setEmail("");
+        setPhone("");
         setPassword("");
         setConfirmPassword("");
         setCode("");
@@ -229,6 +246,25 @@ const Register = () => {
           label={activeLanguage.email + "*"}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          type="text"
+          returnKeyType="next"
+          warning={false}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              const nextField = document.getElementById(
+                "phone"
+              ) as HTMLInputElement;
+              if (nextField) {
+                nextField?.focus();
+              }
+            }
+          }}
+        />
+        <Input
+          id="phone"
+          label={activeLanguage.phone + "*"}
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
           type="text"
           returnKeyType="next"
           warning={false}

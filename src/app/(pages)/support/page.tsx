@@ -95,7 +95,14 @@ export default function Page() {
             background="green"
             color="white"
             loading={loading}
-            onClick={SendEmail}
+            onClick={
+              name?.length < 1 ||
+              email?.length < 8 ||
+              !email?.includes("@") ||
+              text?.length < 1
+                ? () => undefined
+                : SendEmail
+            }
             title={activeLanguage?.send}
             disabled={
               name?.length < 1 ||

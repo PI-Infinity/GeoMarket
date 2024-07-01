@@ -376,6 +376,7 @@ export const en = {
   wrongVerificationCode: "Wrong verification code!",
   pleaseInputFields: "Please input fields!",
   incorrectEmail: "The email isn't correct",
+  incorrectPhone: "Incorret phone number",
   firstNameLengthIncorrect:
     "First Name must include min 2 and max 30 characters",
   lastNameLengthIncorrect: "Last Name must include min 2 and max 30 characters",
@@ -843,6 +844,7 @@ export const ka = {
   wrongVerificationCode: "არასწორი ვერიფიკაციის კოდი!",
   pleaseInputFields: "გთხოვთ შეავსოთ ველები!",
   incorrectEmail: "მითითებული ელ-ფოსტა არასწორია",
+  incorrectPhone: "არასწორი მობილურის ნომერი",
   firstNameLengthIncorrect:
     "სახელი უნდა შედგებოდეს მინიმუმ 2 და მაქსიმუმ 30 სიმბოლოსგან",
   lastNameLengthIncorrect:
