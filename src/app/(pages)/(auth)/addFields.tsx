@@ -68,19 +68,6 @@ export const AddFields = () => {
     }
   };
 
-  useEffect(() => {
-    if (
-      currentUser &&
-      (!currentUser?.phone?.number ||
-        currentUser?.phone?.number?.length < 9 ||
-        currentUser?.name === currentUser?.email)
-    ) {
-      document.body.style.overflowY = "hidden";
-    } else {
-      document.body.style.overflowY = "auto";
-    }
-  }, [currentUser]);
-
   return (
     <div
       style={{
@@ -95,40 +82,49 @@ export const AddFields = () => {
       className="fixed top-0 z-40 w-full min-h-screen bg-gray-50 flex-col items-center justify-center gap-4 px-8 "
     >
       <div className="w-full laptop:w-1/3 flex flex-col items-center justify-center gap-2">
-        <Input
-          label={activeLanguage.firstName + "*"}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          type="text"
-          warning={false}
-          returnKeyType="next"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              const nextField = document.getElementById(
-                "phone"
-              ) as HTMLInputElement;
-              if (nextField) {
-                nextField?.focus();
+        <h2 className="text-black mb-8">{activeLanguage?.personalInfo}</h2>
+        <div className="w-full flex flex-col gap-2">
+          <h4 className="text-gray-300 ml-4" style={{ fontWeight: 500 }}>
+            {activeLanguage?.firstName}
+          </h4>
+          <Input
+            label={activeLanguage.firstName + "*"}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            type="text"
+            warning={false}
+            returnKeyType="next"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                const nextField = document.getElementById(
+                  "phone"
+                ) as HTMLInputElement;
+                if (nextField) {
+                  nextField?.focus();
+                }
               }
-            }
-          }}
-        />
-
-        <Input
-          id="phone"
-          label={activeLanguage.phone + "*"}
-          value={phone?.number}
-          onChange={(e) => setPhone(e.target.value)}
-          type="text"
-          returnKeyType="next"
-          warning={false}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              // login();
-            }
-          }}
-        />
-
+            }}
+          />
+        </div>
+        <div className="w-full flex flex-col gap-2">
+          <h4 className="text-gray-300 ml-4" style={{ fontWeight: 500 }}>
+            {activeLanguage?.phone}
+          </h4>
+          <Input
+            id="phone"
+            label={activeLanguage.phone + "*"}
+            value={phone?.number}
+            onChange={(e) => setPhone(e.target.value)}
+            type="text"
+            returnKeyType="next"
+            warning={false}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                // login();
+              }
+            }}
+          />
+        </div>
         <div className="w-full flex items-center gap-2">
           <div className="flex items-center bg-gray-50 shadow-md rounded-xl p-1 pr-3">
             <Switch
@@ -152,7 +148,7 @@ export const AddFields = () => {
             <FaTelegram size={24} color="black" />
           </div>
         </div>
-        <div className="w-full h-11 mt-4">
+        <div className="w-full h-11 mt-8">
           <Button
             title={activeLanguage?.confirm}
             background="green"

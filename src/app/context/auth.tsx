@@ -118,6 +118,20 @@ export const AuthContextWrapper: React.FC<contextProps> = ({ children }) => {
     }
   }, [rerenderUser]);
 
+  // if add fields is turn on disable scrolling
+  useEffect(() => {
+    if (
+      currentUser &&
+      (!currentUser?.phone?.number ||
+        currentUser?.phone?.number?.length < 9 ||
+        currentUser?.name === currentUser?.email)
+    ) {
+      document.body.style.overflowY = "hidden";
+    } else {
+      document.body.style.overflowY = "auto";
+    }
+  }, [currentUser]);
+
   // destination page after login or register
   interface Destination {
     productId: string | null;
