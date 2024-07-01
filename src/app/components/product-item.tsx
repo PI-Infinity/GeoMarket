@@ -173,7 +173,7 @@ const SellerItem: React.FC<PropTypes> = ({
             </div>
           </Link>
 
-          <div className={`flex items-center gap-1 text-sm`}>
+          <div className={`flex items-center text-sm`} style={{ gap: "1px" }}>
             <MdStar color="orange" size={18} />
             {formatNumbers(product?.rating || 0)}
           </div>
@@ -271,7 +271,7 @@ const SellerItem: React.FC<PropTypes> = ({
                   }}
                 />
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
                 <div
                   style={{ fontWeight: 600, fontSize: "12px" }}
                   className={`whitespace-nowrap overflow-hidden overflow-ellipsis ${
@@ -290,6 +290,7 @@ const SellerItem: React.FC<PropTypes> = ({
                       fontSize: "12px",
                       gap: "1px",
                       position: "relative",
+                      top: ".5px",
                       fontWeight: 500,
                     }}
                   >
@@ -460,7 +461,7 @@ const SellerItem: React.FC<PropTypes> = ({
             </div>
             <Link
               href={`/user/product/${product?.productId}`}
-              className={`flex items-center gap-1 text-md ml-auto text-gray-400 cursor-pointer hover:brightness-90`}
+              className={`flex items-center gap-1 text-sm ml-auto text-gray-400 cursor-pointer hover:brightness-90`}
             >
               <BsCardList size={isMobile ? 16 : 20} />
               {formatNumbers(product?.reviews || 0)}

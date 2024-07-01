@@ -45,7 +45,7 @@ const Search: React.FC<propsTypes> = ({
   return (
     <div className="w-full">
       <div className="w-full h-11 rounded-xl flex items-center overflow-hidden shadow-sm">
-        <div className="min-w-14 flex items-center justify-center bg-gray-300 h-full">
+        <div className="min-w-12 flex items-center justify-center bg-gray-300 h-full">
           <MdSearch size={30} color="white" />
         </div>
         <input

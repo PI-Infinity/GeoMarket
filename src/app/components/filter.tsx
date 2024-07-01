@@ -2,11 +2,20 @@
 import { useApp } from "@/app/context/app";
 import { Checkbox, FormControlLabel, Typography } from "@mui/material";
 import React, { useState } from "react";
-import { MdClose, MdDiscount, MdDone } from "react-icons/md";
+import {
+  MdArrowDropDown,
+  MdArrowDropUp,
+  MdClose,
+  MdDiscount,
+  MdDone,
+  MdFilter,
+} from "react-icons/md";
 import { useProductsContext } from "../context/products";
 import FilterItem from "./filter-item";
 import { Input } from "./input";
 import { AiOutlinePercentage } from "react-icons/ai";
+import { FaFilter } from "react-icons/fa6";
+import { BsFilterRight } from "react-icons/bs";
 
 const Filter: React.FC = () => {
   //app context
@@ -25,6 +34,9 @@ const Filter: React.FC = () => {
     setPrice([minPrice > 0 ? minPrice : 0, maxPrice > 0 ? maxPrice : 100000]);
   };
 
+  // open/hide filter
+  const [openFilter, setOpenFilter] = useState(false);
+
   return (
     <div className="laptop:p-4 flex flex-col laptop:gap-8 w-full laptop:w-80">
       <ul className="flex laptop:flex-col gap-2 overflow-x-auto max-w-screen py-2 laptop:py-0">
@@ -32,8 +44,33 @@ const Filter: React.FC = () => {
           <FilterItem key={index} item={item} />
         ))}
       </ul>
-      <ul className="flex flex-col gap-2 w-full pl-2 laptop:pl-0">
-        <div style={{ boxSizing: "border-box", padding: "4px", width: "100%" }}>
+      <div className="flex flex-col gap-2 w-full pl-2 laptop:pl-0">
+        <div className="text-gray-400 text-sm flex items-center gap-1 mt-1 cursor-pointer hover:brightness-95">
+          <div
+            className="inline-block"
+            onClick={() => setOpenFilter((prev: boolean) => !prev)}
+          >
+            {openFilter ? (
+              <MdArrowDropDown size={20} color="red" />
+            ) : (
+              <MdArrowDropUp size={20} color="red" />
+            )}
+          </div>
+          <span
+            className="text-sm"
+            onClick={() => setOpenFilter((prev: boolean) => !prev)}
+          >
+            {activeLanguage?.filter}
+          </span>
+        </div>
+        <div
+          className={`transition-transform transform duration-300 ease-in-out  ${
+            openFilter
+              ? "scale-100 opacity-100 p-2"
+              : "scale-90 opacity-0 h-0 absolute -z-10"
+          }`}
+          style={{ boxSizing: "border-box", width: "100%" }}
+        >
           <div
             style={{
               display: "flex",
@@ -172,7 +209,7 @@ const Filter: React.FC = () => {
             </div>
           </div>
         </div>
-      </ul>
+      </div>
     </div>
   );
 };

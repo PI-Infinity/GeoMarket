@@ -108,19 +108,19 @@ export default function Index() {
           className={`ml-0 mr-0 laptop:ml-2 laptop:mr-14
           h-full flex flex-col gap-2 items-center`}
         >
-          <div className="w-full laptop:hidden">
-            <Filter />
-          </div>
           <div className="hidden flex-1 laptop:flex items-center gap-2 w-full h-full">
             <Carousel />
           </div>
-          <div className="w-full flex mt-2 laptop:mt-0">
+          <div className="w-full laptop:hidden">
+            <Filter />
+          </div>
+          <div className="w-full flex mt-2 laptop:mt-0 rounded-full">
             <Search search={search} setSearch={setSearch} />
           </div>
           <div
             ref={productsRef}
             className={`flex-1 w-full rounded-md 
-            text-black mt-2 laptop:mt-0`}
+            text-black laptop:mt-0`}
           >
             <ProductList />
           </div>
