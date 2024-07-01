@@ -96,7 +96,7 @@ const Info: React.FC<propsTypes> = ({}) => {
   }, [addresses]);
 
   return (
-    <div className="p-4 flex flex-col laptop:flex-row laptop:gap-8 gap-2 pb-16 laptop:pb-4 w-full bg-white h-full rounded-xl shadow-sm">
+    <div className="p-4 flex flex-col laptop:flex-row laptop:gap-8 gap-2 pb-8 laptop:pb-4 w-full bg-white h-full rounded-xl shadow-sm">
       <div className="flex-1 flex flex-col gap-4 w-full bg-white relative">
         <div className="flex items-center gap-2">
           <Person sx={{ fontSize: 24 }} />
@@ -207,27 +207,6 @@ const Info: React.FC<propsTypes> = ({}) => {
             }}
           />
         </div>
-        {(currentUser?.name !== name ||
-          (currentUser?.phone?.number !== phone && phone?.length > 8) ||
-          currentUser?.about?.ka !== about?.ka ||
-          currentUser?.about?.en !== about?.en ||
-          currentUser?.phone?.whatsapp !== whatsapp ||
-          currentUser?.phone?.viber !== viber ||
-          currentUser?.phone?.telegram !== telegram ||
-          JSON.stringify(addresses) !==
-            JSON.stringify(currentUser?.addresses)) &&
-          currentUser && (
-            <div className="h-10 w-full absolute bottom-0 left-0">
-              <Button
-                title={activeLanguage.save}
-                background="green"
-                color="white"
-                onClick={SaveInfo}
-                //   {...props}
-                loading={loading}
-              />
-            </div>
-          )}
       </div>
       <div className="flex-1 flex flex-col gap-4 w-full h-full">
         <div className="flex flex-col gap-2 w-full">
@@ -342,7 +321,26 @@ const Info: React.FC<propsTypes> = ({}) => {
           {addresses?.length > 0 && <GoogleMap address={address} />}
         </div>
       </div>
-
+      {(currentUser?.name !== name ||
+        (currentUser?.phone?.number !== phone && phone?.length > 8) ||
+        currentUser?.about?.ka !== about?.ka ||
+        currentUser?.about?.en !== about?.en ||
+        currentUser?.phone?.whatsapp !== whatsapp ||
+        currentUser?.phone?.viber !== viber ||
+        currentUser?.phone?.telegram !== telegram ||
+        JSON.stringify(addresses) !== JSON.stringify(currentUser?.addresses)) &&
+        currentUser && (
+          <div className="h-10 w-full left-0 laptop:hidden mt-8">
+            <Button
+              title={activeLanguage.save}
+              background="green"
+              color="white"
+              onClick={SaveInfo}
+              //   {...props}
+              loading={loading}
+            />
+          </div>
+        )}
       <SimpleSnackbar alert={alert} setAlert={setAlert} />
     </div>
   );

@@ -127,6 +127,25 @@ const Input = ({ setMessages }: any) => {
         onChange={(e) => setInput(e.target.value)}
         className="h-full w-full p-2 pl-4 bg-transparent"
         placeholder={activeLanguage?.text + "..."}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            SendMessage({
+              roomId: activeRoom.roomId,
+              messageId: v4(),
+              sender: { id: currentUser?.userId, status: "active" },
+              receiver: {
+                id: activeRoom?.members?.find(
+                  (i: any) => i.id !== currentUser?.userId
+                ).id,
+                status: "active",
+              },
+              text: input,
+              file: file,
+              createdAt: new Date(),
+              status: "unread",
+            });
+          }
+        }}
       />
       <div className="flex items-center gap-4">
         <div className="cursor-pointer hover:brightness-90 mr-4">

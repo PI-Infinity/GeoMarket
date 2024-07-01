@@ -120,7 +120,7 @@ export const AddFields = () => {
             warning={false}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                // login();
+                SaveInfo();
               }
             }}
           />
