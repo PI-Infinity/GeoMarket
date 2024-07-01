@@ -38,30 +38,47 @@ const Filter: React.FC = () => {
   const [openFilter, setOpenFilter] = useState(false);
 
   return (
-    <div className="laptop:p-4 flex flex-col laptop:gap-8 w-full laptop:w-80">
+    <div className="laptop:p-4 flex flex-col laptop:gap-4 w-full laptop:w-80">
       <ul className="flex laptop:flex-col gap-2 overflow-x-auto max-w-screen py-2 laptop:py-0">
         {categories.map((item: any, index: number) => (
           <FilterItem key={index} item={item} />
         ))}
       </ul>
-      <div className="flex flex-col gap-2 w-full pl-2 laptop:pl-0">
-        <div className="text-gray-400 text-sm flex items-center gap-1 mt-1 cursor-pointer hover:brightness-95">
+      <div className="flex flex-col gap-2 w-full pl-2 laptop:pl-0 laptop:mt-2">
+        <div className="text-gray-400 text-sm flex laptop:flex-col items-center laptop:items-start gap-1 laptop:gap-4 mt-1 cursor-pointer">
           <div
-            className="inline-block"
-            onClick={() => setOpenFilter((prev: boolean) => !prev)}
+            className={` items-center gap-1 inline-block relative mt-1 py-1 px-3 rounded-full shadow-sm  ${
+              sales ? "bg-red-500 text-white" : "text-gray-400 bg-white"
+            } cursor-pointer`}
+            onClick={() => setSales((prev: any) => !prev)}
           >
-            {openFilter ? (
-              <MdArrowDropDown size={20} color="red" />
-            ) : (
-              <MdArrowDropUp size={20} color="red" />
-            )}
+            <div
+              className="flex items-center gap-1 text-sm"
+              style={{ fontWeight: 500 }}
+            >
+              <AiOutlinePercentage />
+
+              {activeLanguage?.sales}
+            </div>
           </div>
-          <span
-            className="text-sm"
-            onClick={() => setOpenFilter((prev: boolean) => !prev)}
-          >
-            {activeLanguage?.filter}
-          </span>
+          <div className="flex items-center">
+            <div
+              className="inline-block"
+              onClick={() => setOpenFilter((prev: boolean) => !prev)}
+            >
+              {openFilter ? (
+                <MdArrowDropDown size={20} color="red" />
+              ) : (
+                <MdArrowDropUp size={20} color="red" />
+              )}
+            </div>
+            <span
+              className="text-sm mr-2"
+              onClick={() => setOpenFilter((prev: boolean) => !prev)}
+            >
+              {activeLanguage?.filter}
+            </span>
+          </div>
         </div>
         <div
           className={`transition-transform transform duration-300 ease-in-out  ${
@@ -191,22 +208,6 @@ const Filter: React.FC = () => {
                 },
               }}
             />
-          </div>
-
-          <div
-            className={`mt-4 items-center gap-1 inline-block relative py-1 px-3 rounded-full shadow-md bg-gray-50 mt-2 ${
-              sales ? "text-red-500" : "text-gray-400"
-            } cursor-pointer hover:brightness-95`}
-            onClick={() => setSales((prev: any) => !prev)}
-          >
-            <div
-              className="flex items-center gap-1"
-              style={{ fontWeight: 500 }}
-            >
-              <AiOutlinePercentage />
-
-              {activeLanguage?.sales}
-            </div>
           </div>
         </div>
       </div>
