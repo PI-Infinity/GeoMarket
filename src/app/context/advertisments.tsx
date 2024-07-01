@@ -96,19 +96,19 @@ export const AdsContextWrapper = ({ children }: any) => {
   // delivery
   const deliveries = [
     {
-      ad: "Uni Box",
+      ad: "Delivery 1",
       img: "/favicon-32x32.png",
       link: "",
       description: "ქალაქში - 6 ლარი, რეგიონში - 8.5 ლარი",
     },
     {
-      ad: "Onway",
+      ad: "Delivery 2",
       img: "/favicon-32x32.png",
       link: "",
       description: "ქალაქში - 6 ლარი, რეგიონში - 10 ლარი",
     },
     {
-      ad: "Easyway",
+      ad: "Delivery 3",
       img: "/favicon-32x32.png",
       link: "",
       description: "ქალაქში - 7 ლარი, რეგიონში - 9 ლარი",

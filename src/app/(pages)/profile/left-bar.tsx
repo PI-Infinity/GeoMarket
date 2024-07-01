@@ -111,11 +111,11 @@ const LeftBar = () => {
     <div
       className={`relative laptop:h-[calc(100%-5.5rem)] h-full pb-8 laptop:pb-0 laptop:fixed  w-full laptop:w-80 bg-white rounded-xl shadow-sm flex flex-col items-center text-black`}
     >
-      <div className="w-full px-2">
+      {/* <div className="w-full px-2">
         <div className="hidden laptop:flex w-full bg-gray-100 rounded-full px-1 mt-2">
           <CarouselComponent />
         </div>
-      </div>
+      </div> */}
       <div className="flex gap-1 w-full items-center justify-between p-4">
         {/* <Link
           href="/subscription"

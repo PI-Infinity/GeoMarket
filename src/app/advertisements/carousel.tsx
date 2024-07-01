@@ -15,7 +15,6 @@ const Carousel = () => {
       <>
         <div
           onClick={() => router.push("/support")}
-          // onClick={() => router.push(currentAd?.url)}
           className={`relative overflow-hidden rounded-xl shadow-md bg-gray-50 text-gray-300 flex items-center justify-center hover:brightness-90 cursor-pointer`}
           style={{
             width: "100%",
@@ -25,6 +24,28 @@ const Carousel = () => {
             transition: "ease-in 200ms",
           }}
         >
+          <div
+            className="absolute w-full z-10 h-full flex items-center justify-center"
+            style={{
+              background: "rgba(0,0,0,0.1)",
+              backdropFilter: "blur(3px)",
+              WebkitBackdropFilter: "blur(3px)",
+              textShadow: "1px 1px solid black",
+            }}
+          >
+            <div
+              style={{
+                background: "rgba(0,0,0,0.5)",
+                backdropFilter: "blur(30px)",
+                WebkitBackdropFilter: "blur(30px)",
+                textShadow: "1px 1px solid black",
+                border: "2px solid rgba(255,255,255,0.3)",
+              }}
+              className="py-1 px-4 rounded-full text-center shadow-sm text-sm"
+            >
+              შენი რეკლამის ადგილი!
+            </div>
+          </div>
           <Image
             src={currentAd.img}
             alt={currentAd.ad}
@@ -34,15 +55,15 @@ const Carousel = () => {
             placeholder="blur"
             blurDataURL={currentAd.img} // You might want to use a lower resolution image for the blurDataURL
           />
-          <Link href="/support" className="flex justify-end p-2 w-full h-full">
+          {/* <Link href="/support" className="flex justify-end p-2 w-full h-full">
             <div
               style={{ fontSize: "12px" }}
               className="absolute z-10 bg-white text-red-500 p-1 px-3 shadow-md rounded-full text-sm font-semibold"
             >
               {activeLanguage?.ad}
             </div>
-          </Link>
-          <Link
+          </Link> */}
+          {/* <Link
             onClick={(e) => e.stopPropagation()}
             href="/advertisements?from=ads"
             style={{
@@ -56,7 +77,7 @@ const Carousel = () => {
               size={20}
               className="hover:brightness-90"
             />
-          </Link>
+          </Link> */}
         </div>
       </>
     )
