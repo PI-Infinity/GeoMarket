@@ -85,7 +85,16 @@ export const AddFields = () => {
         <h2 className="text-black mb-8">{activeLanguage?.personalInfo}</h2>
         <div className="w-full flex flex-col gap-2">
           <h4 className="text-gray-300 ml-4" style={{ fontWeight: 500 }}>
-            {activeLanguage?.firstName}
+            {activeLanguage.firstName +
+              " " +
+              activeLanguage?.and +
+              " " +
+              activeLanguage?.lastName +
+              ", " +
+              activeLanguage?.or +
+              " " +
+              activeLanguage?.title +
+              "*"}
           </h4>
           <Input
             label={

@@ -125,7 +125,17 @@ const Info: React.FC<propsTypes> = ({}) => {
             </span>
             <div className="font-normal">
               <Input
-                label={activeLanguage.name}
+                label={
+                  activeLanguage.firstName +
+                  " " +
+                  activeLanguage?.and +
+                  " " +
+                  activeLanguage?.lastName +
+                  ", " +
+                  activeLanguage?.or +
+                  " " +
+                  activeLanguage?.title
+                }
                 value={name || ""}
                 onChange={(e) => setName(e.target.value)}
                 type="text"
