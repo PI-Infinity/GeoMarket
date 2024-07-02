@@ -159,6 +159,9 @@ const EditProduct: React.FC<propsTypes> = () => {
   };
 
   const ProductUpload = async () => {
+    if (product?.price?.value <= product?.price.newPrice) {
+      return alert("ახალი (ფასდაკლებული) ფასი უნდა იყოს ძველ ფასზე ნაკლები");
+    }
     setOpenBackDrop(true);
 
     const formData = new FormData();

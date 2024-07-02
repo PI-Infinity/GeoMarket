@@ -51,6 +51,7 @@ export const Input: React.FC<PropsType> = ({
       }
     }
   };
+
   return (
     <div className="rounded-xl w-full h-full shadow-md flex items-center bg-white">
       <input
@@ -69,6 +70,7 @@ export const Input: React.FC<PropsType> = ({
         onKeyDown={onKeyDown}
         onKeyPress={handleKeyPress}
         disabled={disabled}
+        min={0}
       />
       {password && (
         <InputAdornment position="end" className="pr-2 bg-white">
