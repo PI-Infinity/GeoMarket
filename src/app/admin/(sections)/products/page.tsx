@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import ProductItem from "./product-item";
 import { BounceLoader, MoonLoader } from "react-spinners";
 import ConfirmPopup from "@/app/components/confirmPopup";
+import Search from "@/app/components/search";
 
 // Define the Product interface
 interface Product {
@@ -53,7 +54,7 @@ const Page = () => {
     const newPage = page + 1;
     try {
       const response = await axios.get(
-        `${apiUrl}/api/v1/products?search=${search}&page=${newPage}&status=${status}&sort=last`
+        `${apiUrl}/api/v1/products?search=${search}&page=${newPage}&status=${status}&sort=last&limit=8`
       );
       setTotalProducts(response.data.totalProducts);
 
@@ -184,7 +185,6 @@ const Page = () => {
   });
 
   const DeleteProduct = async ({ itemId }: any) => {
-    console.log(itemId);
     try {
       setOpenBackDrop(true);
       const response = await axios.delete(
@@ -234,7 +234,7 @@ const Page = () => {
         <ConfirmPopup confirmPopup={confirmPopup} />
       </div>
 
-      <div className="flex items-center gap-4 my-2 mb-4 overflow-x-auto py-2">
+      <div className="flex items-center gap-4 mb-2 overflow-x-auto pb-2">
         <div
           className={`p-4 pt-2 pb-2 whitespace-nowrap max-w-64 rounded-xl cursor-pointer hover:brightness-95 shadow-md ${
             status === "inReview" && "bg-green-500"
@@ -267,6 +267,9 @@ const Page = () => {
         >
           in Draft
         </div>
+      </div>
+      <div className="flex-1 w-full mb-2">
+        <Search search={search} setSearch={setSearch} />
       </div>
       <div
         ref={productsRef}

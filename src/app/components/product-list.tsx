@@ -106,7 +106,7 @@ const ProductList: React.FC = () => {
         </div>
         <div className="text-sm flex items-center justify-end gap-1  w-1/3">
           {/* {activeLanguage?.view}: */}
-          <div className="flex items-center gap-2 ml-2">
+          <div className="flex items-center gap-2 ml-2 laptop:hidden">
             <div className="flex items-center gap-0.5">
               <div
                 className="h-4 w-2 rounded-sm"

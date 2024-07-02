@@ -167,6 +167,15 @@ const Page = () => {
               })}
             </div>
           </div>
+          <h3 className="mt-8">Chats:</h3>
+          <div className="text-black mt-2 flex flex-col laptop:flex-row gap-2 laptop:gap-4">
+            <div className="flex items-center gap-1">
+              Total:{" "}
+              <span className="font-semibold text-red-500">
+                {stats?.chatsData?.total}
+              </span>
+            </div>
+          </div>
         </div>
       )}
     </>
