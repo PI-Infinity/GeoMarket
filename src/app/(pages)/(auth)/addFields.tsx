@@ -88,7 +88,16 @@ export const AddFields = () => {
             {activeLanguage?.firstName}
           </h4>
           <Input
-            label={activeLanguage.firstName + "*"}
+            label={
+              activeLanguage.firstName +
+              ", " +
+              activeLanguage?.lastName +
+              " " +
+              activeLanguage?.or +
+              " " +
+              activeLanguage?.title +
+              "*"
+            }
             value={name}
             onChange={(e) => setName(e.target.value)}
             type="text"
