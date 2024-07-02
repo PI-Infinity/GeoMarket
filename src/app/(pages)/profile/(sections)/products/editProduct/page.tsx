@@ -175,7 +175,10 @@ const EditProduct: React.FC<propsTypes> = () => {
       category: product.category.value,
       description: product.description,
       price: product.price,
-      gallery: product.gallery.map(({ file, ...rest }: any) => rest), // Exclude file field
+      gallery: product.gallery.map(({ file, ...rest }: any) => ({
+        ...rest,
+        folder: currentProduct?.gallery[0]?.folder,
+      })),
       seller: {
         userId: product.seller.userId,
         cover: product?.seller?.cover,

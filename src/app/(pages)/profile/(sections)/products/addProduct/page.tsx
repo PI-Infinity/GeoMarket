@@ -68,7 +68,7 @@ const AddProduct: React.FC<propsTypes> = () => {
   }, [currentUser]);
 
   // products context
-  const { GetProducts, setAlert } = useProfileContext();
+  const { GetProducts } = useProfileContext();
 
   // active language input switcher for title
   const [activeLanguageInputTitle, setActiveLanguageInputTitle] =
