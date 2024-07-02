@@ -184,16 +184,19 @@ const Page = () => {
   });
 
   const DeleteProduct = async ({ itemId }: any) => {
+    console.log(itemId);
     try {
       setOpenBackDrop(true);
       const response = await axios.delete(
         apiUrl + "/api/v1/products/" + itemId
       );
-      // if (response.data.status === "success") {
-      setProducts((prev: any) =>
-        prev?.filter((i: any) => i.productId !== itemId)
-      );
-      // }
+
+      if (response.data.status === "success") {
+        console.log(response.data);
+        setProducts((prev: any) =>
+          prev?.filter((i: any) => i.productId !== itemId)
+        );
+      }
       setConfirmPopup({
         active: false,
         close: null,
@@ -218,13 +221,19 @@ const Page = () => {
     }
   };
 
-  console.log(confirmPopup);
-
   return (
-    <div className="w-full p-2">
-      <div className="z-30 absolute">
+    <div className="w-full p-2 relative">
+      <div
+        style={{
+          backdropFilter: "blur(30px)",
+          WebkitBackdropFilter: "blur(30px)",
+          display: confirmPopup?.active ? "flex" : "none",
+        }}
+        className="z-20 absolute w-full h-full"
+      >
         <ConfirmPopup confirmPopup={confirmPopup} />
       </div>
+
       <div className="flex items-center gap-4 my-2 mb-4 overflow-x-auto py-2">
         <div
           className={`p-4 pt-2 pb-2 whitespace-nowrap max-w-64 rounded-xl cursor-pointer hover:brightness-95 shadow-md ${
