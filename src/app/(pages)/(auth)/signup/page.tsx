@@ -223,7 +223,16 @@ const Register = () => {
     <div className="flex flex-1 flex-grow flex-col w-full min-h-full items-center justify-center">
       <div className="flex flex-col h-full w-full laptop:w-1/3 pl-4 pr-4 laptop:pl-0 laptop:pr-4 items-center justify-center gap-4">
         <Input
-          label={activeLanguage.firstName + "*"}
+          label={
+            activeLanguage.firstName +
+            ", " +
+            activeLanguage?.lastName +
+            " " +
+            activeLanguage?.or +
+            " " +
+            activeLanguage?.title +
+            "*"
+          }
           value={name}
           onChange={(e) => setName(e.target.value)}
           type="text"

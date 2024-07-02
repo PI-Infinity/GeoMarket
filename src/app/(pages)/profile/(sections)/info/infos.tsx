@@ -111,7 +111,16 @@ const Info: React.FC<propsTypes> = ({}) => {
             <div className="font-normal">{currentUser?.email}</div>
           </div>
           <div className="flex flex-col gap-1">
-            <span className="text-sm">{activeLanguage.email}: </span>
+            <span className="text-sm">
+              {activeLanguage.firstName +
+                ", " +
+                activeLanguage?.lastName +
+                " " +
+                activeLanguage?.or +
+                " " +
+                activeLanguage?.title}
+              :{" "}
+            </span>
             <div className="font-normal">
               <Input
                 label={activeLanguage.name}
