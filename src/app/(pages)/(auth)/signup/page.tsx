@@ -11,7 +11,12 @@ import { useEffect, useRef, useState } from "react";
 import Verify from "./emailCodeVerify";
 import nProgress from "nprogress";
 import { CheckBox } from "@mui/icons-material";
-import { Checkbox, FormControl, FormControlLabel } from "@mui/material";
+import {
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  Typography,
+} from "@mui/material";
 import { setCookie } from "@/app/utils/cookies";
 import { useChat } from "@/app/context/chat";
 
@@ -221,120 +226,122 @@ const Register = () => {
 
   return (
     <div className="flex flex-1 flex-grow flex-col w-full min-h-full items-center justify-center">
-      <div className="flex flex-col h-full w-full laptop:w-1/3 pl-4 pr-4 laptop:pl-0 laptop:pr-4 items-center justify-center gap-4">
-        <Input
-          label={
-            activeLanguage.firstName +
-            " " +
-            activeLanguage?.and +
-            " " +
-            activeLanguage?.lastName +
-            ", " +
-            activeLanguage?.or +
-            " " +
-            activeLanguage?.title +
-            "*"
-          }
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          type="text"
-          warning={false}
-          returnKeyType="next"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              const nextField = document.getElementById(
-                "email"
-              ) as HTMLInputElement;
-              if (nextField) {
-                nextField?.focus();
-              }
+      <div className="flex flex-col h-full w-full laptop:w-1/3 pl-4 pr-4 laptop:pl-0 laptop:pr-4 items-center justify-center gap-2">
+        <div className="w-full flex flex-col gap-2">
+          <Input
+            label={
+              activeLanguage.firstName +
+              " " +
+              activeLanguage?.and +
+              " " +
+              activeLanguage?.lastName +
+              ", " +
+              activeLanguage?.or +
+              " " +
+              activeLanguage?.title +
+              "*"
             }
-          }}
-        />
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            type="text"
+            warning={false}
+            returnKeyType="next"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                const nextField = document.getElementById(
+                  "email"
+                ) as HTMLInputElement;
+                if (nextField) {
+                  nextField?.focus();
+                }
+              }
+            }}
+          />
 
-        <Input
-          id="email"
-          label={activeLanguage.email + "*"}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          type="text"
-          returnKeyType="next"
-          warning={false}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              const nextField = document.getElementById(
-                "phone"
-              ) as HTMLInputElement;
-              if (nextField) {
-                nextField?.focus();
+          <Input
+            id="email"
+            label={activeLanguage.email + "*"}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            returnKeyType="next"
+            warning={false}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                const nextField = document.getElementById(
+                  "phone"
+                ) as HTMLInputElement;
+                if (nextField) {
+                  nextField?.focus();
+                }
               }
-            }
-          }}
-        />
-        <Input
-          id="phone"
-          label={activeLanguage.phone + "*"}
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          type="text"
-          returnKeyType="next"
-          warning={false}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              const nextField = document.getElementById(
-                "pass"
-              ) as HTMLInputElement;
-              if (nextField) {
-                nextField?.focus();
+            }}
+          />
+          <Input
+            id="phone"
+            label={activeLanguage.phone + "*"}
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            type="text"
+            returnKeyType="next"
+            warning={false}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                const nextField = document.getElementById(
+                  "pass"
+                ) as HTMLInputElement;
+                if (nextField) {
+                  nextField?.focus();
+                }
               }
-            }
-          }}
-        />
-        <Input
-          id="pass"
-          label={activeLanguage.password + "*"}
-          value={password}
-          type={showPassword ? "text" : "password"}
-          onChange={(e) => setPassword(e.target.value)}
-          showPassword={showPassword}
-          handleClickShowPassword={handleClickShowPassword}
-          handleMouseDownPassword={handleMouseDownPassword}
-          returnKeyType="next"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              const nextField = document.getElementById(
-                "confirmPass"
-              ) as HTMLInputElement;
-              if (nextField) {
-                nextField?.focus();
+            }}
+          />
+          <Input
+            id="pass"
+            label={activeLanguage.password + "*"}
+            value={password}
+            type={showPassword ? "text" : "password"}
+            onChange={(e) => setPassword(e.target.value)}
+            showPassword={showPassword}
+            handleClickShowPassword={handleClickShowPassword}
+            handleMouseDownPassword={handleMouseDownPassword}
+            returnKeyType="next"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                const nextField = document.getElementById(
+                  "confirmPass"
+                ) as HTMLInputElement;
+                if (nextField) {
+                  nextField?.focus();
+                }
               }
-            }
-          }}
-          password={true}
-        />
-        <Input
-          ref={ref}
-          id="confirmPass"
-          label={activeLanguage.confirmPassword + "*"}
-          value={confirmPassword}
-          type={showPassword ? "text" : "password"}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          showPassword={showPassword}
-          handleClickShowPassword={handleClickShowPassword}
-          handleMouseDownPassword={handleMouseDownPassword}
-          password={true}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              const nextField = document.getElementById(
-                "btn"
-              ) as HTMLInputElement;
-              if (nextField) {
-                nextField?.focus();
+            }}
+            password={true}
+          />
+          <Input
+            ref={ref}
+            id="confirmPass"
+            label={activeLanguage.confirmPassword + "*"}
+            value={confirmPassword}
+            type={showPassword ? "text" : "password"}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            showPassword={showPassword}
+            handleClickShowPassword={handleClickShowPassword}
+            handleMouseDownPassword={handleMouseDownPassword}
+            password={true}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                const nextField = document.getElementById(
+                  "btn"
+                ) as HTMLInputElement;
+                if (nextField) {
+                  nextField?.focus();
+                }
+                SendEmail();
               }
-              SendEmail();
-            }
-          }}
-        />
+            }}
+          />
+        </div>
         <div className="flex items-center">
           <FormControlLabel
             sx={{ color: "gray" }}
@@ -347,14 +354,18 @@ const Register = () => {
                 sx={{ color: "Black" }}
               />
             }
-            label={activeLanguage.confirmTerms}
+            label={
+              <Typography sx={{ fontSize: "14px", color: "gray" }}>
+                {activeLanguage.confirmTerms}
+              </Typography>
+            }
           />
           <Link
             style={{ color: "gray", whiteSpace: "nowrap" }}
             href="terms"
             className="text-normal relative right-2"
           >
-            <span style={{ textDecoration: "underline" }}>
+            <span style={{ textDecoration: "underline", fontSize: "14px" }}>
               {activeLanguage?.confirmTermsLink}
             </span>
           </Link>

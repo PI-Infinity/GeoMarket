@@ -196,42 +196,45 @@ const Login = () => {
         loading={loading}
       />
       <div className="flex flex-col w-full laptop:w-1/3 h-full items-center justify-center gap-4">
-        <Input
-          label={activeLanguage.email}
-          // label={activeLanguage.email}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          type="text"
-          warning={false}
-          returnKeyType="next"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              const nextField = document.getElementById(
-                "pass"
-              ) as HTMLInputElement;
-              if (nextField) {
-                nextField?.focus();
+        <div className="w-full flex flex-col gap-2">
+          <Input
+            label={activeLanguage.email}
+            // label={activeLanguage.email}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            warning={false}
+            returnKeyType="next"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                const nextField = document.getElementById(
+                  "pass"
+                ) as HTMLInputElement;
+                if (nextField) {
+                  nextField?.focus();
+                }
               }
-            }
-          }}
-        />
-        <Input
-          id="pass"
-          type={showPassword ? "text" : "password"}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          label={activeLanguage.password}
-          showPassword={showPassword}
-          handleClickShowPassword={handleClickShowPassword}
-          handleMouseDownPassword={handleMouseDownPassword}
-          password={true}
-          returnKeyType="done"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              login();
-            }
-          }}
-        />
+            }}
+          />
+          <Input
+            id="pass"
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            label={activeLanguage.password}
+            showPassword={showPassword}
+            handleClickShowPassword={handleClickShowPassword}
+            handleMouseDownPassword={handleMouseDownPassword}
+            password={true}
+            returnKeyType="done"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                login();
+              }
+            }}
+          />
+        </div>
+
         <div
           style={{
             width: "100%",
