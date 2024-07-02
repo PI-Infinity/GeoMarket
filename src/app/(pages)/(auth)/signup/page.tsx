@@ -225,9 +225,11 @@ const Register = () => {
         <Input
           label={
             activeLanguage.firstName +
-            ", " +
-            activeLanguage?.lastName +
             " " +
+            activeLanguage?.and +
+            " " +
+            activeLanguage?.lastName +
+            ", " +
             activeLanguage?.or +
             " " +
             activeLanguage?.title +
