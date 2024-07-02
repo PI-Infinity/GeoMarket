@@ -183,10 +183,12 @@ const SellerItem: React.FC<PropTypes> = ({
         {product?.price?.newPrice?.length > 0 && (
           <div className="bg-red-500 text-sm absolute right-0 top-2 z-10 text-white py-1 px-3 rounded-bl-full rounded-tl-full">
             -
-            {((parseInt(product.price.value) -
-              parseInt(product.price.newPrice)) /
-              parseInt(product.price.value)) *
-              100}
+            {(
+              ((parseInt(product.price.value) -
+                parseInt(product.price.newPrice)) /
+                parseInt(product.price.value)) *
+              100
+            ).toFixed(0)}
             %
           </div>
         )}

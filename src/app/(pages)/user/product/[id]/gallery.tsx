@@ -99,9 +99,11 @@ const Gallery: React.FC<propsTypes> = ({
           {price?.newPrice?.length > 0 && (
             <div className="bg-red-500 text-sm absolute right-0 top-2 z-10 text-white py-1 px-3 rounded-bl-full rounded-tl-full">
               -
-              {((parseInt(price.value) - parseInt(price.newPrice)) /
-                parseInt(price.value)) *
-                100}
+              {(
+                ((parseInt(price.value) - parseInt(price.newPrice)) /
+                  parseInt(price.value)) *
+                100
+              ).toFixed()}
               %
             </div>
           )}
