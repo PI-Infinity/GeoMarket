@@ -352,9 +352,10 @@ const SellerItem: React.FC<PropTypes> = ({
                 </span>
               )}
               <span
-                className={`font-semibold text-sm ${
+                style={{ fontWeight: 500 }}
+                className={`font-normal text-sm ${
                   product?.price?.newPrice?.length > 0
-                    ? "text-gray-300 line-through"
+                    ? "text-gray-500 line-through"
                     : "text-green-500"
                 }`}
               >

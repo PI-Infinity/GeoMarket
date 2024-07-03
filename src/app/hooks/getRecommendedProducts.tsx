@@ -8,7 +8,7 @@ const fetchRecommendedProducts = async ({
   try {
     const response = await axios.get(
       apiUrl +
-        `/api/v1/products?search=&category=${searchParams}&page=1&limit=6&recommended=true&productId=${productId}&status=public`
+        `/api/v1/products?search=&category=${searchParams}&page=1&limit=6&productId=${productId}&status=public`
     );
     return response.data;
   } catch (error: any) {

@@ -35,8 +35,8 @@ const ProductList: React.FC = () => {
         </div>
         <div className="w-1/3 flex justify-center items-center text-gray-400">
           <LiaSortSolid
-            size={16}
-            color={sort !== "random" ? "red" : "inherit"}
+            size={18}
+            color="red"
             className="cursor-pointer hover:brightness-95"
             onClick={() => setOpenSortList((prev: any) => !prev)}
           />
@@ -46,7 +46,7 @@ const ProductList: React.FC = () => {
               backdropFilter: "blur(30px)",
               WebkitBackdropFilter: "blur(30px)",
             }}
-            className={`absolute top-8 z-10 flex flex-col items-center gap-1 rounded-xl shadow-md p-2 w-40 transition-transform transform duration-200 ease-in-out  ${
+            className={`absolute top-8 z-20 flex flex-col items-center gap-1 rounded-xl shadow-md p-2 w-40 transition-transform transform duration-200 ease-in-out  ${
               openSortList
                 ? "scale-100 opacity-100 p-2"
                 : "scale-50 opacity-0 h-0 absolute -z-10"
