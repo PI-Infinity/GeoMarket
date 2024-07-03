@@ -157,14 +157,18 @@ const RecommendedProducts = () => {
 
                     <div>
                       {item?.price?.newPrice?.length > 0 && (
-                        <span className="font-semibold mr-2 text-sm text-green-500">
+                        <span
+                          style={{ fontWeight: 500 }}
+                          className="mr-2 text-sm text-green-500"
+                        >
                           {parseFloat(item.price?.newPrice).toFixed(2)}₾
                         </span>
                       )}
                       <span
-                        className={`font-semibold text-sm ${
+                        style={{ fontWeight: 600 }}
+                        className={`text-sm ${
                           item?.price?.newPrice?.length > 0
-                            ? "text-gray-300 line-through"
+                            ? "text-gray-500 line-through"
                             : "text-green-500"
                         }`}
                       >

@@ -263,10 +263,10 @@ const Info: React.FC<propsTypes> = ({ data, setData }) => {
               </span>
             )}
             <span
-              style={{ fontWeight: "500" }}
+              style={{ fontWeight: "600" }}
               className={`text-sm ${
                 data?.price?.newPrice?.length > 0
-                  ? "text-gray-500 line-through"
+                  ? "text-gray-400 line-through"
                   : "text-green-500"
               }`}
             >
