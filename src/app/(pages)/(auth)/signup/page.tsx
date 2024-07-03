@@ -229,7 +229,7 @@ const Register = () => {
       <div className="flex flex-col h-full w-full laptop:w-1/3 pl-4 pr-4 laptop:pl-0 laptop:pr-4 items-center justify-center gap-2">
         <div className="w-full flex flex-col gap-2">
           <div className="flex w-full items-center gap-2">
-            <Input
+            {/* <Input
               label={activeLanguage.firstName + "*"}
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -264,7 +264,7 @@ const Register = () => {
                   }
                 }
               }}
-            />
+            /> */}
           </div>
 
           <Input
