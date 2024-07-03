@@ -124,17 +124,12 @@ const Page = () => {
       const response = await axios.patch(
         apiUrl + "/api/v1/products/" + productId + "/status",
         {
-          status: "draft",
+          status: "public",
         }
       );
       if (response.data.status === "success") {
-        setProducts((prev: any) =>
-          prev.filter((i: any) => i.productId !== productId)
-        );
         setActionLoading({ active: false, type: "", item: productId });
-        setTimeout(() => {
-          setRerender((prev: any) => !prev);
-        }, 1000);
+        setRerender((prev: any) => !prev);
       }
     } catch (error: any) {
       console.log(error);
