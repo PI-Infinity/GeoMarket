@@ -3,8 +3,10 @@ import Button from "@/app/components/button";
 import { Input } from "@/app/components/input";
 import { useApp } from "@/app/context/app";
 import { useAuth } from "@/app/context/auth";
+import { removeCookie } from "@/app/utils/cookies";
 import { Switch } from "@mui/material";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FaTelegram, FaViber, FaWhatsapp } from "react-icons/fa6";
 
@@ -16,7 +18,8 @@ export const AddFields = () => {
   const [viber, setViber] = useState(false);
   const [telegram, setTelegram] = useState(false);
 
-  const { currentUser, setCurrentUser } = useAuth();
+  const { currentUser, setCurrentUser, setOpenBackDrop, setDestination } =
+    useAuth();
 
   const { apiUrl } = useApp();
 
@@ -65,6 +68,34 @@ export const AddFields = () => {
     } catch (error: any) {
       setLoading(false);
       console.log(error.response.data.message);
+    }
+  };
+
+  /**
+   * Logout function
+   */
+  const router = useRouter();
+  const Logout = async () => {
+    try {
+      setOpenBackDrop(true);
+
+      removeCookie("GeoMarket:currentUser");
+
+      setCurrentUser(null);
+      // googleLogout();
+      router.push("/login");
+
+      setDestination({
+        productId: null,
+        userId: null,
+        page: null,
+      });
+      setTimeout(() => {
+        setOpenBackDrop(false);
+      }, 700);
+    } catch (error) {
+      console.error("Logout error:", error);
+      // Handle any errors here, such as updating UI to show an error message
     }
   };
 
@@ -180,6 +211,15 @@ export const AddFields = () => {
                 ? () => undefined
                 : () => SaveInfo()
             }
+          />
+        </div>
+        <div className="w-full h-11 mt-8">
+          <Button
+            title={activeLanguage?.logout}
+            background="red"
+            color="white"
+            disabled={phone?.length < 9 || name?.length < 1 ? true : false}
+            onClick={Logout}
           />
         </div>
       </div>
