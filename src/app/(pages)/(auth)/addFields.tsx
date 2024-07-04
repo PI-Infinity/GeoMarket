@@ -18,10 +18,9 @@ export const AddFields = () => {
   const [viber, setViber] = useState(false);
   const [telegram, setTelegram] = useState(false);
 
-  const { currentUser, setCurrentUser, setOpenBackDrop, setDestination } =
-    useAuth();
+  const { currentUser, setCurrentUser, setDestination } = useAuth();
 
-  const { apiUrl } = useApp();
+  const { apiUrl, setOpenBackDrop } = useApp();
 
   useEffect(() => {
     if (currentUser) {
@@ -74,6 +73,7 @@ export const AddFields = () => {
   /**
    * Logout function
    */
+  console.log(phone);
   const router = useRouter();
   const Logout = async () => {
     try {
@@ -106,7 +106,8 @@ export const AddFields = () => {
           currentUser &&
           (!currentUser?.phone?.number ||
             currentUser?.phone?.number?.length < 9 ||
-            currentUser?.name === currentUser?.email)
+            currentUser?.name === currentUser?.email ||
+            currentUser?.name?.length < 1)
             ? "flex"
             : "none",
       }}
@@ -164,7 +165,7 @@ export const AddFields = () => {
           <Input
             id="phone"
             label={activeLanguage.phone + "*"}
-            value={phone?.number}
+            value={phone}
             onChange={(e) => setPhone(e.target.value)}
             type="text"
             returnKeyType="next"
