@@ -209,10 +209,6 @@ export const ProductsContextWrapper = ({
       label: activeLanguage?.jewellery,
     },
     {
-      value: "accessories",
-      label: activeLanguage?.jewellery,
-    },
-    {
       value: "fashion",
       label: activeLanguage?.fashion,
     },
