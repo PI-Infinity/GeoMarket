@@ -218,7 +218,6 @@ export const AddFields = () => {
             title={activeLanguage?.logout}
             background="red"
             color="white"
-            disabled={phone?.length < 9 || name?.length < 1 ? true : false}
             onClick={Logout}
           />
         </div>
