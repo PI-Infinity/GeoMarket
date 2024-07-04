@@ -73,7 +73,6 @@ export const AddFields = () => {
   /**
    * Logout function
    */
-  console.log(phone);
   const router = useRouter();
   const Logout = async () => {
     try {
