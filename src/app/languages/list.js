@@ -468,6 +468,9 @@ export const en = {
   copyrightDescription: "The product must have the correct copyright.",
   productUploadingRules: "Product uploading rules",
   seeMore: "See More",
+  furniture: "Furniture",
+  foodAndBeverage: "Food & Beverage",
+  fashion: "Fashion",
 };
 
 export const ka = {
@@ -941,4 +944,7 @@ export const ka = {
     "პროდუქტის გამოქვეყნება არ უნდა აღვევდეს საავტორო უფლებებს.",
   productUploadingRules: "პროდუქტის ატვირთის წესები",
   seeMore: "მეტის გაგება",
+  furniture: "ავეჯი",
+  foodAndBeverage: "საკვები & სასმელები",
+  fashion: "მოდა",
 };

@@ -38,7 +38,10 @@ const Filter: React.FC = () => {
   const [openFilter, setOpenFilter] = useState(false);
 
   return (
-    <div className="laptop:p-4 flex flex-col laptop:gap-4 w-full laptop:w-80">
+    <div
+      style={{ maxHeight: "70vh" }}
+      className="laptop:p-4 flex flex-col laptop:gap-4 w-full laptop:w-80 laptop:overflow-y-auto"
+    >
       <ul className="flex laptop:flex-col gap-2 overflow-x-auto max-w-screen py-2 laptop:py-0">
         {categories.map((item: any, index: number) => (
           <FilterItem key={index} item={item} />

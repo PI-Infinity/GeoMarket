@@ -197,12 +197,28 @@ export const ProductsContextWrapper = ({
       label: activeLanguage?.paintings,
     },
     {
+      value: "food & drinks",
+      label: activeLanguage?.foodAndBeverage,
+    },
+    {
       value: "accessories",
       label: activeLanguage?.accessories,
     },
     {
       value: "jewellery",
       label: activeLanguage?.jewellery,
+    },
+    {
+      value: "accessories",
+      label: activeLanguage?.jewellery,
+    },
+    {
+      value: "fashion",
+      label: activeLanguage?.fashion,
+    },
+    {
+      value: "furniture",
+      label: activeLanguage?.furniture,
     },
 
     // {
