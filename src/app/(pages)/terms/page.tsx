@@ -7,11 +7,10 @@ const Terms = () => {
   return (
     <div className="text-black flex flex-col gap-2 p-2">
       <h4 className="font-semibold">1. ჩვენს შესახებ</h4>
-      <span>ი/მ: ირაკლი ჯაბუა</span>
-      <span>საიდენტიფიკაციო ნომერი: 19001054926</span>
-      <span>მისამართი: ქ. ზუგდიდი, ც. დადიანის 3, ბინა 60</span>
-      <span>ელ ფოსტა: geomarketdevelopment@mgil.com</span>
-      <span>ტელეფონის ნომერი: +995 598 16 89 89</span>
+      <div className="flex flex-col mt-4">
+        <span>დომენი: www.geomarket.shop</span>
+        <span>ელ ფოსტა: geomarketdevelopment@gmail.com</span>
+      </div>
       <p className="mt-4">
         ჩვენი პლატფორმა მომხმარებლებსა და გამყიდველებს აძლევს შესაძლებლობას
         შესთავაზონ, გაყიდონ და შეიძინონ სხვადასხვა სახის პროდუქცია საქართველოს
