@@ -946,5 +946,5 @@ export const ka = {
   seeMore: "მეტის გაგება",
   furniture: "ავეჯი",
   foodAndBeverage: "საკვები & სასმელები",
-  clothesAndShoes: "ფეხსაცმელი & ტანსაცმელი",
+  clothesAndShoes: "ტანსაცმელი & ფეხსაცმელი",
 };
