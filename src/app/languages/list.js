@@ -470,7 +470,7 @@ export const en = {
   seeMore: "See More",
   furniture: "Furniture",
   foodAndBeverage: "Food & Beverage",
-  fashion: "Fashion",
+  clothesAndShoes: "Clothes & Shoes",
 };
 
 export const ka = {
@@ -946,5 +946,5 @@ export const ka = {
   seeMore: "მეტის გაგება",
   furniture: "ავეჯი",
   foodAndBeverage: "საკვები & სასმელები",
-  fashion: "მოდა",
+  clothesAndShoes: "ფეხსაცმელი & ტანსაცმელი",
 };
