@@ -19,7 +19,7 @@ import { Analytics } from "@vercel/analytics/react";
 import getAuthUser from "./hooks/getAuthUser";
 import { AdsContextWrapper } from "./context/advertisments";
 import { AddFields } from "./(pages)/(auth)/addFields";
-import GoogleAnalytics from "./utils/googleAnalytics";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -76,9 +76,7 @@ export default function RootLayout({ children }: any) {
       <body className={`${inter.className} bg-gray-100`}>
         <AppContextWrapper>
           <Loading />
-          <GoogleAnalytics
-            trackingId={process.env.GOOGLE_ANALYTICS_TRACKINGID}
-          />
+          <GoogleAnalytics gaId="G-RMKWTM0RLX" />
           <AdsContextWrapper>
             <AuthContextWrapper>
               <AddFields />
