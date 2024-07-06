@@ -1,7 +1,6 @@
 import { AppContextWrapper } from "@/app/context/app";
 import { AuthContextWrapper } from "@/app/context/auth";
 import { Inter } from "next/font/google";
-import Head from "next/head";
 import SimpleBackdrop from "./components/backdrop";
 import Footer from "./components/footer";
 import Header from "./components/header";
@@ -16,7 +15,6 @@ import "./globals.css";
 import { Metadata } from "next";
 import Loading from "./components/loading";
 import { Analytics } from "@vercel/analytics/react";
-import getAuthUser from "./hooks/getAuthUser";
 import { AdsContextWrapper } from "./context/advertisments";
 import { AddFields } from "./(pages)/(auth)/addFields";
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -28,51 +26,45 @@ export const getMetadata = (title: string): Metadata => ({
   description: "უნიკალური ქართული პროდუქცია",
 });
 
+export const metadata: Metadata = {
+  title: "Geo Market - ქართული ბაზარი",
+  description: "უნიკალური ქართული პროდუქცია",
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+  manifest: "/manifest.json",
+  themeColor: "#ff0000",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+  },
+  openGraph: {
+    title: "Geo Market - ქართული ბაზარი",
+    description: "უნიკალური ქართული პროდუქცია",
+    url: "https://geomarket.shop",
+    type: "website",
+    siteName: "Geo Market",
+    images: [
+      {
+        url: "/banner.webp",
+        width: 800,
+        height: 600,
+        alt: "Geo Market",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Geo Market - ქართული ბაზარი",
+    description: "უნიკალური ქართული პროდუქცია",
+    images: ["/banner.webp"],
+  },
+};
+
 export default function RootLayout({ children }: any) {
   return (
     <html lang="en">
-      <Head>
-        <link rel="icon" href="/favicon.ico" />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#ff0000" />
-        <meta name="msapplication-navbutton-color" content="#ff0000" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta
-          name="apple-mobile-web-app-status-bar-style"
-          content="black-translucent"
-        />
-        <meta name="apple-mobile-web-app-status-bar-color" content="#ff0000" />
-        {/* Open Graph Meta Tags */}
-        <meta property="og:title" content="Geo Market - ქართული ბაზარი" />
-        <meta property="og:description" content="უნიკალური ქართული პროდუქცია" />
-        <meta property="og:image" content="/banner.webp" />
-        <meta property="og:url" content="https://geomarket.shop" />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Geo Market" />
-
-        {/* Twitter Card Meta Tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Geo Market - ქართული ბაზარი" />
-        <meta
-          name="twitter:description"
-          content="უნიკალური ქართული პროდუქცია"
-        />
-        <meta name="twitter:image" content="/banner.webp" />
-        <meta name="twitter:url" content="https://geomarket.shop" />
-      </Head>
       <body className={`${inter.className} bg-gray-100`}>
         <AppContextWrapper>
           <Loading />
