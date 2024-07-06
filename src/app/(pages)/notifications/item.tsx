@@ -153,7 +153,7 @@ const Item = (item: any, index: any) => {
             {GetTimesAgo(notification?.createdAt)}
           </span>
         </div>
-        <div className="flex items-center gap-2 w-full">
+        <div className="flex items-center gap-2 w-5/6 laptop:w-full">
           <div className="text-sm">
             {notification?.type === "save" ? (
               "შეინახა თქვენი პროდუქტი"

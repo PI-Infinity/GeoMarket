@@ -67,6 +67,7 @@ const Verify: React.FC<PropsType> = ({
           type="text"
           value={codeInput}
           onChange={(e) => setCodeInput(e.target.value)}
+          returnKeyType="done"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               code === codeInput
@@ -100,7 +101,7 @@ const Verify: React.FC<PropsType> = ({
         <div
           onClick={SendEmail}
           style={{ whiteSpace: "nowrap" }}
-          className="hover:brightness-105 w-1/2 laptop:w-2/5 text-black flex items-center justify-center gap-2 font-semibold p-1 pl-4 pr-4 rounded-full bg-gray-200 cursor-pointer"
+          className="hover:brightness-105 w-2/3 laptop:w-2/5 text-black flex items-center justify-center gap-2 font-semibold p-1 pl-4 pr-4 rounded-full bg-gray-200 cursor-pointer"
         >
           {activeLanguage.resend}{" "}
           <div>

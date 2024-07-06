@@ -1,6 +1,7 @@
 import axios from "axios";
+import { removeCookie } from "../utils/cookies";
 
-const getAuthUser = async ({ apiUrl, userStorage }: any) => {
+const getAuthUser = async ({ apiUrl, userStorage, setCurrentUser }: any) => {
   try {
     if (userStorage) {
       const response = await axios.get(
@@ -9,8 +10,11 @@ const getAuthUser = async ({ apiUrl, userStorage }: any) => {
       return response.data;
     }
   } catch (error: any) {
-    console.error("Error get auth user:", error);
-    return [];
+    if (error?.response?.data?.message === "User not found with this id") {
+      console.log(error?.response?.data?.message);
+      removeCookie("GeoMarket:currentUser");
+      setCurrentUser(null);
+    }
   }
 };
 

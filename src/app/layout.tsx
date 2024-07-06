@@ -16,7 +16,6 @@ import "./globals.css";
 import { Metadata } from "next";
 import Loading from "./components/loading";
 import { Analytics } from "@vercel/analytics/react";
-import getAuthUser from "./hooks/getAuthUser";
 import { AdsContextWrapper } from "./context/advertisments";
 import { AddFields } from "./(pages)/(auth)/addFields";
 import { GoogleAnalytics } from "@next/third-parties/google";

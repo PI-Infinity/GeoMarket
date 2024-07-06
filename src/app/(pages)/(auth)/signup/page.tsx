@@ -308,7 +308,7 @@ const Register = () => {
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 const nextField = document.getElementById(
-                  "phone"
+                  "phoneNumber"
                 ) as HTMLInputElement;
                 if (nextField) {
                   nextField?.focus();
@@ -317,7 +317,7 @@ const Register = () => {
             }}
           />
           <Input
-            id="phone"
+            id="phoneNumber"
             label={activeLanguage.phone + "*"}
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
@@ -370,13 +370,7 @@ const Register = () => {
             password={true}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                const nextField = document.getElementById(
-                  "btn"
-                ) as HTMLInputElement;
-                if (nextField) {
-                  nextField?.focus();
-                }
-                SendEmail();
+                (e.target as HTMLInputElement).blur();
               }
             }}
           />

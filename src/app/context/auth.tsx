@@ -1,5 +1,4 @@
 "use client";
-import axios from "axios";
 import React, {
   ReactNode,
   createContext,
@@ -9,10 +8,9 @@ import React, {
   useState,
 } from "react";
 import { io } from "socket.io-client";
-import { useApp } from "./app";
 import getAuthUser from "../hooks/getAuthUser";
 import { getCookie, removeCookie, setCookie } from "../utils/cookies";
-import { useSearchParams } from "next/navigation";
+import { useApp } from "./app";
 
 // Create an authenticated user context state
 const Auth = createContext<any>(null);
@@ -58,7 +56,11 @@ export const AuthContextWrapper: React.FC<contextProps> = ({ children }) => {
   // Function to get the authenticated user
   const GetUser = async (userStorage: any) => {
     try {
-      const response = await getAuthUser({ apiUrl, userStorage });
+      const response = await getAuthUser({
+        apiUrl,
+        userStorage,
+        setCurrentUser,
+      });
       if (response.data.user) {
         setCurrentUser(response.data.user);
         setCookie(
@@ -73,10 +75,7 @@ export const AuthContextWrapper: React.FC<contextProps> = ({ children }) => {
         setCurrentUser(null);
       }
     } catch (error: any) {
-      if (error?.response?.data?.message === "User not found with this id") {
-        removeCookie("GeoMarket:currentUser");
-        setCurrentUser(null);
-      }
+      console.log(error);
     } finally {
       setLoading(false); // Set loading to false once the user is fetched
     }

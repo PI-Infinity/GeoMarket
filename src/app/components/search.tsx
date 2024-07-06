@@ -60,6 +60,15 @@ const Search: React.FC<propsTypes> = ({
               : "Search..."
           }
           className="no-outline h-full w-full p-4 text-black"
+          enterKeyHint="done"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              setSearch(search);
+              setSuggesions([]);
+              setHide(false);
+              (e.target as HTMLInputElement).blur();
+            }
+          }}
         />
         {search?.length > 0 && (
           <div
