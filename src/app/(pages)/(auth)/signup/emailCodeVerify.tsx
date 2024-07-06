@@ -53,7 +53,7 @@ const Verify: React.FC<PropsType> = ({
       />
       <div
         onClick={(e: any) => e.stopPropagation()}
-        className={`w-1/3 flex flex-col gap-4 items-center transition-transform relative scale-${
+        className={`w-full px-8 laptop:w-1/3 flex flex-col gap-4 items-center transition-transform relative scale-${
           active ? "1" : "0"
         } transition-transform`}
       >
@@ -100,7 +100,7 @@ const Verify: React.FC<PropsType> = ({
         <div
           onClick={SendEmail}
           style={{ whiteSpace: "nowrap" }}
-          className="hover:brightness-105 w-2/5 text-black flex items-center justify-center gap-2 font-semibold p-1 pl-4 pr-4 rounded-full bg-gray-200 cursor-pointer"
+          className="hover:brightness-105 w-1/2 laptop:w-2/5 text-black flex items-center justify-center gap-2 font-semibold p-1 pl-4 pr-4 rounded-full bg-gray-200 cursor-pointer"
         >
           {activeLanguage.resend}{" "}
           <div>
