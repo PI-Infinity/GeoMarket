@@ -197,7 +197,7 @@ export const ProductsContextWrapper = ({
       label: activeLanguage?.paintings,
     },
     {
-      value: "food & drinks",
+      value: "foodAndbeverage",
       label: activeLanguage?.foodAndBeverage,
     },
     {
