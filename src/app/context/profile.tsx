@@ -59,7 +59,6 @@ export const ProfileContextWrapper: React.FC<contextProps> = ({ children }) => {
         page,
         limit: 8,
       });
-      console.log(list.data.products);
       setProducts(list.data.products);
       setTotalProducts(list.totalProducts);
       setPage(1);
