@@ -7,7 +7,7 @@ const getProduct = async ({ apiUrl, productId, requestBy }: any) => {
     );
     return response.data;
   } catch (error: any) {
-    console.error("Error fetching products:", error);
+    console.error("Error fetching product:", error);
     return [];
   }
 };

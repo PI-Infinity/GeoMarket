@@ -60,8 +60,7 @@ export const ChatContextWrapper: React.FC<contextProps> = ({ children }) => {
       }
     } catch (error: any) {
       setLoadingChats(false);
-      console.log("chats getting error");
-      console.log(error.response.data.message);
+      console.log(error);
     }
   };
 

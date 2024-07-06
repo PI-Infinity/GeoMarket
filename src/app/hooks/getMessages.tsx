@@ -15,7 +15,7 @@ const getMessages = async ({ apiUrl, activeRoom, page, currentUser }: any) => {
     );
     return response.data;
   } catch (error: any) {
-    console.error("Error fetching products:", error);
+    console.error("Error fetching messages:", error);
     return [];
   }
 };

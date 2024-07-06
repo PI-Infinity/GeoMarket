@@ -7,7 +7,7 @@ const getReviews = async ({ apiUrl, productId, newPage }: any) => {
     );
     return response.data;
   } catch (error: any) {
-    console.error("Error fetching products:", error);
+    console.error("Error fetching reviews:", error);
     return [];
   }
 };

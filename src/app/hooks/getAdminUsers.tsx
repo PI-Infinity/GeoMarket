@@ -9,7 +9,7 @@ const getAdminUsers = async ({ apiUrl, search, page, limit, sort }: any) => {
 
     return response.data;
   } catch (error: any) {
-    console.error("Error fetching products:", error);
+    console.error("Error get admin users:", error);
     return [];
   }
 };

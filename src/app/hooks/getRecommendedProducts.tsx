@@ -12,7 +12,7 @@ const fetchRecommendedProducts = async ({
     );
     return response.data;
   } catch (error: any) {
-    console.error("Error fetching products:", error);
+    console.error("Error fetching recommended products:", error);
     return [];
   }
 };

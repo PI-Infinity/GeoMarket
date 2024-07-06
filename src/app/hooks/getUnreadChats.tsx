@@ -7,7 +7,7 @@ const getUnreadChats = async ({ apiUrl, currentUser }: any) => {
     );
     return response.data;
   } catch (error: any) {
-    console.error("Error fetching products:", error);
+    console.error("Error fetching unread chats:", error);
     return [];
   }
 };

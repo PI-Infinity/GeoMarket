@@ -12,8 +12,7 @@ const getChats = async ({ apiUrl, currentUser, newPage }: any) => {
     );
     return response.data;
   } catch (error: any) {
-    console.error("Error fetching products:", error);
-    return [];
+    console.log("Error getting chats:", error);
   }
 };
 

@@ -7,7 +7,7 @@ const getFavouriteProducts = async ({ apiUrl, currentUser, page }: any) => {
     );
     return response.data;
   } catch (error: any) {
-    console.error("Error fetching products:", error);
+    console.error("Error fetching favourite products:", error);
     return [];
   }
 };
