@@ -3,11 +3,11 @@ import { useProductsContext } from "../context/products";
 
 interface propsTypes {
   item: any;
+  category: any;
+  setCategory: any;
 }
 
-const FilterItem: React.FC<propsTypes> = ({ item }) => {
-  // products context
-  const { category, setCategory } = useProductsContext();
+const FilterItem: React.FC<propsTypes> = ({ item, category, setCategory }) => {
   return (
     <div
       onClick={() => setCategory(item.value)}

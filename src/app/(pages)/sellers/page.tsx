@@ -5,10 +5,16 @@ import getUsers from "@/app/hooks/getUsers";
 import { useEffect, useRef, useState } from "react";
 import SellersList from "./sellers-list";
 import Carousel from "@/app/advertisements/carousel";
+import FilterItem from "@/app/components/filter-item";
+import { useProductsContext } from "@/app/context/products";
+import "../../globals.css";
 
 export default function Sellers() {
   // app context
-  const { loading, isMobile, apiUrl } = useApp();
+  const { isMobile, apiUrl } = useApp();
+
+  // categories
+  const { categories } = useProductsContext();
 
   // sellers
   const [sellers, setSellers] = useState<any>([]);
@@ -16,6 +22,7 @@ export default function Sellers() {
   const [totalSellers, setTotalSellers] = useState(null);
   const [search, setSearch] = useState("");
   const [loadingSellers, setLoadingSellers] = useState(false);
+  const [category, setCategory] = useState("");
 
   const GetUsers = async () => {
     try {
@@ -23,6 +30,7 @@ export default function Sellers() {
       const response = await getUsers({
         apiUrl,
         search,
+        category,
         page,
         limit: 8,
         onlySellers: "true",
@@ -38,7 +46,7 @@ export default function Sellers() {
 
   useEffect(() => {
     GetUsers();
-  }, [apiUrl, search]);
+  }, [apiUrl, search, category]);
 
   const AddSellers = async () => {
     const newPage = page + 1;
@@ -46,6 +54,7 @@ export default function Sellers() {
       const data = await getUsers({
         apiUrl,
         search,
+        category,
         page: newPage,
         limit: 8,
         onlySellers: "true",
@@ -123,6 +132,27 @@ export default function Sellers() {
               disableSuggestions={true}
             />
           </div>
+          <div className="w-full">
+            <ul className="flex gap-2 overflow-x-auto max-w-screen py-2 laptop:py-2 scrollbar-hide">
+              {categories.map((item: any, index: number) => (
+                <FilterItem
+                  key={index}
+                  item={item}
+                  category={category}
+                  setCategory={setCategory}
+                />
+              ))}
+            </ul>
+          </div>
+          <style jsx>{`
+            .scrollbar-hide::-webkit-scrollbar {
+              display: none;
+            }
+            .scrollbar-hide {
+              -ms-overflow-style: none; /* IE and Edge */
+              scrollbar-width: none; /* Firefox */
+            }
+          `}</style>
           <div
             ref={sellersRef}
             className={`flex-1 w-full rounded-md 

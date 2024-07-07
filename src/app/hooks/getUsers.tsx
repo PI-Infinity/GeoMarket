@@ -3,6 +3,7 @@ import axios from "axios";
 const getUsers = async ({
   apiUrl,
   search,
+  category,
   page,
   limit,
   onlySellers,
@@ -11,7 +12,7 @@ const getUsers = async ({
   try {
     const response = await axios.get(
       apiUrl +
-        `/api/v1/users?search=${search}&page=${page}&limit=${limit}&onlySellers=${onlySellers}&admin=${admin}`
+        `/api/v1/users?search=${search}&category=${category}&page=${page}&limit=${limit}&onlySellers=${onlySellers}&admin=${admin}`
     );
 
     return response.data;

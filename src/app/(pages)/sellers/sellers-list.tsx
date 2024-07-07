@@ -29,7 +29,8 @@ const SellersList: React.FC<PropsTypes> = ({
         </div>
       )}
       <div className="grid grid-cols-2 p-0 laptop:grid-cols-4 gap-2 z-10 pb-4 rounded-md">
-        {sellers &&
+        {!loadingSellers &&
+          sellers &&
           sellers.map((item: any) => (
             <SellerItem item={item} key={item.userId} />
           ))}

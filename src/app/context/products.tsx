@@ -1,5 +1,4 @@
 "use client";
-import axios from "axios";
 import {
   ReactNode,
   createContext,
@@ -8,9 +7,8 @@ import {
   useRef,
   useState,
 } from "react";
-import { useApp } from "./app";
-import { useAuth } from "./auth";
 import fetchProducts from "../hooks/getProducts";
+import { useApp } from "./app";
 
 /**
  * Products state context

@@ -2,28 +2,36 @@
 import { useApp } from "@/app/context/app";
 import { Checkbox, FormControlLabel, Typography } from "@mui/material";
 import React, { useState } from "react";
+import { AiOutlinePercentage } from "react-icons/ai";
 import {
   MdArrowDropDown,
   MdArrowDropUp,
   MdClose,
-  MdDiscount,
   MdDone,
-  MdFilter,
 } from "react-icons/md";
 import { useProductsContext } from "../context/products";
 import FilterItem from "./filter-item";
 import { Input } from "./input";
-import { AiOutlinePercentage } from "react-icons/ai";
-import { FaFilter } from "react-icons/fa6";
-import { BsFilterRight } from "react-icons/bs";
+import { Category } from "@mui/icons-material";
 
 const Filter: React.FC = () => {
   //app context
   const { activeLanguage } = useApp();
 
   // products context
-  const { categories, setPrice, price, byOrder, setByOrder, sales, setSales } =
-    useProductsContext();
+  const {
+    categories,
+    setPrice,
+    price,
+    byOrder,
+    setByOrder,
+    sales,
+    setSales,
+    sort,
+    setSort,
+    category,
+    setCategory,
+  } = useProductsContext();
 
   // price range
   const defaultPrices = [0, 100000];
@@ -44,7 +52,12 @@ const Filter: React.FC = () => {
     >
       <ul className="flex laptop:flex-col gap-2 overflow-x-auto max-w-screen py-2 laptop:py-0">
         {categories.map((item: any, index: number) => (
-          <FilterItem key={index} item={item} />
+          <FilterItem
+            key={index}
+            item={item}
+            category={category}
+            setCategory={setCategory}
+          />
         ))}
       </ul>
       <div className="flex flex-col gap-2 w-full pl-2 laptop:pl-0 laptop:mt-2">
@@ -64,7 +77,7 @@ const Filter: React.FC = () => {
               {activeLanguage?.sales}
             </div>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center w-full">
             <div
               className="inline-block"
               onClick={() => setOpenFilter((prev: boolean) => !prev)}
@@ -81,6 +94,30 @@ const Filter: React.FC = () => {
             >
               {activeLanguage?.filter}
             </span>
+            {(category !== "" ||
+              price[0] !== 0 ||
+              price[1] !== 100000 ||
+              !byOrder ||
+              sales ||
+              sort !== "random") && (
+              <div
+                className="ml-auto mr-4"
+                onClick={() => {
+                  setCategory("");
+                  setPrice([0, 100000]);
+                  setByOrder(true);
+                  setSales(false);
+                  setSort("random");
+                  setOpenFilter(false);
+                }}
+              >
+                <MdClose
+                  color="red"
+                  size={28}
+                  className="cursor-pointer hover:brightness-90"
+                />
+              </div>
+            )}
           </div>
         </div>
         <div

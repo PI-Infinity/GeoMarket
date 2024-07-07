@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ResetPassword from "./resetPassword";
 import { AddFields } from "../addFields";
+import { FaGoogle } from "react-icons/fa6";
 
 const Login = () => {
   // current user
@@ -280,19 +281,27 @@ const Login = () => {
             className="rounded-full w-full bg-gray-300"
           />
         </div>
-        <GoogleLogin
-          onSuccess={(credentialResponse: any) => {
-            const decoded = jwtDecode<DecodedJwtPayload>(
-              credentialResponse?.credential
-            );
-            if (decoded) {
-              handleGoogleAuth(decoded?.email);
-            }
-          }}
-          onError={() => {
-            console.log("Login Failed");
-          }}
-        />
+        <div className="w-full h-11 text-black bg-blue-400 rounded-xl relative">
+          <span className="flex items-center gap-2 absolute text-white font-semibold top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <FaGoogle size={20} />
+            {activeLanguage.signInWithGoogle}
+          </span>
+          <div className="opacity-0">
+            <GoogleLogin
+              onSuccess={(credentialResponse: any) => {
+                const decoded = jwtDecode<DecodedJwtPayload>(
+                  credentialResponse?.credential
+                );
+                if (decoded) {
+                  handleGoogleAuth(decoded?.email);
+                }
+              }}
+              onError={() => {
+                console.log("Login Failed");
+              }}
+            />
+          </div>
+        </div>
 
         <Link href={"/signup"} className="h-12 w-full">
           <Button
