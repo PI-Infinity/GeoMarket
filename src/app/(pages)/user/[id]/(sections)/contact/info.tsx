@@ -97,16 +97,16 @@ const Info: React.FC<propsTypes> = () => {
                   <FaViber size={24} />
                 </a>
               )}
-              {user?.phone?.telegram && (
+              {/* {user?.phone?.telegram && (
                 <a
-                  href={`https://t.me/${user.phone.number}`}
+                  href="https://t.me/@tornikepirtakhia"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center bg-gray-50 shadow-md rounded-md p-1"
                 >
                   <FaTelegram size={24} />
                 </a>
-              )}
+              )} */}
             </div>
           )}
         </div>

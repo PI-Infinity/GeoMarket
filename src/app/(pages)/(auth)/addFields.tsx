@@ -191,13 +191,13 @@ export const AddFields = () => {
             />
             <FaViber size={24} color="black" />
           </div>
-          <div className="flex items-center bg-gray-50 shadow-md rounded-xl p-1 pr-3">
+          {/* <div className="flex items-center bg-gray-50 shadow-md rounded-xl p-1 pr-3">
             <Switch
               checked={telegram}
               onChange={() => setTelegram((prev: any) => !prev)}
             />
             <FaTelegram size={24} color="black" />
-          </div>
+          </div> */}
         </div>
         <div className="w-full h-11 mt-8">
           <Button

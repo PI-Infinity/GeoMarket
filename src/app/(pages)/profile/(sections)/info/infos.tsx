@@ -169,13 +169,13 @@ const Info: React.FC<propsTypes> = ({}) => {
                 />
                 <FaViber size={24} />
               </div>
-              <div className="flex items-center bg-gray-50 shadow-md rounded-xl p-1 pr-3">
+              {/* <div className="flex items-center bg-gray-50 shadow-md rounded-xl p-1 pr-3">
                 <Switch
                   checked={telegram}
                   onChange={() => setTelegram((prev: any) => !prev)}
                 />
                 <FaTelegram size={24} />
-              </div>
+              </div> */}
             </div>
           )}
         </div>
