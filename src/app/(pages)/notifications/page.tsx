@@ -54,7 +54,7 @@ const Notifications = () => {
           </div>
         )}
         <div
-          className="flex-1 p-4 flex flex-col gap-2 w-full"
+          className="flex-1 p-2 flex flex-col gap-2 w-full"
           ref={notificationsRef}
         >
           {notifications?.map((item: any, index: number) => {

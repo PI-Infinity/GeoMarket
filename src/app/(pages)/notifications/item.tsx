@@ -134,7 +134,7 @@ const Item = (item: any, index: any) => {
           />
         </div>
       </div>
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-4/5">
         <div className="w-full flex items-center">
           <h4
             style={{
@@ -153,7 +153,7 @@ const Item = (item: any, index: any) => {
             {GetTimesAgo(notification?.createdAt)}
           </span>
         </div>
-        <div className="flex items-center gap-2 w-5/6 laptop:w-full">
+        <div className="flex items-center gap-2 w-4/5 laptop:w-full">
           <div className="text-sm">
             {notification?.type === "save" ? (
               "შეინახა თქვენი პროდუქტი"
@@ -165,7 +165,7 @@ const Item = (item: any, index: any) => {
               "მოგესალმებით! გისურვებთ ბედნიერ მოგზურობას ქართული ნიჭის სამყაროში <3"
             ) : notification?.type === "product-reject" ? (
               <div className="flex flex-col gap-1">
-                <span className="whitespace-nowrap">
+                <span className="text-sm">
                   პროდუქტი {} არ დადასტურდა! მიზეზი:
                 </span>
                 <div className="flex flex-col gap-1">

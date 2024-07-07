@@ -18,19 +18,14 @@ localhost:3000
 
 ### Production Server
 
-Google Firebase Hosting
 Vercel
 
 ## Deployment steps:
 
-Build proccess: `npm run build`
-Server Deployment: `firebase deploy`
+Build proccess:
 
----
+`git add .`
+`git commit -am "commit title"`
+`git push origin PI-Infinity`
 
-# GeoMarket github deploy
-
-git add .
-git commit -am "commit title"
-git push origin PI-Infinity
-(Automatic Deploys on Vercel)
+automatically deploys in github and vercel
