@@ -131,10 +131,10 @@ const RoomItem = ({ item }: any) => {
           )}
         </div>
       ) : (
-        <div
+        <Link
+          href={`/chat/${item.roomId}`}
           onClick={() => {
             setActiveRoom({ ...item, online });
-            router.push(`/chat/${item.roomId}`);
           }}
           style={{
             background:
@@ -150,14 +150,12 @@ const RoomItem = ({ item }: any) => {
             variant="dot"
             isonline={online ? "online" : "offline"}
           >
-            <div
+            <Link
+              href={`/user/${targetUser?.userId}/products`}
               onClick={(e) => e.stopPropagation()}
               className={`cursor-pointer hover:brightness-95 relative shadow-md w-14 h-14 overflow-hidden bg-gray-300 rounded-full overflow-hidden flex items-center justify-center`}
             >
               <Image
-                onClick={() =>
-                  router.push(`/user/${targetUser?.userId}/products`)
-                }
                 alt={targetUser?.name}
                 src={targetUser?.cover?.url}
                 style={{
@@ -166,7 +164,7 @@ const RoomItem = ({ item }: any) => {
                   width: "100%",
                 }}
               />
-            </div>
+            </Link>
           </OnlineBadge>
 
           <div
@@ -230,7 +228,7 @@ const RoomItem = ({ item }: any) => {
               onClick={() => setConfirm({ room: item.roomId })}
             />
           </div>
-        </div>
+        </Link>
       )}
     </>
   );

@@ -125,7 +125,7 @@ const RecommendedProducts = () => {
                       } hover:brightness-90`}
                     />
                   </div> */}
-                  <div className="text-md font-semibold whitespace-nowrap max-w-32 overflow-hidden overflow-ellipsis">
+                  <div className="text-md font-semibold whitespace-nowrap max-w-56 laptop:max-w-32 overflow-hidden overflow-ellipsis">
                     {item.title.ka}
                   </div>
                 </div>

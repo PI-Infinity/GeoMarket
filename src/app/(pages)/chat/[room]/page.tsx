@@ -6,7 +6,7 @@ import { useChat } from "@/app/context/chat";
 import axios from "axios";
 import Link from "next/link";
 import { act, useEffect, useState } from "react";
-import { MdAdd, MdCall, MdClose } from "react-icons/md";
+import { MdAdd, MdCall, MdClose, MdDelete, MdDone } from "react-icons/md";
 import { MoonLoader } from "react-spinners";
 import Input from "./input";
 import MessageItem from "./messageItem";
@@ -14,6 +14,7 @@ import { OnlineBadge } from "@/app/components/onlineBadge";
 import { usePathname, useSearchParams } from "next/navigation";
 import Carousel from "@/app/advertisements/carousel";
 import Delivery from "@/app/advertisements/delivery";
+import GetTimesAgo from "@/app/utils/getTimesAgo";
 
 const ChatRoom = () => {
   // app context
@@ -116,8 +117,131 @@ const ChatRoom = () => {
     }
   }, [roomId, currentUser]);
 
+  // open image
+  const [openImage, setOpenImage] = useState<any>(null);
+
+  /**
+   * Delete message
+   */
+  // open config
+  const [openConfig, setOpenConfig] = useState("");
+  // confirm popup
+  const [openConfrim, setOpenConfirm] = useState(false);
+
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
+  const DeleteMessage = async (msgId: any, publicId: any, folder: any) => {
+    try {
+      setDeleteLoading(true);
+      const response = await axios.delete(
+        apiUrl +
+          "/api/v1/messages/" +
+          msgId +
+          "?currentUser=" +
+          currentUser?.userId +
+          "&publicId=" +
+          publicId +
+          "&folder=" +
+          folder
+      );
+      if (response.data.status === "success") {
+        setMessages((prev: any) =>
+          prev.filter((i: any) => i.messageId !== msgId)
+        );
+        setOpenConfirm(false);
+        setDeleteLoading(false);
+        setOpenImage(null);
+      }
+    } catch (error: any) {
+      console.log(error.response);
+    }
+  };
+
   return (
     <div className="relative w-full h-full rounded-xl shadow-md flex flex-col overflow-hidden bg-white">
+      <div
+        onClick={() => setOpenImage("")}
+        className={`flex flex-col p-4 items-center justify-center cursor-pointer fixed top-0 left-0 w-full h-full z-20 ${
+          openImage ? "scale-100 opacity-100" : "scale-0 opacity-0"
+        }`}
+        style={{
+          backdropFilter: "blur(50px)",
+          WebkitBackdropFilter: "blur(50px)",
+        }}
+      >
+        {openConfrim ? (
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="flex items-center justify-evenly p-1 px-3 gap-2 bg-gray-50 shadow-md rounded-full"
+          >
+            <div
+              onClick={() => setOpenConfirm(false)}
+              className="cursor-pointer hover:brightness-95 w-8"
+            >
+              <MdClose size={24} color="red" />
+            </div>
+            <span className="text-sm font-semibold">
+              {activeLanguage?.delete}
+            </span>
+            <div
+              onClick={() =>
+                DeleteMessage(
+                  openImage?.messageId,
+                  openImage?.file?.publicId,
+                  openImage?.file?.folder
+                )
+              }
+              className="cursor-pointer hover:brightness-95"
+            >
+              <MdDone size={24} color="green" />
+            </div>
+          </div>
+        ) : (
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="flex items-center gap-2"
+            style={{ maxWidth: "50%" }}
+          >
+            <div className="flex items-center gap-2">
+              <MdDelete
+                onClick={() => setOpenConfirm(true)}
+                color="red"
+                size={24}
+              />
+              <span className="text-gray-400" style={{ fontSize: "12px" }}>
+                {GetTimesAgo(openImage?.createdAt)}
+              </span>
+            </div>
+          </div>
+        )}
+        <div
+          className={`w-full laptop:w-2/5 m-4 rounded-xl overflow-hidden transition-transform transform duration-200 ease-in-out ${
+            openImage ? "scale-100 opacity-100" : "scale-0 opacity-0"
+          }`}
+        >
+          {deleteLoading && (
+            <div
+              className="z-10 absolute w-full h-full flex items-center justify-center"
+              style={{
+                backdropFilter: "blur(5px)",
+                WebkitBackdropFilter: "blur(5px)",
+              }}
+            >
+              <MoonLoader size={24} color="red" />
+            </div>
+          )}
+          <Image
+            alt={openImage?.file?.url}
+            src={openImage?.file?.url}
+            style={{
+              aspectRatio: 1,
+              zIndex: 0,
+              width: "100%",
+            }}
+          />
+        </div>
+      </div>
+
       <div className="h-16 shadow-md w-full bg-gray-50 flex items-center z-10 gap-2 pl-4 p-2">
         <OnlineBadge
           overlap="circular"
@@ -184,7 +308,13 @@ const ChatRoom = () => {
           </div>
         ) : messages?.length > 0 ? (
           messages?.map((item: any, index: number) => {
-            return <MessageItem key={index} item={item} />;
+            return (
+              <MessageItem
+                key={index}
+                item={item}
+                setOpenImage={setOpenImage}
+              />
+            );
           })
         ) : (
           <div className="absolute top-1/2 flex justify-center w-full text-gray-400 px-12 text-center">

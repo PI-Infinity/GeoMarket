@@ -17,6 +17,7 @@ const List: React.FC<propsTypes> = ({
   loadingProducts,
   totalProducts,
 }: any) => {
+  const { activeLanguage } = useApp();
   return (
     <div
       className="flex-1 w-full h-full laptop:bg-white relative"
@@ -37,8 +38,8 @@ const List: React.FC<propsTypes> = ({
       )}
 
       {totalProducts !== null && totalProducts < 1 && (
-        <div className="text-gray-400 flex w-full items-center justify-center text-red-500 py-4">
-          Not Found
+        <div className="text-gray-400 flex w-full items-center justify-center text-red-500 py-4 pt-24">
+          {activeLanguage?.notFound}
         </div>
       )}
       <div className="grid laptop:grid-cols-4 gap-2 laptop:p-2 laptop:gap-4 pb-4 laptop:pb-0">

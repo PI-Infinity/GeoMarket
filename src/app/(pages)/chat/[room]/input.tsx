@@ -221,11 +221,7 @@ const Input = ({ setMessages }: any) => {
           }
         >
           <div className="w-10 flex justify-center">
-            {uploadLoading ? (
-              <MoonLoader size={24} className="text-green" />
-            ) : (
-              <MdSend size={32} color="gray" />
-            )}
+            <MdSend size={32} color="gray" />
           </div>
         </div>
       </div>

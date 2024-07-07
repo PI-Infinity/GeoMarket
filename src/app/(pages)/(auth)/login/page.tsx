@@ -281,7 +281,7 @@ const Login = () => {
             className="rounded-full w-full bg-gray-300"
           />
         </div>
-        <div className="w-full h-11 text-black bg-blue-400 rounded-xl relative">
+        <div className="w-full h-12 text-black bg-blue-400 rounded-xl relative">
           <span className="flex items-center gap-2 absolute text-white font-semibold top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <FaGoogle size={20} />
             {activeLanguage.signInWithGoogle}

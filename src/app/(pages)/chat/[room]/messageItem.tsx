@@ -4,12 +4,11 @@ import { useAuth } from "@/app/context/auth";
 import { useChat } from "@/app/context/chat";
 import GetTimesAgo from "@/app/utils/getTimesAgo";
 import axios from "axios";
-import { setConfig } from "next/config";
 import { useEffect, useState } from "react";
 import { MdClose, MdDelete, MdDone, MdDoneAll } from "react-icons/md";
 import { MoonLoader } from "react-spinners";
 
-const MessagemItem = ({ item }: any) => {
+const MessagemItem = ({ item, setOpenImage }: any) => {
   // messageData
   const [msg, setMsg] = useState({
     sender: { id: "" },
@@ -132,7 +131,6 @@ const MessagemItem = ({ item }: any) => {
         setMessages((prev: any) =>
           prev.filter((i: any) => i.messageId !== item.messageId)
         );
-        setConfig("");
         setOpenConfirm(false);
         setDeleteLoading(false);
       }
@@ -226,8 +224,8 @@ const MessagemItem = ({ item }: any) => {
                     {msg?.file?.url?.length > 0 && (
                       <div className="w-48 relative aspect-square shadow-md">
                         <Image
-                          onClick={() => setOpenConfig(msg?.messageId)}
-                          alt={currentUser?.name}
+                          onClick={() => setOpenImage(msg)}
+                          alt={msg?.file?.url}
                           src={msg?.file?.url}
                           style={{
                             aspectRatio: 1,
